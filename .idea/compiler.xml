@@ -6,8 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="LM38" />
         <module name="Sagrada" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="LM38" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
