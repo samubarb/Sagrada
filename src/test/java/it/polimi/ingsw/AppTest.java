@@ -1,20 +1,25 @@
 package it.polimi.ingsw;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 /**
  * Unit test for simple App.
- */
-public class AppTest 
+ *//*
+public class AppTest
 {
     /**
      * Rigorous Test :-)
-     */
+     *//*
     @Test
     public void shouldAnswerWithTrue()
     {
         assertTrue( true );
+    }
+}*/
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+class FirstJUnit5Tests {
+    @Test
+    void myFirstTest() {
+        assertEquals(2, 1 + 1);
     }
 }
