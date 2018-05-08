@@ -39,11 +39,11 @@ public class PrivateObjectiveTest {
         testDice6.setColor(Color.green);
         testDice7.setColor(Color.red);
         defaultDice.setColor(Color.black);
-        for(int i=0;i<4;i++)
-            for(int j=0;j<5;j++){
-                testFrame.setPositionDice(defaultDice,i,j);
+        //for(int i=0;i<4;i++)
+           // for(int j=0;j<5;j++){
+               // testFrame.setPositionDice(defaultDice,i,j);
                // System.out.println(testFrame.getDice(i,j).getValue());
-                }
+               // }
 
         assertTrue(testPrivate.calculateScore(test)==0);
         testFrame.setPositionDice(testDice1,0,0);
