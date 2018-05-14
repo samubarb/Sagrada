@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 public class ToolCard {
     private int number;
     private String name;
-    private Boolean alreadyUsed;
+    private boolean alreadyUsed;
 
 
     public ToolCard(int number, String name) {
