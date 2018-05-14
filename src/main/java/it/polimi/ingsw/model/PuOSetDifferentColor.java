@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
 
 public class PuOSetDifferentColor extends PublicObjective implements iObjective{
     private int points;
@@ -14,18 +13,18 @@ public class PuOSetDifferentColor extends PublicObjective implements iObjective{
     public int calculateScore(Player player) {
         Frame fakeFrame= player.getFrame();
         int size=5;
-        int[] fakeArray=new int[size];
+        int[] countColoredDice=new int[size];
         Dice[] fakeArrayDice=new Dice[size];
-        fakeArrayDice[0].setColor(Color.red);
-        fakeArrayDice[1].setColor(Color.green);
-        fakeArrayDice[2].setColor(Color.pink);
-        fakeArrayDice[3].setColor(Color.blue);
-        fakeArrayDice[4].setColor(Color.yellow);
-        int minVal=20;
+        fakeArrayDice[0].setColor(Color.RED);
+        fakeArrayDice[1].setColor(Color.GREEN);
+        fakeArrayDice[2].setColor(Color.PURPLE);
+        fakeArrayDice[3].setColor(Color.BLUE);
+        fakeArrayDice[4].setColor(Color.YELLOW);
+        int minVal=18;
         for(int i=0;i<size;i++){
-            fakeArray[i]=fakeFrame.getNumberOfDice(fakeArrayDice[i]);
-            if (fakeArray[i]<minVal)
-                minVal=fakeArray[i];
+            countColoredDice[i]=fakeFrame.getNumberOfDice(fakeArrayDice[i]);
+            if (countColoredDice[i]<minVal)
+                minVal=countColoredDice[i];
         }
         return (this.points*minVal);
     }

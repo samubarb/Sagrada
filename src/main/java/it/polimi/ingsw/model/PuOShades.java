@@ -1,15 +1,14 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
 
 public class PuOShades extends PublicObjective implements iObjective {
 
     private int points;
 
     //set 1 if lightShades 3 if mediumShades 5 if darkShades
-    private int typeOfShades;
+    private String typeOfShades;
 
-    public PuOShades(String name, Color color, int points, int typeOfShades) {
+    public PuOShades(String name, Color color, int points, String typeOfShades) {
         super(name, color);
         this.points = points;
         this.typeOfShades = typeOfShades;
@@ -23,11 +22,11 @@ public class PuOShades extends PublicObjective implements iObjective {
         this.points = points;
     }
 
-    public int getTypeOfShades() {
+    public String getTypeOfShades() {
         return typeOfShades;
     }
 
-    public void setTypeOfShades(int typeOfShades) {
+    public void setTypeOfShades(String typeOfShades) {
         this.typeOfShades = typeOfShades;
     }
 
@@ -46,13 +45,13 @@ public class PuOShades extends PublicObjective implements iObjective {
         Dice fakeDice= new Dice();
         int i=0;
         switch (typeOfShades) {
-            case 1:
+            case "lightShades":
                 i = 1;
                 break;
-            case 3:
+            case "mediumShades":
                 i = 3;
                 break;
-            case 5:
+            case "darkShades":
                 i = 5;
                 break;
         }

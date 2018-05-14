@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
+
 
 public class PrivateObjective implements iObjective{
 
     private String name;
     private Color color;
+    public static final int LINE_SIZE= 4;
+    public static final int COLUMN_SIZE = 5;
 
 
     public PrivateObjective(String name, Color color) {
@@ -42,8 +44,8 @@ public class PrivateObjective implements iObjective{
         Frame fakeFrame;
         fakeFrame=player.getFrame();
         int totalValue=0;
-        for (int i=0; i<4;i++){
-            for(int j=0; j<5;j++)
+        for (int i=0; i<LINE_SIZE;i++){
+            for(int j=0; j<COLUMN_SIZE;j++)
                 if(fakeFrame.getDice(i,j).getColor().equals(this.color))
                     totalValue+=fakeFrame.getDice(i,j).getValue();
         }
