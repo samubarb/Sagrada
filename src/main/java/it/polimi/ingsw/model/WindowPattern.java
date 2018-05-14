@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class WindowPattern {
+public class WindowPattern implements Serializable {
 
     private int favorTokenToAssign;
     private String name;

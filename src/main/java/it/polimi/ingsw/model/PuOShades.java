@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
 
-public class PuOShades extends PublicObjective implements iObjective {
+import java.io.Serializable;
+
+public class PuOShades extends PublicObjective implements iObjective,Serializable {
 
     private int points;
 

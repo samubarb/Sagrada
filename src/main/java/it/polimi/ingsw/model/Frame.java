@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
 
-public class Frame {
+import java.io.Serializable;
+
+public class Frame implements Serializable {
 
     private Dice [][] frame;
 

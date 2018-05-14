@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public class TcGlazingHammer extends ToolCard implements iTool{
+import java.io.Serializable;
+
+public class TcGlazingHammer extends ToolCard implements iTool,Serializable{
 
     public TcGlazingHammer(int number, String name) {
         super(number, name);

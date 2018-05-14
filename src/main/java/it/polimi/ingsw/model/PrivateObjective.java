@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model;
 
 
+import java.io.Serializable;
 
-public class PrivateObjective implements iObjective{
+public class PrivateObjective implements iObjective,Serializable{
 
     private String name;
     private Color color;

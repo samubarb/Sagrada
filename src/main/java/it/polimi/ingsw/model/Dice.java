@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Dice {
+public class Dice implements Serializable{
     //private Color color;
     private Color color;
     private int value;
