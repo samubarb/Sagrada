@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
+
 import java.util.ArrayList;
 
 public class Player {
@@ -12,17 +12,29 @@ public class Player {
     private Frame frame;
     private WindowPattern windowPattern;
     private ArrayList<PrivateObjective> privateObjective;
+    private Game currentGame;
 
     /*
      *constructor of default
      */
+
+    public Player() {
+    }
+
+
+    public Player(String name, Color color) {
+        this.name = name;
+        this.color = color;
+        this.frame = new Frame();
+        this.windowPattern = null;
+        this.privateObjective = new ArrayList<PrivateObjective>();
+    }
 
     public Player(String name, Color color, Frame frame, WindowPattern windowPattern) {
         this.name = name;
         this.color = color;
         this.frame = frame;
         this.windowPattern = windowPattern;
-        this.privateObjective = new ArrayList<PrivateObjective>();
     }
 
     public String getName() {
@@ -79,6 +91,14 @@ public class Player {
 
     public void setPrivateObjective(ArrayList<PrivateObjective> privateObjective) {
         this.privateObjective = privateObjective;
+    }
+
+    public Game getCurrentGame() {
+        return currentGame;
+    }
+
+    public void setCurrentGame(Game currentGame) {
+        this.currentGame = currentGame;
     }
 
     @Override

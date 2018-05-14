@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
 
 public class Frame {
 
@@ -30,7 +29,7 @@ public class Frame {
                         counter++;
 
         }
-        if(dice.getColor()==Color.black){
+        if(dice.getColor()==Color.UNCOLORED){
             for(int i=0; i<4;i++)
                 for(int j=0;j<5;j++)
                     if(this.getDice(i,j).getValue()==dice.getValue())

@@ -3,12 +3,13 @@ package it.polimi.ingsw.model;
 import java.awt.*;
 
 public class Dice {
+    //private Color color;
     private Color color;
     private int value;
 
     public Dice() {
         this.value = 0;
-        this.color=Color.black;
+        this.color=Color.UNCOLORED;
     }
 
     public Dice(int value) {
@@ -25,7 +26,7 @@ public class Dice {
     }
 
     public void setColor(Color color) {
-        this.color = color;
+        this.color=color;
     }
 
     public int getValue() {

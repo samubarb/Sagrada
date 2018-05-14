@@ -5,8 +5,8 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.WindowPattern;
 import org.junit.jupiter.api.Test;
+import it.polimi.ingsw.model.Color;
 
-import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,17 +31,19 @@ public class GameTest {
     public void testSetNewRolledDice(){
         int round=2;
         Game gameTest=new Game();
+        gameTest.configureGame();
         Frame testFrame=new Frame();
         WindowPattern testWindow=new WindowPattern(5,"prova");
-        Player playerOne=new Player("gianfranco", Color.red,testFrame,testWindow);
-        Player playerTwo=new Player("franco", Color.red,testFrame,testWindow);
+        Player playerOne=new Player("gianfranco", Color.RED,testFrame,testWindow);
+        Player playerTwo=new Player("franco", Color.RED,testFrame,testWindow);
         gameTest.setAddPlayer(playerOne);
         gameTest.setAddPlayer(playerTwo);
+        gameTest.configureGame();
         gameTest.setNewRolledDice(round);
         for(int i=0;i<5;i++){
-            assertTrue(gameTest.getCurrentDice()[i].getColor()!=Color.black);
+            assertTrue(gameTest.getCurrentDice()[i].getColor()!=Color.UNCOLORED);
         }
-        assertTrue(gameTest.getCurrentDice()[5].getColor()==Color.black);
+
 
     }
 
