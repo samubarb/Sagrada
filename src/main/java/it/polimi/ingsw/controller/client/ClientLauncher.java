@@ -1,15 +1,15 @@
-package it.polimi.ingsw.controller.ProvaServer;
+package it.polimi.ingsw.controller.client;
 
+import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
+import it.polimi.ingsw.controller.RMIApi.ServerInterface;
 import it.polimi.ingsw.model.Player;
 
-import java.awt.*;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class ClientLauncher implements PlayerInterface, Serializable {
     private static String address;
@@ -20,6 +20,7 @@ public class ClientLauncher implements PlayerInterface, Serializable {
     private static String username;
     private static String name;
     private static Scanner input;
+    private static boolean logged;
 
     //debug timer
     static int interval = 7;
@@ -47,8 +48,22 @@ public class ClientLauncher implements PlayerInterface, Serializable {
         //color = getColor(input);
         clientPlayer = new Player();
         registerPlayerOnServer(username);
+        while(true){
+            System.out.println("cosa vuoi fare:\n"+"1 numero giocatori registrati");
+            int response = Integer.parseInt(input.next());
+            if(response == 1){
+                int playerNumber = 0;
+                try {
+                    playerNumber = server.getNumberOfPlayer();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(playerNumber);
 
-        System.out.println("starto il primo counter");
+            }
+            break;
+        }
+        /*System.out.println("starto il primo counter");
         timer = new Timer();
         int delay = 10000;
         int period = 1000;
@@ -58,7 +73,7 @@ public class ClientLauncher implements PlayerInterface, Serializable {
             public void run() {
                 System.out.println(setInterval());
             }
-        }, delay, period);
+        }, delay, period);*/
 
     }
     private static final int setInterval() {
@@ -95,7 +110,7 @@ public class ClientLauncher implements PlayerInterface, Serializable {
             System.out.println("TentativoDiConnessione");
             String name = "ServerInterface";
             Registry registry = LocateRegistry.getRegistry(address, port);
-            ServerInterface server = (ServerInterface) registry.lookup(name);
+             server = (ServerInterface) registry.lookup(name);
             //server.print("Connection of "+username);
         }
         catch (Exception e) {
@@ -116,7 +131,6 @@ public class ClientLauncher implements PlayerInterface, Serializable {
 
      */
     public static void registerPlayerOnServer(String username){
-        Boolean logged = false;
         System.out.println("Try to login user with nickname: " + username);
         try {
             logged = server.register(clientPlayer, username);
@@ -126,7 +140,7 @@ public class ClientLauncher implements PlayerInterface, Serializable {
             } catch (RemoteException e1) {
                 e1.printStackTrace();
             }
-            System.out.println("Nickname is already in use on server");
+            //System.out.println("Nickname is already in use on server");
         }
         if(logged)
             System.out.println("Utente loggato");
