@@ -47,5 +47,55 @@ public class GameTest {
 
     }
 
+    @Test
+    public void testSetNewOrder(){
+        Game gameTest=new Game();
+        Frame testFrame=new Frame();
+        WindowPattern testWindow=new WindowPattern(5,"prova");
+        Player playerOne=new Player("gianfranco", Color.RED,testFrame,testWindow);
+        Player playerTwo=new Player("matteo", Color.GREEN,testFrame,testWindow);
+        Player playerThree=new Player("paolo", Color.PURPLE,testFrame,testWindow);
+        gameTest.setAddPlayer(playerOne);
+        gameTest.setAddPlayer(playerTwo);
+        gameTest.setAddPlayer(playerThree);
+        gameTest.configureGame();
+        gameTest.setTurnOrder();
+        System.out.print(gameTest.getTurnOrder()[0].getName());
+        System.out.print(gameTest.getTurnOrder()[1].getName());
+        System.out.println(gameTest.getTurnOrder()[2].getName());
+        assertTrue(gameTest.getTurnOrder().length==3);
+        Player testPlayer=gameTest.getCurrentPlayer();
+        System.out.println("round "+ gameTest.getRound());
+        System.out.println(gameTest.getCurrentPlayerIndex());
+        System.out.println(testPlayer.getName());
+        testPlayer=gameTest.getCurrentPlayer();
+        System.out.println("index"+gameTest.getCurrentPlayerIndex());
+        System.out.println("round "+ gameTest.getRound());
+        System.out.println(testPlayer.getName());
+        testPlayer=gameTest.getCurrentPlayer();
+        System.out.println(testPlayer.getName());
+        System.out.println("index"+gameTest.getCurrentPlayerIndex());
+        testPlayer=gameTest.getCurrentPlayer();
+        System.out.println(testPlayer.getName());
+        System.out.println("index"+gameTest.getCurrentPlayerIndex());
+        System.out.println("round "+ gameTest.getRound());
+        testPlayer=gameTest.getCurrentPlayer();
+        System.out.println(testPlayer.getName());
+        System.out.println("index"+gameTest.getCurrentPlayerIndex());
+        System.out.println("round "+ gameTest.getRound());
+        testPlayer=gameTest.getCurrentPlayer();
+        System.out.println(testPlayer.getName());
+        System.out.println("index"+gameTest.getCurrentPlayerIndex());
+        System.out.println("round "+ gameTest.getRound());
+        System.out.print(gameTest.getTurnOrder()[0].getName());
+        System.out.print(gameTest.getTurnOrder()[1].getName());
+        System.out.println(gameTest.getTurnOrder()[2].getName());
+
+
+
+
+
+    }
+
 
 }

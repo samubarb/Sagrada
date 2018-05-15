@@ -1,10 +1,15 @@
 package it.polimi.ingsw.model;
 
 
-public class PublicObjective {
+import java.io.Serializable;
+
+public class PublicObjective implements Serializable{
 
     private String name;
     private Color color;
+
+    public PublicObjective() {
+    }
 
     public PublicObjective(String name, Color color) {
         this.name = name;

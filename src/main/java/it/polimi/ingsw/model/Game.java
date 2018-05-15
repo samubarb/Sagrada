@@ -18,8 +18,8 @@ public class Game implements Serializable{
     private Dice[] currentDice;
     private Dice[] roundTrack;
     private int round;
-    private int maxSize;
     private int currentPlayerIndex;
+    private Stack<Player> turnStack;
 
     public Game() {
         this.players = new ArrayList<Player>();
@@ -30,6 +30,8 @@ public class Game implements Serializable{
         this.currentDice = null;
         this.round=1;
         this.roundTrack= new Dice[10];
+        this.currentPlayerIndex=0;
+        this.turnStack=new Stack<Player>();
 
         setDefaultDice(roundTrack);
         setRolledDice();
@@ -101,6 +103,14 @@ public class Game implements Serializable{
         return currentDice;
     }
 
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
+
+    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+        this.currentPlayerIndex = currentPlayerIndex;
+    }
+
     public void setCurrentDice(Dice[] currentDice) {
         this.currentDice = currentDice;
     }
@@ -130,8 +140,12 @@ public class Game implements Serializable{
         }
         this.currentDice = new Dice[(numberOfPlayer*2)+1];
         setCurrentDice();
-        maxSize=numberOfPlayer;
 
+    }
+
+    public void randomDice(Dice dice){
+        Random random=new Random();
+        dice.setValue(random.nextInt(5)+1);
 
     }
 
@@ -186,6 +200,11 @@ public class Game implements Serializable{
 
     }
     public void nextRound(){
+        Dice lastDice=new Dice();
+        for(int i=0;i<currentDice.length;i++)
+            if(currentDice[i].getColor()!=Color.UNCOLORED)
+                lastDice=currentDice[i];
+        roundTrack[round-1]=lastDice;
         round++;
         setNewRolledDice(round);
         setTurnOrder();
@@ -195,24 +214,26 @@ public class Game implements Serializable{
     public void setTurnOrder(){
         Player[] newTurnOrder=new Player[players.size()];
         for(int i=0;i<turnOrder.length;i++){
-            newTurnOrder[i]=turnOrder[((i+round)%turnOrder.length)];
+            newTurnOrder[i]=turnOrder[((i+round-1)%turnOrder.length)];
         }
+        turnOrder=newTurnOrder;
 
     }
 
     public Player getCurrentPlayer(){
-        Stack turnStack=new Stack();
         Player currentPlayer=new Player();
-        if(currentPlayerIndex<turnOrder.length){
+        if(this.currentPlayerIndex>=turnOrder.length&&!turnStack.empty()){
+            currentPlayer=turnStack.pop();
+            setCurrentPlayerIndex(this.currentPlayerIndex+1);
+        }
+        if(this.currentPlayerIndex<turnOrder.length){
             turnStack.push(turnOrder[currentPlayerIndex]);
             currentPlayer=turnOrder[currentPlayerIndex];
-            currentPlayerIndex++;
+            setCurrentPlayerIndex(this.currentPlayerIndex+1);
         }
-        if(currentPlayerIndex>=turnOrder.length&&!turnStack.empty()){
-            currentPlayer=(Player)turnStack.pop();
-            currentPlayerIndex++;
-        }
-        else nextRound();
+
+        if (turnStack.empty())
+                nextRound();
 
 
         return currentPlayer;
@@ -226,7 +247,7 @@ public class Game implements Serializable{
                 "players=" + players +
                 ", rolledDice=" + Arrays.toString(rolledDice) +
                 ", turnOrder=" + Arrays.toString(turnOrder) +
-                //", toolCards=" + Arrays.toString(toolCards) +
+                ", toolCards=" + Arrays.toString(toolCards) +
                 ", publicObjectives=" + Arrays.toString(publicObjectives) +
                 ", remainingDice=" + Arrays.toString(currentDice) +
                 '}';

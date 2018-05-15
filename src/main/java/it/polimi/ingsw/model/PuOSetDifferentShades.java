@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.awt.*;
 import java.io.Serializable;
 
-public class PuOSetDifferentShades extends PublicObjective implements iObjective,Serializable {
+public class PuOSetDifferentShades extends PublicObjective implements iObjective{
 
     private int points;
 

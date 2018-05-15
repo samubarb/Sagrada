@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 
 import java.io.Serializable;
 
-public class PuOSetDifferentColor extends PublicObjective implements iObjective,Serializable{
+public class PuOSetDifferentColor extends PublicObjective implements iObjective{
     private int points;
 
     public PuOSetDifferentColor(String name, Color color,int points) {

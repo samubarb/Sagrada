@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.awt.*;
 import java.io.Serializable;
 
-public class PuODifferentColor extends PublicObjective implements iObjective,Serializable {
+public class PuODifferentColor extends PublicObjective implements iObjective {
 
     private String flagColumnLine;
     private int points;
