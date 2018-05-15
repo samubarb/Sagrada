@@ -14,6 +14,7 @@ public class Player implements Serializable{
     private WindowPattern windowPattern;
     private ArrayList<PrivateObjective> privateObjective;
     private Game currentGame;
+    private Dice chosenNut;
 
     /*
      *constructor of default
@@ -29,6 +30,7 @@ public class Player implements Serializable{
         this.frame = new Frame();
         this.windowPattern = null;
         this.privateObjective = new ArrayList<PrivateObjective>();
+        this.chosenNut=new Dice();
     }
 
     public Player(String name, Color color, Frame frame, WindowPattern windowPattern) {
@@ -36,6 +38,7 @@ public class Player implements Serializable{
         this.color = color;
         this.frame = frame;
         this.windowPattern = windowPattern;
+        this.chosenNut=new Dice();
     }
 
     public String getName() {
@@ -92,6 +95,14 @@ public class Player implements Serializable{
 
     public void setPrivateObjective(ArrayList<PrivateObjective> privateObjective) {
         this.privateObjective = privateObjective;
+    }
+
+    public Dice getChosenNut() {
+        return chosenNut;
+    }
+
+    public void setChosenNut(Dice chosenNut) {
+        this.chosenNut = chosenNut;
     }
 
     public Game getCurrentGame() {

@@ -1,5 +1,6 @@
-package it.polimi.ingsw.controller.ProvaServer;
+package it.polimi.ingsw.controller.Server;
 
+import it.polimi.ingsw.controller.RMIApi.ServerInterface;
 import it.polimi.ingsw.model.Player;
 
 import java.rmi.RemoteException;
@@ -11,6 +12,7 @@ public class ServerInterfaceImpl implements ServerInterface {
     private static String nomeGiocatore;
     private static String[] registeredPlayers = new String[4];
     private ArrayList<String> nicknames;
+    private ArrayList<String> offlineNicknames;
     private static int numberOfPlayer = 0;
 
     @Override
@@ -30,7 +32,7 @@ public class ServerInterfaceImpl implements ServerInterface {
     }*/
 
     @Override
-    public Boolean register(Player clientPlayer, String username) throws RemoteException {
+    public boolean register(Player clientPlayer, String username) throws RemoteException {
         allocateLazy();
         int count = nicknames.size();
         if (count >= MAXPLAYER)
@@ -44,7 +46,12 @@ public class ServerInterfaceImpl implements ServerInterface {
     void allocateLazy(){
         if (nicknames == null) {
             nicknames = new ArrayList<String>();
+            //offlineNicknames = new ArrayList<String>();
         }
     }
 
+    @Override
+    public int getNumberOfPlayer() throws RemoteException {
+        return nicknames.size();
+    }
 }

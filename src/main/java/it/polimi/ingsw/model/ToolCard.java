@@ -1,10 +1,14 @@
 package it.polimi.ingsw.model;
 
-public class ToolCard {
+import java.io.Serializable;
+
+public class ToolCard implements Serializable {
     private int number;
     private String name;
     private boolean alreadyUsed;
 
+    public ToolCard() {
+    }
 
     public ToolCard(int number, String name) {
         this.number = number;

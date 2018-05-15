@@ -1,4 +1,6 @@
-package it.polimi.ingsw.controller.ProvaServer;
+package it.polimi.ingsw.controller.Server;
+
+import it.polimi.ingsw.controller.RMIApi.ServerInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -18,6 +20,9 @@ public class StartServer {
         }
 
         public static void main(String[] args) throws RemoteException {
+            /*if (System.getSecurityManager() == null) {
+                System.setSecurityManager(new SecurityManager());
+            }*/
             // First, create the real object which will do the requested function.
             ServerInterface implementation = new ServerInterfaceImpl();
 
@@ -25,10 +30,7 @@ public class StartServer {
                 // Export the object.
                 ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(implementation, 1099);
                 Registry registry = LocateRegistry.createRegistry(1099);
-                //Registry registry = LocateRegistry.getRegistry();
-                // I don't know why we have to rebind at all.
-                // However, this does set the string that you need to use in order
-                // to lookup the remote class.
+
                 registry.rebind("ServerInterface", stub);
             } catch (RemoteException ex) {
                 ex.printStackTrace();
