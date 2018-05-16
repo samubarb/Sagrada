@@ -34,19 +34,26 @@ public class ServerInterfaceImpl implements ServerInterface {
     @Override
     public boolean register(Player clientPlayer, String username) throws RemoteException {
         allocateLazy();
-        int count = nicknames.size();
-        if (count >= MAXPLAYER)
+        if(this.nicknames.size()>=MAXPLAYER)
             return false;
-        if (nicknames.contains(username))
+        if (this.offlineNicknames.contains(username)) {
+            this.offlineNicknames.remove((String) username);
+            this.nicknames.add(username);
+            //ridò il game al giocatore
+            return true;
+        }
+        else if(!this.nicknames.contains(username)){
+            nicknames.add(username);
+            return true;
+        }
+        else
             return false;
-        nicknames.add(username);
-        return true;
-
     }
+
     void allocateLazy(){
         if (nicknames == null) {
             nicknames = new ArrayList<String>();
-            //offlineNicknames = new ArrayList<String>();
+            offlineNicknames = new ArrayList<String>();
         }
     }
 
@@ -54,4 +61,14 @@ public class ServerInterfaceImpl implements ServerInterface {
     public int getNumberOfPlayer() throws RemoteException {
         return nicknames.size();
     }
+
+    public ArrayList<String> getNicknames() {
+        return nicknames;
+    }
+
+    public ArrayList<String> getOfflineNicknames() {
+        return offlineNicknames;
+
+    }
+
 }
