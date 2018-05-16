@@ -53,9 +53,6 @@ public class ServerInterfaceImplTest {
             server.register(new Player(), "bob3");
             assertEquals(4, server.getNumberOfPlayer());
             assertEquals(false, server.getNumberOfPlayer()==5);
-
-
-
         }
         catch (Exception e){}
     }

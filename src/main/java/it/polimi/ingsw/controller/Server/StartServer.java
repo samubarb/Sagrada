@@ -28,8 +28,8 @@ public class StartServer {
 
             try {
                 // Export the object.
-                ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(implementation, 1099);
-                Registry registry = LocateRegistry.createRegistry(1099);
+                ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(implementation, 1090);
+                Registry registry = LocateRegistry.createRegistry(1090);
 
                 registry.rebind("ServerInterface", stub);
             } catch (RemoteException ex) {
