@@ -13,7 +13,7 @@ public class ServerInterfaceImplTest {
     This test checks getNumberOfPlayer
      */
     @Test
-    void getNicknamesTest(){
+    public void testGetNicknames(){
         ServerInterfaceImpl server = new ServerInterfaceImpl();
         try {
             server.register(new Player(), "dacco");
@@ -28,7 +28,7 @@ public class ServerInterfaceImplTest {
 This test checks getOfflineNumberOfPlayer
  */
     @Test
-    void getOfflineNicknamesTest(){
+    public void testGetOfflineNicknames(){
         ServerInterfaceImpl server = new ServerInterfaceImpl();
         try {
             server.register(new Player(), "dacco1");
@@ -40,11 +40,11 @@ This test checks getOfflineNumberOfPlayer
         }
         catch(Exception e){}
     }
-    /*
-    This test checks single and multi login, in particular checks the case in which there are two players logging with the same name
-     */
+    /**
+     * This test checks single and multi login, in particular checks the case in which there are two players logging with the same name
+     **/
     @Test
-    void registerSameNameTest() {
+    public void testRegisterSameName() {
         System.out.println("testing");
         ServerInterfaceImpl server = new ServerInterfaceImpl();
         try {
@@ -54,11 +54,11 @@ This test checks getOfflineNumberOfPlayer
         }
     }
 
-    /*
-    This test tests the case in whitch more than 4 player try to join the room
-     */
+    /**
+     * This test tests the case in whitch more than 4 player try to join the room
+     **/
     @Test
-    void register5DIfferentPlayerTest() {
+    public void testRegister5DIfferentPlayer() {
         System.out.println("testing");
         ServerInterfaceImpl server = new ServerInterfaceImpl();
         try {
@@ -71,8 +71,11 @@ This test checks getOfflineNumberOfPlayer
         }
     }
 
+    /**
+     * This test checks getNumberOfPlayer implementation
+     */
     @Test
-    void getNumberOfPlayerTest() {
+    public void testGetNumberOfPlayer() {
         System.out.println("testing");
         ServerInterfaceImpl server = new ServerInterfaceImpl();
         try {
@@ -92,7 +95,7 @@ This test checks getOfflineNumberOfPlayer
 
 
     @Test
-    void reconnectingInactivePlayerTest() {
+    public void testReconnectingInactivePlayer() {
         ServerInterfaceImpl server = new ServerInterfaceImpl();
         try {
             server.register(new Player(),"Dacco");

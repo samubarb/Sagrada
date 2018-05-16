@@ -15,7 +15,7 @@ public class ClientLauncherTest {
     This test checks single and multi login, in particular checks the case in which there are two players logging with the same name
      */
     @Test
-    void registerSameNameTest() {
+    public void testRegisterSameName() {
         System.out.println("testing");
         String name = "ServerInterface";
         try {
@@ -31,7 +31,7 @@ public class ClientLauncherTest {
     This test tests the case in whitch more than 4 player try to join the room
      */
     @Test
-    void register5DIfferentPlayerTest(){
+    public void testRegister5DIfferentPlayer(){
         System.out.println("testing");
         String name = "ServerInterface";
         try {
