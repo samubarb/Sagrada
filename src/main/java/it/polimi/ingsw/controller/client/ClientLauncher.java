@@ -2,9 +2,11 @@ package it.polimi.ingsw.controller.client;
 
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.RMIApi.ServerInterface;
+import it.polimi.ingsw.controller.Server.Connect;
 import it.polimi.ingsw.model.Player;
 
 import java.io.Serializable;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -21,10 +23,12 @@ public class ClientLauncher implements PlayerInterface, Serializable {
     private static String name;
     private static Scanner input;
     private static boolean logged;
+    private static boolean isMyTurn;
 
     //debug timer
     static int interval = 7;
     static Timer timer;
+    static Connect client;
 
     private ClientLauncher() {
         clientPlayer = new Player();
@@ -48,7 +52,8 @@ public class ClientLauncher implements PlayerInterface, Serializable {
         //color = getColor(input);
         clientPlayer = new Player();
         registerPlayerOnServer(username);
-        while(true){
+        isMyTurn = true;
+        while(isMyTurn){
             System.out.println("cosa vuoi fare:\n"+"1 numero giocatori registrati");
             int response = Integer.parseInt(input.next());
             if(response == 1){
@@ -61,6 +66,9 @@ public class ClientLauncher implements PlayerInterface, Serializable {
                 System.out.println(playerNumber);
 
             }
+            if(response == 2)
+                client = new Connect(new Socket());
+
             break;
         }
         /*System.out.println("starto il primo counter");

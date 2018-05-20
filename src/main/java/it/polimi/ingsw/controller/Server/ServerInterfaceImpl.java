@@ -14,6 +14,7 @@ public class ServerInterfaceImpl implements ServerInterface {
     private ArrayList<String> nicknames;
     private ArrayList<String> offlineNicknames;
     private static int numberOfPlayer = 0;
+    private static final Object ROOMS_MUTEX = new Object();
 
     @Override
     public int print(String stringa) throws RemoteException{
@@ -33,21 +34,21 @@ public class ServerInterfaceImpl implements ServerInterface {
 
     @Override
     public boolean register(Player clientPlayer, String username) throws RemoteException {
-        allocateLazy();
-        if(this.nicknames.size()>=MAXPLAYER)
-            return false;
-        if (this.offlineNicknames.contains(username)) {
-            this.offlineNicknames.remove((String) username);
-            this.nicknames.add(username);
-            //ridò il game al giocatore
-            return true;
+        synchronized (ROOMS_MUTEX) {
+            allocateLazy();
+            if (this.nicknames.size() >= MAXPLAYER)
+                return false;
+            if (this.offlineNicknames.contains(username)) {
+                this.offlineNicknames.remove((String) username);
+                this.nicknames.add(username);
+                //ridò il game al giocatore
+                return true;
+            } else if (!this.nicknames.contains(username)) {
+                nicknames.add(username);
+                return true;
+            } else
+                return false;
         }
-        else if(!this.nicknames.contains(username)){
-            nicknames.add(username);
-            return true;
-        }
-        else
-            return false;
     }
 
     void allocateLazy(){

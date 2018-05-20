@@ -8,7 +8,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class StartServer {
+public class rmiStartServer {
 
         /**
          * RMI server.
@@ -21,9 +21,9 @@ public class StartServer {
         }
 
         public static void main(String[] args) throws RemoteException {
-            /*if (System.getSecurityManager() == null) {
+            if (System.getSecurityManager() == null) {
                 System.setSecurityManager(new SecurityManager());
-            }*/
+            }
             // First, create the real object which will do the requested function.
             ServerInterface implementation = new ServerInterfaceImpl();
 
@@ -31,7 +31,7 @@ public class StartServer {
                 //System.setProperty("java.rmi.server.hostname","192.168.1.2");
 
                 // Export the object.
-                ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(implementation, 1090);
+                ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(implementation, 1099);
                 Registry registry = LocateRegistry.createRegistry(1099);
                 //Registry registry = LocateRegistry.getRegistry();
                 //registry.bind("ServerInterface", stub);
