@@ -10,4 +10,17 @@ public class VDice {
                 "\u2684",
                 "\u2685"
         };
+
+        private int value;
+        private VColor color;
+
+        public VDice(int value, VColor color) {
+                this.value = value;
+                this.color = color;
+        }
+
+        @Override
+        public String toString() {
+                return this.color. toString() + "[" + this.faces[value - 1] + "]" + this.color.RESET;
+        }
 }

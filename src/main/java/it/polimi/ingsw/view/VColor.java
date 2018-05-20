@@ -6,7 +6,6 @@ public enum VColor {
     YELLOW("\u001B[33m"),
     BLUE("\u001B[34m"),
     PURPLE("\u001B[35m");
-
     static final String RESET = "\u001B[0m";
 
     private final String colorCode;

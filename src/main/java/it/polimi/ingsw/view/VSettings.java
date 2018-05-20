@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view;
 
-public class Settings {
+public class VSettings {
     private boolean CLIvsGUI; // false = CLI, true = GUI
     private boolean RMIvsSocket; // false = RMI, true = Socket
 
-    public Settings() {
+    public VSettings() {
         reset();
     }
 

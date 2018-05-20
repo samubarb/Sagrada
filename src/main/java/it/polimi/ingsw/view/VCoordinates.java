@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.view.exceptions.IllegalCoordinatesException;
+
 public class VCoordinates {
     private int x, y;
 
