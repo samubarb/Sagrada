@@ -5,10 +5,15 @@ import java.io.Serializable;
 public class TcLensCutter extends ToolCard implements iTool {
 
 
-    public TcLensCutter(int number, String name) {
-        super(number, name);
+    public TcLensCutter(int number, String name,Color color) {
+        super(number, name,color);
     }
 
+    /**
+     * after drafting, swap the drafted die with a die from the roundTrack
+     * @param player
+     * @param coordinates
+     */
     @Override
     public void useTool(Player player,Coordinates coordinates) {
 
@@ -23,6 +28,16 @@ public class TcLensCutter extends ToolCard implements iTool {
 
     @Override
     public void useTool(Player player) {
+
+    }
+
+    @Override
+    public void useTool(Player player, Action action) {
+
+    }
+
+    @Override
+    public void useTool(Player player, Coordinates initialPosition, Coordinates finalPosition) {
 
     }
 }

@@ -165,6 +165,16 @@ public class Player implements Serializable{
 
     }
 
+    /**
+     * @param dice
+     * @param position
+     * @return
+     */
+    public boolean checkAdjacentDice(Dice dice, Coordinates position){
+        return this.frame.checkControlAdjacentDice(dice,position);
+
+    }
+
 
 
     /**
@@ -173,9 +183,9 @@ public class Player implements Serializable{
      * @return true if control has passed, otherwise false
      */
     public boolean checkFrameValueAndColorRestriction(Dice dice,Coordinates position){
-        if(this.frame.chechControlAdjacentDice(dice,position)&&this.frame.checkPositionDice(dice,position))
-            return true;
-        else return false;
+        return this.frame.checkPositionDice(dice,position);
+
+
 
     }
 
@@ -191,6 +201,8 @@ public class Player implements Serializable{
         if(!checkWindowPatternColorRestriction(dice,position))
             throw new WindowPatternColorException();
         if(!checkWindowPatternValueRestriction(dice,position))
+            throw new WindowPatternValueException();
+        if(!checkAdjacentDice(dice,position))
             throw new WindowPatternValueException();
         if(!checkFrameValueAndColorRestriction(dice,position))
             throw new FrameValueAndColorException();

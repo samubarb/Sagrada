@@ -5,15 +5,17 @@ import java.io.Serializable;
 public class ToolCard implements Serializable {
     private int number;
     private String name;
+    private Color color;
     private boolean alreadyUsed;
 
     public ToolCard() {
     }
 
-    public ToolCard(int number, String name) {
+    public ToolCard(int number, String name,Color color) {
         this.number = number;
         this.name = name;
         this.alreadyUsed = false;
+        this.color=color;
 
     }
 
