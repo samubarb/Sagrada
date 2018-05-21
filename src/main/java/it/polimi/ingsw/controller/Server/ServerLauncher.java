@@ -98,8 +98,8 @@ public class ServerLauncher {
     }
 
     public void disableUser(User user){
-        nicknames.remove(user);
         offlineNicknames.add(user);
+        nicknames.remove(user);
         notifyDisconnection(user);
     }
 
@@ -113,27 +113,49 @@ public class ServerLauncher {
         }
     }
 
+    public void notifyReconnection(User user){
+        for(User username: nicknames){
+            try {
+                username.getPlayerInterface().notifyDisconnection(user);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public boolean registerUser(PlayerInterface clientPlayer, String username) {
 
         synchronized (LOGIN_MUTEX) {
-            //nicknames.add(new User("saff", clientPlayer));
-            if ((this.nicknames.size() + this.offlineNicknames.size()) >= MAXPLAYER)
+            if ((this.nicknames.size() + this.offlineNicknames.size()) >= MAXPLAYER) {
+                System.out.println("max player reached");
+                try {
+                    clientPlayer.onRegister("Max player reached");
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 return false;
+            }
             if(this.offlineNicknames.size()>0) {
                 //reconnection of already registered player
                 for (User user : offlineNicknames) {
-                    if (user.getUsername() == username) {
-                        this.nicknames.add(user);
+                    if (user.getUsername().equals(username)) {
+                        this.nicknames.add(new User(username, clientPlayer));
                         this.offlineNicknames.remove(user);
+                        try {
+                            clientPlayer.onRegister("Welcome again reconnected user: "+username);
+                            System.out.println("User logged again: "+username);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                         //ridò il game al giocatore
                         return true;
                     }
                 }
             } else if(nicknames.size()>0) {
                 for (User user : nicknames) {
-                    if (user.getUsername() == username) {
+                    if (user.getUsername() .equals(username)) {
                         try {
-                            clientPlayer.printa("Nome già in uso");
+                            clientPlayer.printaaa("Name already in use");
                         } catch (RemoteException e) {
                             e.printStackTrace();
                         }
@@ -142,7 +164,9 @@ public class ServerLauncher {
                 }
             }
             try {
-                clientPlayer.printa("Utente loggato con: " + username);
+                clientPlayer.onRegister("User logged as: " + username);
+                clientPlayer.onRegister("welcome");
+                System.out.println("User logged as: " + username);
             } catch (RemoteException e) {
                 e.printStackTrace();
                 return false;

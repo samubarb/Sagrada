@@ -35,12 +35,18 @@ public class rmiStartServer {
                 //System.setProperty("java.rmi.server.hostname","192.168.1.2");
 
                 // Export the object.
-                ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(implementation, port);
-                Registry registry = LocateRegistry.createRegistry(port);
-                //Registry registry = LocateRegistry.getRegistry();
-                //registry.bind("ServerInterface", stub);
+                /* stub = (ServerInterface) UnicastRemoteObject.exportObject(implementation, port);
+                Registry registry = LocateRegistry.createRegistry(port);*/
 
-                registry.rebind("ServerInterface", stub);
+
+
+                Registry registry = LocateRegistry.createRegistry(port);
+                LocateRegistry.getRegistry(port);
+                registry.rebind("ServerInterface", implementation);
+                UnicastRemoteObject.exportObject(implementation, port);
+
+
+                //registry.rebind("ServerInterface", stub);
             } catch (RemoteException ex) {
                 ex.printStackTrace();
                 return;
@@ -61,7 +67,7 @@ public class rmiStartServer {
             try {
                 user.getPlayerInterface().ping();
             } catch (RemoteException e) {
-                System.out.println("RMIServerAbstract.java Connection with the client is down.");
+                System.out.println("Connection with the client is down. "+user.getUsername());
                 getServerLauncher().disableUser(user);
                 //activeUsers.remove(pair.getKey());
             }

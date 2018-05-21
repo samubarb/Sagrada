@@ -3,7 +3,9 @@ package it.polimi.ingsw.controller.Server;
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.client.ClientLauncher;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     String username;
     PlayerInterface playerInterface;
 

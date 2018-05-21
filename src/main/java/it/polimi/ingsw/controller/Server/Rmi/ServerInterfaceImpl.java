@@ -39,6 +39,7 @@ public class ServerInterfaceImpl implements ServerInterface {
 
         return serverLauncher.registerUser(clientPlayer, username);
 
+
         /*synchronized (ROOMS_MUTEX) {
             allocateLazy();
             if (this.nicknames.size() >= MAXPLAYER)
@@ -65,9 +66,13 @@ public class ServerInterfaceImpl implements ServerInterface {
 
     @Override
     public int getNumberOfPlayer() throws RemoteException {
-        return serverLauncher.getNicknames().size()/*+serverLauncher.getOfflineNicknames().size()*/;
+        return serverLauncher.getNicknames().size()+serverLauncher.getOfflineNicknames().size();
     }
 
+    @Override
+    public String getNumberOfPlayerActiveInactive() throws RemoteException {
+        return serverLauncher.getNicknames().size()+" "+serverLauncher.getOfflineNicknames().size();
+    }
 
     public void setServerLauncher(ServerLauncher serverLauncher) {
         this.serverLauncher = serverLauncher;

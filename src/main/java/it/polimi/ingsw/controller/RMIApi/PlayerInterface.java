@@ -10,5 +10,7 @@ public interface PlayerInterface extends Remote, Serializable {
 
     public boolean ping () throws RemoteException;
     public void notifyDisconnection(User user) throws  RemoteException;
-    public void printa (String string) throws RemoteException;
+    public void notifyReconnection(User user) throws  RemoteException;
+    public void printaaa (String string) throws RemoteException;
+    public void onRegister(String string) throws  RemoteException;
 }

@@ -12,6 +12,7 @@ public interface ServerInterface extends Remote, Serializable {
     public int print (String string) throws RemoteException;
     public boolean register (PlayerInterface clientPlayer, String stringa) throws RemoteException;
     public int getNumberOfPlayer() throws RemoteException;
+    public String getNumberOfPlayerActiveInactive() throws RemoteException;
 
 
 }

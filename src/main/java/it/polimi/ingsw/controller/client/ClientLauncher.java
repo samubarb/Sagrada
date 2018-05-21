@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 import java.util.Timer;
 
@@ -23,9 +24,9 @@ public class ClientLauncher implements PlayerInterface, Serializable {
     private static String username;
     private static String name;
     private static Scanner input;
-    private static boolean logged;
+    private static String logged;
     private static boolean isMyTurn;
-
+    private static ClientLauncher clientLauncher;
     //debug timer
     static int interval = 7;
     static Timer timer;
@@ -42,6 +43,7 @@ public class ClientLauncher implements PlayerInterface, Serializable {
         /*if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }*/
+        clientLauncher = new ClientLauncher();
         input = new Scanner(System.in);
         address = getIpServer(input);
         port = getPortServer(input);
@@ -49,12 +51,17 @@ public class ClientLauncher implements PlayerInterface, Serializable {
             System.out.println("Restart Client, connection to server error");
             return;
         }
+        try {
+            PlayerInterface stub = (PlayerInterface) UnicastRemoteObject.exportObject(clientLauncher, 0) ;
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         username = getUsername(input);
         //color = getColor(input);
         clientPlayer = new Player();
-        playerInterface = new ClientLauncher();
+        playerInterface = clientLauncher;
 
-        registerPlayerOnServer(username);
+        registerPlayerOnServer(username, playerInterface);
         isMyTurn = true;
         while(isMyTurn){
             System.out.println("cosa vuoi fare:\n"+"1 numero giocatori registrati");
@@ -67,12 +74,16 @@ public class ClientLauncher implements PlayerInterface, Serializable {
                     e.printStackTrace();
                 }
                 System.out.println(playerNumber);
-
             }
-            if(response == 2)
-                client = new Connect(new Socket());
-
-
+            if(response == 2) {
+                String activeInactivePLayer = null;
+                try {
+                    activeInactivePLayer = server.getNumberOfPlayerActiveInactive();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(activeInactivePLayer);
+            }
         }
         /*System.out.println("starto il primo counter");
         timer = new Timer();
@@ -141,10 +152,10 @@ public class ClientLauncher implements PlayerInterface, Serializable {
     /*
 
      */
-    public static void registerPlayerOnServer(String username){
+    public static void registerPlayerOnServer(String username, PlayerInterface playerInterface){
         System.out.println("Try to login user with nickname: " + username);
         try {
-            logged = server.register(playerInterface, username);
+            server.register(playerInterface, username);
         } catch (RemoteException e) {
             try {
                 server.print("Problem with the comunication with the server"+ e);
@@ -153,10 +164,11 @@ public class ClientLauncher implements PlayerInterface, Serializable {
             }
             //System.out.println("Nickname is already in use on server");
         }
-        if(logged)
+        /*if(logged)
             System.out.println("Utente loggato");
         else
-            System.out.println("Utente non loggato");
+            System.out.println("Utente non loggato");*/
+        //System.out.println(logged);
     }
 
     @Override
@@ -166,11 +178,21 @@ public class ClientLauncher implements PlayerInterface, Serializable {
 
     @Override
     public void notifyDisconnection(User user) throws RemoteException {
-        System.out.println("l'utente "+user.getUsername()+"si è disconnesso");
+        System.out.println("User "+user.getUsername()+" is disconnected");
     }
 
     @Override
-    public void printa(String string) throws RemoteException {
+    public void notifyReconnection(User user) throws RemoteException {
+        System.out.println("User "+user.getUsername()+" is reconnected");
+    }
+
+    @Override
+    public void printaaa(String string) throws RemoteException {
+        System.out.println(string);
+    }
+
+    @Override
+    public void onRegister(String string) throws RemoteException {
         System.out.println(string);
     }
 }
