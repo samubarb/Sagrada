@@ -172,8 +172,8 @@ public class ClientLauncher implements PlayerInterface, Serializable {
     }
 
     @Override
-    public boolean ping() {
-        return true;
+    public String ping() {
+        return username;
     }
 
     @Override

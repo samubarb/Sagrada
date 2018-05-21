@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 
 public interface PlayerInterface extends Remote, Serializable {
 
-    public boolean ping () throws RemoteException;
+    public String ping () throws RemoteException;
     public void notifyDisconnection(User user) throws  RemoteException;
     public void notifyReconnection(User user) throws  RemoteException;
     public void printaaa (String string) throws RemoteException;

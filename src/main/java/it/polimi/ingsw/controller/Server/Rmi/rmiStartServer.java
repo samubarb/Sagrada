@@ -20,6 +20,7 @@ public class rmiStartServer {
         private static ServerInterfaceImpl RMIServer;
         private static final int RMIServerPort = 1098;
         private ServerLauncher serverLauncher;
+        private ScheduledExecutorService executor;
 
 
 
@@ -53,25 +54,33 @@ public class rmiStartServer {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-            executor.scheduleAtFixedRate(checkClientsConnection, 0, 1, TimeUnit.SECONDS);
+            executeCheckConnectionThread();
+            /*ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+            executor.scheduleAtFixedRate(checkClientsConnection, 0, 1, TimeUnit.SECONDS);*/
             System.out.println("Bound!");
             System.out.println("Server will wait forever for messages.");
+        }
+        public void executeCheckConnectionThread(){
+            ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+            executor.scheduleAtFixedRate(checkClientsConnection, 0, 1, TimeUnit.SECONDS);
         }
 
     /**
      * Runnable used to check periodically if a RMI client is connected.
      */
     private Runnable checkClientsConnection = () -> {
-        for (User user : serverLauncher.getNicknames()) {
-            try {
-                user.getPlayerInterface().ping();
-            } catch (RemoteException e) {
-                System.out.println("Connection with the client is down. "+user.getUsername());
-                getServerLauncher().disableUser(user);
-                //activeUsers.remove(pair.getKey());
+            for (User user : serverLauncher.getNicknames()) {
+                try {
+                    user.getPlayerInterface().ping();
+                } catch (RemoteException e) {
+                    synchronized (serverLauncher.getLoginMutex()) {
+                        System.out.println("Connection with the client is down. " + user.getUsername());
+                        getServerLauncher().disableUser(user);
+                        //activeUsers.remove(pair.getKey());
+                    }
+                }
             }
-        }
+
     };
 
     public ServerLauncher getServerLauncher() {
@@ -80,6 +89,14 @@ public class rmiStartServer {
 
     public void setServerLauncher(ServerLauncher serverLauncher) {
         this.serverLauncher = serverLauncher;
+    }
+
+    public ScheduledExecutorService getExecutor() {
+        return executor;
+    }
+
+    public void setExecutor(ScheduledExecutorService executor) {
+        this.executor = executor;
     }
 }
 

@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Game;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Main server class that extends .
@@ -97,28 +98,38 @@ public class ServerLauncher {
         return offlineNicknames;
     }
 
+    public static Object getLoginMutex() {
+        return LOGIN_MUTEX;
+    }
+
     public void disableUser(User user){
-        offlineNicknames.add(user);
-        nicknames.remove(user);
-        notifyDisconnection(user);
+        synchronized (LOGIN_MUTEX) {
+            offlineNicknames.add(user);
+            nicknames.remove(user);
+            notifyDisconnection(user);
+        }
     }
 
     public void notifyDisconnection(User user){
-        for(User username: nicknames){
-            try {
-                username.getPlayerInterface().notifyDisconnection(user);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+        synchronized (LOGIN_MUTEX) {
+            for (User username : nicknames) {
+                try {
+                    username.getPlayerInterface().notifyDisconnection(user);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     public void notifyReconnection(User user){
-        for(User username: nicknames){
-            try {
-                username.getPlayerInterface().notifyDisconnection(user);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+        synchronized (LOGIN_MUTEX) {
+            for (User username : nicknames) {
+                try {
+                    username.getPlayerInterface().notifyDisconnection(user);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -144,6 +155,8 @@ public class ServerLauncher {
                         try {
                             clientPlayer.onRegister("Welcome again reconnected user: "+username);
                             System.out.println("User logged again: "+username);
+                            rmiServer.executeCheckConnectionThread();
+
                         } catch (RemoteException e) {
                             e.printStackTrace();
                         }
@@ -173,11 +186,6 @@ public class ServerLauncher {
             }
             nicknames.add(new User(username, clientPlayer));
             return true;
-
-
-
-
-
         }
     }
 }
