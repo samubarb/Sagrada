@@ -1,6 +1,11 @@
 package it.polimi.ingsw.model;
 
 
+import it.polimi.ingsw.model.exceptions.FavorTokenException;
+import it.polimi.ingsw.model.exceptions.FrameValueAndColorException;
+import it.polimi.ingsw.model.exceptions.WindowPatternColorException;
+import it.polimi.ingsw.model.exceptions.WindowPatternValueException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -112,6 +117,93 @@ public class Player implements Serializable{
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
     }
+
+    /*
+    * checkFavorTokenPlayer:
+    * check if the tool card has already been used and check if the player has enough favor tokens
+     */
+
+    public boolean checkFavorTokenPlayer(ToolCard toolCard) throws FavorTokenException {
+        if(toolCard.getAlreadyUsed())
+            if(getFavorTokens()>=2){
+                setFavorTokens(getFavorTokens()-2);
+                return true;}
+            else throw new FavorTokenException();
+        else if (getFavorTokens()>=1)
+            setFavorTokens(getFavorTokens()-1);
+            else throw new FavorTokenException();
+            toolCard.setAlreadyUsed(true);
+            return true;
+
+    }
+
+    /*
+     * checkWindowPatternColorRestriction:
+     * check if the chosen nut respects the color restriction
+     */
+
+    public boolean checkWindowPatternColorRestriction(Dice dice,Coordinates position){
+        if(getWindowPattern().getDicePosition(position).getColor().equals(Color.UNCOLORED))
+            return true;
+        else if(getWindowPattern().getDicePosition(position).getColor().equals(dice.getColor()))
+                return true;
+            else return false;
+
+    }
+
+    /*
+     * checkWindowPatternValueRestriction:
+     * check if the chosen nut respects the value restriction
+     */
+
+    public boolean checkWindowPatternValueRestriction(Dice dice, Coordinates position){
+        if(getWindowPattern().getDicePosition(position).getValue()==0)
+            return true;
+        else if(getWindowPattern().getDicePosition(position).getValue()==dice.getValue())
+            return true;
+        else return false;
+
+    }
+
+
+
+    /**
+     * @param dice die to be positioned
+     * @param position coordinates of the die position
+     * @return true if control has passed, otherwise false
+     */
+    public boolean checkFrameValueAndColorRestriction(Dice dice,Coordinates position){
+        if(this.frame.chechControlAdjacentDice(dice,position)&&this.frame.checkPositionDice(dice,position))
+            return true;
+        else return false;
+
+    }
+
+    /**
+     * @param dice die to be positioned
+     * @param position coordinates of the die position
+     * @return it returns true if it has passed the controls and the die is positioned
+     * @throws WindowPatternColorException
+     * @throws WindowPatternValueException
+     * @throws FrameValueAndColorException
+     */
+    public boolean positionDice(Dice dice, Coordinates position) throws WindowPatternColorException,WindowPatternValueException,FrameValueAndColorException {
+        if(!checkWindowPatternColorRestriction(dice,position))
+            throw new WindowPatternColorException();
+        if(!checkWindowPatternValueRestriction(dice,position))
+            throw new WindowPatternValueException();
+        if(!checkFrameValueAndColorRestriction(dice,position))
+            throw new FrameValueAndColorException();
+        else {
+            this.frame.setPositionDice(dice, position);
+            return true;
+        }
+
+    }
+
+
+
+
 
     @Override
     public String toString() {

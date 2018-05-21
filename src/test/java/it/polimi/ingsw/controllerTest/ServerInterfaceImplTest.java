@@ -62,8 +62,10 @@ This test checks getOfflineNumberOfPlayer
         System.out.println("testing");
         ServerInterfaceImpl server = new ServerInterfaceImpl();
         try {
+            System.out.println("ciao");
             assertEquals(true, server.register(new Player(), "bob0"));
             assertEquals(true, server.register(new Player(), "bob1"));
+            System.out.println("ciao1");
             assertEquals(true, server.register(new Player(), "bob2"));
             assertEquals(true, server.register(new Player(), "bob3"));
             assertEquals(false, server.register(new Player(), "bob4"));

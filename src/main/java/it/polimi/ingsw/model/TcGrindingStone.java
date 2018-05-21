@@ -13,4 +13,8 @@ public class TcGrindingStone extends ToolCard implements iTool{
         player.getChosenNut().setValue(7-player.getChosenNut().getValue());
     }
 
+    @Override
+    public void useTool(Player player, Coordinates coordinates) {
+
+    }
 }

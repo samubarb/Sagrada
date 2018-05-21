@@ -14,4 +14,9 @@ public class TcGlazingHammer extends ToolCard implements iTool{
 
 
     }
+
+    @Override
+    public void useTool(Player player, Coordinates coordinates) {
+
+    }
 }

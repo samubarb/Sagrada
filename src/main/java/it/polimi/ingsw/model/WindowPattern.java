@@ -47,6 +47,12 @@ public class WindowPattern implements Serializable {
     public void setDicePosition (Dice dice,int i,int j){
         pattern[i][j]=dice;
     }
+    /*
+    * returns the constraint(dice) that is in place
+    * */
+    public Dice getDicePosition(Coordinates xy){
+        return this.pattern[xy.getX()][xy.getY()];
+    }
 
     @Override
     public String toString() {

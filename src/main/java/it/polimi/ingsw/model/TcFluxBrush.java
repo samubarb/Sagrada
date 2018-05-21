@@ -12,4 +12,9 @@ public class TcFluxBrush extends ToolCard implements iTool {
     public void useTool(Player player) {
         player.getCurrentGame().randomDice(player.getChosenNut());
     }
+
+    @Override
+    public void useTool(Player player, Coordinates coordinates) {
+
+    }
 }
