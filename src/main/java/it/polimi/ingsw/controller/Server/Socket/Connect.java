@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.Server;
+package it.polimi.ingsw.controller.Server.Socket;
 
 import java.io.*;
 import java.net.Socket;

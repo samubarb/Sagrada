@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controllerTest;
 
+import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.RMIApi.ServerInterface;
+import it.polimi.ingsw.controller.client.ClientLauncher;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.Test;
 
@@ -22,8 +24,8 @@ public class ClientLauncherTest {
             Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
             ServerInterface server = (ServerInterface) registry.lookup(name);
 
-            assertEquals(true, server.register(new Player(), "bob"));
-            assertEquals(false, server.register(new Player(), "bob"));
+            assertEquals(true, server.register(new ClientLauncher(), "bob"));
+            assertEquals(false, server.register(new ClientLauncher(), "bob"));
         }
         catch (Exception e){}
     }
@@ -38,11 +40,11 @@ public class ClientLauncherTest {
             Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
             ServerInterface server = (ServerInterface) registry.lookup(name);
 
-            assertEquals(true, server.register(new Player(), "bob0"));
-            assertEquals(true, server.register(new Player(), "bob1"));
-            assertEquals(true, server.register(new Player(), "bob2"));
-            assertEquals(true, server.register(new Player(), "bob3"));
-            assertEquals(false, server.register(new Player(), "bob4"));
+            assertEquals(true, server.register(new ClientLauncher(), "bob0"));
+            assertEquals(true, server.register(new ClientLauncher(), "bob1"));
+            assertEquals(true, server.register(new ClientLauncher(), "bob2"));
+            assertEquals(true, server.register(new ClientLauncher(), "bob3"));
+            assertEquals(false, server.register(new ClientLauncher(), "bob4"));
         }
         catch (Exception e){}
     }

@@ -2,7 +2,8 @@ package it.polimi.ingsw.controller.client;
 
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.RMIApi.ServerInterface;
-import it.polimi.ingsw.controller.Server.Connect;
+import it.polimi.ingsw.controller.Server.Socket.Connect;
+import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.model.Player;
 
 import java.io.Serializable;
@@ -30,10 +31,10 @@ public class ClientLauncher implements PlayerInterface, Serializable {
     static Timer timer;
     static Connect client;
 
-    private ClientLauncher() {
+    /*public ClientLauncher() {
         clientPlayer = new Player();
         //clientPlayer.setPlayerInterface(playerInterface);
-    }
+    }*/
 
     public static void main(String[] args) {
         // Set the Security Manager that we want to use.
@@ -51,6 +52,8 @@ public class ClientLauncher implements PlayerInterface, Serializable {
         username = getUsername(input);
         //color = getColor(input);
         clientPlayer = new Player();
+        playerInterface = new ClientLauncher();
+
         registerPlayerOnServer(username);
         isMyTurn = true;
         while(isMyTurn){
@@ -69,7 +72,7 @@ public class ClientLauncher implements PlayerInterface, Serializable {
             if(response == 2)
                 client = new Connect(new Socket());
 
-            break;
+
         }
         /*System.out.println("starto il primo counter");
         timer = new Timer();
@@ -141,7 +144,7 @@ public class ClientLauncher implements PlayerInterface, Serializable {
     public static void registerPlayerOnServer(String username){
         System.out.println("Try to login user with nickname: " + username);
         try {
-            logged = server.register(clientPlayer, username);
+            logged = server.register(playerInterface, username);
         } catch (RemoteException e) {
             try {
                 server.print("Problem with the comunication with the server"+ e);
@@ -154,6 +157,21 @@ public class ClientLauncher implements PlayerInterface, Serializable {
             System.out.println("Utente loggato");
         else
             System.out.println("Utente non loggato");
+    }
+
+    @Override
+    public boolean ping() {
+        return true;
+    }
+
+    @Override
+    public void notifyDisconnection(User user) throws RemoteException {
+        System.out.println("l'utente "+user.getUsername()+"si è disconnesso");
+    }
+
+    @Override
+    public void printa(String string) throws RemoteException {
+        System.out.println(string);
     }
 }
 

@@ -1,6 +1,8 @@
-package it.polimi.ingsw.controller.Server;
+package it.polimi.ingsw.controller.Server.Rmi;
 
+import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.RMIApi.ServerInterface;
+import it.polimi.ingsw.controller.Server.ServerLauncher;
 import it.polimi.ingsw.model.Player;
 
 import java.rmi.RemoteException;
@@ -9,12 +11,12 @@ import java.util.ArrayList;
 public class ServerInterfaceImpl implements ServerInterface {
     public static final int MAXPLAYER = 4;
 
-    private static String nomeGiocatore;
-    private static String[] registeredPlayers = new String[4];
-    private ArrayList<String> nicknames;
-    private ArrayList<String> offlineNicknames;
-    private static int numberOfPlayer = 0;
-    private static final Object ROOMS_MUTEX = new Object();
+    //private static String nomeGiocatore;
+    //private static String[] registeredPlayers = new String[4];
+    //private static int numberOfPlayer = 0;
+    //private static final Object ROOMS_MUTEX = new Object();
+    private ServerLauncher serverLauncher;
+
 
     @Override
     public int print(String stringa) throws RemoteException{
@@ -33,8 +35,11 @@ public class ServerInterfaceImpl implements ServerInterface {
     }*/
 
     @Override
-    public boolean register(Player clientPlayer, String username) throws RemoteException {
-        synchronized (ROOMS_MUTEX) {
+    public boolean register(PlayerInterface clientPlayer, String username) throws RemoteException {
+
+        return serverLauncher.registerUser(clientPlayer, username);
+
+        /*synchronized (ROOMS_MUTEX) {
             allocateLazy();
             if (this.nicknames.size() >= MAXPLAYER)
                 return false;
@@ -48,28 +53,28 @@ public class ServerInterfaceImpl implements ServerInterface {
                 return true;
             } else
                 return false;
-        }
+        }*/
     }
 
-    void allocateLazy(){
+    /*void allocateLazy(){
         if (nicknames == null) {
             nicknames = new ArrayList<String>();
             offlineNicknames = new ArrayList<String>();
         }
-    }
+    }*/
 
     @Override
     public int getNumberOfPlayer() throws RemoteException {
-        return nicknames.size();
+        return serverLauncher.getNicknames().size()/*+serverLauncher.getOfflineNicknames().size()*/;
     }
 
-    public ArrayList<String> getNicknames() {
-        return nicknames;
+
+    public void setServerLauncher(ServerLauncher serverLauncher) {
+        this.serverLauncher = serverLauncher;
     }
 
-    public ArrayList<String> getOfflineNicknames() {
-        return offlineNicknames;
-
+    public ServerLauncher getServerLauncher() {
+        return serverLauncher;
     }
 
 }

@@ -1,7 +1,10 @@
 package it.polimi.ingsw.controllerTest;
 
-import it.polimi.ingsw.controller.Server.ServerInterfaceImpl;
-import it.polimi.ingsw.model.Player;
+
+import it.polimi.ingsw.controller.Server.Rmi.ServerInterfaceImpl;
+import it.polimi.ingsw.controller.Server.ServerLauncher;
+import it.polimi.ingsw.controller.Server.User;
+import it.polimi.ingsw.controller.client.ClientLauncher;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.RemoteException;
@@ -14,29 +17,39 @@ public class ServerInterfaceImplTest {
      */
     @Test
     public void testGetNicknames(){
+        ServerLauncher serverLauncher = new ServerLauncher();
         ServerInterfaceImpl server = new ServerInterfaceImpl();
+        server.setServerLauncher(serverLauncher);
+        ClientLauncher clientLauncher = new ClientLauncher();
         try {
-            server.register(new Player(), "dacco");
-            assertEquals(true, server.getNicknames().size() == 1);
-            assertEquals(true, server.getNicknames().contains("dacco"));
-            assertEquals(false, server.getNicknames().size() == 2);
-            assertEquals(false, server.getNicknames().contains("teo"));
+            server.register(clientLauncher, "dacco");
+            System.out.println(serverLauncher.getOfflineNicknames().size());
+            System.out.println(serverLauncher.getNicknames().size());
+            System.out.println(serverLauncher.getNicknames().size()+serverLauncher.getOfflineNicknames().size());
+            assertEquals(true, serverLauncher.getNicknames().size() == 1);
+            assertEquals(true, serverLauncher.getNicknames().contains("dacco"));
+            assertEquals(false, serverLauncher.getNicknames().size() == 2);
+            assertEquals(false, serverLauncher.getNicknames().contains("teo"));
         }
-        catch(RemoteException e){}
+        catch(RemoteException e){
+            System.out.println("dioooo");
+        }
     }
     /*
 This test checks getOfflineNumberOfPlayer
  */
     @Test
     public void testGetOfflineNicknames(){
+        ServerLauncher serverLauncher = new ServerLauncher();
         ServerInterfaceImpl server = new ServerInterfaceImpl();
+        server.setServerLauncher(serverLauncher);
         try {
-            server.register(new Player(), "dacco1");
-            server.getOfflineNicknames().add("dacco");
-            assertEquals(true, server.getOfflineNicknames().size() == 1);
-            assertEquals(true, server.getOfflineNicknames().contains("dacco"));
-            assertEquals(false, server.getOfflineNicknames().size() == 2);
-            assertEquals(false, server.getOfflineNicknames().contains("teo"));
+            server.register(new ClientLauncher(), "dacco1");
+            server.getServerLauncher().getOfflineNicknames().add(new User("dacco", new ClientLauncher()));
+            assertEquals(true, server.getServerLauncher().getOfflineNicknames().size() == 1);
+            assertEquals(true, server.getServerLauncher().getOfflineNicknames().contains("dacco"));
+            assertEquals(false, server.getServerLauncher().getOfflineNicknames().size() == 2);
+            assertEquals(false, server.getServerLauncher().getOfflineNicknames().contains("teo"));
         }
         catch(Exception e){}
     }
@@ -46,10 +59,12 @@ This test checks getOfflineNumberOfPlayer
     @Test
     public void testRegisterSameName() {
         System.out.println("testing");
+        ServerLauncher serverLauncher = new ServerLauncher();
         ServerInterfaceImpl server = new ServerInterfaceImpl();
+        server.setServerLauncher(serverLauncher);
         try {
-            assertEquals(true, server.register(new Player(), "bob"));
-            assertEquals(false, server.register(new Player(), "bob"));
+            assertEquals(true, server.register(new ClientLauncher(), "bob"));
+            assertEquals(false, server.register(new ClientLauncher(), "bob"));
         } catch (RemoteException e) {
         }
     }
@@ -60,13 +75,18 @@ This test checks getOfflineNumberOfPlayer
     @Test
     public void testRegister5DIfferentPlayer() {
         System.out.println("testing");
+        ServerLauncher serverLauncher = new ServerLauncher();
         ServerInterfaceImpl server = new ServerInterfaceImpl();
+        server.setServerLauncher(serverLauncher);
         try {
-            assertEquals(true, server.register(new Player(), "bob0"));
-            assertEquals(true, server.register(new Player(), "bob1"));
-            assertEquals(true, server.register(new Player(), "bob2"));
-            assertEquals(true, server.register(new Player(), "bob3"));
-            assertEquals(false, server.register(new Player(), "bob4"));
+            System.out.println("ciao");
+            assertEquals(false, server.register(new ClientLauncher(), "bob0"));
+            System.out.println("ciao");
+            assertEquals(true, server.register(new ClientLauncher(), "bob1"));
+            assertEquals(true, server.register(new ClientLauncher(), "bob2"));
+            System.out.println("ciao");
+            assertEquals(true, server.register(new ClientLauncher(), "bob3"));
+            assertEquals(false, server.register(new ClientLauncher(), "bob4"));
         } catch (Exception e) {
         }
     }
@@ -77,16 +97,18 @@ This test checks getOfflineNumberOfPlayer
     @Test
     public void testGetNumberOfPlayer() {
         System.out.println("testing");
+        ServerLauncher serverLauncher = new ServerLauncher();
         ServerInterfaceImpl server = new ServerInterfaceImpl();
+        server.setServerLauncher(serverLauncher);
         try {
             assertEquals(0, server.getNumberOfPlayer());
-            server.register(new Player(), "bob0");
+            server.register(new ClientLauncher(), "bob0");
             assertEquals(1, server.getNumberOfPlayer());
-            server.register(new Player(), "bob1");
+            server.register(new ClientLauncher(), "bob1");
             assertEquals(2, server.getNumberOfPlayer());
-            server.register(new Player(), "bob2");
+            server.register(new ClientLauncher(), "bob2");
             assertEquals(3, server.getNumberOfPlayer());
-            server.register(new Player(), "bob3");
+            server.register(new ClientLauncher(), "bob3");
             assertEquals(4, server.getNumberOfPlayer());
             assertEquals(false, server.getNumberOfPlayer() == 5);
         } catch (Exception e) {
@@ -96,17 +118,19 @@ This test checks getOfflineNumberOfPlayer
 
     @Test
     public void testReconnectingInactivePlayer() {
+        ServerLauncher serverLauncher = new ServerLauncher();
         ServerInterfaceImpl server = new ServerInterfaceImpl();
+        server.setServerLauncher(serverLauncher);
         try {
-            server.register(new Player(),"Dacco");
-            server.getOfflineNicknames().add("teo");
-            assertEquals(true, server.getOfflineNicknames().contains("teo"));
-            assertEquals(false, server.getOfflineNicknames().contains("teo2"));
-            assertEquals(true, server.register(new Player(), "teo"));
-            assertEquals(true, server.getNicknames().contains("teo"));
-            assertEquals(true, server.getNicknames().size() == 2);
-            assertEquals(true, server.getOfflineNicknames().isEmpty());
-            assertEquals(false, server.getOfflineNicknames().contains("teo"));
+            server.register(new ClientLauncher(),"Dacco");
+            server.getServerLauncher().getOfflineNicknames().add(new User("teo", new ClientLauncher()));
+            assertEquals(true, server.getServerLauncher().getOfflineNicknames().contains("teo"));
+            assertEquals(false, server.getServerLauncher().getOfflineNicknames().contains("teo2"));
+            assertEquals(true, server.register(new ClientLauncher(), "teo"));
+            assertEquals(true, server.getServerLauncher().getNicknames().contains("teo"));
+            assertEquals(true, server.getServerLauncher().getNicknames().size() == 2);
+            assertEquals(true, server.getServerLauncher().getOfflineNicknames().isEmpty());
+            assertEquals(false, server.getServerLauncher().getOfflineNicknames().contains("teo"));
         }
         catch(RemoteException e){}
     }
