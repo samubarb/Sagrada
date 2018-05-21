@@ -111,6 +111,14 @@ public class Game implements Serializable{
         this.currentPlayerIndex = currentPlayerIndex;
     }
 
+    public Dice[] getRoundTrack() {
+        return roundTrack;
+    }
+
+    public void setRoundTrack(Dice[] roundTrack) {
+        this.roundTrack = roundTrack;
+    }
+
     public void setCurrentDice(Dice[] currentDice) {
         this.currentDice = currentDice;
     }
@@ -238,6 +246,8 @@ public class Game implements Serializable{
 
         return currentPlayer;
     }
+
+
 
 
 
