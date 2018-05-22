@@ -195,5 +195,10 @@ public class ClientLauncher implements PlayerInterface, Serializable {
     public void onRegister(String string) throws RemoteException {
         System.out.println(string);
     }
+
+    @Override
+    public void notifyConnection(String username) throws RemoteException {
+        System.out.println("Nuovo user connesso: "+ username);
+    }
 }
 

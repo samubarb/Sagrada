@@ -179,6 +179,9 @@ public class ServerLauncher {
             try {
                 clientPlayer.onRegister("User logged as: " + username);
                 clientPlayer.onRegister("welcome");
+                for(User user: serverLauncher.getNicknames()){
+                    user.getPlayerInterface().notifyConnection(username);
+                }
                 System.out.println("User logged as: " + username);
             } catch (RemoteException e) {
                 e.printStackTrace();

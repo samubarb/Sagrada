@@ -30,6 +30,7 @@ public class rmiStartServer {
             }*/
             // First, create the real object which will do the requested function.
             System.setProperty("java.rmi.server.hostname", "192.168.43.49");
+            //System.setProperty("java.rmi.server.codebase", "C:\\Users\\Matteo\\Desktop\\Progetto Ingegneria del Software\\src\\main\\java\\it\\polimi\\ingsw\\controller\\Server\\Rmi\\server.policy");
             ServerInterface implementation = new ServerInterfaceImpl();
             ((ServerInterfaceImpl) implementation).setServerLauncher(serverLauncher);
 
