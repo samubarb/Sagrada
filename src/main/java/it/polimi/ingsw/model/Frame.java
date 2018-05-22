@@ -71,63 +71,63 @@ public class Frame implements Serializable {
     }
 
     public boolean centralAdjacent(Coordinates position){
-        if(getDice(position.getX()-1,position.getY()).getValue()!=DEFAULT_VALUE||getDice(position.getX()-1,position.getY()-1).getValue()!=DEFAULT_VALUE||
-                getDice(position.getX(),position.getY()-1).getValue()!=DEFAULT_VALUE|| getDice(position.getX()-1,position.getY()+1).getValue()!=DEFAULT_VALUE||
-                getDice(position.getX(),position.getY()+1).getValue()!=DEFAULT_VALUE|| getDice(position.getX()+1,position.getY()).getValue()!=DEFAULT_VALUE||
-                getDice(position.getX()+1,position.getY()+1).getValue()!=DEFAULT_VALUE|| getDice(position.getX()+1,position.getY()-1).getValue()!=DEFAULT_VALUE)
+        if(getDice(position.getY()-1,position.getX()).getValue()!=DEFAULT_VALUE||getDice(position.getY()-1,position.getX()-1).getValue()!=DEFAULT_VALUE||
+                getDice(position.getY(),position.getX()-1).getValue()!=DEFAULT_VALUE|| getDice(position.getY()-1,position.getX()+1).getValue()!=DEFAULT_VALUE||
+                getDice(position.getY(),position.getX()+1).getValue()!=DEFAULT_VALUE|| getDice(position.getY()+1,position.getX()).getValue()!=DEFAULT_VALUE||
+                getDice(position.getY()+1,position.getX()+1).getValue()!=DEFAULT_VALUE|| getDice(position.getY()+1,position.getX()-1).getValue()!=DEFAULT_VALUE)
             return true;
         else return false;
 
     }
     public boolean borderAdjacent(Coordinates position){
 
-        if(position.getY()==LEFT_BORDER) {
-            if (getDice(position.getX() - 1, position.getY()).getValue() != DEFAULT_VALUE|| getDice(position.getX() - 1, position.getY() + 1).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX(), position.getY() + 1).getValue() != DEFAULT_VALUE || getDice(position.getX() + 1, position.getY()).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX() + 1, position.getY() + 1).getValue() != DEFAULT_VALUE)
+        if(position.getX()==LEFT_BORDER) {
+            if (getDice(position.getY() - 1, position.getX()).getValue() != DEFAULT_VALUE|| getDice(position.getY() - 1, position.getX() + 1).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY(), position.getX() + 1).getValue() != DEFAULT_VALUE || getDice(position.getY() + 1, position.getX()).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY() + 1, position.getX() + 1).getValue() != DEFAULT_VALUE)
                 return true;
         }
-        if(position.getY()==RIGHT_BORDER){
-            if (getDice(position.getX() - 1, position.getY()).getValue() != DEFAULT_VALUE || getDice(position.getX() - 1, position.getY() -1).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX(), position.getY() - 1).getValue() != DEFAULT_VALUE || getDice(position.getX() + 1, position.getY()).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX() + 1, position.getY() -1).getValue() != DEFAULT_VALUE)
+        if(position.getX()==RIGHT_BORDER){
+            if (getDice(position.getY() - 1, position.getX()).getValue() != DEFAULT_VALUE || getDice(position.getY() - 1, position.getX() -1).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY(), position.getX() - 1).getValue() != DEFAULT_VALUE || getDice(position.getY() + 1, position.getX()).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY() + 1, position.getX() -1).getValue() != DEFAULT_VALUE)
                 return true;
         }
-        if(position.getX()==UP_BORDER){
-            if (getDice(position.getX() +1, position.getY()+1).getValue() != DEFAULT_VALUE || getDice(position.getX(), position.getY()+1).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX(), position.getY() - 1).getValue() != DEFAULT_VALUE || getDice(position.getX() + 1, position.getY()).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX() + 1, position.getY() -1).getValue() != DEFAULT_VALUE)
+        if(position.getY()==UP_BORDER){
+            if (getDice(position.getY() +1, position.getX()+1).getValue() != DEFAULT_VALUE || getDice(position.getY(), position.getX()+1).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY(), position.getX() - 1).getValue() != DEFAULT_VALUE || getDice(position.getY() + 1, position.getX()).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY() + 1, position.getX() -1).getValue() != DEFAULT_VALUE)
                 return true;
 
         }
-        if(position.getX()==DOWN_BORDER){
-            if (getDice(position.getX() - 1, position.getY()).getValue() != DEFAULT_VALUE || getDice(position.getX() - 1, position.getY() -1).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX(), position.getY() - 1).getValue() != DEFAULT_VALUE || getDice(position.getX(), position.getY()+1).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX()-1, position.getY()+1).getValue() != DEFAULT_VALUE)
+        if(position.getY()==DOWN_BORDER){
+            if (getDice(position.getY() - 1, position.getX()).getValue() != DEFAULT_VALUE || getDice(position.getY() - 1, position.getX() -1).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY(), position.getX() - 1).getValue() != DEFAULT_VALUE || getDice(position.getY(), position.getX()+1).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY()-1, position.getX()+1).getValue() != DEFAULT_VALUE)
                 return true;
         }
         return false;
     }
 
     public boolean cornerAdjacent(Coordinates position){
-        if(position.getX()==UP_BORDER&&position.getY()==LEFT_BORDER){
-            if (getDice(position.getX(), position.getY()+1).getValue() != DEFAULT_VALUE || getDice(position.getX()+1, position.getY()+1).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX()+1, position.getY()).getValue() != DEFAULT_VALUE )
+        if(position.getY()==UP_BORDER&&position.getX()==LEFT_BORDER){
+            if (getDice(position.getY(), position.getX()+1).getValue() != DEFAULT_VALUE || getDice(position.getY()+1, position.getX()+1).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY()+1, position.getX()).getValue() != DEFAULT_VALUE )
                 return true;
         }
-        if(position.getX()==UP_BORDER&&position.getY()==RIGHT_BORDER){
-            if (getDice(position.getX(), position.getY()-1).getValue() != DEFAULT_VALUE || getDice(position.getX()+1, position.getY()-1).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX()+1, position.getY()).getValue() != DEFAULT_VALUE )
+        if(position.getY()==UP_BORDER&&position.getX()==RIGHT_BORDER){
+            if (getDice(position.getY(), position.getX()-1).getValue() != DEFAULT_VALUE || getDice(position.getY()+1, position.getX()-1).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY()+1, position.getX()).getValue() != DEFAULT_VALUE )
                 return true;
         }
-        if(position.getX()==DOWN_BORDER&&position.getY()==LEFT_BORDER){
-            if (getDice(position.getX(), position.getY()+1).getValue() != DEFAULT_VALUE || getDice(position.getX()-1, position.getY()+1).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX()-1, position.getY()).getValue() != DEFAULT_VALUE )
+        if(position.getY()==DOWN_BORDER&&position.getX()==LEFT_BORDER){
+            if (getDice(position.getY(), position.getX()+1).getValue() != DEFAULT_VALUE || getDice(position.getY()-1, position.getX()+1).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY()-1, position.getX()).getValue() != DEFAULT_VALUE )
                 return true;
         }
-        if(position.getX()==DOWN_BORDER&&position.getY()==RIGHT_BORDER){
-            if (getDice(position.getX(), position.getY()-1).getValue() != DEFAULT_VALUE || getDice(position.getX()-1, position.getY()-1).getValue() != DEFAULT_VALUE ||
-                    getDice(position.getX()-1, position.getY()).getValue() != DEFAULT_VALUE )
+        if(position.getY()==DOWN_BORDER&&position.getX()==RIGHT_BORDER){
+            if (getDice(position.getY(), position.getX()-1).getValue() != DEFAULT_VALUE || getDice(position.getY()-1, position.getX()-1).getValue() != DEFAULT_VALUE ||
+                    getDice(position.getY()-1, position.getX()).getValue() != DEFAULT_VALUE )
                 return true;
         }
         return false;
@@ -138,33 +138,33 @@ public class Frame implements Serializable {
     }
 
     public boolean checkCornerOrthogonalColorAndValueAdjacency(Dice dice,Coordinates position){
-        if(position.getX()==UP_BORDER&&position.getY()==LEFT_BORDER){
+        if(position.getY()==UP_BORDER&&position.getX()==LEFT_BORDER){
             if (getDice(position.getX(), position.getY()+1).getValue() == dice.getValue() ||
-                    getDice(position.getX()+1, position.getY()).getValue() == dice.getValue()||getDice(position.getX(), position.getY()+1).getColor().equals(dice.getColor()) ||
-                    getDice(position.getX()+1, position.getY()).getColor().equals(dice.getColor()))
+                    getDice(position.getY()+1, position.getX()).getValue() == dice.getValue()||getDice(position.getY(), position.getX()+1).getColor().equals(dice.getColor()) ||
+                    getDice(position.getY()+1, position.getX()).getColor().equals(dice.getColor()))
                 return false;
         }
-        if(position.getX()==UP_BORDER&&position.getY()==RIGHT_BORDER) {
-            if (getDice(position.getX(), position.getY() + 1).getValue() == dice.getValue() ||
-                    getDice(position.getX(), position.getY() - 1).getValue() == dice.getValue() || getDice(position.getX(), position.getY() + 1).getColor().equals(dice.getColor()) ||
-                    getDice(position.getX(), position.getY() - 1).getColor().equals(dice.getColor()))
+        if(position.getY()==UP_BORDER&&position.getX()==RIGHT_BORDER) {
+            if (getDice(position.getY(), position.getX() + 1).getValue() == dice.getValue() ||
+                    getDice(position.getY(), position.getX() - 1).getValue() == dice.getValue() || getDice(position.getY(), position.getX() + 1).getColor().equals(dice.getColor()) ||
+                    getDice(position.getY(), position.getX() - 1).getColor().equals(dice.getColor()))
                 return false;
         }
-        if(position.getX()==DOWN_BORDER&&position.getY()==RIGHT_BORDER) {
-            if (getDice(position.getX()-1, position.getY()).getValue() == dice.getValue() ||
-                    getDice(position.getX(), position.getY()-1 ).getValue() == dice.getValue() || getDice(position.getX()-1, position.getY()).getColor().equals(dice.getColor()) ||
-                    getDice(position.getX(), position.getY() - 1).getColor().equals(dice.getColor()))
+        if(position.getY()==DOWN_BORDER&&position.getX()==RIGHT_BORDER) {
+            if (getDice(position.getY()-1, position.getX()).getValue() == dice.getValue() ||
+                    getDice(position.getY(), position.getX()-1 ).getValue() == dice.getValue() || getDice(position.getY()-1, position.getX()).getColor().equals(dice.getColor()) ||
+                    getDice(position.getY(), position.getX() - 1).getColor().equals(dice.getColor()))
                 return false;
         }
-        if(position.getX()==DOWN_BORDER&&position.getY()==LEFT_BORDER) {
-            if (getDice(position.getX()-1, position.getY()).getValue() == dice.getValue() ||
-                    getDice(position.getX(), position.getY()+1).getValue() == dice.getValue() || getDice(position.getX()-1, position.getY()).getColor().equals(dice.getColor()) ||
-                    getDice(position.getX(), position.getY()+1).getColor().equals(dice.getColor()))
+        if(position.getY()==DOWN_BORDER&&position.getX()==LEFT_BORDER) {
+            if (getDice(position.getY()-1, position.getX()).getValue() == dice.getValue() ||
+                    getDice(position.getY(), position.getX()+1).getValue() == dice.getValue() || getDice(position.getY()-1, position.getX()).getColor().equals(dice.getColor()) ||
+                    getDice(position.getY(), position.getX()+1).getColor().equals(dice.getColor()))
                 return false;
         }
-        
 
-        return false;
+
+        return true;
 
 
 
@@ -179,16 +179,16 @@ public class Frame implements Serializable {
     * */
 
     public boolean checkPositionDice(Dice dice,Coordinates position){
-        if(position.getX()==0)
-            if(getDice(position.getX(),position.getY()-1).getValue()==dice.getValue()||getDice(position.getX(),position.getY()-1).getColor().equals(dice.getColor()))
-                return false;
         if(position.getY()==0)
-            if(getDice(position.getX()-1,position.getY()).getValue()==dice.getValue()||getDice(position.getX()-1,position.getY()).getColor().equals(dice.getColor()))
+            if(getDice(position.getY(),position.getX()-1).getValue()==dice.getValue()||getDice(position.getY(),position.getX()-1).getColor().equals(dice.getColor()))
+                return false;
+        if(position.getX()==0)
+            if(getDice(position.getY()-1,position.getX()).getValue()==dice.getValue()||getDice(position.getY()-1,position.getX()).getColor().equals(dice.getColor()))
                 return false;
 
-        if(getDice(position.getX()-1,position.getY()).getValue()==dice.getValue()||getDice(position.getX()-1,position.getY()).getColor().equals(dice.getColor()))
+        if(getDice(position.getY()-1,position.getX()).getValue()==dice.getValue()||getDice(position.getY()-1,position.getX()).getColor().equals(dice.getColor()))
             return false;
-        else if(getDice(position.getX(),position.getY()-1).getValue()==dice.getValue()||getDice(position.getX(),position.getY()-1).getColor().equals(dice.getColor()))
+        else if(getDice(position.getY(),position.getX()-1).getValue()==dice.getValue()||getDice(position.getY(),position.getX()-1).getColor().equals(dice.getColor()))
             return false;
         else return true;
 
@@ -200,17 +200,17 @@ public class Frame implements Serializable {
 
     public boolean checkControlAdjacentDice(Dice dice, Coordinates position){
 
-        if(position.getY()==LEFT_BORDER)
-            if(position.getX()==UP_BORDER||position.getX()==DOWN_BORDER)
+        if(position.getX()==LEFT_BORDER)
+            if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
                 return cornerAdjacent(position);
             else return borderAdjacent(position);
-        if(position.getY()==RIGHT_BORDER)
-            if(position.getX()==UP_BORDER||position.getX()==DOWN_BORDER)
+        if(position.getX()==RIGHT_BORDER)
+            if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
                 return cornerAdjacent(position);
             else return borderAdjacent(position);
-         if(position.getX()==UP_BORDER)
+         if(position.getY()==UP_BORDER)
              return borderAdjacent(position);
-         if(position.getX()==DOWN_BORDER)
+         if(position.getY()==DOWN_BORDER)
              return borderAdjacent(position);
          else return centralAdjacent(position);
 
