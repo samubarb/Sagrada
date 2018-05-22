@@ -16,9 +16,9 @@ public class TcGrozingPliers extends ToolCard implements iTool{
      */
     @Override
     public void useTool(Player player, Action action)throws NutChosenWrongException {
-        if(action.equals(Action.INCREASE)&player.getChosenNut().getValue()==6)
+        if(action.equals(Action.INCREASE)&&player.getChosenNut().getValue()==6)
             throw new NutChosenWrongException();
-        if(action.equals(Action.DECREASE)&player.getChosenNut().getValue()==1)
+        if(action.equals(Action.DECREASE)&&player.getChosenNut().getValue()==1)
             throw new NutChosenWrongException();
         if(action.equals(Action.INCREASE))
 
