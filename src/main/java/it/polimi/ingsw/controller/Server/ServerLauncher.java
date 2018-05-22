@@ -155,7 +155,7 @@ public class ServerLauncher {
                         try {
                             clientPlayer.onRegister("Welcome again reconnected user: "+username);
                             System.out.println("User logged again: "+username);
-                            rmiServer.executeCheckConnectionThread();
+                            //rmiServer.executeCheckConnectionThread();
 
                         } catch (RemoteException e) {
                             e.printStackTrace();

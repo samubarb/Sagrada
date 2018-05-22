@@ -29,6 +29,7 @@ public class rmiStartServer {
                 System.setSecurityManager(new SecurityManager());
             }*/
             // First, create the real object which will do the requested function.
+            System.setProperty("java.rmi.server.hostname", "192.168.43.49");
             ServerInterface implementation = new ServerInterfaceImpl();
             ((ServerInterfaceImpl) implementation).setServerLauncher(serverLauncher);
 
