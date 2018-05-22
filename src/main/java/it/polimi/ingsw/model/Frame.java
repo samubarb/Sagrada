@@ -221,18 +221,18 @@ public class Frame implements Serializable {
     * */
 
     public boolean checkPositionDice(Dice dice,Coordinates position){
-        if(position.getY()==0)
-            if(getDice(position.getY(),position.getX()-1).getValue()==dice.getValue()||getDice(position.getY(),position.getX()-1).getColor().equals(dice.getColor()))
-                return false;
-        if(position.getX()==0)
-            if(getDice(position.getY()-1,position.getX()).getValue()==dice.getValue()||getDice(position.getY()-1,position.getX()).getColor().equals(dice.getColor()))
-                return false;
+        if(position.getX()==LEFT_BORDER)
+            if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
+                return checkCornerOrthogonalColorAndValueAdjacency(dice,position);
+            else return checkBorderOrthogonalColorAndValueAdjacency(dice,position);
+        if(position.getX()==RIGHT_BORDER)
+            if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
+                return checkCornerOrthogonalColorAndValueAdjacency(dice,position);
+            else return checkBorderOrthogonalColorAndValueAdjacency(dice,position);
+        if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
+            return checkBorderOrthogonalColorAndValueAdjacency(dice,position);
 
-        if(getDice(position.getY()-1,position.getX()).getValue()==dice.getValue()||getDice(position.getY()-1,position.getX()).getColor().equals(dice.getColor()))
-            return false;
-        else if(getDice(position.getY(),position.getX()-1).getValue()==dice.getValue()||getDice(position.getY(),position.getX()-1).getColor().equals(dice.getColor()))
-            return false;
-        else return true;
+        else return checkCentralOrthogonalColorAndValueAdjacency(dice,position);
 
     }
 
@@ -253,10 +253,9 @@ public class Frame implements Serializable {
             if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
                 return cornerAdjacent(position);
             else return borderAdjacent(position);
-         if(position.getY()==UP_BORDER)
+         if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
              return borderAdjacent(position);
-         if(position.getY()==DOWN_BORDER)
-             return borderAdjacent(position);
+
          else return centralAdjacent(position);
 
 
