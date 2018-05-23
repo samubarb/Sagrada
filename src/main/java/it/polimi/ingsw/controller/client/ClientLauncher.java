@@ -7,7 +7,9 @@ import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.model.Player;
 
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -52,10 +54,14 @@ public class ClientLauncher implements PlayerInterface, Serializable {
             return;
         }
         try {
+            //String ipAddress = getAddress();
+           // System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().toString() );
             PlayerInterface stub = (PlayerInterface) UnicastRemoteObject.exportObject(clientLauncher, 0) ;
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        } /*catch (UnknownHostException e) {
+            e.printStackTrace();
+        }*/
         username = getUsername(input);
         //color = getColor(input);
         clientPlayer = new Player();
@@ -200,5 +206,10 @@ public class ClientLauncher implements PlayerInterface, Serializable {
     public void notifyConnection(String username) throws RemoteException {
         System.out.println("Nuovo user connesso: "+ username);
     }
+
+    /*public static String getAddress(){
+        String ipAddress = InetAddress.getHostAddress();
+        return ipAddress;
+    }*/
 }
 
