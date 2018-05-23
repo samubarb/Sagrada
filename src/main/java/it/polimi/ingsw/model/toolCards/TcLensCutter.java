@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.toolCards;
 
-import java.io.Serializable;
+import it.polimi.ingsw.model.*;
 
 public class TcLensCutter extends ToolCard implements iTool {
 
@@ -15,7 +15,7 @@ public class TcLensCutter extends ToolCard implements iTool {
      * @param coordinates
      */
     @Override
-    public void useTool(Player player,Coordinates coordinates) {
+    public void useTool(Player player, Coordinates coordinates) {
 
        Dice diceFromRoundTrack= player.getCurrentGame().getRoundTrack()[coordinates.getX()];
        Dice flagDice=new Dice();
@@ -38,6 +38,11 @@ public class TcLensCutter extends ToolCard implements iTool {
 
     @Override
     public void useTool(Player player, Coordinates initialPosition, Coordinates finalPosition) {
+
+    }
+
+    @Override
+    public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) {
 
     }
 }

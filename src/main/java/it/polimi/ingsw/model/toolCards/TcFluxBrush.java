@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.toolCards;
 
-import java.io.Serializable;
+import it.polimi.ingsw.model.*;
 
 public class TcFluxBrush extends ToolCard implements iTool {
 
@@ -24,11 +24,16 @@ public class TcFluxBrush extends ToolCard implements iTool {
 
     @Override
     public void useTool(Player player, Action action) {
-
+        throw new IllegalArgumentException();
     }
 
     @Override
     public void useTool(Player player, Coordinates initialPosition, Coordinates finalPosition) {
+
+    }
+
+    @Override
+    public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) {
 
     }
 }

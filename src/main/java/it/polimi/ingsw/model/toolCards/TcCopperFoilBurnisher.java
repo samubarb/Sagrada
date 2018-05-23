@@ -1,5 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.toolCards;
 
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.NutChosenWrongException;
 
 public class TcCopperFoilBurnisher extends ToolCard implements iTool {
@@ -38,5 +39,10 @@ public class TcCopperFoilBurnisher extends ToolCard implements iTool {
             player.getFrame().moveNut(initialPosition,finalPosition);
         else
             throw new IllegalArgumentException();
+    }
+
+    @Override
+    public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) {
+
     }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.toolCards.ToolCard;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -148,12 +150,13 @@ public class Game implements Serializable{
         }
         this.currentDice = new Dice[(numberOfPlayer*2)+1];
         setCurrentDice();
+        setNewRolledDice(round);
 
     }
 
     public void randomDice(Dice dice){
         Random random=new Random();
-        dice.setValue(random.nextInt(5)+1);
+        dice.setValue(random.nextInt(6)+1);
 
     }
 
@@ -161,7 +164,7 @@ public class Game implements Serializable{
     public void randomDice(Dice[] dice){
         Random random=new Random();
         for(int i=0;i< dice.length;i++)
-            dice[i].setValue(random.nextInt(5)+1);
+            dice[i].setValue(random.nextInt(6)+1);
 
     }
 
