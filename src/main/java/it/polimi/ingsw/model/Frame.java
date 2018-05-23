@@ -70,6 +70,19 @@ public class Frame implements Serializable {
                 this.frame[i][j]=new Dice();
     }
 
+    /**
+     * moves a nut inside the frame
+     * @param initialPosition
+     * @param finalPosition
+     */
+    public void moveNut(Coordinates initialPosition,Coordinates finalPosition){
+        Dice diceToMove =new Dice();
+        diceToMove=this.frame[initialPosition.getY()][initialPosition.getX()];
+        this.frame[initialPosition.getY()][initialPosition.getX()]=new Dice();
+        frame[finalPosition.getY()][finalPosition.getX()]=diceToMove;
+
+    }
+
     public boolean centralAdjacent(Coordinates position){
         if(getDice(position.getY()-1,position.getX()).getValue()!=DEFAULT_VALUE||getDice(position.getY()-1,position.getX()-1).getValue()!=DEFAULT_VALUE||
                 getDice(position.getY(),position.getX()-1).getValue()!=DEFAULT_VALUE|| getDice(position.getY()-1,position.getX()+1).getValue()!=DEFAULT_VALUE||
