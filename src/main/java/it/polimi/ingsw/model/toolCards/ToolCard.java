@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.toolCards;
+
+import it.polimi.ingsw.model.Color;
 
 import java.io.Serializable;
 

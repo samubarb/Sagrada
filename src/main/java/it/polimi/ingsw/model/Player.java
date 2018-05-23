@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.model.exceptions.FavorTokenException;
-import it.polimi.ingsw.model.exceptions.FrameValueAndColorException;
-import it.polimi.ingsw.model.exceptions.WindowPatternColorException;
-import it.polimi.ingsw.model.exceptions.WindowPatternValueException;
+import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.model.toolCards.ToolCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -185,8 +183,17 @@ public class Player implements Serializable{
     public boolean checkFrameValueAndColorRestriction(Dice dice,Coordinates position){
         return this.frame.checkPositionDice(dice,position);
 
+    }
 
-
+    /**
+     * check if the position is free
+     * @param position
+     * @return
+     */
+    public boolean checkIfThePositionIsFree(Coordinates position){
+        if(getFrame().getDice(position).getValue()==0&&getFrame().getDice(position).getColor().equals(Color.UNCOLORED))
+            return true;
+        else return false;
     }
 
     /**
@@ -197,7 +204,9 @@ public class Player implements Serializable{
      * @throws WindowPatternValueException
      * @throws FrameValueAndColorException
      */
-    public boolean positionDice(Dice dice, Coordinates position) throws WindowPatternColorException,WindowPatternValueException,FrameValueAndColorException {
+    public boolean positionDice(Dice dice, Coordinates position) throws WindowPatternColorException,WindowPatternValueException,FrameValueAndColorException,BusyPositionException {
+        if(!checkIfThePositionIsFree(position))
+            throw new BusyPositionException();
         if(!checkWindowPatternColorRestriction(dice,position))
             throw new WindowPatternColorException();
         if(!checkWindowPatternValueRestriction(dice,position))

@@ -1,8 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.toolCards;
 
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.NutChosenWrongException;
 
-public class TcGrozingPliers extends ToolCard implements iTool{
+public class TcGrozingPliers extends ToolCard implements iTool {
 
     public TcGrozingPliers(int number, String name, Color color) {
         super(number, name, color);
@@ -16,9 +17,9 @@ public class TcGrozingPliers extends ToolCard implements iTool{
      */
     @Override
     public void useTool(Player player, Action action)throws NutChosenWrongException {
-        if(action.equals(Action.INCREASE)&player.getChosenNut().getValue()==6)
+        if(action.equals(Action.INCREASE)&&player.getChosenNut().getValue()==6)
             throw new NutChosenWrongException();
-        if(action.equals(Action.DECREASE)&player.getChosenNut().getValue()==1)
+        if(action.equals(Action.DECREASE)&&player.getChosenNut().getValue()==1)
             throw new NutChosenWrongException();
         if(action.equals(Action.INCREASE))
 
@@ -42,6 +43,11 @@ public class TcGrozingPliers extends ToolCard implements iTool{
 
     @Override
     public void useTool(Player player, Coordinates initialPosition, Coordinates finalPosition) {
+
+    }
+
+    @Override
+    public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) {
 
     }
 }

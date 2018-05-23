@@ -70,6 +70,19 @@ public class Frame implements Serializable {
                 this.frame[i][j]=new Dice();
     }
 
+    /**
+     * moves a nut inside the frame
+     * @param initialPosition
+     * @param finalPosition
+     */
+    public void moveNut(Coordinates initialPosition,Coordinates finalPosition){
+        Dice diceToMove =new Dice();
+        diceToMove=this.frame[initialPosition.getY()][initialPosition.getX()];
+        this.frame[initialPosition.getY()][initialPosition.getX()]=new Dice();
+        frame[finalPosition.getY()][finalPosition.getX()]=diceToMove;
+
+    }
+
     public boolean centralAdjacent(Coordinates position){
         if(getDice(position.getY()-1,position.getX()).getValue()!=DEFAULT_VALUE||getDice(position.getY()-1,position.getX()-1).getValue()!=DEFAULT_VALUE||
                 getDice(position.getY(),position.getX()-1).getValue()!=DEFAULT_VALUE|| getDice(position.getY()-1,position.getX()+1).getValue()!=DEFAULT_VALUE||
@@ -132,11 +145,13 @@ public class Frame implements Serializable {
         }
         return false;
 
-
-
-
     }
 
+    /**
+     * @param dice
+     * @param position
+     * @return
+     */
     public boolean checkCornerOrthogonalColorAndValueAdjacency(Dice dice,Coordinates position){
         if(position.getY()==UP_BORDER&&position.getX()==LEFT_BORDER){
             if (getDice(position.getX(), position.getY()+1).getValue() == dice.getValue() ||
@@ -163,11 +178,51 @@ public class Frame implements Serializable {
                 return false;
         }
 
+        return true;
+
+    }
+
+    public boolean checkBorderOrthogonalColorAndValueAdjacency(Dice dice,Coordinates position){
+        if(position.getX()==RIGHT_BORDER){
+            if (getDice(position.getY(), position.getX()-1).getValue() == dice.getValue() || getDice(position.getY()-1, position.getX()).getValue() == dice.getValue() ||
+                    getDice(position.getY()+1, position.getX()).getValue() == dice.getValue() || getDice(position.getY(), position.getX()-1).getColor().equals(dice.getColor()) ||
+                    getDice(position.getY()-1, position.getX()).getColor().equals(dice.getColor())|| getDice(position.getY()+1, position.getX()).getColor().equals(dice.getColor()))
+                return false;
+        }
+        if(position.getX()==LEFT_BORDER) {
+            if (getDice(position.getY(), position.getX() + 1).getValue() == dice.getValue() || getDice(position.getY()-1, position.getX()).getValue() == dice.getValue() ||
+                    getDice(position.getY()+1, position.getX()).getValue() == dice.getValue() || getDice(position.getY(), position.getX() + 1).getColor().equals(dice.getColor()) ||
+                    getDice(position.getY()-1, position.getX()).getColor().equals(dice.getColor())|| getDice(position.getY()+1, position.getX()).getColor().equals(dice.getColor()))
+                return false;
+        }
+        if(position.getY()==UP_BORDER) {
+            if (getDice(position.getY(), position.getX()+1).getValue() == dice.getValue() || getDice(position.getY(), position.getX()-1).getValue() == dice.getValue() ||
+                    getDice(position.getY()+1, position.getX()).getValue() == dice.getValue() || getDice(position.getY(), position.getX() + 1).getColor().equals(dice.getColor()) ||
+                    getDice(position.getY(), position.getX()-1).getColor().equals(dice.getColor())|| getDice(position.getY()+1, position.getX()).getColor().equals(dice.getColor()))
+                return false;
+        }
+        if(position.getY()==DOWN_BORDER) {
+            if (getDice(position.getY(), position.getX()+1).getValue() == dice.getValue() || getDice(position.getY(), position.getX()-1).getValue() == dice.getValue() ||
+                    getDice(position.getY()-1, position.getX()).getValue() == dice.getValue() || getDice(position.getY(), position.getX() + 1).getColor().equals(dice.getColor()) ||
+                    getDice(position.getY(), position.getX()-1).getColor().equals(dice.getColor())|| getDice(position.getY()-1, position.getX()).getColor().equals(dice.getColor()))
+                return false;
+        }
 
         return true;
 
 
+    }
 
+
+    public boolean checkCentralOrthogonalColorAndValueAdjacency(Dice dice,Coordinates position){
+        if(position.getX()==RIGHT_BORDER){
+            if (getDice(position.getY(), position.getX()-1).getValue() == dice.getValue() || getDice(position.getY(), position.getX()+1).getValue() == dice.getValue() ||
+                    getDice(position.getY()-1, position.getX()).getValue() == dice.getValue() || getDice(position.getY()+1, position.getX()).getValue() == dice.getValue() ||
+                    getDice(position.getY(), position.getX()-1).getColor().equals(dice.getColor()) || getDice(position.getY(), position.getX() + 1).getColor().equals(dice.getColor())||
+                    getDice(position.getY()-1, position.getX()).getColor().equals(dice.getColor())|| getDice(position.getY()+1, position.getX()).getColor().equals(dice.getColor()))
+                return false;
+        }
+        return true;
 
     }
 
@@ -179,25 +234,28 @@ public class Frame implements Serializable {
     * */
 
     public boolean checkPositionDice(Dice dice,Coordinates position){
-        if(position.getY()==0)
-            if(getDice(position.getY(),position.getX()-1).getValue()==dice.getValue()||getDice(position.getY(),position.getX()-1).getColor().equals(dice.getColor()))
-                return false;
-        if(position.getX()==0)
-            if(getDice(position.getY()-1,position.getX()).getValue()==dice.getValue()||getDice(position.getY()-1,position.getX()).getColor().equals(dice.getColor()))
-                return false;
+        if(position.getX()==LEFT_BORDER)
+            if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
+                return checkCornerOrthogonalColorAndValueAdjacency(dice,position);
+            else return checkBorderOrthogonalColorAndValueAdjacency(dice,position);
+        if(position.getX()==RIGHT_BORDER)
+            if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
+                return checkCornerOrthogonalColorAndValueAdjacency(dice,position);
+            else return checkBorderOrthogonalColorAndValueAdjacency(dice,position);
+        if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
+            return checkBorderOrthogonalColorAndValueAdjacency(dice,position);
 
-        if(getDice(position.getY()-1,position.getX()).getValue()==dice.getValue()||getDice(position.getY()-1,position.getX()).getColor().equals(dice.getColor()))
-            return false;
-        else if(getDice(position.getY(),position.getX()-1).getValue()==dice.getValue()||getDice(position.getY(),position.getX()-1).getColor().equals(dice.getColor()))
-            return false;
-        else return true;
+        else return checkCentralOrthogonalColorAndValueAdjacency(dice,position);
 
     }
 
-    /*
-    *   checkControlAdjacentDice
-    * */
 
+    /**
+     * checkControlAdjacentDic
+     * @param dice
+     * @param position
+     * @return
+     */
     public boolean checkControlAdjacentDice(Dice dice, Coordinates position){
 
         if(position.getX()==LEFT_BORDER)
@@ -208,10 +266,9 @@ public class Frame implements Serializable {
             if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
                 return cornerAdjacent(position);
             else return borderAdjacent(position);
-         if(position.getY()==UP_BORDER)
+         if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
              return borderAdjacent(position);
-         if(position.getY()==DOWN_BORDER)
-             return borderAdjacent(position);
+
          else return centralAdjacent(position);
 
 
