@@ -141,6 +141,7 @@ public class ServerLauncher {
                 System.out.println("max player reached");
                 try {
                     clientPlayer.onRegister("Max player reached");
+                    System.out.println("Max player reached");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
