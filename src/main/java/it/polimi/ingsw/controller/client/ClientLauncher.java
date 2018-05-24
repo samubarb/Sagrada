@@ -7,7 +7,10 @@ import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.model.Player;
 
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -51,11 +54,21 @@ public class ClientLauncher implements PlayerInterface, Serializable {
             System.out.println("Restart Client, connection to server error");
             return;
         }
-        try {
-            PlayerInterface stub = (PlayerInterface) UnicastRemoteObject.exportObject(clientLauncher, 0) ;
-        } catch (RemoteException e) {
+        //try {
+            //String ipAddress = getAddress();
+            //System.setProperty("java.rmi.server.hostname", "192.168.1.165" );
+            //PlayerInterface stub = (PlayerInterface) UnicastRemoteObject.exportObject(clientLauncher, 4040) ;
+            /*Registry registry = LocateRegistry.createRegistry(4040);
+            try {
+                registry.bind("ClientInterface", stub);
+            } catch (AlreadyBoundException e) {
+                e.printStackTrace();
+            }*/
+        //} catch (RemoteException e) {
+         //   e.printStackTrace();
+        /*} catch (UnknownHostException e) {
             e.printStackTrace();
-        }
+        }*/
         username = getUsername(input);
         //color = getColor(input);
         clientPlayer = new Player();
@@ -200,5 +213,10 @@ public class ClientLauncher implements PlayerInterface, Serializable {
     public void notifyConnection(String username) throws RemoteException {
         System.out.println("Nuovo user connesso: "+ username);
     }
+
+    /*public static String getAddress(){
+        String ipAddress = InetAddress.getHostAddress();
+        return ipAddress;
+    }*/
 }
 

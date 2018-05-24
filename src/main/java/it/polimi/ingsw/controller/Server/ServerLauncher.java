@@ -141,6 +141,7 @@ public class ServerLauncher {
                 System.out.println("max player reached");
                 try {
                     clientPlayer.onRegister("Max player reached");
+                    System.out.println("Max player reached");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -190,5 +191,16 @@ public class ServerLauncher {
             nicknames.add(new User(username, clientPlayer));
             return true;
         }
+    }
+
+    public boolean contains(String username, ArrayList<User> userArrayList){
+        for(User user : userArrayList){
+            if(user.getUsername().equals(username))
+                return true;
+            else
+                return false;
+        }
+
+        return false;
     }
 }
