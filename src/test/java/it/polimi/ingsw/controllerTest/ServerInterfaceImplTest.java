@@ -27,12 +27,12 @@ public class ServerInterfaceImplTest {
             System.out.println(serverLauncher.getNicknames().size());
             System.out.println(serverLauncher.getNicknames().size()+serverLauncher.getOfflineNicknames().size());
             assertEquals(true, serverLauncher.getNicknames().size() == 1);
-            assertEquals(true, serverLauncher.getNicknames().contains("dacco"));
+            assertEquals(true, serverLauncher.contains("dacco",serverLauncher.getNicknames()));
             assertEquals(false, serverLauncher.getNicknames().size() == 2);
-            assertEquals(false, serverLauncher.getNicknames().contains("teo"));
+            assertEquals(false, serverLauncher.contains("teo",serverLauncher.getNicknames()));
         }
         catch(RemoteException e){
-            System.out.println("dioooo");
+            System.out.println("error");
         }
     }
     /*
@@ -47,9 +47,9 @@ This test checks getOfflineNumberOfPlayer
             server.register(new ClientLauncher(), "dacco1");
             server.getServerLauncher().getOfflineNicknames().add(new User("dacco", new ClientLauncher()));
             assertEquals(true, server.getServerLauncher().getOfflineNicknames().size() == 1);
-            assertEquals(true, server.getServerLauncher().getOfflineNicknames().contains("dacco"));
+            assertEquals(true, server.getServerLauncher().contains("dacco",serverLauncher.getOfflineNicknames()));
             assertEquals(false, server.getServerLauncher().getOfflineNicknames().size() == 2);
-            assertEquals(false, server.getServerLauncher().getOfflineNicknames().contains("teo"));
+            assertEquals(false, server.getServerLauncher().contains("teo",serverLauncher.getOfflineNicknames()));
         }
         catch(Exception e){}
     }

@@ -41,12 +41,15 @@ public class rmiStartServer {
                 /* stub = (ServerInterface) UnicastRemoteObject.exportObject(implementation, port);
                 Registry registry = LocateRegistry.createRegistry(port);*/
 
-
-
+                ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(implementation, 0);
                 Registry registry = LocateRegistry.createRegistry(port);
+                registry.bind("ServerInterface", stub);
+
+
+                /*Registry registry = LocateRegistry.createRegistry(port);
                 LocateRegistry.getRegistry(port);
                 registry.rebind("ServerInterface", implementation);
-                UnicastRemoteObject.exportObject(implementation, port);
+                UnicastRemoteObject.exportObject(implementation, port);*/
 
 
                 //registry.rebind("ServerInterface", stub);

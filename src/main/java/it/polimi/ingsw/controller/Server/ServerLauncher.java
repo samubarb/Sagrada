@@ -192,4 +192,15 @@ public class ServerLauncher {
             return true;
         }
     }
+
+    public boolean contains(String username, ArrayList<User> userArrayList){
+        for(User user : userArrayList){
+            if(user.getUsername().equals(username))
+                return true;
+            else
+                return false;
+        }
+
+        return false;
+    }
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.client.ClientLauncher;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
     String username;
@@ -33,6 +34,7 @@ public class User implements Serializable {
     public void setPlayerInterface(PlayerInterface playerInterface) {
         this.playerInterface = playerInterface;
     }
+
 
 
 }

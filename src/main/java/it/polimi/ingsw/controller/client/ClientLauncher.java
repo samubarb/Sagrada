@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -53,13 +54,19 @@ public class ClientLauncher implements PlayerInterface, Serializable {
             System.out.println("Restart Client, connection to server error");
             return;
         }
-        try {
+        //try {
             //String ipAddress = getAddress();
-           // System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().toString() );
-            PlayerInterface stub = (PlayerInterface) UnicastRemoteObject.exportObject(clientLauncher, 0) ;
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } /*catch (UnknownHostException e) {
+            //System.setProperty("java.rmi.server.hostname", "192.168.1.165" );
+            //PlayerInterface stub = (PlayerInterface) UnicastRemoteObject.exportObject(clientLauncher, 4040) ;
+            /*Registry registry = LocateRegistry.createRegistry(4040);
+            try {
+                registry.bind("ClientInterface", stub);
+            } catch (AlreadyBoundException e) {
+                e.printStackTrace();
+            }*/
+        //} catch (RemoteException e) {
+         //   e.printStackTrace();
+        /*} catch (UnknownHostException e) {
             e.printStackTrace();
         }*/
         username = getUsername(input);
