@@ -20,28 +20,22 @@ public class CLI implements View {
     }
 
     public VMove move(VDice dice, VCoordinates xy) { // Add toolcard here
-        VMove move = new VMove(dice, xy);
-
-        return move;
+        return new VMove(dice, xy);
     }
 
     public static void main(String[] args) {
         CLI cli = new CLI();
         cli.startCLI();
 
-        int i = 1;
-        for (VColor vc : VColor.values()) {
-            println(new VDice(i, vc).toString());
-            i++;
-        }
+
     }
 
     public void startCLI() {
         this.splash();
-        this.chooser(this.menu());
+        while(this.chooser(this.menu()));
     }
 
-    private void chooser(int i) {
+    private boolean chooser(int i) {
         switch (i) {
             case 1:
                 playGame();
@@ -60,13 +54,15 @@ public class CLI implements View {
                 break;
 
             case 5:
-                exit();
+                if (exit())
+                    System.exit(0);
                 break;
 
             default:
                 println("Riprova");
                 break;
         }
+        return true;
     }
 
     public void loggedIn(String playerLogged) {
@@ -142,20 +138,24 @@ public class CLI implements View {
 
 
 
-    private void exit() {
-        String ask = " [Y/n]";
-        print("Are you sure you want to exit the game?" + ask);
-
+    private boolean exit() {
+        print("Are you sure you want to exit the game? " + Sn);
+        if (Sn()) {
+            println("Exiting...");
+            return true;
+        }
+        return false;
     }
 
     private int menu() {
         println("Choose your option:");
         println("1. Play");
         println("2. Settings");
-        println("3. Credits");
-        println("4. Exit");
+        println("3. Game rules");
+        println("4. Credits");
+        println("5. Exit");
 
-        return 1;
+        return IOManager.getInt();
     }
 
 
@@ -182,20 +182,6 @@ public class CLI implements View {
 
         print(splash);
         enter();
-    }
-
-    private static void println(String toPrint) {
-        System.out.println(toPrint);
-        System.out.flush();
-    }
-
-    private static void print(String toPrint) {
-        System.out.print(toPrint);
-        System.out.flush();
-    }
-
-    private static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        clearScreen();
     }
 }

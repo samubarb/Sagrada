@@ -36,4 +36,18 @@ public final class IOManager {
         return false;
     }
 
+    public static void println(String toPrint) {
+        System.out.println(toPrint);
+        System.out.flush();
+    }
+
+    public static void print(String toPrint) {
+        System.out.print(toPrint);
+        System.out.flush();
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 }

@@ -21,6 +21,6 @@ public class VDice {
 
         @Override
         public String toString() {
-                return this.color. toString() + "[" + this.faces[value - 1] + "]" + this.color.RESET;
+                return this.color.toString() + "[" + value + "]" + this.color.RESET;
         }
 }
