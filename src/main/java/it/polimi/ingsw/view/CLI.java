@@ -28,13 +28,17 @@ public class CLI implements View {
     public static void main(String[] args) {
         CLI cli = new CLI();
         cli.startCLI();
-        //cli.settings();
+
+        int i = 1;
+        for (VColor vc : VColor.values()) {
+            println(new VDice(i, vc).toString());
+            i++;
+        }
     }
 
     public void startCLI() {
         this.splash();
         this.chooser(this.menu());
-        this.settings();
     }
 
     private void chooser(int i) {
