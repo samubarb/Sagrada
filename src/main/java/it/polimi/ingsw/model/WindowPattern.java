@@ -7,14 +7,15 @@ public class WindowPattern implements Serializable {
 
     private int favorTokenToAssign;
     private String name;
-    private Dice[][] pattern;
+    private Frame pattern;
+
 
     public WindowPattern(int favorTokenToAssign, String name) {
         this.favorTokenToAssign = favorTokenToAssign;
         this.name = name;
     }
 
-    public WindowPattern(int favorTokenToAssign, String name, Dice[][] pattern) {
+    public WindowPattern(int favorTokenToAssign, String name, Frame pattern) {
         this.favorTokenToAssign = favorTokenToAssign;
         this.name = name;
         this.pattern = pattern;
@@ -36,22 +37,23 @@ public class WindowPattern implements Serializable {
         this.name = name;
     }
 
-    public Dice[][] getPattern() {
+    public Frame getPattern() {
         return pattern;
     }
 
-    public void setPattern(Dice[][] pattern) {
+    public void setPattern(Frame pattern) {
         this.pattern = pattern;
     }
 
-    public void setDicePosition (Dice dice,int i,int j){
-        pattern[i][j]=dice;
+    public void setDicePosition (Dice dice, int i, int j){
+        pattern.setPositionDice(dice,i,j);
     }
     /*
     * returns the constraint(dice) that is in place
     * */
     public Dice getDicePosition(Coordinates xy){
-        return this.pattern[xy.getX()][xy.getY()];
+        return this.pattern.getDice(xy);
+
     }
 
     @Override
@@ -59,7 +61,7 @@ public class WindowPattern implements Serializable {
         return "WindowPattern{" +
                 "favorTokenToAssign=" + favorTokenToAssign +
                 ", name='" + name + '\'' +
-                ", pattern=" + Arrays.toString(pattern) +
+                ", pattern=" + pattern +
                 '}';
     }
 }

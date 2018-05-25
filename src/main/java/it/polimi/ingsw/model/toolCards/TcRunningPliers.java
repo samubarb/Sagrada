@@ -9,8 +9,15 @@ public class TcRunningPliers extends ToolCard implements iTool {
         super(number, name, color);
     }
 
+    /**
+     * afterd your first turn immediately draft die, skip your next turn in this round
+     * remove the player from the stack so he does not play anymore in this round
+     * @param player
+     */
     @Override
     public void useTool(Player player) {
+        if(player.equals(player.getCurrentGame().getTurnStack().pop()));
+        else throw new IllegalArgumentException();
 
     }
 

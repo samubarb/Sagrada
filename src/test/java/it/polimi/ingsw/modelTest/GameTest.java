@@ -1,11 +1,7 @@
 package it.polimi.ingsw.modelTest;
 
-import it.polimi.ingsw.model.Frame;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.WindowPattern;
+import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.Test;
-import it.polimi.ingsw.model.Color;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -90,9 +86,6 @@ public class GameTest {
         System.out.print(gameTest.getTurnOrder()[0].getName());
         System.out.print(gameTest.getTurnOrder()[1].getName());
         System.out.println(gameTest.getTurnOrder()[2].getName());
-
-
-
 
 
     }
