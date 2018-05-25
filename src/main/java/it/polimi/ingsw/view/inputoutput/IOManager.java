@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.inputoutput;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public final class IOManager {

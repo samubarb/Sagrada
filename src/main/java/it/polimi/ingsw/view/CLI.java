@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
@@ -27,12 +28,22 @@ public class CLI implements View {
         CLI cli = new CLI();
         cli.startCLI();
 
-
     }
 
     public void startCLI() {
+        int i;
         this.splash();
-        while(this.chooser(this.menu()));
+        for (i = 0; i < 10; i++) {
+            try {
+                while (this.chooser(this.menu())) {
+                    i = 0;
+                }
+            } catch (InputMismatchException e) {
+                println("Devi inserire un intero positivo!");
+            }
+        }
+        println("Uscendo per " + i + " tentativi falliti consecutivamente...");
+        System.exit(1);
     }
 
     private boolean chooser(int i) {
@@ -141,7 +152,7 @@ public class CLI implements View {
     private boolean exit() {
         print("Are you sure you want to exit the game? " + Sn);
         if (Sn()) {
-            println("Exiting...");
+            println("Uscendo...");
             return true;
         }
         return false;
