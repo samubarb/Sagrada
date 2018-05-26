@@ -5,7 +5,7 @@ import it.polimi.ingsw.view.VCoordinates;
 import it.polimi.ingsw.view.VDice;
 import it.polimi.ingsw.view.VFrame;
 import it.polimi.ingsw.view.exceptions.IllegalCoordinatesException;
-import it.polimi.ingsw.view.inputoutput.IOManager;
+import it.polimi.ingsw.inputoutput.IOManager;
 import org.junit.jupiter.api.Test;
 
 

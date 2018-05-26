@@ -1,10 +1,31 @@
-package it.polimi.ingsw.view.inputoutput;
+package it.polimi.ingsw.inputoutput;
 
-import java.util.InputMismatchException;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public final class IOManager {
+    public final static String newline = "\n";
 
+    public static String fileToString(String filePath)
+    {
+        StringBuilder string = new StringBuilder();
+
+        try (Stream<String> stream = Files.lines(Paths.get(filePath), StandardCharsets.UTF_8))
+        {
+            stream.forEach(s -> string.append(s).append(newline));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return string.toString();
+    }
 
     public static String getString() {
         Scanner keyboard = new Scanner(System.in);
@@ -44,6 +65,11 @@ public final class IOManager {
 
     public static void print(String toPrint) {
         System.out.print(toPrint);
+        System.out.flush();
+    }
+
+    public static void newline() {
+        System.out.println(newline);
         System.out.flush();
     }
 

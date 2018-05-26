@@ -4,7 +4,7 @@ import it.polimi.ingsw.view.VColor;
 import it.polimi.ingsw.view.VDice;
 import it.polimi.ingsw.view.VPlayer;
 import it.polimi.ingsw.view.VWindowPattern;
-import it.polimi.ingsw.view.inputoutput.IOManager;
+import it.polimi.ingsw.inputoutput.IOManager;
 import org.junit.jupiter.api.Test;
 
 public class VPlayerTest {

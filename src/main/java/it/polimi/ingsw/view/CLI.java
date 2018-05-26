@@ -1,13 +1,11 @@
 package it.polimi.ingsw.view;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
-import it.polimi.ingsw.view.inputoutput.*;
+import it.polimi.ingsw.inputoutput.*;
 
-import static it.polimi.ingsw.view.inputoutput.IOManager.*;
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class CLI implements View {
     private VPlayer player;
@@ -19,7 +17,6 @@ public class CLI implements View {
     public void updateState(VGame game) {
         this.game = game;
     }
-
     public VMove move(VDice dice, VCoordinates xy) { // Add toolcard here
         return new VMove(dice, xy);
     }
