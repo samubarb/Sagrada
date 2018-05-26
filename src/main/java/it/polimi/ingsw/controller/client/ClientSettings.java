@@ -20,6 +20,6 @@ public class ClientSettings extends NetworkSettings {
 
     @Override
     public String toString() {
-        return "Client " + super.toString();
+        return "Client Settings " + super.toString();
     }
 }

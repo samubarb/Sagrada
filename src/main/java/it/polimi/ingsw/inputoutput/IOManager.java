@@ -17,11 +17,13 @@ public final class IOManager {
 
         try (Stream<String> stream = Files.lines(Paths.get(filePath), StandardCharsets.UTF_8))
         {
-            stream.forEach(s -> string.append(s).append(newline));
+            stream.forEachOrdered(s -> string.append(s).append(newline));
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            println("Il file " + filePath + " non esiste. Controlla la correttezza del percorso o del nome.");
+            println("Uscendo...");
+            System.exit(2);
         }
 
         return string.toString();
@@ -49,7 +51,7 @@ public final class IOManager {
             return true;
         return false;
     }
-
+/*
     public static boolean Yn() {
         String answer = getString().toLowerCase();
 
@@ -57,7 +59,7 @@ public final class IOManager {
             return true;
         return false;
     }
-
+*/
     public static void println(String toPrint) {
         System.out.println(toPrint);
         System.out.flush();

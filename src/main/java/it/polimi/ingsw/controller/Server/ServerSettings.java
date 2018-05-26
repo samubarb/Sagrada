@@ -20,6 +20,6 @@ public class ServerSettings extends NetworkSettings {
 
     @Override
     public String toString() {
-        return "Server " + super.toString();
+        return "Server Settings " + super.toString();
     }
 }
