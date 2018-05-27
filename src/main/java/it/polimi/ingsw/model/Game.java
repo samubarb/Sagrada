@@ -158,6 +158,18 @@ public class Game implements Serializable{
 
     }
 
+    /**
+     * check if in the roundTrack there is a die of the same color of dice
+     * @param dice
+     * @return
+     */
+    public boolean checkColorDice(Dice dice){
+        for(Dice d : roundTrack)
+            if(dice.getColor().equals(d.getColor()))
+                return true;
+        return false;
+    }
+
     public void setDefaultDice(Dice[] arrayDice){
         for(int i=0;i<arrayDice.length;i++){
             arrayDice[i]=new Dice();
