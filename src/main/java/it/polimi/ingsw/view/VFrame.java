@@ -27,7 +27,7 @@ public class VFrame {
                 if (this.frame[i][j] == null) {
                     string.append("   ");
                 } else {
-                    string.append(this.frame[i][j]).toString();
+                    string.append(this.frame[i][j].toString());
                 }
                 string.append("|");
             }

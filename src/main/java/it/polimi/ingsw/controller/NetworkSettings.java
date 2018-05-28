@@ -7,7 +7,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.fileToString;
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
 
 /*
- * Class used to set the neededd parameters to guarantee the communication between server and client(s).
+ * Class used to set the needed parameters to guarantee the communication between server and client(s).
  * This class is meant to be specialized in the Server and Client form.
  */
 public class NetworkSettings {

@@ -11,6 +11,6 @@ public class VPlayerTest {
 
     @Test
     public void printPlayerTest() {
-        IOManager.println(new VPlayer("TestPlayer", VColor.PURPLE, new VWindowPattern(new VDice[5][4])).toString());
+        IOManager.println(new VPlayer("TestPlayer", VColor.PURPLE, new VWindowPattern()).toString());
     }
 }

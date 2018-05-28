@@ -11,6 +11,8 @@ public class VDice {
                 "\u2685"
         };
 
+        private static final String colorConstraint = "\u2593"; // used in VWindowPattern
+
         private int value;
         private VColor color;
 
@@ -21,6 +23,8 @@ public class VDice {
 
         @Override
         public String toString() {
-                return this.color.toString() + "[" + value + "]" + this.color.RESET;
+                if (this.value == 0)
+                        return this.color.toString() + "[" + colorConstraint + "]" + this.color.RESET;
+                return this.color.toString() + "[" + this.value + "]" + this.color.RESET;
         }
 }
