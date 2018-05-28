@@ -44,6 +44,7 @@ public class CLI implements View {
     }
 
     private boolean chooser(int i) {
+        clearScreen();
         switch (i) {
             case 1:
                 playGame();
@@ -70,6 +71,9 @@ public class CLI implements View {
                 println("Riprova");
                 break;
         }
+        print("Premi un tasto per continuare...");
+        getString();
+        clearScreen();
         return true;
     }
 
@@ -85,7 +89,7 @@ public class CLI implements View {
     public String askNewUsername() throws UsernameTooShortException {
         println("Inventa un nuovo Username: ");
         String user = getString();
-        if(user.length() >= 3) {
+        if (user.length() >= 3) {
             return user;
         } else {
             throw new UsernameTooShortException();
@@ -141,7 +145,7 @@ public class CLI implements View {
     }
 
     private void credits() {
-        println("Game developed by Samuele Barbieri, Riccardo Cedroni, Matteo Chiari");
+        println("Gioco sviluppato da Samuele Barbieri, Riccardo Cedroni, Matteo Chiari");
     }
 
 
@@ -156,14 +160,14 @@ public class CLI implements View {
     }
 
     private int menu() {
-        println("Choose your option:");
-        println("1. Play");
-        println("2. Settings");
-        println("3. Game rules");
+        println("1. Gioca");
+        println("2. Impostazioni");
+        println("3. Regole del gioco");
         println("4. Credits");
-        println("5. Exit");
+        println("5. Esci");
+        print("Scegli l'opzione digitando il numero corrispondente: ");
 
-        return IOManager.getInt();
+        return getInt();
     }
 
 
@@ -188,6 +192,7 @@ public class CLI implements View {
                 "@                                                                              \n" +
                 "                            Press ENTER to continue                            \n";
 
+        clearScreen();
         print(splash);
         enter();
         clearScreen();
