@@ -5,7 +5,7 @@ public class VSettings {
     private boolean RMIvsSocket; // false = RMI, true = Socket
 
     public VSettings() {
-        reset();
+        this.reset();
     }
 
     public void reset() {
@@ -16,7 +16,6 @@ public class VSettings {
     public void setGUI() {
         this.CLIvsGUI = true;
     }
-
     public void setCLI() {
         this.CLIvsGUI = false;
     }
@@ -24,7 +23,6 @@ public class VSettings {
     public void setSocket() {
         this.RMIvsSocket = true;
     }
-
     public void setRMI() {
         this.RMIvsSocket = false;
     }
@@ -32,7 +30,6 @@ public class VSettings {
     public boolean isCLI () {
         return !CLIvsGUI;
     }
-
     public boolean isGUI() {
         return CLIvsGUI;
     }
@@ -40,7 +37,6 @@ public class VSettings {
     public boolean isRMI () {
         return !RMIvsSocket;
     }
-
     public boolean isSocket() {
         return RMIvsSocket;
     }

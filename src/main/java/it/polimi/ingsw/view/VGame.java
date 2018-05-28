@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view;
 
-
 import java.util.ArrayList;
 
 public class VGame {
@@ -9,7 +8,7 @@ public class VGame {
     private int round;
 
     public VGame() {
-        players = new ArrayList<VPlayer>();
+        this.players = new ArrayList<VPlayer>();
     }
 
     public void addVPlayer(VPlayer player) {

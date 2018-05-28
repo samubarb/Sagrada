@@ -13,8 +13,9 @@ public class VPlayer {
     public VPlayer(String name, VColor color, VWindowPattern wpattern) {
         this.name = name;
         this.color = color;
-        this.wpattern = wpattern;
         this.frame = new VFrame();
+        this.wpattern = wpattern;
+
 
     }
 

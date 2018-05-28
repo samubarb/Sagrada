@@ -21,8 +21,8 @@ public class VFrame {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder("VFrame\n");
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < 5; i++) {
                 string.append("|");
                 if (this.frame[i][j] == null) {
                     string.append("   ");

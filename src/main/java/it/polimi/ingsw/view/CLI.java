@@ -1,9 +1,6 @@
 package it.polimi.ingsw.view;
 
-import java.util.InputMismatchException;
-
 import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
-import it.polimi.ingsw.inputoutput.*;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -11,8 +8,22 @@ public class CLI implements View {
     private VPlayer player;
     private VGame game;
     private static VSettings settings;
-    //private static String Yn = "[Y/n]";
+    private VSettings tempSettings;
     private static String Sn = "[S/n]";
+
+    public static void main(String[] args) {
+        CLI cli = new CLI();
+        cli.startCLI();
+    }
+
+    public CLI() {
+        this.settings = new VSettings();
+    }
+
+    public void startCLI() {
+        this.splash();
+        while(this.chooser(this.menu()));
+    }
 
     public void updateState(VGame game) {
         this.game = game;
@@ -21,60 +32,198 @@ public class CLI implements View {
         return new VMove(dice, xy);
     }
 
-    public static void main(String[] args) {
-        CLI cli = new CLI();
-        cli.startCLI();
-
-    }
-
-    public void startCLI() {
-        int i;
-        this.splash();
-        for (i = 0; i < 10; i++) {
-            try {
-                while (this.chooser(this.menu())) {
-                    i = 0;
-                }
-            } catch (InputMismatchException e) {
-                println("Devi inserire un intero positivo!");
-            }
-        }
-        println("Uscendo per " + i + " tentativi falliti consecutivamente...");
-        System.exit(1);
-    }
-
     private boolean chooser(int i) {
         clearScreen();
         switch (i) {
             case 1:
                 playGame();
                 break;
-
             case 2:
                 settings();
                 break;
-
             case 3:
                 gameRules();
                 break;
-
             case 4:
                 credits();
                 break;
-
             case 5:
                 if (exit())
                     System.exit(0);
                 break;
-
             default:
-                println("Riprova");
+                retry();
                 break;
         }
-        print("Premi un tasto per continuare...");
-        getString();
         clearScreen();
         return true;
+    }
+
+    private void playGame() {
+        println("...start game here");
+        waitKey();
+    }
+
+    private void settings() {
+        this.tempSettings = new VSettings();
+        while (this.settingsChooser(this.settingsMenu()));
+    }
+
+    private int settingsMenu() {
+        clearScreen();
+        println("Impostazioni");
+        println("1. Interfaccia grafica");
+        println("2. Connessione");
+        println("3. Indietro");
+        print("Scegli l'opzione digitando il numero corrispondente: ");
+
+        return getInt();
+    }
+
+    private boolean settingsChooser(int i) {
+        clearScreen();
+        boolean flag = false;
+        switch (i) {
+            case 1:
+                flag = true;
+                while(graphicsSettings());
+                break;
+            case 2:
+                flag = true;
+                while(connectionSettings());
+                break;
+            case 3:
+                if (flag) askToSaveChanges();
+                this.settings.reset(); // reset to the default values of CLI + RMI, to change with future implementation
+                return false;
+            default:
+                retry();
+                break;
+        }
+        return true;
+    }
+
+    private void askToSaveChanges() {
+        println("Vuoi salvare i cambiamenti? " + Sn);
+        if (Sn()) {
+            this.settings = this.tempSettings;
+            println("Cambiamenti salvati.");
+        } else {
+            println("Nulla è stato salvato.");
+        }
+    }
+
+    private boolean graphicsSettings(){
+        clearScreen();
+        println("Quale interfaccia vuoi utilizzare? ");
+        println("1. CLI");
+        println("2. GUI");
+
+        switch(getInt()) {
+            case 1:
+                this.tempSettings.setCLI();
+                break;
+            case 2:
+                this.tempSettings.setGUI();
+                break;
+            default:
+                retry();
+                return true;
+        }
+        return false;
+    }
+
+    private boolean connectionSettings(){
+        clearScreen();
+        println("Quale connessione vuoi utilizzare? ");
+        println("1. RMI");
+        println("2. Socket");
+
+        switch(getInt()) {
+            case 1:
+                this.tempSettings.setRMI();
+                break;
+            case 2:
+                this.tempSettings.setSocket();
+                break;
+            default:
+                retry();
+                return true;
+        }
+        return false;
+    }
+
+    private void gameRules() {
+        println("Show game rules here");
+        waitKey();
+    }
+
+    private void credits() {
+        println("Gioco sviluppato da Samuele Barbieri, Riccardo Cedroni, Matteo Chiari");
+        waitKey();
+    }
+
+    private boolean exit() {
+        print("Sicuro di voler uscire dal gioco? " + Sn);
+        if (Sn()) {
+            println("Uscendo...");
+            return true;
+        }
+        return false;
+    }
+
+    private int menu() {
+        println("1. Gioca");
+        println("2. Impostazioni");
+        println("3. Regole del gioco");
+        println("4. Credits");
+        println("5. Esci");
+        print("Scegli l'opzione digitando il numero corrispondente: ");
+
+        return getInt();
+    }
+
+    private void splash() {
+        String splash = "  @@@  @@ @@  @@@@      @@@@@@  @   @@@@@@  .@   @ @   @@   #@@@  @@    @ @    \n" +
+                "@@@*@@@@  @@*@@@@@@   @@@ @@   @@@ @   *@%   @@@@@ @@@ @@@ @@@@@@@ ,@@@@@ @@   \n" +
+                "@@    @@     @    @@  @    @@   @@@     @@@   @     %@   @      @ @   @    @@. \n" +
+                "@@           @@   @@  @@        @@@   @@@@    @@    @@   @@     @@@  @@    @@. \n" +
+                "@@@         &@@   @@  @@     @  @@@@@@@@@     @@ @@ @@   @@     @@@  @@    @@. \n" +
+                "@@@@@@@ @@   @@@@@,@  @@ @@@ @@ @@@ @@@@@     @@  #&@@          .@@  @@    @@. \n" +
+                " @ @@@@@@@   @@@@ @@  @@    .@@ @@@   @@@@@   @@    @@   @@     @@@  @@ @@ @@. \n" +
+                "       @@@@  @@   @@  @ * @@   @@@@      @@  @@@@@@@ @   @@     @@@  @@ @@ @@@ \n" +
+                "       .@@@  @@   @@@  @@ @@ @@ @@@     %@@@ @@@@ @@@@@ @@@@  @@@@@  @@    @@& \n" +
+                "        @@@  @@   @@@@(                  ,@@@     @@@   @  @@@@@@ @  @@    @@% \n" +
+                "       @@@, @@@@                           @@@@@/@@@         @@@     @@    @@/ \n" +
+                "      @@@@ *@@@                               @@                   ,@@@    @@, \n" +
+                "@@ @@@@@@                                                            @@    @@  \n" +
+                "@@@@@@@@                                                                  @@@  \n" +
+                "@@@                                                                       @@@@ \n" +
+                "@@@                                                                         #@@\n" +
+                "@                                                                              \n";
+
+
+
+        clearScreen();
+        print(splash + centerText("Premi INVIO per continuare", "@@    @@     @    @@  @    @@   @@@     @@@   @     %@   @      @ @   @    @@. ".length()));
+        enter();
+        clearScreen();
+    }
+
+    private String centerText(String toCenter, int maxLen) {
+        int len = toCenter.length();
+
+        if (maxLen <= 0 || maxLen < len)
+            return "";
+        if (len == maxLen)
+            return toCenter;
+
+        StringBuilder centered = new StringBuilder();
+        for (len = (maxLen - len) / 2; len >= 0; len--) {
+            centered.append(" ");
+        }
+        centered.append(toCenter).append("\n");
+        return centered.toString();
     }
 
     public void loggedIn(String playerLogged) {
@@ -119,82 +268,5 @@ public class CLI implements View {
     private String newUser() {
         println("Scegli un nuovo Username: ");
         return getString();
-    }
-
-    private void playGame() {
-        println("...start game here");
-    }
-
-    private void settings() {
-        VSettings settings = new VSettings();
-
-        // Customize settings here
-
-        settings.reset();
-        println("Sei sicuro di voler cambiare le impostazioni? " + Sn);
-        if (Sn()) {
-            this.settings = settings;
-            println("Cambiamenti salvati.");
-        } else {
-            println("Nulla è stato salvato.");
-        }
-    }
-
-    private void gameRules() {
-        println("Show game rules here");
-    }
-
-    private void credits() {
-        println("Gioco sviluppato da Samuele Barbieri, Riccardo Cedroni, Matteo Chiari");
-    }
-
-
-
-    private boolean exit() {
-        print("Are you sure you want to exit the game? " + Sn);
-        if (Sn()) {
-            println("Uscendo...");
-            return true;
-        }
-        return false;
-    }
-
-    private int menu() {
-        println("1. Gioca");
-        println("2. Impostazioni");
-        println("3. Regole del gioco");
-        println("4. Credits");
-        println("5. Esci");
-        print("Scegli l'opzione digitando il numero corrispondente: ");
-
-        return getInt();
-    }
-
-
-
-    private void splash() {
-        String splash = "  @@@  @@ @@  @@@@      @@@@@@  @   @@@@@@  .@   @ @   @@   #@@@  @@    @ @    \n" +
-                "@@@*@@@@  @@*@@@@@@   @@@ @@   @@@ @   *@%   @@@@@ @@@ @@@ @@@@@@@ ,@@@@@ @@   \n" +
-                "@@    @@     @    @@  @    @@   @@@     @@@   @     %@   @      @ @   @    @@. \n" +
-                "@@           @@   @@  @@        @@@   @@@@    @@    @@   @@     @@@  @@    @@. \n" +
-                "@@@         &@@   @@  @@     @  @@@@@@@@@     @@ @@ @@   @@     @@@  @@    @@. \n" +
-                "@@@@@@@ @@   @@@@@,@  @@ @@@ @@ @@@ @@@@@     @@  #&@@          .@@  @@    @@. \n" +
-                " @ @@@@@@@   @@@@ @@  @@    .@@ @@@   @@@@@   @@    @@   @@     @@@  @@ @@ @@. \n" +
-                "       @@@@  @@   @@  @ * @@   @@@@      @@  @@@@@@@ @   @@     @@@  @@ @@ @@@ \n" +
-                "       .@@@  @@   @@@  @@ @@ @@ @@@     %@@@ @@@@ @@@@@ @@@@  @@@@@  @@    @@& \n" +
-                "        @@@  @@   @@@@(                  ,@@@     @@@   @  @@@@@@ @  @@    @@% \n" +
-                "       @@@, @@@@                           @@@@@/@@@         @@@     @@    @@/ \n" +
-                "      @@@@ *@@@                               @@                   ,@@@    @@, \n" +
-                "@@ @@@@@@                                                            @@    @@  \n" +
-                "@@@@@@@@                                                                  @@@  \n" +
-                "@@@                                                                       @@@@ \n" +
-                "@@@                                                                         #@@\n" +
-                "@                                                                              \n" +
-                "                            Press ENTER to continue                            \n";
-
-        clearScreen();
-        print(splash);
-        enter();
-        clearScreen();
     }
 }

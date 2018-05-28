@@ -1,10 +1,10 @@
 package it.polimi.ingsw.inputoutput;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -35,8 +35,25 @@ public final class IOManager {
     }
 
     public static int getInt() {
-        Scanner keyboard = new Scanner(System.in);
-        return keyboard.nextInt();
+        int value = 0;
+        boolean flag = true;
+
+        int i = 0;
+        while (flag) {
+            flag = false;
+            try {
+                value = new Scanner(System.in).nextInt();
+            } catch (InputMismatchException e) {
+                flag = true;
+                i++;
+                if (i >= 10) {
+                    println("Uscendo per " + i + " tentativi falliti consecutivamente...");
+                    System.exit(1);
+                }
+                println("Devi inserire un intero positivo!");
+            }
+        }
+        return value;
     }
 
     public static void enter() {
@@ -51,15 +68,11 @@ public final class IOManager {
             return true;
         return false;
     }
-/*
-    public static boolean Yn() {
-        String answer = getString().toLowerCase();
 
-        if (answer.equals("") || answer.equals("y") || answer.equals("yes"))
-            return true;
-        return false;
+    public static void retry() {
+        println("Riprova con un numero tra quelli mostrati.");
     }
-*/
+
     public static void println(String toPrint) {
         System.out.println(toPrint);
         System.out.flush();
@@ -78,5 +91,10 @@ public final class IOManager {
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    public static void waitKey() {
+        print("Premi un tasto per continuare...");
+        getString();
     }
 }
