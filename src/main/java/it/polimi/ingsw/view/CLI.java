@@ -9,7 +9,6 @@ public class CLI implements View {
     private VGame game;
     private static VSettings settings;
     private VSettings tempSettings;
-    private static String Sn = "[S/n]";
 
     public static void main(String[] args) {
         CLI cli = new CLI();
@@ -25,8 +24,18 @@ public class CLI implements View {
         while(this.chooser(this.menu()));
     }
 
+    public VMove askMove(VPlayer player) {
+        return player.askMove();
+    }
+    public VMove reAskMove(VPlayer player) {
+        println("La mossa non è valida. Fai ritenta una mossa valida.");
+        return player.askMove();
+    }
+
     public void updateState(VGame game) {
         this.game = game;
+        clearScreen();
+        println(this.game.toString());
     }
     public VMove move(VDice dice, VCoordinates xy) { // Add toolcard here
         return new VMove(dice, xy);

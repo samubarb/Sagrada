@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 public final class IOManager {
     public final static String newline = "\n";
+    public static String Sn = "[S/n]";
 
     public static String fileToString(String filePath)
     {

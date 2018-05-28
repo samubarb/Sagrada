@@ -8,8 +8,11 @@ public interface View {
 
 
     /* Server to Client requests */
-    VMove move(VDice dice, VCoordinates xy);
     void setTurn(VPlayer player);
+
+    /* Moves handling */
+    VMove askMove(VPlayer player); // use by the server to interrogate the client and let the user input his move
+    VMove reAskMove(VPlayer player); // in case of a bad placement, send an error message and re-ask a new move
 
     // new user to sign in
     String askNewUsername() throws UsernameTooShortException;

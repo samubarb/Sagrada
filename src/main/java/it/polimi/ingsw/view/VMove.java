@@ -19,16 +19,18 @@ public class VMove {
     public VMove(VToolCard tool) {
         this.tool = tool;
     }
-
     public VDice getDice() {
         return dice;
     }
-
     public VCoordinates getXY() {
         return xy;
     }
-
     public VToolCard getTool() {
         return tool;
+    }
+
+    @Override
+    public String toString() {
+        return "Mossa:\n    dado " + this.dice.toString() + "\n    posizione " + this. xy.toString();
     }
 }
