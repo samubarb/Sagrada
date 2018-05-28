@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Game;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,6 +17,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class ServerLauncher {
     public static final int MAXPLAYER = 4;
+    public static final int MINPLAYERS = 2;
+    public static  final int TIMETOWAITINROOM = 60;
+    public static final int START_IMMEDIATELY = 0;
+    private Timer mainTimer;
 
 
     /**
@@ -151,6 +156,7 @@ public class ServerLauncher {
                 //reconnection of already registered player
                 for (User user : offlineNicknames) {
                     if (user.getUsername().equals(username)) {
+
                         this.nicknames.add(new User(username, clientPlayer));
                         this.offlineNicknames.remove(user);
                         try {
@@ -166,6 +172,9 @@ public class ServerLauncher {
                     }
                 }
             } else if(nicknames.size()>0) {
+                if(nicknames.size()==2){
+                    startCountDownTimer(TIMETOWAITINROOM);
+                }
                 for (User user : nicknames) {
                     if (user.getUsername() .equals(username)) {
                         try {
@@ -189,6 +198,13 @@ public class ServerLauncher {
                 return false;
             }
             nicknames.add(new User(username, clientPlayer));
+            if (nicknames.size() == MAXPLAYER) {
+                //canJoin = false;
+                cancelTimer();
+                startCountDownTimer(START_IMMEDIATELY);
+            } else if (nicknames.size() == MINPLAYERS) {
+                startCountDownTimer(TIMETOWAITINROOM);
+            }
             return true;
         }
     }
@@ -202,5 +218,21 @@ public class ServerLauncher {
         }
 
         return false;
+    }
+
+    public void getClientInterface(String username){
+
+    }
+
+    private void startCountDownTimer(long waitingTime) {
+        mainTimer = new Timer();
+        //mainTimer.schedule(new GameHandler().startGame(), waitingTime);
+    }
+
+    private void cancelTimer() {
+        if (mainTimer != null) {
+            mainTimer.cancel();
+            mainTimer.purge();
+        }
     }
 }
