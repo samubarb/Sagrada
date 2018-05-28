@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.Server;
 
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.client.ClientLauncher;
+import it.polimi.ingsw.controller.client.rmiClient.RMIClientLauncher;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class User implements Serializable {
     }
     public User(){
         this.username="dacco";
-        this.playerInterface = new ClientLauncher();
+        this.playerInterface = new RMIClientLauncher();
     }
 
     public String getUsername() {

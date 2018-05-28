@@ -14,4 +14,5 @@ public interface PlayerInterface extends Remote, Serializable {
     public void notifyConnection (String username) throws RemoteException;
     public void printaaa (String string) throws RemoteException;
     public void onRegister(String string) throws  RemoteException;
+    public void setTurn(boolean isMyTurn) throws  RemoteException;
 }
