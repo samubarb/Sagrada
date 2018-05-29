@@ -270,7 +270,7 @@ public class ServerLauncher {
             //notifyWinner();
         }
 
-        public void startTurn(PlayerInterface playerInterface, Player player){
+        public void startTurn(PlayerInterface playerInterface, Player player){ /*
             playerInterface.setMyTurn(true);
             turnTimer.startTimer(TURNTIME);
             //start turn timer;
@@ -285,7 +285,7 @@ public class ServerLauncher {
 
         }
 
-        public void getDiceAndPlace(PlayerInterface playerInterface, Player player){
+        public void getDiceAndPlace(PlayerInterface playerInterface, Player player){ /*
             int position = playerInterface.getDiceToBePlaced();
             player.setChosenNut(game.getDiceFromCurrentDice(position));
             Coordinates coordinates = playerInterface.getDiceFinalPosition();
@@ -300,7 +300,7 @@ public class ServerLauncher {
             } catch (BusyPositionException e) {
                 e.printStackTrace();
             }
-            return;
+            return;*/
         }
 
         public void endturn(){
@@ -308,7 +308,7 @@ public class ServerLauncher {
 
         }
 
-        void startTimer(long moveWaitingTime){
+        void startTimer(long moveWaitingTime){ /*
             int time = (int)(moveWaitingTime/1000);
             countDownLatch = new CountDownLatch(time);
             timer.scheduleAtFixedRate(new TimeCountDown(), 1000, 1000);
@@ -316,18 +316,18 @@ public class ServerLauncher {
                 countDownLatch.await();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-            }
+            }*/
         }
 
         /**
          * This method stops the timer
          */
-        /*package-local*/ void stopTimer(){
+        /*package-local*/ void stopTimer(){ /*
             synchronized (object){
                 resetTimer();
                 while (countDownLatch.getCount() > 0)
                     countDownLatch.countDown();
-            }
+            }*/
         }
     }
 

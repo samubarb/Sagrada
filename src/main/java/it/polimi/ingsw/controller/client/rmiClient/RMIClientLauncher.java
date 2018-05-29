@@ -265,6 +265,6 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public int getDiceToBePlaced() throws RemoteException {
-
+        return 0;
     }
 }

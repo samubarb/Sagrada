@@ -1,14 +1,8 @@
 package it.polimi.ingsw.controller.Server;
 
 import it.polimi.ingsw.controller.Adapter;
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Coordinates;
-import it.polimi.ingsw.model.Dice;
-import it.polimi.ingsw.model.WindowPattern;
-import it.polimi.ingsw.view.VColor;
-import it.polimi.ingsw.view.VCoordinates;
-import it.polimi.ingsw.view.VDice;
-import it.polimi.ingsw.view.VWindowPattern;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.view.*;
 import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -26,7 +20,7 @@ public final class AdapterCLI implements Adapter {
                     vPattern.setConstraint(diceToView(pattern.getDicePosition(xy)), coordinatesToView(xy)); // from model to Vpattern constraints
                 } catch (ConstraintNotValidException e) {
                     println("Qualcosa è andato storto.");
-                    println("Un vincolo del pattern non è corretto (solo colore oppure solo numero)");
+                    println("Un vincolo del pattern non è corretto (solo colore OPPURE solo numero)");
                     e.printStackTrace();
                     System.exit(1);
                 }
@@ -34,9 +28,15 @@ public final class AdapterCLI implements Adapter {
         return vPattern;
     }
 
-
+    public VFrame frameToView(Frame frame) {
+        return new VFrame();
+    }
 
     public VDice diceToView(Dice dice) {
+        if (dice == null)
+            return null;
+        if (dice.getValue() == 0 && dice.getColor() == Color.UNCOLORED)
+            return null;
         return new VDice(dice.getValue(), colorToView(dice.getColor()));
     }
 
