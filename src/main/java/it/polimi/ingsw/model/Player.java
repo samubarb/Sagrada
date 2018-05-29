@@ -221,7 +221,7 @@ public class Player implements Serializable{
             throw new WindowPatternColorException();
         if(!checkWindowPatternValueRestriction(dice,position))
             throw new WindowPatternValueException();
-        if(!checkAdjacentDice(dice,position)&&firstDice)
+        if(!checkAdjacentDice(dice,position)&&!firstDice)
             throw new AdjacentDiceException();
         if(!checkFrameValueAndColorRestriction(dice,position))
             throw new FrameValueAndColorException();
