@@ -299,7 +299,6 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     @Override
     public int getDiceToBePlaced() throws RemoteException {
         println("Array da cui scegliere");
-
         println(new AdapterCLI().currentDiceToView(game.getCurrentDice()).toString());
         return view.askDice();
 
@@ -316,5 +315,14 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     @Override
     public void setClientGame(Game game) throws RemoteException {
         this.setGame(game);
+    }
+
+    @Override
+    public void printPlayersFrame() throws RemoteException {
+        for(Player player: game.getPlayers()){
+            println(player.getName());
+            println(new AdapterCLI().frameToView(game.getPlayerByUsername(player.getName()).getFrame()).toString());
+            println(new AdapterCLI().patternToView(game.getPlayerByUsername(player.getName()).getWindowPattern()).toString());
+        }
     }
 }
