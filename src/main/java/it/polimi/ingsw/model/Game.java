@@ -251,10 +251,12 @@ public class Game implements Serializable{
     }
     public void nextRound(){
         Dice lastDice=new Dice();
-        for(int i=0;i<currentDice.length;i++)
-            if(currentDice[i].getColor()!=Color.UNCOLORED)
-                lastDice=currentDice[i];
-        roundTrack[round-1]=lastDice;
+        if(round!=0) {
+            for (int i = 0; i < currentDice.length; i++)
+                if (currentDice[i].getColor() != Color.UNCOLORED)
+                    lastDice = currentDice[i];
+            roundTrack[round - 1] = lastDice;
+        }
         round++;
         setNewRolledDice(round);
         setTurnOrder();
