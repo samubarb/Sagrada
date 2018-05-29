@@ -11,4 +11,8 @@ public interface Adapter {
     VCoordinates coordinatesToView(Coordinates xy);
     VDice diceToView(Dice dice);
     Coordinates coordinatesToModel(VCoordinates xy);
+    //VPlayer playerToView(Player player);
+    VCurrentDice currentDiceToView(Dice[] currentDice);
+
+
 }

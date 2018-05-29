@@ -62,29 +62,39 @@ public final class AdapterCLI implements Adapter {
         return new Coordinates(x, y);
     }
 
+    /*
+    public VPlayer playerToView(Player player) {
+        VPlayer vPlayer = new VPlayer(player.getName());
+        vPlayer.
+    }
+    */
+
+    public VCurrentDice currentDiceToView(Dice[] currentDice) {
+        VCurrentDice vCurrentDice = new VCurrentDice(currentDice.length);
+        for (int i = 0; i < currentDice.length; i++) {
+            vCurrentDice.add(diceToView(currentDice[i]), i);
+        }
+        return vCurrentDice;
+    }
+
     public VColor colorToView(Color color) {
         VColor vc = VColor.RESET;
         switch (color) {
             case RED:
                 vc = VColor.RED;
                 break;
-
             case GREEN:
                 vc = VColor.GREEN;
                 break;
-
             case BLUE:
                 vc = VColor.BLUE;
                 break;
-
             case PURPLE:
                 vc = VColor.PURPLE;
                 break;
-
             case YELLOW:
                 vc = VColor.YELLOW;
                 break;
-
             case UNCOLORED:
                 vc = VColor.RESET;
                 break;

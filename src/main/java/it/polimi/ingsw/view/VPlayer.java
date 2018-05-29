@@ -29,6 +29,8 @@ public class VPlayer {
     public VWindowPattern getWpattern() { return this.wpattern; }
     public VFrame getFrame() { return this.frame; }
 
+    // public
+
     public VMove askMove() {
         println("È il tuo turno " + this.color.toString() + this.name + VColor.RESET);
         println("Vuoi usare una ToolCard?" + Sn);
