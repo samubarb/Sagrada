@@ -1,12 +1,17 @@
 package it.polimi.ingsw.controller.client.rmiClient;
 
+import it.polimi.ingsw.controller.Adapter;
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.RMIApi.ServerInterface;
+import it.polimi.ingsw.controller.Server.AdapterCLI;
 import it.polimi.ingsw.controller.Server.Socket.Connect;
 import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.controller.client.ClientLauncher;
+import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.view.CLI;
+import it.polimi.ingsw.view.View;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -15,6 +20,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 import java.util.Timer;
+
+import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class RMIClientLauncher implements  PlayerInterface, Serializable {
     public static final String RMI_SERVER_INTERFACE = "ServerInterface";
@@ -34,6 +41,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     private static Registry clientRegistry;
     private static Registry serverRegistry;
     private static Game game;
+    private static View view;
 
     //debug timer
     static int interval = 7;
@@ -41,7 +49,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     static Connect client;
 
     public void startRMIClient(){
-
+        view = new CLI();
         input = new Scanner(System.in);
         address = getIpServer(input);
         port = getPortServer(input);
@@ -278,13 +286,31 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     }
 
     @Override
+    public void notifyTurn(String username) throws RemoteException {
+        System.out.println("è il turno di:"+username);
+    }
+
+    @Override
     public void setMyTurn(boolean isMyTurn) throws RemoteException {
+        System.out.println("è il tuo turno");
         this.setIsMyTurn(isMyTurn);
     }
 
     @Override
     public int getDiceToBePlaced() throws RemoteException {
-        return 0;
+        println("Array da cui scegliere");
+
+        println(new AdapterCLI().currentDiceToView(game.getCurrentDice()).toString());
+        return view.askDice();
+
+    }
+
+    @Override
+    public Coordinates getDiceFinalPosition() throws RemoteException {
+        println(new AdapterCLI().frameToView(game.getPlayerByUsername(username).getFrame()).toString());
+        println(new AdapterCLI().patternToView(game.getPlayerByUsername(username).getWindowPattern()).toString());
+        return new AdapterCLI().coordinatesToModel(view.askCoordinates());
+               // new Coordinates(0,2);
     }
 
     @Override

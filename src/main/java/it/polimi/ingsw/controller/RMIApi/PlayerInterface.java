@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.RMIApi;
 
 import it.polimi.ingsw.controller.Server.User;
+import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Dice;
 import it.polimi.ingsw.model.Game;
 
@@ -14,9 +15,11 @@ public interface PlayerInterface extends Remote, Serializable {
     public void notifyDisconnection(User user) throws  RemoteException;
     public void notifyReconnection(User user) throws  RemoteException;
     public void notifyConnection (String username) throws RemoteException;
+    public void notifyTurn (String username) throws RemoteException;
     public void printaaa (String string) throws RemoteException;
     public void onRegister(String string) throws  RemoteException;
     public void setMyTurn(boolean isMyTurn) throws  RemoteException;
     public int getDiceToBePlaced() throws  RemoteException;
+    public Coordinates getDiceFinalPosition() throws RemoteException;
     public void setClientGame(Game game) throws  RemoteException;
 }

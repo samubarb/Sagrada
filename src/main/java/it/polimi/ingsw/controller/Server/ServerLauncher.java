@@ -7,10 +7,7 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameConfigurator;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.exceptions.BusyPositionException;
-import it.polimi.ingsw.model.exceptions.FrameValueAndColorException;
-import it.polimi.ingsw.model.exceptions.WindowPatternColorException;
-import it.polimi.ingsw.model.exceptions.WindowPatternValueException;
+import it.polimi.ingsw.model.exceptions.*;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -27,17 +24,18 @@ import java.util.concurrent.TimeUnit;
 public class ServerLauncher {
     public static final int MAXPLAYER = 4;
     public static final int MINPLAYERS = 2;
-    public static final long TIMETOWAITINROOM = 60;
+    public static final long TIMETOWAITINROOM = 5000;
     public static final long START_IMMEDIATELY = 0;
     private Timer mainTimer;
     private int round;
-    private static final int MAXNUMBEROFROUND = 10;
+    private static final int MAXNUMBEROFROUND = 2;
     private static final long TURNTIME = 30;
     private Game game;
     private Timer turnTimer;
     private boolean canJoin;
     private CountDownLatch startLatch;
     private CountDownLatch turnLatch;
+    private static Player currentPlayer;
 
 
     /**
@@ -54,6 +52,7 @@ public class ServerLauncher {
      * Mutex object to handle concurrency between users during loginPlayer.
      */
     private static final Object LOGIN_MUTEX = new Object();
+    private static final Object TURN_MUTEX = new Object();
 
 
     /**
@@ -85,6 +84,8 @@ public class ServerLauncher {
         //configure();
         startLatch = new CountDownLatch(1);
         game = new Game();
+        turnLatch = new CountDownLatch(1);
+        turnTimer = new Timer();
     }
 
 
@@ -190,9 +191,6 @@ public class ServerLauncher {
                     }
                 }
             } else if (nicknames.size() > 0) {
-                if (nicknames.size() == 2) {
-                    startCountDownTimer(TIMETOWAITINROOM);
-                }
                 for (User user : nicknames) {
                     if (user.getUsername().equals(username)) {
                         try {
@@ -220,7 +218,8 @@ public class ServerLauncher {
                 //canJoin = false;
                 cancelTimer();
                 startCountDownTimer(START_IMMEDIATELY);
-            } else if (nicknames.size() == MINPLAYERS) {
+            }
+            else if (nicknames.size() == 2) {
                 startCountDownTimer(TIMETOWAITINROOM);
             }
             return true;
@@ -262,17 +261,26 @@ public class ServerLauncher {
          */
         @Override
         public void run() {
+            System.out.println("avviando il gioco");
             closeRoomSafely();
-            //createGameSession();
+            System.out.println("login state closed");
+            createGameSession();
+            System.out.println("creata la game session");
             dispatchGameSession();
+            System.out.println("ldistribuita la game session");
             //configureGame();
             while (game.getRound() <= MAXNUMBEROFROUND) {
-                Player currentPlayer = game.getCurrentPlayer();
+                currentPlayer = game.getCurrentPlayer();
                 String currentPlayerName = currentPlayer.getName();
                 for (User user : serverLauncher.getNicknames()) {
                     if (user.getUsername().equals(currentPlayer.getName())) {
-
+                        try {
+                            user.getPlayerInterface().notifyTurn(user.getUsername());
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                         startTurn(user.getPlayerInterface(), currentPlayer);
+                        updateGameSession();
                     }
                 }
             }
@@ -281,21 +289,23 @@ public class ServerLauncher {
         }
 
         public void startTurn(PlayerInterface playerInterface, Player player) {
-            try {
-                playerInterface.setMyTurn(true);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-            startTurnCountDown((int)TURNTIME);
-            //start turn timer;
-            getDiceAndPlace(playerInterface, player);
-            //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
+            synchronized (TURN_MUTEX) {
+                try {
+                    playerInterface.setMyTurn(true);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                //startTurnCountDown((int)TURNTIME);
+                //start turn timer;
+                getDiceAndPlace(playerInterface, player);
+                //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
         /*
         if cartautensile usa cartautensile chiede cosa vuole la carta utensile se serve poi richiede
         if posiziona dado posiziona dado poi richiede IL SOLO DA IMPLEMENTARE dopo non richiede ma termina il turno
         if nulla end turn
          */
-            endturn();
+                endturn();
+            }
 
         }
 
@@ -307,7 +317,13 @@ public class ServerLauncher {
                 e.printStackTrace();
             }
             player.setChosenNut(game.getDiceFromCurrentDice(position));
-            /*Coordinates coordinates = playerInterface.getDiceFinalPosition();
+            Coordinates coordinates = null;
+            try {
+                coordinates = playerInterface.getDiceFinalPosition();
+
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             try {
                 player.positionDice(player.getChosenNut(), coordinates);
             } catch (WindowPatternColorException e) {
@@ -318,7 +334,9 @@ public class ServerLauncher {
                 e.printStackTrace();
             } catch (BusyPositionException e) {
                 e.printStackTrace();
-            }*/
+            } catch (AdjacentDiceException e) {
+                e.printStackTrace();
+            }
             return;
         }
 
@@ -341,6 +359,16 @@ public class ServerLauncher {
             new GameConfigurator(game);
 
         }
+        private void updateGameSession(){
+            for(User user : nicknames){
+                try{
+                    user.getPlayerInterface().setClientGame(game);
+                }
+                catch(RemoteException e){
+
+                }
+            }
+        }
 
         private void dispatchGameSession() {
             //Server.debug("[ROOM] Game ready, dispatching base game to all players");
@@ -355,7 +383,6 @@ public class ServerLauncher {
 
         public void startTurnCountDown(int MAXTIMETURN) {
             turnLatch = new CountDownLatch(MAXTIMETURN);
-
             turnTimer.scheduleAtFixedRate(new TurnCountDownTask(), 1000, 1000);
             try {
                 turnLatch.await();
@@ -365,9 +392,21 @@ public class ServerLauncher {
             }
         }
         private void cancelTurnTimer() {
-            if (turnTimer != null) {
-                turnTimer.cancel();
-                turnTimer.purge();
+            synchronized (TURN_MUTEX) {
+                if (turnTimer != null) {
+                    turnTimer.cancel();
+                    turnTimer.purge();
+                }
+            }
+        }
+
+        private void notifyAllTurn(String username){
+            for(User user : nicknames){
+                try {
+                    user.getPlayerInterface().notifyTurn(username);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -377,16 +416,16 @@ public class ServerLauncher {
          */
         @Override
         public void run() {
-            //synchronized (/*TURN_MUTEX*/) {
+            synchronized (TURN_MUTEX) {
                 if (turnLatch.getCount() > 0) {
-                    onUpdateCountdown((int) turnLatch.getCount() - 1);
+                    //onUpdateCountdown((int) turnLatch.getCount() - 1);
                     if (turnLatch.getCount() == 1) {
                         turnTimer.cancel();
                         turnTimer.purge();
                     }
                     turnLatch.countDown();
                 }
-           // }
+            }
         }
 
         public void onUpdateCountdown(int remainingTime){
