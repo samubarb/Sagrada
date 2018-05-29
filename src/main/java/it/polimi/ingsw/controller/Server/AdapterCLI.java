@@ -49,10 +49,17 @@ public final class AdapterCLI implements Adapter {
 
 
     public VCoordinates coordinatesToView(Coordinates xy) {
-        int x,y;
+        int x, y;
         x = xy.getX() + 1;
         y = xy.getY() + 1;
         return new VCoordinates(x, y);
+    }
+
+    public Coordinates coordinatesToModel(VCoordinates xy) {
+        int x, y;
+        x = xy.getX() - 1;
+        y = xy.getY() - 1;
+        return new Coordinates(x, y);
     }
 
     public VColor colorToView(Color color) {
