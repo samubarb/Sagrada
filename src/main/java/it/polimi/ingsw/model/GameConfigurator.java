@@ -57,8 +57,6 @@ public class GameConfigurator {
         WindowPattern virtus=new WindowPattern(5,"Virtus",frame);
         return virtus;
 
-        return new WindowPattern(5,"Virtus",frame);
-
         // game.addWindowPatternCard(virtus,0);
     }
 
