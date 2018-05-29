@@ -25,15 +25,12 @@ public class CLI implements View {
         while(this.chooser(this.menu()));
     }
 
-    public int askDice(VCurrentDice dice) {
-        int value;
-
-        println(dice.toString()); // visualize the dice on the table
-
+    public int askDice() {
+        int value = 0;
         do {
             println("Quale dei dadi vuoi pescare? Inserisci il numero corrispondente");
             value = getInt();
-        } while (value <= 0 || value >= dice.length());
+        } while (value <= 0 /*|| value > */);
 
         return value - 1;
     }
