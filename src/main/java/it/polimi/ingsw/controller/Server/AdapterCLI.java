@@ -30,7 +30,9 @@ public class AdapterCLI implements Adapter {
 /*
     public VDice DiceToView(Dice dice) {
         VColor vc;
-        VCoordinates xy;
+        int value = dice.getValue();
+
+        }
 
 
 
@@ -41,9 +43,35 @@ public class AdapterCLI implements Adapter {
 
     public VCoordinates CoordinatesToView(Coordinates xy) {
         // coordinates adaptation?
-    }
+    }*/
 
     public VColor ColorToView(Color color) {
-        //shitch-case on colors
-    }*/
+        VColor vc = VColor.RESET;
+        switch (color) {
+            case RED:
+                vc = VColor.RED;
+                break;
+
+            case GREEN:
+                vc = VColor.GREEN;
+                break;
+
+            case BLUE:
+                vc = VColor.BLUE;
+                break;
+
+            case PURPLE:
+                vc = VColor.PURPLE;
+                break;
+
+            case YELLOW:
+                vc = VColor.YELLOW;
+                break;
+
+            case UNCOLORED:
+                vc = VColor.RESET;
+                break;
+        }
+        return vc;
+    }
 }

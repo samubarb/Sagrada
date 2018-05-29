@@ -20,11 +20,16 @@ public class GameConfigurator {
 
     public GameConfigurator(Game game) {
         this.game = game;
+        game.configureGame();
     }
 
     public void createWindowPatternCards(){
         createWPCViaLux();
         createWPCVirtus();
+        createWPCauroraeMgnificus();
+        createWPCBellesguard();
+        createWPCKaleidoscopicDream();
+        createWPCsunCatcher();
     }
 
 
