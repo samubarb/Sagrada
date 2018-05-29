@@ -30,7 +30,7 @@ public class CLI implements View {
         do {
             println("Quale dei dadi vuoi pescare? Inserisci il numero corrispondente");
             value = getInt();
-        } while (value <= 0 /*|| value > LIMITE_QUI*/);
+        } while (value <= 0 /*|| value > */);
 
         return value - 1;
     }
