@@ -51,7 +51,12 @@ public class VWindowPattern {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder(this.name + newline);
+        string.append("    ");
+        for (int i = 0; i < 5; i++)
+            string.append(" " + (1 + i) + "   ");
+        string.append(newline);
         for (int j = 0; j < 4; j++) {
+            string.append(" " + (j+1) + " ");
             for (int i = 0; i < 5; i++) {
                 string.append("|");
                 if (this.pattern[i][j] == null) {

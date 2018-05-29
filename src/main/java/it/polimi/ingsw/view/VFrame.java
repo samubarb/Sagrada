@@ -3,6 +3,8 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.view.exceptions.IllegalCoordinatesException;
 
+import static it.polimi.ingsw.inputoutput.IOManager.newline;
+
 public class VFrame {
     VDice[][] frame;
 
@@ -21,7 +23,12 @@ public class VFrame {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder("VFrame\n");
+        string.append("    ");
+        for (int i = 0; i < 5; i++)
+            string.append(" " + (1 + i) + "   ");
+        string.append(newline);
         for (int j = 0; j < 4; j++) {
+            string.append(" " + (j+1) + " ");
             for (int i = 0; i < 5; i++) {
                 string.append("|");
                 if (this.frame[i][j] == null) {
