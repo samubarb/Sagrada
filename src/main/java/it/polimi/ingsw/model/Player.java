@@ -24,8 +24,17 @@ public class Player implements Serializable{
      */
 
     public Player() {
+
     }
 
+    public Player(String name) {
+        this.name = name;
+        this.color = Color.UNCOLORED;
+        this.frame = new Frame();
+        this.windowPattern = null;
+        this.privateObjective = new ArrayList<PrivateObjective>();
+        this.chosenNut=new Dice();
+    }
 
     public Player(String name, Color color) {
         this.name = name;
