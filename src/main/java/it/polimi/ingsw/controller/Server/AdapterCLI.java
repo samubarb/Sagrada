@@ -4,6 +4,8 @@ import it.polimi.ingsw.controller.Adapter;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.*;
 import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
+import it.polimi.ingsw.view.exceptions.InvalidPositionException;
+
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public final class AdapterCLI implements Adapter {
@@ -69,7 +71,7 @@ public final class AdapterCLI implements Adapter {
     }
     */
 
-    public VCurrentDice currentDiceToView(Dice[] currentDice) {
+    public VCurrentDice currentDiceToView(Dice[] currentDice) throws InvalidPositionException {
         VCurrentDice vCurrentDice = new VCurrentDice(currentDice.length);
         for (int i = 0; i < currentDice.length; i++) {
             vCurrentDice.add(diceToView(currentDice[i]), i);
