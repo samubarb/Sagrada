@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class ServerLauncher {
     public static final int MAXPLAYER = 4;
     public static final int MINPLAYERS = 2;
-    public static final long TIMETOWAITINROOM = 30000;
+    public static final long TIMETOWAITINROOM = 5000;
     public static final long START_IMMEDIATELY = 0;
     private Timer mainTimer;
     private int round;
@@ -279,6 +279,7 @@ public class ServerLauncher {
                         } catch (RemoteException e) {
                             e.printStackTrace();
                         }
+                        updateGameSession();
                         startTurn(user.getPlayerInterface(), currentPlayer);
                         updateGameSession();
                     }
