@@ -22,4 +22,5 @@ public interface PlayerInterface extends Remote, Serializable {
     public int getDiceToBePlaced() throws  RemoteException;
     public Coordinates getDiceFinalPosition() throws RemoteException;
     public void setClientGame(Game game) throws  RemoteException;
+    public void printPlayersFrame() throws  RemoteException;
 }

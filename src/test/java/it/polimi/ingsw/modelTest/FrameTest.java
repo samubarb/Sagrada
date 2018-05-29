@@ -1,9 +1,12 @@
 package it.polimi.ingsw.modelTest;
 
+import it.polimi.ingsw.controller.Server.AdapterCLI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.toolCards.TcFluxBrush;
 import org.junit.jupiter.api.Test;
 
+
+import static it.polimi.ingsw.inputoutput.IOManager.println;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,6 +25,8 @@ public class FrameTest {
         testFrame.setPositionDice(testDice4,1,1);
         Dice dice=new Dice(Color.RED,0);
         Dice dice2=new Dice(Color.UNCOLORED,3);
+        println(new AdapterCLI().frameToView(testFrame).toString());
+
         assertTrue(testFrame.getNumberOfDice(dice)==2);
         assertTrue(testFrame.getNumberOfDice(dice2)==2);
 
@@ -79,5 +84,21 @@ public class FrameTest {
         testFrame.setPositionDice(testDice4,1,0);
         assertFalse(testFrame.checkPositionDice(testDice2,new Coordinates(0,2)));
         assertTrue(testFrame.checkPositionDice(testDice2,new Coordinates(1,2)));
+    }
+
+    @Test
+    public void prova(){
+        Dice dice2=new Dice(Color.UNCOLORED,1);
+        Dice dice3=new Dice();
+        dice3=dice2;
+        dice2.setValue(3);
+        System.out.println(dice2.getValue());
+        System.out.println(dice3.getValue());
+        dice2.setValue(2);
+        System.out.println(dice2.getValue());
+        System.out.println(dice3.getValue());
+        dice2=new Dice();
+        System.out.println(dice2.getValue());
+        System.out.println(dice3.getValue());
     }
 }
