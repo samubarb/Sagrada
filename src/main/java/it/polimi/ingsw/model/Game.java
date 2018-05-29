@@ -155,6 +155,7 @@ public class Game implements Serializable{
     }
 
     public Dice getDiceFromCurrentDice(int position){
+        Dice fakeDice=new Dice();
         Dice diceToReturn=currentDice[position];
         currentDice[position]=new Dice();
         return diceToReturn;
