@@ -60,6 +60,7 @@ public class GameConfigurator implements Serializable {
         WindowPattern virtus=new WindowPattern(5,"Virtus",frame);
         return virtus;
 
+        // game.addWindowPatternCard(virtus,0);
     }
 
     public WindowPattern createWPCViaLux(){
