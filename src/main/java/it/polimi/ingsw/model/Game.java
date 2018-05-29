@@ -287,6 +287,13 @@ public class Game implements Serializable{
         return currentPlayer;
     }
 
+    public Player getPlayerByUsername(String nome){
+        for(Player player:turnOrder)
+            if(player.getName().equals(nome))
+                return player;
+        return new Player();
+    }
+
 
 
 
