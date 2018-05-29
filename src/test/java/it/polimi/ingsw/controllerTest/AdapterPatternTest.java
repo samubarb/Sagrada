@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.view.VWindowPattern;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class AdapterPatternTest {
@@ -14,9 +16,25 @@ public class AdapterPatternTest {
     public void printPatternTest() {
         GameConfigurator gameConf = new GameConfigurator(new Game());
         AdapterCLI adapter = new AdapterCLI();
-        WindowPattern virtus = gameConf.createWPCVirtus();
+        ArrayList<WindowPattern> patterns = new ArrayList<WindowPattern>();
+        patterns.add(gameConf.createWPCVirtus());
+        patterns.add(gameConf.createWPCauroraeMgnificus());
+        patterns.add(gameConf.createWPCauroraSagradis());
+        patterns.add(gameConf.createWPCbatllo());
+        patterns.add(gameConf.createWPCBellesguard());
+        patterns.add(gameConf.createWPCfirmitas());
+        patterns.add(gameConf.createWPCindustria());
+        patterns.add(gameConf.createWPCKaleidoscopicDream());
+        patterns.add(gameConf.createWPCshadowThief());
+        patterns.add(gameConf.createWPCsunCatcher());
+        patterns.add(gameConf.createWPCsymphonyOfLight());
+        patterns.add(gameConf.createWPCViaLux());
 
-        VWindowPattern vPattern = adapter.patternToView(virtus);
-        println(vPattern.toString());
+        for (WindowPattern wp : patterns) {
+            VWindowPattern vPattern = adapter.patternToView(wp);
+            println(vPattern.toString());
+        }
     }
+
+
 }
