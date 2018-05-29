@@ -363,6 +363,7 @@ public class ServerLauncher {
             for(User user : nicknames){
                 try{
                     user.getPlayerInterface().setClientGame(game);
+                    user.getPlayerInterface().printPlayersFrame();
                 }
                 catch(RemoteException e){
 
@@ -375,6 +376,7 @@ public class ServerLauncher {
             for (User user : getNicknames()) {
                 try {
                     user.getPlayerInterface().setClientGame(game);
+
                 } catch (RemoteException e) {
                     //Server.error("problem with set player game", e);
                 }
