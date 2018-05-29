@@ -25,7 +25,7 @@ public class GameConfigurator {
 
     public void createWindowPatternCards(){
         createWPCViaLux();
-        createWPCVirtus();
+        game.addWindowPatternCard(createWPCVirtus(), 0);
         createWPCauroraeMgnificus();
         createWPCBellesguard();
         createWPCKaleidoscopicDream();
@@ -33,7 +33,7 @@ public class GameConfigurator {
     }
 
 
-    public void createWPCVirtus(){
+    public WindowPattern createWPCVirtus(){
         Frame frame=new Frame();
         frame.setPositionDice(dice4,0,0);
         frame.setPositionDice(dice2,0,2);
@@ -48,9 +48,10 @@ public class GameConfigurator {
         frame.setPositionDice(dice5,3,0);
         frame.setPositionDice(greenDice,3,1);
         frame.setPositionDice(dice1,3,2);
-        WindowPattern virtus=new WindowPattern(5,"Virtus",frame);
-        game.addWindowPatternCard(virtus,0);
 
+        return new WindowPattern(5,"Virtus",frame);
+
+        // game.addWindowPatternCard(virtus,0);
     }
 
     public void createWPCViaLux(){
