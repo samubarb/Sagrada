@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.RMIApi;
 
 import it.polimi.ingsw.controller.Server.User;
+import it.polimi.ingsw.model.Dice;
 
 import java.io.Serializable;
 import java.rmi.Remote;
@@ -14,5 +15,6 @@ public interface PlayerInterface extends Remote, Serializable {
     public void notifyConnection (String username) throws RemoteException;
     public void printaaa (String string) throws RemoteException;
     public void onRegister(String string) throws  RemoteException;
-    public void setTurn(boolean isMyTurn) throws  RemoteException;
+    public void setMyTurn(boolean isMyTurn) throws  RemoteException;
+    public int getDiceToBePlaced() throws  RemoteException;
 }
