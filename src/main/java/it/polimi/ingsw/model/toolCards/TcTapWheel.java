@@ -30,7 +30,7 @@ public class TcTapWheel extends ToolCard implements iTool {
     }
 
     @Override
-    public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) throws FrameValueAndColorException, WindowPatternValueException, WindowPatternColorException, BusyPositionException {
+    public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) throws FrameValueAndColorException, WindowPatternValueException, WindowPatternColorException, BusyPositionException,AdjacentDiceException{
        if(!player.getFrame().getDice(initialPositionFirstNut).getColor().equals(player.getFrame().getDice(initialPositionSecondNut).getColor())||
           !player.getCurrentGame().checkColorDice(player.getFrame().getDice(initialPositionFirstNut)))
            throw new IllegalArgumentException();

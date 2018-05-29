@@ -43,7 +43,7 @@ public class TcLathekin extends ToolCard implements iTool {
      * @throws BusyPositionException
      */
     @Override
-    public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) throws FrameValueAndColorException, WindowPatternValueException, WindowPatternColorException, BusyPositionException {
+    public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) throws FrameValueAndColorException, WindowPatternValueException, WindowPatternColorException, BusyPositionException,AdjacentDiceException {
         Dice dice=new Dice();
         if(finalPositionFirstNut.equals(initialPositionSecondNut)){
             dice=player.getFrame().getDice(initialPositionSecondNut);

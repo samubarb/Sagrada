@@ -11,6 +11,6 @@ public interface iTool {
     public void useTool (Player player,Coordinates coordinates);
     public void useTool(Player player,Action action)throws NutChosenWrongException;
     public void useTool(Player player, Coordinates initialPosition,Coordinates finalPosition);
-    public void useTool(Player player,Coordinates initialPositionFirstNut,Coordinates finalPositionFirstNut,Coordinates initialPositionSecondNut,Coordinates finalPositionSecondNut) throws FrameValueAndColorException, WindowPatternValueException, WindowPatternColorException, BusyPositionException;
+    public void useTool(Player player,Coordinates initialPositionFirstNut,Coordinates finalPositionFirstNut,Coordinates initialPositionSecondNut,Coordinates finalPositionSecondNut) throws FrameValueAndColorException, WindowPatternValueException, WindowPatternColorException, BusyPositionException, AdjacentDiceException;
 
 }
