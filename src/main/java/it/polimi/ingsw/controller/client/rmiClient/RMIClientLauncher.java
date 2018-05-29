@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.RMIApi.ServerInterface;
 import it.polimi.ingsw.controller.Server.Socket.Connect;
 import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.controller.client.ClientLauncher;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
 import java.io.Serializable;
@@ -32,6 +33,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     private static ClientLauncher clientLauncher;
     private static Registry clientRegistry;
     private static Registry serverRegistry;
+    private static Game game;
 
     //debug timer
     static int interval = 7;
@@ -126,6 +128,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
                 server.print("Problem with the comunication with the server"+ e);
             } catch (RemoteException e1) {
                 e1.printStackTrace();
+                System.out.println("errore remote");
             }
         }
     }
@@ -204,6 +207,22 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         RMIClientLauncher.isMyTurn = isMyTurn;
     }
 
+    public static boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public static void setGameStarted(boolean gameStarted) {
+        RMIClientLauncher.gameStarted = gameStarted;
+    }
+
+    public static Game getGame() {
+        return game;
+    }
+
+    public static void setGame(Game game) {
+        RMIClientLauncher.game = game;
+    }
+
     public static ClientLauncher getClientLauncher() {
         return clientLauncher;
     }
@@ -265,6 +284,11 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public int getDiceToBePlaced() throws RemoteException {
+        return 0;
+    }
 
+    @Override
+    public void setClientGame(Game game) throws RemoteException {
+        this.setGame(game);
     }
 }

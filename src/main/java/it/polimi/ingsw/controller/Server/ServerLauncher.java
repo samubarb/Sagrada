@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.Server.Rmi.rmiStartServer;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameConfigurator;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.BusyPositionException;
 import it.polimi.ingsw.model.exceptions.FrameValueAndColorException;
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class ServerLauncher {
     public static final int MAXPLAYER = 4;
     public static final int MINPLAYERS = 2;
-    public static  final long TIMETOWAITINROOM = 60;
+    public static final long TIMETOWAITINROOM = 60;
     public static final long START_IMMEDIATELY = 0;
     private Timer mainTimer;
     private int round;
@@ -34,6 +35,9 @@ public class ServerLauncher {
     private static final long TURNTIME = 30;
     private Game game;
     private Timer turnTimer;
+    private boolean canJoin;
+    private CountDownLatch startLatch;
+    private CountDownLatch turnLatch;
 
 
     /**
@@ -79,6 +83,8 @@ public class ServerLauncher {
         nicknames = new ArrayList<User>();
         offlineNicknames = new ArrayList<User>();
         //configure();
+        startLatch = new CountDownLatch(1);
+        game = new Game();
     }
 
 
@@ -119,7 +125,7 @@ public class ServerLauncher {
         return LOGIN_MUTEX;
     }
 
-    public void disableUser(User user){
+    public void disableUser(User user) {
         synchronized (LOGIN_MUTEX) {
             offlineNicknames.add(user);
             nicknames.remove(user);
@@ -127,7 +133,7 @@ public class ServerLauncher {
         }
     }
 
-    public void notifyDisconnection(User user){
+    public void notifyDisconnection(User user) {
         synchronized (LOGIN_MUTEX) {
             for (User username : nicknames) {
                 try {
@@ -139,7 +145,7 @@ public class ServerLauncher {
         }
     }
 
-    public void notifyReconnection(User user){
+    public void notifyReconnection(User user) {
         synchronized (LOGIN_MUTEX) {
             for (User username : nicknames) {
                 try {
@@ -164,7 +170,7 @@ public class ServerLauncher {
                 }
                 return false;
             }
-            if(this.offlineNicknames.size()>0) {
+            if (this.offlineNicknames.size() > 0) {
                 //reconnection of already registered player
                 for (User user : offlineNicknames) {
                     if (user.getUsername().equals(username)) {
@@ -172,8 +178,8 @@ public class ServerLauncher {
                         this.nicknames.add(new User(username, clientPlayer));
                         this.offlineNicknames.remove(user);
                         try {
-                            clientPlayer.onRegister("Welcome again reconnected user: "+username);
-                            System.out.println("User logged again: "+username);
+                            clientPlayer.onRegister("Welcome again reconnected user: " + username);
+                            System.out.println("User logged again: " + username);
                             //rmiServer.executeCheckConnectionThread();
 
                         } catch (RemoteException e) {
@@ -183,12 +189,12 @@ public class ServerLauncher {
                         return true;
                     }
                 }
-            } else if(nicknames.size()>0) {
-                if(nicknames.size()==2){
+            } else if (nicknames.size() > 0) {
+                if (nicknames.size() == 2) {
                     startCountDownTimer(TIMETOWAITINROOM);
                 }
                 for (User user : nicknames) {
-                    if (user.getUsername() .equals(username)) {
+                    if (user.getUsername().equals(username)) {
                         try {
                             clientPlayer.printaaa("Name already in use");
                         } catch (RemoteException e) {
@@ -201,7 +207,7 @@ public class ServerLauncher {
             try {
                 clientPlayer.onRegister("User logged as: " + username);
                 clientPlayer.onRegister("welcome");
-                for(User user: serverLauncher.getNicknames()){
+                for (User user : serverLauncher.getNicknames()) {
                     user.getPlayerInterface().notifyConnection(username);
                 }
                 System.out.println("User logged as: " + username);
@@ -221,9 +227,9 @@ public class ServerLauncher {
         }
     }
 
-    public boolean contains(String username, ArrayList<User> userArrayList){
-        for(User user : userArrayList){
-            if(user.getUsername().equals(username))
+    public boolean contains(String username, ArrayList<User> userArrayList) {
+        for (User user : userArrayList) {
+            if (user.getUsername().equals(username))
                 return true;
             else
                 return false;
@@ -232,7 +238,7 @@ public class ServerLauncher {
         return false;
     }
 
-    public void getClientInterface(String username){
+    public void getClientInterface(String username) {
 
     }
 
@@ -255,13 +261,17 @@ public class ServerLauncher {
          * Then start the game.
          */
         @Override
-        public void run(){
+        public void run() {
+            closeRoomSafely();
+            //createGameSession();
+            dispatchGameSession();
             //configureGame();
-            while(round<=MAXNUMBEROFROUND){
+            while (game.getRound() <= MAXNUMBEROFROUND) {
                 Player currentPlayer = game.getCurrentPlayer();
                 String currentPlayerName = currentPlayer.getName();
-                for(User user : serverLauncher.getNicknames()){
-                    if(user.getUsername().equals(currentPlayer.getName())){
+                for (User user : serverLauncher.getNicknames()) {
+                    if (user.getUsername().equals(currentPlayer.getName())) {
+
                         startTurn(user.getPlayerInterface(), currentPlayer);
                     }
                 }
@@ -270,9 +280,13 @@ public class ServerLauncher {
             //notifyWinner();
         }
 
-        public void startTurn(PlayerInterface playerInterface, Player player){
-            playerInterface.setMyTurn(true);
-            turnTimer.startTimer(TURNTIME);
+        public void startTurn(PlayerInterface playerInterface, Player player) {
+            try {
+                playerInterface.setMyTurn(true);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            startTurnCountDown((int)TURNTIME);
             //start turn timer;
             getDiceAndPlace(playerInterface, player);
             //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
@@ -285,10 +299,15 @@ public class ServerLauncher {
 
         }
 
-        public void getDiceAndPlace(PlayerInterface playerInterface, Player player){
-            int position = playerInterface.getDiceToBePlaced();
+        public void getDiceAndPlace(PlayerInterface playerInterface, Player player) {
+            int position = 0;
+            try {
+                position = playerInterface.getDiceToBePlaced();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             player.setChosenNut(game.getDiceFromCurrentDice(position));
-            Coordinates coordinates = playerInterface.getDiceFinalPosition();
+            /*Coordinates coordinates = playerInterface.getDiceFinalPosition();
             try {
                 player.positionDice(player.getChosenNut(), coordinates);
             } catch (WindowPatternColorException e) {
@@ -299,36 +318,107 @@ public class ServerLauncher {
                 e.printStackTrace();
             } catch (BusyPositionException e) {
                 e.printStackTrace();
-            }
+            }*/
             return;
         }
 
-        public void endturn(){
-            stopTimer();
+        public void endturn() {
+            cancelTurnTimer();
 
         }
 
-        void startTimer(long moveWaitingTime){
-            int time = (int)(moveWaitingTime/1000);
-            countDownLatch = new CountDownLatch(time);
-            timer.scheduleAtFixedRate(new TimeCountDown(), 1000, 1000);
+
+        private void closeRoomSafely() {
+            synchronized (LOGIN_MUTEX) {
+                canJoin = false;
+            }
+        }
+
+        private void createGameSession(){
+            for (User user: nicknames){
+                game.setAddPlayer(new Player(user.getUsername()));
+            }
+            new GameConfigurator(game);
+
+        }
+
+        private void dispatchGameSession() {
+            //Server.debug("[ROOM] Game ready, dispatching base game to all players");
+            for (User user : getNicknames()) {
+                try {
+                    user.getPlayerInterface().setClientGame(game);
+                } catch (RemoteException e) {
+                    //Server.error("problem with set player game", e);
+                }
+            }
+        }
+
+        public void startTurnCountDown(int MAXTIMETURN) {
+            turnLatch = new CountDownLatch(MAXTIMETURN);
+
+            turnTimer.scheduleAtFixedRate(new TurnCountDownTask(), 1000, 1000);
             try {
-                countDownLatch.await();
+                turnLatch.await();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                //Server.error(e);
             }
         }
-
+        private void cancelTurnTimer() {
+            if (turnTimer != null) {
+                turnTimer.cancel();
+                turnTimer.purge();
+            }
+        }
+    }
+    private class TurnCountDownTask extends TimerTask {
         /**
-         * This method stops the timer
+         * Code executed by the timer every seconds on a secondary thread.
          */
-        /*package-local*/ void stopTimer(){
-            synchronized (object){
-                resetTimer();
-                while (countDownLatch.getCount() > 0)
-                    countDownLatch.countDown();
-            }
+        @Override
+        public void run() {
+            //synchronized (/*TURN_MUTEX*/) {
+                if (turnLatch.getCount() > 0) {
+                    onUpdateCountdown((int) turnLatch.getCount() - 1);
+                    if (turnLatch.getCount() == 1) {
+                        turnTimer.cancel();
+                        turnTimer.purge();
+                    }
+                    turnLatch.countDown();
+                }
+           // }
         }
+
+        public void onUpdateCountdown(int remainingTime){
+            return;
+        }
+
+        /*
+         * This method verify every second if the player is connected If the
+         * player disconnect it will be setted isOnline as false and then
+         * notified to all players that the player went offline It takes as
+         * input the player to monitor and the remaining time of the timer
+         * It's a void method
+         *//*
+        public void onUpdateCountdown(String currentPlayer, int remainingTime) {
+            try {
+                for (Player player : players) {
+                    if (!(player.getName().equals(currentPlayer))) {
+                    } else {
+                        player.getPlayerInterface().onUpdateTurnCountdown(remainingTime);
+                    }
+                }
+            } catch (RemoteException e) {
+                Server.error("player disconnected", e);
+                for (Player player : players) {
+                    if (!(player.getName().equals(currentPlayer))) {
+                    } else {
+                        player.setOnline(false);
+                    }
+                }
+
+            }*/
     }
 
-    }
+
+}
