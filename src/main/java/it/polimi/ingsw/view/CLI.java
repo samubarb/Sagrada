@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.view.exceptions.IllegalCoordinatesException;
 import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
@@ -22,6 +23,46 @@ public class CLI implements View {
     public void startCLI() {
         this.splash();
         while(this.chooser(this.menu()));
+    }
+
+    public int askDice() {
+        int value = 0;
+        do {
+            println("Quale dei dadi vuoi pescare? Inserisci il numero corrispondente");
+            value = getInt();
+        } while (value <= 0 /*|| value > LIMITE_QUI*/);
+
+        return value;
+    }
+
+    public VCoordinates askCoordinates() {
+        println("Dove lo vuoi posizionare");
+        return askXy();
+    }
+
+    private VCoordinates askXy() {
+        boolean flag;
+        VCoordinates xy;
+
+        do {
+            flag = false;
+
+            print("Inserisci la coordinata X del piazzamento [1-5]: ");
+            int x = getInt();
+            print("Inserisci la coordinata Y del piazzamento [1-4]: ");
+            int y = getInt();
+
+            xy = new VCoordinates(x, y);
+
+            try {
+                xy.check();
+            } catch (IllegalCoordinatesException e) {
+                flag = true;
+                println("Coordinate non valide.");
+            }
+        } while (flag);
+
+        return xy;
     }
 
     public VMove askMove(VPlayer player) {
