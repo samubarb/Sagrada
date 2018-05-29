@@ -23,8 +23,11 @@ public class VCurrentDice {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
+
         for(VDice vd : this.dice)
-            string.append(vd.toString());
+            if (vd != null)
+                string.append(vd.toString());
+        else string.append("   ");
 
         string.append(newline);
 
