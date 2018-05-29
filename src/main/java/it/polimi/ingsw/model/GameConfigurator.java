@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public class GameConfigurator {
+import java.io.Serializable;
+
+public class GameConfigurator implements Serializable {
     public static final int DEFAUTL_VALUE = 0;
 
     private Game game;
@@ -21,6 +23,12 @@ public class GameConfigurator {
     public GameConfigurator(Game game) {
         this.game = game;
         game.configureGame();
+        createWindowPatternCards(game);
+        for(int i=0;i<game.getTurnOrder().length;i++){
+            game.getTurnOrder()[i].setWindowPattern(createWPCfirmitas());
+            game.getTurnOrder()[i].setCurrentGame(game);
+        }
+
     }
 
     public void createWindowPatternCards(Game game){
