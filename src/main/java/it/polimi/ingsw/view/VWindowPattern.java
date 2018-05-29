@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
+
 public class VWindowPattern {
     private String name;
     private int token;
@@ -9,6 +11,7 @@ public class VWindowPattern {
         this.pattern = new VDice[5][4];
     }
 
+    /*
     public void setConstraint(VColor color, VCoordinates xy) {
         this.pattern[xy.getX() - 1][xy.getY() - 1] = new VDice (0, color);
     }
@@ -16,6 +19,16 @@ public class VWindowPattern {
     public void setConstraint(int value, VCoordinates xy) {
         this.pattern[xy.getX() - 1][xy.getY() - 1] = new VDice (value, VColor.RESET);
     }
+    */
+
+    public void setConstraint(VDice dice, VCoordinates xy) throws ConstraintNotValidException {
+        if (dice.getValue() != 0 && dice.getColor() != VColor.RESET)
+            throw new ConstraintNotValidException();
+        if (dice.getValue() == 0 && dice.getColor() == VColor.RESET)
+            throw new ConstraintNotValidException();
+        this.pattern[xy.getX() - 1][xy.getY() - 1] = dice;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

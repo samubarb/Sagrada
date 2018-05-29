@@ -9,24 +9,32 @@ import it.polimi.ingsw.view.VColor;
 import it.polimi.ingsw.view.VCoordinates;
 import it.polimi.ingsw.view.VDice;
 import it.polimi.ingsw.view.VWindowPattern;
+import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
-public class AdapterCLI implements Adapter {
+public final class AdapterCLI implements Adapter {
 
     public VWindowPattern patternToView(WindowPattern pattern) {
         VWindowPattern vPattern = new VWindowPattern();
         vPattern.setName(pattern.getName());
         vPattern.setToken(pattern.getFavorTokenToAssign());
 
-        for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < 4; j++)
             for (int i = 0; i < 5; i++) {
-             // to finish
+                Coordinates xy = new Coordinates(i, j);
+                try {
+                    vPattern.setConstraint(diceToView(pattern.getDicePosition(xy)), coordinatesToView(xy)); // from model to Vpattern constraints
+                } catch (ConstraintNotValidException e) {
+                    println("Qualcosa è andato storto.");
+                    println("Un vincolo del pattern non è corretto (solo colore oppure solo numero)");
+                    e.printStackTrace();
+                    System.exit(1);
+                }
             }
-        }
-
-
-
         return vPattern;
     }
+
+
 
     public VDice diceToView(Dice dice) {
         return new VDice(dice.getValue(), colorToView(dice.getColor()));

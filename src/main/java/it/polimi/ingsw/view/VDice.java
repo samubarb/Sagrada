@@ -21,6 +21,14 @@ public class VDice {
                 this.color = color;
         }
 
+        public int getValue() {
+                return this.value;
+        }
+
+        public VColor getColor() {
+                return this.color;
+        }
+
         @Override
         public String toString() {
                 if (this.value == 0)
