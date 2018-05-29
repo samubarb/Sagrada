@@ -298,9 +298,9 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public int getDiceToBePlaced() throws RemoteException {
-        println("Array da cui scegliere");
-        println(new AdapterCLI().currentDiceToView(game.getCurrentDice()).toString());
-        return view.askDice();
+        //println("Array da cui scegliere");
+        //println(new AdapterCLI().currentDiceToView(game.getCurrentDice()).toString());
+        return view.askDice(new AdapterCLI().currentDiceToView(game.getCurrentDice()));
 
     }
 
