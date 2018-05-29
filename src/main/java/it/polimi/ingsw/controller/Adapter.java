@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.*;
+import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 
 public interface Adapter {
 
@@ -12,7 +13,7 @@ public interface Adapter {
     VDice diceToView(Dice dice);
     Coordinates coordinatesToModel(VCoordinates xy);
     //VPlayer playerToView(Player player);
-    VCurrentDice currentDiceToView(Dice[] currentDice);
+    VCurrentDice currentDiceToView(Dice[] currentDice) throws InvalidPositionException;
 
 
 }

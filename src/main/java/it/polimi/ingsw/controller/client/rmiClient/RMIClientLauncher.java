@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -299,7 +300,11 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     @Override
     public int getDiceToBePlaced() throws RemoteException {
         println("Array da cui scegliere");
-        println(new AdapterCLI().currentDiceToView(game.getCurrentDice()).toString());
+        try {
+            println(new AdapterCLI().currentDiceToView(game.getCurrentDice()).toString());
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
         return view.askDice();
 
     }

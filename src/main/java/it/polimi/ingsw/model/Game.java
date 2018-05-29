@@ -31,7 +31,7 @@ public class Game implements Serializable{
         this.toolCards = new ToolCard[12];
         this.publicObjectives = new PublicObjective[3];
         this.currentDice = null;
-        this.round=1;
+        this.round=0;
         this.roundTrack= new Dice[10];
         this.currentPlayerIndex=0;
         this.turnStack=new Stack<Player>();
@@ -155,7 +155,8 @@ public class Game implements Serializable{
     }
 
     public Dice getDiceFromCurrentDice(int position){
-        Dice fakeDice=new Dice();
+
+
         Dice diceToReturn=currentDice[position];
         currentDice[position]=new Dice();
         return diceToReturn;
@@ -188,7 +189,7 @@ public class Game implements Serializable{
         }
         this.currentDice = new Dice[(numberOfPlayer*2)+1];
         setCurrentDice();
-        setNewRolledDice(round);
+        //setNewRolledDice(round);
 
     }
 
@@ -250,10 +251,12 @@ public class Game implements Serializable{
     }
     public void nextRound(){
         Dice lastDice=new Dice();
-        for(int i=0;i<currentDice.length;i++)
-            if(currentDice[i].getColor()!=Color.UNCOLORED)
-                lastDice=currentDice[i];
-        roundTrack[round-1]=lastDice;
+        if(round!=0) {
+            for (int i = 0; i < currentDice.length; i++)
+                if (currentDice[i].getColor() != Color.UNCOLORED)
+                    lastDice = currentDice[i];
+            roundTrack[round - 1] = lastDice;
+        }
         round++;
         setNewRolledDice(round);
         setTurnOrder();
@@ -270,7 +273,12 @@ public class Game implements Serializable{
     }
 
     public Player getCurrentPlayer(){
+
+
         Player currentPlayer=new Player();
+
+        if (turnStack.empty())
+            nextRound();
         if(this.currentPlayerIndex>=turnOrder.length&&!turnStack.empty()){
             currentPlayer=turnStack.pop();
             setCurrentPlayerIndex(this.currentPlayerIndex+1);
@@ -281,8 +289,8 @@ public class Game implements Serializable{
             setCurrentPlayerIndex(this.currentPlayerIndex+1);
         }
 
-        if (turnStack.empty())
-                nextRound();
+       // if (turnStack.empty())
+               // nextRound();
 
 
         return currentPlayer;

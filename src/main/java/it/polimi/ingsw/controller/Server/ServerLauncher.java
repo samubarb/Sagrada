@@ -279,6 +279,7 @@ public class ServerLauncher {
                         } catch (RemoteException e) {
                             e.printStackTrace();
                         }
+                        updateGameSession();
                         startTurn(user.getPlayerInterface(), currentPlayer);
                         updateGameSession();
                     }
@@ -327,14 +328,39 @@ public class ServerLauncher {
             try {
                 player.positionDice(player.getChosenNut(), coordinates);
             } catch (WindowPatternColorException e) {
+                try {
+                    playerInterface.printaaa("Non è rispettato il colore del dado");
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
                 e.printStackTrace();
             } catch (WindowPatternValueException e) {
+                try {
+                    playerInterface.printaaa("Non è rispettato il valore del dado");
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
                 e.printStackTrace();
             } catch (FrameValueAndColorException e) {
+                try {
+                    playerInterface.printaaa("Non è rispettato il controllo dei dadi ortogonali adiacenti");
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
                 e.printStackTrace();
             } catch (BusyPositionException e) {
+                try {
+                    playerInterface.printaaa("c'è già un dado");
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
                 e.printStackTrace();
             } catch (AdjacentDiceException e) {
+                try {
+                    playerInterface.printaaa("Non ci sono dadi adiacenti alla posizione indicata");
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
                 e.printStackTrace();
             }
             return;
