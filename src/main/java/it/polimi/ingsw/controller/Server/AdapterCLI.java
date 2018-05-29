@@ -27,25 +27,20 @@ public class AdapterCLI implements Adapter {
 
         return vPattern;
     }
-/*
-    public VDice DiceToView(Dice dice) {
-        VColor vc;
-        int value = dice.getValue();
 
-        }
-
-
-
-
-
-        //create VDice
+    public VDice diceToView(Dice dice) {
+        return new VDice(dice.getValue(), colorToView(dice.getColor()));
     }
 
-    public VCoordinates CoordinatesToView(Coordinates xy) {
-        // coordinates adaptation?
-    }*/
 
-    public VColor ColorToView(Color color) {
+    public VCoordinates coordinatesToView(Coordinates xy) {
+        int x,y;
+        x = xy.getX() + 1;
+        y = xy.getY() + 1;
+        return new VCoordinates(x, y);
+    }
+
+    public VColor colorToView(Color color) {
         VColor vc = VColor.RESET;
         switch (color) {
             case RED:
