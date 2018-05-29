@@ -29,7 +29,14 @@ public final class AdapterCLI implements Adapter {
     }
 
     public VFrame frameToView(Frame frame) {
-        return new VFrame();
+        VFrame vFrame = new VFrame();
+
+        for (int j = 0; j < 4; j++)
+            for (int i = 0; i < 5; i++) {
+                Coordinates xy = new Coordinates(i, j);
+                vFrame.setDice(diceToView(frame.getDice(xy)), coordinatesToView(xy));
+            }
+        return vFrame;
     }
 
     public VDice diceToView(Dice dice) {
@@ -42,10 +49,17 @@ public final class AdapterCLI implements Adapter {
 
 
     public VCoordinates coordinatesToView(Coordinates xy) {
-        int x,y;
+        int x, y;
         x = xy.getX() + 1;
         y = xy.getY() + 1;
         return new VCoordinates(x, y);
+    }
+
+    public Coordinates coordinatesToModel(VCoordinates xy) {
+        int x, y;
+        x = xy.getX() - 1;
+        y = xy.getY() - 1;
+        return new Coordinates(x, y);
     }
 
     public VColor colorToView(Color color) {
