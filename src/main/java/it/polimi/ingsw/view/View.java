@@ -14,7 +14,7 @@ public interface View {
     VMove askMove(VPlayer player); // use by the server to interrogate the client and let the user input his move
     VMove reAskMove(VPlayer player); // in case of a bad placement, send an error message and re-ask a new move
 
-    int askDice();
+    int askDice(VCurrentDice dice);
     VCoordinates askCoordinates();
 
     // new user to sign in
