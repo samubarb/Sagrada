@@ -32,7 +32,7 @@ public class CLI implements View {
             value = getInt();
         } while (value <= 0 /*|| value > LIMITE_QUI*/);
 
-        return value;
+        return value - 1;
     }
 
     public VCoordinates askCoordinates() {
