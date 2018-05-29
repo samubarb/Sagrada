@@ -96,7 +96,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
             serverRegistry = LocateRegistry.getRegistry(address,port);
             server = (ServerInterface) serverRegistry.lookup(RMI_SERVER_INTERFACE);
             UnicastRemoteObject.exportObject(this, 0);
-            serverRegistry.rebind(RMI_CLIENT_INTERFACE, this);
+            //serverRegistry.rebind(RMI_CLIENT_INTERFACE, this);
         } catch (Exception e) {
             System.err.println("Error: Connection to the server");
             e.printStackTrace();

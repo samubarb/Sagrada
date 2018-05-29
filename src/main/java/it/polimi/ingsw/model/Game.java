@@ -138,6 +138,9 @@ public class Game implements Serializable{
     public WindowPattern[] getWindowPatternCards() {
         return windowPatternCards;
     }
+    public WindowPattern getWindoePatternCard(int position){
+        return windowPatternCards[position];
+    }
 
     public void setWindowPatternCards(WindowPattern[] windowPatternCards) {
         this.windowPatternCards = windowPatternCards;
