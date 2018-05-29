@@ -10,4 +10,5 @@ public interface Adapter {
     VColor colorToView(Color color);
     VCoordinates coordinatesToView(Coordinates xy);
     VDice diceToView(Dice dice);
+    Coordinates coordinatesToModel(VCoordinates xy);
 }

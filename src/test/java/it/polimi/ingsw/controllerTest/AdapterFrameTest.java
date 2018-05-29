@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Dice;
 import it.polimi.ingsw.model.Frame;
+import it.polimi.ingsw.view.VCoordinates;
 import it.polimi.ingsw.view.VFrame;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ public class AdapterFrameTest {
         Frame frame = new Frame();
         AdapterCLI adapter = new AdapterCLI();
 
-        frame.setPositionDice(new Dice(Color.GREEN, 4), new Coordinates(2,3));
+        frame.setPositionDice(new Dice(Color.GREEN, 4), new Coordinates(1 /*2*/, 2 /*3*/));
 
         VFrame vFrame = adapter.frameToView(frame);
         println(vFrame.toString());
