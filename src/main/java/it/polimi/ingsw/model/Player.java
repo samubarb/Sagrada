@@ -18,6 +18,7 @@ public class Player implements Serializable{
     private ArrayList<PrivateObjective> privateObjective;
     private Game currentGame;
     private Dice chosenNut;
+    private boolean firstDice=true;
 
     /*
      *constructor of default
@@ -168,7 +169,7 @@ public class Player implements Serializable{
             return true;
         else if(getWindowPattern().getDicePosition(position).getValue()==dice.getValue())
             return true;
-        else return false;
+        return false;
 
     }
 
@@ -213,21 +214,24 @@ public class Player implements Serializable{
      * @throws WindowPatternValueException
      * @throws FrameValueAndColorException
      */
-    public boolean positionDice(Dice dice, Coordinates position) throws WindowPatternColorException,WindowPatternValueException,FrameValueAndColorException,BusyPositionException {
+    public boolean positionDice(Dice dice, Coordinates position) throws WindowPatternColorException, WindowPatternValueException, FrameValueAndColorException, BusyPositionException, AdjacentDiceException {
         if(!checkIfThePositionIsFree(position))
             throw new BusyPositionException();
         if(!checkWindowPatternColorRestriction(dice,position))
             throw new WindowPatternColorException();
         if(!checkWindowPatternValueRestriction(dice,position))
             throw new WindowPatternValueException();
-        if(!checkAdjacentDice(dice,position))
-            throw new WindowPatternValueException();
+        if(!checkAdjacentDice(dice,position)&&firstDice)
+            throw new AdjacentDiceException();
         if(!checkFrameValueAndColorRestriction(dice,position))
             throw new FrameValueAndColorException();
         else {
             this.frame.setPositionDice(dice, position);
+            firstDice=false;
             return true;
+
         }
+
 
     }
 
