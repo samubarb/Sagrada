@@ -3,11 +3,19 @@ package it.polimi.ingsw.controller.Server;
 
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.Server.Rmi.rmiStartServer;
+import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.exceptions.BusyPositionException;
+import it.polimi.ingsw.model.exceptions.FrameValueAndColorException;
+import it.polimi.ingsw.model.exceptions.WindowPatternColorException;
+import it.polimi.ingsw.model.exceptions.WindowPatternValueException;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,9 +26,14 @@ import java.util.concurrent.TimeUnit;
 public class ServerLauncher {
     public static final int MAXPLAYER = 4;
     public static final int MINPLAYERS = 2;
-    public static  final int TIMETOWAITINROOM = 60;
-    public static final int START_IMMEDIATELY = 0;
+    public static  final long TIMETOWAITINROOM = 60;
+    public static final long START_IMMEDIATELY = 0;
     private Timer mainTimer;
+    private int round;
+    private static final int MAXNUMBEROFROUND = 10;
+    private static final long TURNTIME = 30;
+    private Game game;
+    private Timer turnTimer;
 
 
     /**
@@ -57,7 +70,6 @@ public class ServerLauncher {
 
     private ArrayList<User> offlineNicknames;
 
-    private Game game;
     /**
      * Class constructor.
      */
@@ -226,7 +238,7 @@ public class ServerLauncher {
 
     private void startCountDownTimer(long waitingTime) {
         mainTimer = new Timer();
-        //mainTimer.schedule(new GameHandler().startGame(), waitingTime);
+        mainTimer.schedule(new GameHandler(), waitingTime);
     }
 
     private void cancelTimer() {
@@ -235,4 +247,88 @@ public class ServerLauncher {
             mainTimer.purge();
         }
     }
-}
+
+    private class GameHandler extends TimerTask {
+
+        /**
+         * This method is executed when the time is expired. At first, it closes the room.
+         * Then start the game.
+         */
+        @Override
+        public void run(){
+            //configureGame();
+            while(round<=MAXNUMBEROFROUND){
+                Player currentPlayer = game.getCurrentPlayer();
+                String currentPlayerName = currentPlayer.getName();
+                for(User user : serverLauncher.getNicknames()){
+                    if(user.getUsername().equals(currentPlayer.getName())){
+                        startTurn(user.getPlayerInterface(), currentPlayer);
+                    }
+                }
+            }
+            //selectWinner();
+            //notifyWinner();
+        }
+
+        public void startTurn(PlayerInterface playerInterface, Player player){
+            playerInterface.setMyTurn(true);
+            turnTimer.startTimer(TURNTIME);
+            //start turn timer;
+            getDiceAndPlace(playerInterface, player);
+            //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
+        /*
+        if cartautensile usa cartautensile chiede cosa vuole la carta utensile se serve poi richiede
+        if posiziona dado posiziona dado poi richiede IL SOLO DA IMPLEMENTARE dopo non richiede ma termina il turno
+        if nulla end turn
+         */
+            endturn();
+
+        }
+
+        public void getDiceAndPlace(PlayerInterface playerInterface, Player player){
+            int position = playerInterface.getDiceToBePlaced();
+            player.setChosenNut(game.getDiceFromCurrentDice(position));
+            Coordinates coordinates = playerInterface.getDiceFinalPosition();
+            try {
+                player.positionDice(player.getChosenNut(), coordinates);
+            } catch (WindowPatternColorException e) {
+                e.printStackTrace();
+            } catch (WindowPatternValueException e) {
+                e.printStackTrace();
+            } catch (FrameValueAndColorException e) {
+                e.printStackTrace();
+            } catch (BusyPositionException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        public void endturn(){
+            stopTimer();
+
+        }
+
+        void startTimer(long moveWaitingTime){
+            int time = (int)(moveWaitingTime/1000);
+            countDownLatch = new CountDownLatch(time);
+            timer.scheduleAtFixedRate(new TimeCountDown(), 1000, 1000);
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        /**
+         * This method stops the timer
+         */
+        /*package-local*/ void stopTimer(){
+            synchronized (object){
+                resetTimer();
+                while (countDownLatch.getCount() > 0)
+                    countDownLatch.countDown();
+            }
+        }
+    }
+
+    }

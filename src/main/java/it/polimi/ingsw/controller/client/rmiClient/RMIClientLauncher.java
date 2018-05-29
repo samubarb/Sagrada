@@ -22,15 +22,17 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     private static String address;
     private static Player clientPlayer;
     private static PlayerInterface playerInterface;
-    private static int port = 4343;
+    private static int port;
     private static ServerInterface server;
     private static String username;
     private static String name;
     private static Scanner input;
     private static boolean isMyTurn;
+    private static boolean gameStarted;
     private static ClientLauncher clientLauncher;
     private static Registry clientRegistry;
     private static Registry serverRegistry;
+
     //debug timer
     static int interval = 7;
     static Timer timer;
@@ -48,27 +50,30 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         username = getUsername(input);
         playerInterface = this;
         registerPlayerOnServer(username, playerInterface);
-        isMyTurn = true;
-        while(isMyTurn){
-            System.out.println("cosa vuoi fare:\n"+"1 numero giocatori registrati");
-            int response = Integer.parseInt(input.next());
-            if(response == 1){
-                int playerNumber = 0;
-                try {
-                    playerNumber = server.getNumberOfPlayer();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
+        isMyTurn = false;
+        gameStarted = true;
+        while(gameStarted) {
+            while (isMyTurn) {
+                System.out.println("cosa vuoi fare:\n" + "1 numero giocatori registrati");
+                int response = Integer.parseInt(input.next());
+                if (response == 1) {
+                    int playerNumber = 0;
+                    try {
+                        playerNumber = server.getNumberOfPlayer();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(playerNumber);
                 }
-                System.out.println(playerNumber);
-            }
-            if(response == 2) {
-                String activeInactivePLayer = null;
-                try {
-                    activeInactivePLayer = server.getNumberOfPlayerActiveInactive();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
+                if (response == 2) {
+                    String activeInactivePLayer = null;
+                    try {
+                        activeInactivePLayer = server.getNumberOfPlayerActiveInactive();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(activeInactivePLayer);
                 }
-                System.out.println(activeInactivePLayer);
             }
         }
     }
@@ -95,7 +100,8 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         try {
             serverRegistry = LocateRegistry.getRegistry(address,port);
             server = (ServerInterface) serverRegistry.lookup(RMI_SERVER_INTERFACE);
-            UnicastRemoteObject.exportObject(this, 0);
+            playerInterface = (PlayerInterface) UnicastRemoteObject.exportObject(this, 0);
+
             //serverRegistry.rebind(RMI_CLIENT_INTERFACE, this);
         } catch (Exception e) {
             System.err.println("Error: Connection to the server");
@@ -253,7 +259,12 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     }
 
     @Override
-    public void setTurn(boolean isMyTurn) throws RemoteException {
+    public void setMyTurn(boolean isMyTurn) throws RemoteException {
         this.setIsMyTurn(isMyTurn);
+    }
+
+    @Override
+    public int getDiceToBePlaced() throws RemoteException {
+
     }
 }
