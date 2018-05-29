@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view;
 
-import static it.polimi.ingsw.inputoutput.IOManager.newline;
-import static it.polimi.ingsw.inputoutput.IOManager.print;
-import static it.polimi.ingsw.inputoutput.IOManager.println;
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VCurrentDice {
     VDice[] dice;

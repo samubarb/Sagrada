@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class VGame {
     private ArrayList<VPlayer> players;
     private VPlayer turn, clientPlayer;
+    private VCurrentDice dice;
     private int round;
 
     public VGame() {
@@ -13,20 +14,17 @@ public class VGame {
 
     public void addVPlayer(VPlayer player) {
         this.players.add(player);
-    }
-
+    } // add player to the game
+    public void removePlayer(VPlayer player) { this.players.remove(player); } // remove player to the game
     public void setTurn(VPlayer player) {
         this.turn = player;
     }
-
     public void setClientPlayer(String clientPlayer) {
         this.clientPlayer = new VPlayer(clientPlayer);
     }
-
     public VPlayer getClientPlayer() {
         return clientPlayer;
     }
-
     public VPlayer getTurn() {
         return turn;
     }
@@ -39,7 +37,6 @@ public class VGame {
                 string.append("È il tuo turno, " + this.turn);
             else
                 string.append("È il turno di " + this.turn);
-
         return string.toString();
     }
 }
