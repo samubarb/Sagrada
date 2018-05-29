@@ -23,17 +23,19 @@ public class GameConfigurator {
         game.configureGame();
     }
 
-    public void createWindowPatternCards(){
-        createWPCViaLux();
-        createWPCVirtus();
-        createWPCauroraeMgnificus();
-        createWPCBellesguard();
-        createWPCKaleidoscopicDream();
-        createWPCsunCatcher();
+    public void createWindowPatternCards(Game game){
+        game.addWindowPatternCard(createWPCVirtus(),0);
+        game.addWindowPatternCard(createWPCViaLux(),1);
+        game.addWindowPatternCard(createWPCauroraeMgnificus(),2);
+        game.addWindowPatternCard(createWPCBellesguard(),3);
+        game.addWindowPatternCard(createWPCKaleidoscopicDream(),4);
+        game.addWindowPatternCard(createWPCsunCatcher(),5);
+        game.addWindowPatternCard(createWPCsymphonyOfLight(),6);
+        game.addWindowPatternCard(createWPCbatllo(),7);
     }
 
 
-    public void createWPCVirtus(){
+    public WindowPattern createWPCVirtus(){
         Frame frame=new Frame();
         frame.setPositionDice(dice4,0,0);
         frame.setPositionDice(dice2,0,2);
@@ -49,11 +51,11 @@ public class GameConfigurator {
         frame.setPositionDice(greenDice,3,1);
         frame.setPositionDice(dice1,3,2);
         WindowPattern virtus=new WindowPattern(5,"Virtus",frame);
-        game.addWindowPatternCard(virtus,0);
+        return virtus;
 
     }
 
-    public void createWPCViaLux(){
+    public WindowPattern createWPCViaLux(){
         Frame frame=new Frame();
         frame.setPositionDice(yellowDice,0,0);
         frame.setPositionDice(dice6,0,2);
@@ -68,10 +70,10 @@ public class GameConfigurator {
         frame.setPositionDice(dice3,3,3);
         frame.setPositionDice(redDice,3,4);
         WindowPattern viaLux =new WindowPattern(4,"ViaLux",frame);
-        game.addWindowPatternCard(viaLux,1);
+        return viaLux;
     }
 
-    public void createWPCBellesguard(){
+    public WindowPattern createWPCBellesguard(){
         Frame frame=new Frame();
         frame.setPositionDice(blueDice,0,0);
         frame.setPositionDice(dice6,0,1);
@@ -85,10 +87,10 @@ public class GameConfigurator {
         frame.setPositionDice(dice1,3,3);
         frame.setPositionDice(greenDice,3,4);
         WindowPattern bellesguard=new WindowPattern(3,"Bellesguard",frame);
-        game.addWindowPatternCard(bellesguard,2);
+        return bellesguard;
     }
 
-    public void createWPCKaleidoscopicDream(){
+    public WindowPattern createWPCKaleidoscopicDream(){
         Frame frame=new Frame();
         frame.setPositionDice(yellowDice,0,0);
         frame.setPositionDice(blueDice,0,1);
@@ -103,11 +105,11 @@ public class GameConfigurator {
         frame.setPositionDice(blueDice,3,3);
         frame.setPositionDice(yellowDice,3,4);
         WindowPattern kaleidoscopicDream=new WindowPattern(4,"KaleidoscopicDream",frame);
-        game.addWindowPatternCard(kaleidoscopicDream,3);
+        return kaleidoscopicDream;
 
     }
 
-    public void createWPCauroraeMgnificus(){
+    public WindowPattern createWPCauroraeMgnificus(){
         Frame frame=new Frame();
         frame.setPositionDice(dice5,0,0);
         frame.setPositionDice(greenDice,0,1);
@@ -123,11 +125,11 @@ public class GameConfigurator {
         frame.setPositionDice(greenDice,3,3);
         frame.setPositionDice(dice4,3,4);
         WindowPattern auroraeMagnificus=new WindowPattern(5,"AuroraeMagnificus",frame);
-        game.addWindowPatternCard(auroraeMagnificus,4);
+        return auroraeMagnificus;
 
     }
 
-    public void createWPCsunCatcher(){
+    public WindowPattern createWPCsunCatcher(){
         Frame frame=new Frame();
         frame.setPositionDice(blueDice,0,1);
         frame.setPositionDice(dice2,0,2);
@@ -140,9 +142,89 @@ public class GameConfigurator {
         frame.setPositionDice(dice3,3,1);
         frame.setPositionDice(purpleDice,3,4);
         WindowPattern sunCatcher=new WindowPattern(3,"SunCatcher",frame);
-        game.addWindowPatternCard(sunCatcher,5);
+        return sunCatcher;
 
     }
+
+    public WindowPattern createWPCsymphonyOfLight(){
+        Frame frame=new Frame();
+        frame.setPositionDice(dice3,0,0);
+        frame.setPositionDice(dice5,0,2);
+        frame.setPositionDice(dice1,0,4);
+        frame.setPositionDice(yellowDice,1,0);
+        frame.setPositionDice(dice6,1,1);
+        frame.setPositionDice(purpleDice,1,2);
+        frame.setPositionDice(dice2,1,3);
+        frame.setPositionDice(redDice,1,4);
+        frame.setPositionDice(blueDice,2,1);
+        frame.setPositionDice(dice4,2,2);
+        frame.setPositionDice(greenDice,2,3);
+        frame.setPositionDice(dice3,3,1);
+        frame.setPositionDice(dice5,3,3);
+        WindowPattern symphonyOfLight=new WindowPattern(6,"SymphonyOfLight",frame);
+        return symphonyOfLight;
+
+    }
+
+    public WindowPattern createWPCindustria(){
+        Frame frame=new Frame();
+        frame.setPositionDice(dice1,0,0);
+        frame.setPositionDice(redDice,0,1);
+        frame.setPositionDice(dice3,0,2);
+        frame.setPositionDice(dice6,0,4);
+        frame.setPositionDice(dice5,1,0);
+        frame.setPositionDice(dice4,1,1);
+        frame.setPositionDice(redDice,1,2);
+        frame.setPositionDice(dice2,1,3);
+        frame.setPositionDice(dice5,2,2);
+        frame.setPositionDice(redDice,2,3);
+        frame.setPositionDice(dice1,2,4);
+        frame.setPositionDice(dice3,3,3);
+        frame.setPositionDice(redDice,3,4);
+        WindowPattern industria=new WindowPattern(5,"Industria",frame);
+        return industria;
+    }
+
+    public WindowPattern createWPCbatllo(){
+        Frame frame=new Frame();
+        frame.setPositionDice(dice6,0,2);
+        frame.setPositionDice(dice5,1,1);
+        frame.setPositionDice(blueDice,1,2);
+        frame.setPositionDice(dice4,1,3);
+        frame.setPositionDice(dice3,2,0);
+        frame.setPositionDice(greenDice,2,1);
+        frame.setPositionDice(yellowDice,2,2);
+        frame.setPositionDice(purpleDice,2,3);
+        frame.setPositionDice(dice2,2,4);
+        frame.setPositionDice(dice1,3,0);
+        frame.setPositionDice(dice4,3,1);
+        frame.setPositionDice(redDice,3,2);
+        frame.setPositionDice(dice5,3,3);
+        frame.setPositionDice(dice3,3,4);
+        WindowPattern batllo=new WindowPattern(5,"Batllo",frame);
+        return batllo;
+
+    }
+
+    public WindowPattern createWPCfirmitas(){
+        Frame frame=new Frame();
+        frame.setPositionDice(purpleDice,0,0);
+        frame.setPositionDice(dice6,0,1);
+        frame.setPositionDice(dice3,0,4);
+        frame.setPositionDice(dice5,1,0);
+        frame.setPositionDice(purpleDice,1,1);
+        frame.setPositionDice(dice3,1,2);
+        frame.setPositionDice(dice2,2,1);
+        frame.setPositionDice(purpleDice,2,2);
+        frame.setPositionDice(dice1,2,3);
+        frame.setPositionDice(dice1,3,1);
+        frame.setPositionDice(dice5,3,2);
+        frame.setPositionDice(purpleDice,3,3);
+        frame.setPositionDice(dice4,3,4);
+        WindowPattern firmitas=new WindowPattern(5,"Firmitas",frame);
+
+    }
+
 
 
 
