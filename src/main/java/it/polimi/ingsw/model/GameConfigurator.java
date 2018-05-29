@@ -24,6 +24,9 @@ public class GameConfigurator implements Serializable {
         this.game = game;
         game.configureGame();
         createWindowPatternCards(game);
+        for(int i=0;i<game.getTurnOrder().length;i++)
+            game.getTurnOrder()[i].setWindowPattern(createWPCfirmitas());
+
     }
 
     public void createWindowPatternCards(Game game){
