@@ -46,7 +46,7 @@ public class ServerLauncher {
     /**
      * RMI port.
      */
-    private static final int RMI_PORT = 4242;
+    private static final int RMI_PORT = new ServerSettings().setFromJSON().getPort();
 
     /**
      * Mutex object to handle concurrency between users during loginPlayer.

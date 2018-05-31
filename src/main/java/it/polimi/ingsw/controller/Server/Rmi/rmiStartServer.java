@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.Server.Rmi;
 
 import it.polimi.ingsw.controller.RMIApi.ServerInterface;
 import it.polimi.ingsw.controller.Server.ServerLauncher;
+import it.polimi.ingsw.controller.Server.ServerSettings;
 import it.polimi.ingsw.controller.Server.User;
 
 import java.rmi.RemoteException;
@@ -29,7 +30,7 @@ public class rmiStartServer {
                 System.setSecurityManager(new SecurityManager());
             }*/
             // First, create the real object which will do the requested function.
-            System.setProperty("java.rmi.server.hostname", "192.168.43.188");
+            System.setProperty("java.rmi.server.hostname", /*"192.168.43.188"*/new ServerSettings().setFromJSON().getServerAddress());
             //System.setProperty("java.rmi.server.codebase", "C:\\Users\\Matteo\\Desktop\\Progetto Ingegneria del Software\\src\\main\\java\\it\\polimi\\ingsw\\controller\\Server\\Rmi\\server.policy");
             ServerInterface implementation = new ServerInterfaceImpl();
             ((ServerInterfaceImpl) implementation).setServerLauncher(serverLauncher);

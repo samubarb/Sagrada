@@ -4,9 +4,11 @@ import it.polimi.ingsw.controller.Adapter;
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.RMIApi.ServerInterface;
 import it.polimi.ingsw.controller.Server.AdapterCLI;
+import it.polimi.ingsw.controller.Server.ServerSettings;
 import it.polimi.ingsw.controller.Server.Socket.Connect;
 import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.controller.client.ClientLauncher;
+import it.polimi.ingsw.controller.client.ClientSettings;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -136,7 +138,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
      */
     public boolean connect(String address, int port) {
         try {
-            //System.setProperty("java.rmi.server.hostname", /*InetAddress.getLocalHost().getHostAddress()*/"192.168.43.49");
+            System.setProperty("java.rmi.server.hostname", /*InetAddress.getLocalHost().getHostAddress()"192.168.43.49"*/new ClientSettings().setFromJSON().getClientAddress());
             serverRegistry = LocateRegistry.getRegistry(address,port);
             server = (ServerInterface) serverRegistry.lookup(RMI_SERVER_INTERFACE);
             playerInterface = (PlayerInterface) UnicastRemoteObject.exportObject(this, 0);
