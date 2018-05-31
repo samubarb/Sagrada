@@ -27,6 +27,7 @@ public class TcFluxBrushTest {
         //gameTest.setTurnOrder();
         //gameTest.setNewRolledDice(gameTest.getRound());
         playerOne.setCurrentGame(gameTest);
+        gameTest.getCurrentPlayer();
         System.out.print(gameTest.getTurnOrder()[0].getName());
         System.out.print(gameTest.getTurnOrder()[1].getName());
         System.out.println(gameTest.getTurnOrder()[2].getName());
