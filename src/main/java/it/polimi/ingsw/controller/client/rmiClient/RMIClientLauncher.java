@@ -15,6 +15,8 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -52,12 +54,28 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     public void startRMIClient(){
         view = new CLI();
         input = new Scanner(System.in);
+        InetAddress addr = null;
+        try {
+            addr = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        String ipAddr = addr.getHostAddress();
+        System.out.println(ipAddr);
+        try {
+            System.out.println( InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         address = getIpServer(input);
         port = getPortServer(input);
         if(!connect(address, port)){
             System.out.println("Restart Client, connection to server error");
             return;
         }
+
+
+
         username = getUsername(input);
         playerInterface = this;
         registerPlayerOnServer(username, playerInterface);
@@ -109,6 +127,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
      */
     public boolean connect(String address, int port) {
         try {
+            System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
             serverRegistry = LocateRegistry.getRegistry(address,port);
             server = (ServerInterface) serverRegistry.lookup(RMI_SERVER_INTERFACE);
             playerInterface = (PlayerInterface) UnicastRemoteObject.exportObject(this, 0);
