@@ -26,7 +26,7 @@ public class CLI implements View {
     }
 
     public int askDice() {
-        int value = 0;
+        int value;
         do {
             println("Quale dei dadi vuoi pescare? Inserisci il numero corrispondente");
             value = getInt();

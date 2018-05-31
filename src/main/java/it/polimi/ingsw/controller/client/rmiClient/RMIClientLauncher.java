@@ -127,7 +127,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
      */
     public boolean connect(String address, int port) {
         try {
-            System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
+            System.setProperty("java.rmi.server.hostname", "192.168.43.242" /*InetAddress.getLocalHost().getHostAddress()*/);
             serverRegistry = LocateRegistry.getRegistry(address,port);
             server = (ServerInterface) serverRegistry.lookup(RMI_SERVER_INTERFACE);
             playerInterface = (PlayerInterface) UnicastRemoteObject.exportObject(this, 0);
