@@ -29,8 +29,8 @@ public class PuODifferentColourTest {
 
         WindowPattern testWindow=new WindowPattern(5,"prova");
         Player playerOne=new Player("gianfranco", Color.RED,testFrame,testWindow);
-        PuODifferentColor testLine=new PuODifferentColor("prova",Color.GREEN,"line",6);
-        PuODifferentColor testLine2=new PuODifferentColor("prova",Color.GREEN,"column",5);
+        PuODifferentColor testLine=new PuODifferentColor("prova","line",6);
+        PuODifferentColor testLine2=new PuODifferentColor("prova","column",5);
         assertTrue(testLine.calculateScore(playerOne)==6);
         assertTrue(testLine2.calculateScore(playerOne)==5);
 
