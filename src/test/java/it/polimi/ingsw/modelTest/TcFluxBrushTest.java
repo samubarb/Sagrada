@@ -22,9 +22,10 @@ public class TcFluxBrushTest {
         gameTest.setAddPlayer(playerOne);
         gameTest.setAddPlayer(playerTwo);
         gameTest.setAddPlayer(playerThree);
-        gameTest.configureGame();
-        gameTest.setTurnOrder();
-        gameTest.setNewRolledDice(gameTest.getRound());
+        GameConfigurator gameConfigurator=new GameConfigurator(gameTest);
+        //gameTest.configureGame();
+        //gameTest.setTurnOrder();
+        //gameTest.setNewRolledDice(gameTest.getRound());
         playerOne.setCurrentGame(gameTest);
         System.out.print(gameTest.getTurnOrder()[0].getName());
         System.out.print(gameTest.getTurnOrder()[1].getName());
