@@ -11,35 +11,34 @@ import static it.polimi.ingsw.inputoutput.IOManager.newline;
  * This class is meant to be specialized in the Server and Client form.
  */
 public class NetworkSettings {
-    private String ipaddress;
+    private String serverAddress;
     private int port;
 
     public NetworkSettings() {}
 
-    public NetworkSettings(String ipaddress, int port) {
-        this.ipaddress = ipaddress;
+    public NetworkSettings(String serverAddress, String clientAddress, int port) {
+        this.serverAddress = serverAddress;
         this.port = port;
     }
 
-    public String getIpaddress() {
-        return ipaddress;
+    public String getServerAddress() {
+        return serverAddress;
     }
-
     public int getPort() {
         return port;
     }
 
     public NetworkSettings setFromJSON(String path) {
         String fileToString = fileToString(path);
-        ServerSettings settings = new Gson().fromJson(fileToString, ServerSettings.class);
+        NetworkSettings settings = new Gson().fromJson(fileToString, NetworkSettings.class);
 
-        this.ipaddress = settings.getIpaddress();
+        this.serverAddress = settings.getServerAddress();
         this.port = settings.getPort();
         return this;
     }
 
     @Override
     public String toString() {
-        return "IP Address: " + this.ipaddress + newline + "Port: " + this.port;
+        return "Server IP: " + this.serverAddress + newline + "Port: " + this.port;
     }
 }
