@@ -107,27 +107,36 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         }
     }
 
-    /*
-   This method set the address as the ip server typed by the player
-    */
+    /**
+     * This method set the address as the ip server typed by the player
+     * @param input
+     * @return
+     */
     public String getIpServer(Scanner input){
         System.out.println("Scrivi l'ip del server");
         return input.next();
     }
-    /*
-    This method set the port as the port number typed by the player
+
+    /**
+     * This method set the port as the port number typed by the player
+     * @param input
+     * @return
      */
     public int getPortServer(Scanner input){
         System.out.println("Scrivi la porta del server");
         return Integer.parseInt(input.next());
     }
-    /*
-    This methond establishes the connection to the server
-    Returns false in case of any problems, true otherwise
+
+    /**
+     * This methond establishes the connection to the server
+     *     Returns false in case of any problems, true otherwise
+     * @param address
+     * @param port
+     * @return
      */
     public boolean connect(String address, int port) {
         try {
-            System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
+            //System.setProperty("java.rmi.server.hostname", /*InetAddress.getLocalHost().getHostAddress()*/"192.168.43.49");
             serverRegistry = LocateRegistry.getRegistry(address,port);
             server = (ServerInterface) serverRegistry.lookup(RMI_SERVER_INTERFACE);
             playerInterface = (PlayerInterface) UnicastRemoteObject.exportObject(this, 0);
@@ -140,13 +149,17 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         }
         return true;
     }
-    /*
-    This method gets the username from the player, from the input scanner and set client name as the keyboard's input
+
+    /**
+     * This method gets the username from the player, from the input scanner and set client name as the keyboard's input
+     * @param input
+     * @return
      */
     public String getUsername(Scanner input){
         System.out.println("Scrivi username");
         return input.next();
     }
+
     public static void registerPlayerOnServer(String username, PlayerInterface playerInterface){
         System.out.println("Try to login user with nickname: " + username);
         try {
