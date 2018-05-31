@@ -12,8 +12,8 @@ public class PuODifferentShades extends PublicObjective implements iObjective {
 
     //flagColumnLine 0--->line 1--->column
 
-    public PuODifferentShades(String name, Color color, String flagColumnLine, int points) {
-        super(name, color);
+    public PuODifferentShades(String name, String flagColumnLine, int points) {
+        super(name);
         this.flagColumnLine = flagColumnLine;
         this.points = points;
     }

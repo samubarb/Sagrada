@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class GameConfigurator implements Serializable {
     public static final int DEFAUTL_VALUE = 0;
+    public static final String COLUMN="column";
+    public static final String LINE="line";
 
     private Game game;
 
@@ -25,13 +27,13 @@ public class GameConfigurator implements Serializable {
         game.configureGame();
         createWindowPatternCards(game);
         for(int i=0;i<game.getTurnOrder().length;i++){
-            game.getTurnOrder()[i].setWindowPattern(createWPCfirmitas());
+            game.getTurnOrder()[i].setWindowPattern(/*createWPCfirmitas()*/game.getWindoePatternCard(i));
             game.getTurnOrder()[i].setCurrentGame(game);
         }
 
     }
 
-    public void createWindowPatternCards(Game game){
+    private void createWindowPatternCards(Game game){
         game.addWindowPatternCard(createWPCVirtus(),0);
         game.addWindowPatternCard(createWPCViaLux(),1);
         game.addWindowPatternCard(createWPCauroraeMgnificus(),2);
@@ -46,6 +48,16 @@ public class GameConfigurator implements Serializable {
         game.addWindowPatternCard(createWPCshadowThief(),11);
     }
 
+
+    private void createPublicObjective(){
+        PublicObjective[] allPublicObjective=new PublicObjective[10];
+        allPublicObjective[0]=new PuODifferentColor("Different Color-Column",COLUMN,5);
+
+
+
+    }
+
+    
 
     public WindowPattern createWPCVirtus(){
         Frame frame=new Frame();
@@ -65,7 +77,6 @@ public class GameConfigurator implements Serializable {
         WindowPattern virtus=new WindowPattern(5,"Virtus",frame);
         return virtus;
 
-        // game.addWindowPatternCard(virtus,0);
     }
 
     public WindowPattern createWPCViaLux(){

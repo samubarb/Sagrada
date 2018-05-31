@@ -6,14 +6,14 @@ import java.io.Serializable;
 public class PublicObjective implements Serializable{
 
     private String name;
-    private Color color;
+    //private Color color;
 
     public PublicObjective() {
     }
 
-    public PublicObjective(String name, Color color) {
+    public PublicObjective(String name) {
         this.name = name;
-        this.color = color;
+       // this.color = color;
     }
 
     public String getName() {
@@ -24,11 +24,11 @@ public class PublicObjective implements Serializable{
         this.name = name;
     }
 
-    public Color getColor() {
+    /*public Color getColor() {
         return color;
     }
 
     public void setColor(Color color) {
         this.color = color;
-    }
+    }*/
 }

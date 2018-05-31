@@ -255,6 +255,7 @@ public class Game implements Serializable{
             for (int i = 0; i < currentDice.length; i++)
                 if (currentDice[i].getColor() != Color.UNCOLORED)
                     lastDice = currentDice[i];
+
             roundTrack[round - 1] = lastDice;
         }
         round++;

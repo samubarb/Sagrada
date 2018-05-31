@@ -9,12 +9,14 @@ public class PuODifferentColor extends PublicObjective implements iObjective {
     private int points;
     public static final int LINE_SIZE= 4;
     public static final int COLUMN_SIZE = 5;
+    public static final String COLUMN="column";
+    public static final String LINE="line";
 
 
     //flagColumnLine 0--->line 1--->column
 
-    public PuODifferentColor(String name, Color color, String flag,int points) {
-        super(name, color);
+    public PuODifferentColor(String name, String flag,int points) {
+        super(name);
         this.flagColumnLine=flag;
         this.points=points;
     }
@@ -32,7 +34,7 @@ public class PuODifferentColor extends PublicObjective implements iObjective {
         Frame fakeFrame= player.getFrame();
         boolean allDifferent=true;
         int score=0;
-        if (flagColumnLine.equals("line")){
+        if (flagColumnLine.equals(LINE)){
             for(int i=0;i<LINE_SIZE;i++){
                 for(int j=0;j<COLUMN_SIZE;j++){
                     for(int x=j+1;x<COLUMN_SIZE&& allDifferent;x++){
@@ -45,7 +47,7 @@ public class PuODifferentColor extends PublicObjective implements iObjective {
                 else allDifferent=true;
                 }
             }
-            if (flagColumnLine.equals("column")){
+            if (flagColumnLine.equals(COLUMN)){
                 for(int i=0;i<COLUMN_SIZE;i++) {
                     for (int j = 0; j < LINE_SIZE; j++) {
                         for (int x = j + 1; x < LINE_SIZE && allDifferent; x++) {
