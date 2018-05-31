@@ -69,8 +69,8 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        address = getIpServer(input);
-        port = getPortServer(input);
+        address = new ServerSettings().setFromJSON().getServerAddress();//getIpServer(input);
+        port = new ServerSettings().setFromJSON().getPort();//getPortServer(input);
         if(!connect(address, port)){
             System.out.println("Restart Client, connection to server error");
             return;
