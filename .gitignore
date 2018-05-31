@@ -101,5 +101,9 @@ buildNumber.properties
 # SonarLint working directories, configuration files (including credentials)
 .sonarlint/
 
+###Cient adn server setting###
+#JSONconf folder
+JSONconf/ClientSettings.json
+JSONconf/ServerSettings.json
 
 # End of https://www.gitignore.io/api/maven,intellij,sonarqube
