@@ -7,8 +7,8 @@ public class PuOSetDifferentShades extends PublicObjective implements iObjective
 
     private int points;
 
-    public PuOSetDifferentShades(String name, Color color,int points) {
-        super(name, color);
+    public PuOSetDifferentShades(String name,int points) {
+        super(name);
         this.points=points;
     }
 

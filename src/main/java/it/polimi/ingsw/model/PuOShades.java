@@ -10,8 +10,8 @@ public class PuOShades extends PublicObjective implements iObjective {
     //set 1 if lightShades 3 if mediumShades 5 if darkShades
     private String typeOfShades;
 
-    public PuOShades(String name, Color color, int points, String typeOfShades) {
-        super(name, color);
+    public PuOShades(String name, int points, String typeOfShades) {
+        super(name);
         this.points = points;
         this.typeOfShades = typeOfShades;
     }
