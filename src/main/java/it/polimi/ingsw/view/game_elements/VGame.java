@@ -49,19 +49,35 @@ public class VGame {
     }
 
 
-    public void removePlayer(VPlayer player) { this.players.remove(player); } // remove player to the game
+    public void removePlayer(VPlayer player) { this.players.remove(player); } // remove player from the game
     public VPlayer getClientPlayer() {
         return this.clientPlayer;
     }
 
     @Override
     public String toString() {
-            StringBuilder string = new StringBuilder();
-            string.append("Round: " + this.round).append(newline);
-            if (this.turn.getName().equals(this.clientPlayer.getName()))
-                string.append("È il tuo turno, " + this.turn);
-            else
-                string.append("È il turno di " + this.turn);
+        StringBuilder string = new StringBuilder();
+        string.
+                append("Round: " + this.round).append(newline).
+                append(this.roundTrack.toString()).append(newline);
+        if (this.turn.getName().equals(this.clientPlayer.getName()))
+            string.append("È il tuo turno, ");
+        else
+            string.append("È il turno di ");
+
+        string.append(this.turn.getName()).append(newline);
+
+        for (VPlayer vp : this.players) {
+            string.append(vp.toString());
+        }
+
+        for (VPublicObjectiveCard objCard : this.publicObjectives) {
+            string.append(objCard.toString());
+        }
+
+        string.append(newline).
+                append(dice.toString()).append(newline);
+
         return string.toString();
     }
 }

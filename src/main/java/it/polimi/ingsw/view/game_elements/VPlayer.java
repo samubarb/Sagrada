@@ -3,6 +3,8 @@ package it.polimi.ingsw.view.game_elements;
 import it.polimi.ingsw.view.other_elements.VColor;
 import it.polimi.ingsw.view.cards.VWindowPattern;
 
+import static it.polimi.ingsw.inputoutput.IOManager.newline;
+
 public class VPlayer {
     private String name;
     private VColor color;
@@ -45,18 +47,10 @@ public class VPlayer {
     public String toString() {
         StringBuilder string = new StringBuilder();
 
-        string.append(this.color.toString() + this.name + VColor.RESET)
-                .append("\n")
-                .append(this.frame.toString())
-                .append("\n")
-                .append(this.wpattern.toString());
-                /*.append()
-                .append()
-                .append()
-                .append()
-                .append()
-                .append()*/
-
+        string.append(newline).
+                append(this.color.toString() + this.name + VColor.RESET).append(newline).
+                append(this.frame.toString()).append(newline).
+                append(this.wpattern.toString()).append(newline);
         return string.toString();
     }
 }
