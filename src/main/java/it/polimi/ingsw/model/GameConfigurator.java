@@ -1,11 +1,18 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.toolCards.*;
+
 import java.io.Serializable;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GameConfigurator implements Serializable {
     public static final int DEFAUTL_VALUE = 0;
     public static final String COLUMN="column";
     public static final String LINE="line";
+    public static final String LIGHT_SHADES="lightShades";
+    public static final String MEDIUM_SHADES="mediumShades";
+    public static final String DARK_SHADES="darkShades";
 
     private Game game;
 
@@ -22,13 +29,18 @@ public class GameConfigurator implements Serializable {
     private final Dice dice6=new Dice(Color.UNCOLORED,6);
 
 
-    public GameConfigurator(Game game) {
+    public GameConfigurator(Game game){
         this.game = game;
         game.configureGame();
         createWindowPatternCards(game);
+        createPublicObjective();
+        createToolCards();
+        PrivateObjective[] privateObjective=new PrivateObjective[3];
+        privateObjective=createPrivateObjective();
         for(int i=0;i<game.getTurnOrder().length;i++){
-            game.getTurnOrder()[i].setWindowPattern(/*createWPCfirmitas()*/game.getWindoePatternCard(i));
+            game.getTurnOrder()[i].setWindowPattern(game.getWindoePatternCard(i));
             game.getTurnOrder()[i].setCurrentGame(game);
+            game.getTurnOrder()[i].setPrivateObjective(privateObjective[i]);
         }
 
     }
@@ -50,14 +62,66 @@ public class GameConfigurator implements Serializable {
 
 
     private void createPublicObjective(){
-        PublicObjective[] allPublicObjective=new PublicObjective[10];
+        PublicObjective[] allPublicObjective=new PublicObjective[9];
         allPublicObjective[0]=new PuODifferentColor("Different Color-Column",COLUMN,5);
-
+        allPublicObjective[1]=new PuODifferentColor("Different Color-Line",LINE,6);
+        allPublicObjective[2]=new PuODifferentShades("Different Shades-Column",COLUMN,4);
+        allPublicObjective[3]=new PuODifferentShades("Different Shades-Line",LINE,5);
+        allPublicObjective[4]=new PuOShades("Light Shades",2,LIGHT_SHADES);
+        allPublicObjective[5]=new PuOShades("Medium Shades",2,MEDIUM_SHADES);
+        allPublicObjective[6]=new PuOShades("Dark Shades",2,DARK_SHADES);
+        allPublicObjective[7]=new PuOSetDifferentShades("Set Different Shades",5);
+        allPublicObjective[8]=new PuOSetDifferentColor("Set Different Color",4);
+        shuffleObjective(allPublicObjective);
+        PublicObjective[] objectivesExtracted=new PublicObjective[3];
+        for(int i=0;i<3;i++)
+            objectivesExtracted[i]=allPublicObjective[i];
+        game.setPublicObjectives(objectivesExtracted);
 
 
     }
 
-    
+    public void shuffleObjective(PublicObjective[] objective) {
+        Random rnd = ThreadLocalRandom.current();
+        for (int i = objective.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            PublicObjective a;
+            a = objective[index];
+            objective[index] = objective[i];
+            objective[i] = a;
+        }
+    }
+
+    public PrivateObjective[] createPrivateObjective(){
+        PrivateObjective[] privateObjective=new PrivateObjective[6];//UNCOLORED
+        int i=0;
+        for(Color c: Color.values()) {
+            privateObjective[i] = new PrivateObjective("Shades", c);
+            i++;
+        }
+        return privateObjective;
+
+    }
+
+    public void createToolCards(){
+        game.getToolCards()[0]=new TcGrozingPliers(1,"Grozing Pliers",Color.PURPLE);
+        game.getToolCards()[1]=new TcEglomiseBrush(2,"Eglomise Brush",Color.BLUE);
+        game.getToolCards()[2]=new TcCopperFoilBurnisher(3,"Copper Foil Burnisher",Color.RED);
+        game.getToolCards()[3]=new TcLathekin(4,"Lathekin",Color.YELLOW);
+        game.getToolCards()[4]=new TcLensCutter(5,"Lens Cutter",Color.GREEN);
+        game.getToolCards()[5]=new TcFluxBrush(6,"Flux Brush",Color.PURPLE);
+        game.getToolCards()[6]=new TcGlazingHammer(7,"Glazing Hammer",Color.BLUE);
+        game.getToolCards()[7]=new TcRunningPliers(8,"Running Pliers",Color.RED);
+        game.getToolCards()[8]=new TcCorkBackedStraightedge(9,"Cork Backed Straightedge",Color.YELLOW);
+        game.getToolCards()[9]=new TcGrindingStone(10,"Grinding Stone",Color.GREEN);
+        game.getToolCards()[10]=new TcFluxRemover(11,"Flux Remover",Color.PURPLE);
+        game.getToolCards()[11]=new TcTapWheel(12,"Tap Wheel",Color.BLUE);
+
+
+    }
+
+
 
     public WindowPattern createWPCVirtus(){
         Frame frame=new Frame();

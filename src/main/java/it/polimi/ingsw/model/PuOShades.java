@@ -4,6 +4,9 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 
 public class PuOShades extends PublicObjective implements iObjective {
+    public static final String LIGHT_SHADES="lightShades";
+    public static final String MEDIUM_SHADES="mediumShades";
+    public static final String DARK_SHADES="darkShades";
 
     private int points;
 
@@ -47,13 +50,13 @@ public class PuOShades extends PublicObjective implements iObjective {
         Dice fakeDice= new Dice();
         int i=0;
         switch (typeOfShades) {
-            case "lightShades":
+            case LIGHT_SHADES:
                 i = 1;
                 break;
-            case "mediumShades":
+            case MEDIUM_SHADES:
                 i = 3;
                 break;
-            case "darkShades":
+            case DARK_SHADES:
                 i = 5;
                 break;
         }

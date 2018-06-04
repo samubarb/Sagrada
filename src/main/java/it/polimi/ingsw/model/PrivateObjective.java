@@ -10,6 +10,8 @@ public class PrivateObjective implements iObjective,Serializable{
     public static final int LINE_SIZE= 4;
     public static final int COLUMN_SIZE = 5;
 
+    public PrivateObjective() {
+    }
 
     public PrivateObjective(String name, Color color) {
         this.name = name;

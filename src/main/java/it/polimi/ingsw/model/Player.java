@@ -15,10 +15,11 @@ public class Player implements Serializable{
     private int finalPoints;
     private Frame frame;
     private WindowPattern windowPattern;
-    private ArrayList<PrivateObjective> privateObjective;
+    private PrivateObjective privateObjective;
     private Game currentGame;
     private Dice chosenNut;
     private boolean firstDice=true;
+    public static final int DEFAUTL_VALUE = 0;
 
     /*
      *constructor of default
@@ -33,7 +34,7 @@ public class Player implements Serializable{
         this.color = Color.UNCOLORED;
         this.frame = new Frame();
         this.windowPattern = null;
-        this.privateObjective = new ArrayList<PrivateObjective>();
+        this.privateObjective = new PrivateObjective();
         this.chosenNut=new Dice();
     }
 
@@ -42,7 +43,7 @@ public class Player implements Serializable{
         this.color = color;
         this.frame = new Frame();
         this.windowPattern = null;
-        this.privateObjective = new ArrayList<PrivateObjective>();
+        this.privateObjective = new PrivateObjective();
         this.chosenNut=new Dice();
     }
 
@@ -102,11 +103,11 @@ public class Player implements Serializable{
         this.windowPattern = windowPattern;
     }
 
-    public ArrayList<PrivateObjective> getPrivateObjective() {
+    public PrivateObjective getPrivateObjective() {
         return privateObjective;
     }
 
-    public void setPrivateObjective(ArrayList<PrivateObjective> privateObjective) {
+    public void setPrivateObjective(PrivateObjective privateObjective) {
         this.privateObjective = privateObjective;
     }
 
@@ -165,11 +166,12 @@ public class Player implements Serializable{
      */
 
     public boolean checkWindowPatternValueRestriction(Dice dice, Coordinates position){
-        if(getWindowPattern().getDicePosition(position).getValue()==0)
+        if(getWindowPattern().getDicePosition(position).getValue()==DEFAUTL_VALUE)
             return true;
         else if(getWindowPattern().getDicePosition(position).getValue()==dice.getValue())
             return true;
         return false;
+
 
     }
 
