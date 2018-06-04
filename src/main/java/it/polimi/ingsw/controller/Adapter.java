@@ -12,7 +12,12 @@ public interface Adapter {
     VCoordinates coordinatesToView(Coordinates xy);
     VDice diceToView(Dice dice);
     Coordinates coordinatesToModel(VCoordinates xy);
-    //VPlayer playerToView(Player player);
+
+    // Game adapters
+    VGame gameToView(Game game);
+    // Game gameToModel(VGame game);
+
+    VPlayer playerToView(Player player);
     VCurrentDice currentDiceToView(Dice[] currentDice) throws InvalidPositionException;
 
 

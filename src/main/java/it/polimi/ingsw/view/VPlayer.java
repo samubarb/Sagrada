@@ -1,6 +1,9 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.view.exceptions.IllegalCoordinatesException;
+
+import java.util.ArrayList;
+
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VPlayer {
@@ -8,6 +11,7 @@ public class VPlayer {
     private VColor color;
     private VFrame frame;
     private VWindowPattern wpattern;
+    private VPrivateObjective vPrivateObjective;
 
     public VPlayer(String name) {
         this.name = name;
@@ -29,7 +33,16 @@ public class VPlayer {
     public VWindowPattern getWpattern() { return this.wpattern; }
     public VFrame getFrame() { return this.frame; }
 
-    // public
+    public void setColor(VColor color) {
+        this.color = color;
+    }
+    public void setFrame(VFrame frame) {
+        this.frame = frame;
+    }
+    public void setWpattern(VWindowPattern wpattern) {
+        this.wpattern = wpattern;
+    }
+    public void setvPrivateObjective(VPrivateObjective vPrivateObjective) { this.vPrivateObjective = vPrivateObjective; }
 
     public VMove askMove() {
         println("È il tuo turno " + this.color.toString() + this.name + VColor.RESET);
@@ -68,7 +81,6 @@ public class VPlayer {
                 println("Coordinate non valide.");
             }
         } while (flag);
-
         return xy;
     }
 

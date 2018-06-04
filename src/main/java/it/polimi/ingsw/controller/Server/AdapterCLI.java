@@ -30,9 +30,8 @@ public final class AdapterCLI implements Adapter {
         return vPattern;
     }
 
-    public VFrame frameToView(Frame frame) {
+    public VFrame frameToView(Frame frame) { // Frame adapter from Model to View
         VFrame vFrame = new VFrame();
-
         for (int j = 0; j < 4; j++)
             for (int i = 0; i < 5; i++) {
                 Coordinates xy = new Coordinates(i, j);
@@ -41,7 +40,7 @@ public final class AdapterCLI implements Adapter {
         return vFrame;
     }
 
-    public VDice diceToView(Dice dice) {
+    public VDice diceToView(Dice dice) { // Dice adapter from Model to View
         if (dice == null)
             return null;
         if (dice.getValue() == 0 && dice.getColor() == Color.UNCOLORED)
@@ -50,28 +49,42 @@ public final class AdapterCLI implements Adapter {
     }
 
 
-    public VCoordinates coordinatesToView(Coordinates xy) {
+    public VCoordinates coordinatesToView(Coordinates xy) { // Coordinates adapter from View to Model
         int x, y;
         x = xy.getX() + 1;
         y = xy.getY() + 1;
         return new VCoordinates(x, y);
     }
 
-    public Coordinates coordinatesToModel(VCoordinates xy) {
+    public Coordinates coordinatesToModel(VCoordinates xy) { // Coordinates adapter from Model to View
         int x, y;
         x = xy.getX() - 1;
         y = xy.getY() - 1;
         return new Coordinates(x, y);
     }
 
-    /*
-    public VPlayer playerToView(Player player) {
-        VPlayer vPlayer = new VPlayer(player.getName());
-        vPlayer.
-    }
-    */
 
-    public VCurrentDice currentDiceToView(Dice[] currentDice) throws InvalidPositionException {
+    public VPlayer playerToView(Player player) { // Player adapter from Model to View
+        VPlayer vPlayer = new VPlayer(player.getName()); // initialize the player's name
+        vPlayer.setColor(colorToView(player.getColor())); // set the player's color
+        vPlayer.setFrame(frameToView(player.getFrame())); // set the player's frame
+        vPlayer.setWpattern(patternToView(player.getWindowPattern())); // set the player's pattern
+        return vPlayer;
+    }
+
+
+    public VGame gameToView(Game game) { // Game adapter from Model to View
+        VGame vGame = new VGame();
+        for (Player p : game.getPlayers()) { // add all players
+            vGame.addVPlayer(playerToView(p));
+        }
+
+
+        return vGame;
+    }
+
+
+    public VCurrentDice currentDiceToView(Dice[] currentDice) throws InvalidPositionException { // currentDice adapter from Model to View
         VCurrentDice vCurrentDice = new VCurrentDice(currentDice.length);
         for (int i = 0; i < currentDice.length; i++) {
             vCurrentDice.add(diceToView(currentDice[i]), i);
@@ -79,7 +92,7 @@ public final class AdapterCLI implements Adapter {
         return vCurrentDice;
     }
 
-    public VColor colorToView(Color color) {
+    public VColor colorToView(Color color) { // Color adapter from Model  to View
         VColor vc = VColor.RESET;
         switch (color) {
             case RED:
