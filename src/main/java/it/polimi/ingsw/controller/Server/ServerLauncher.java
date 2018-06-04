@@ -29,7 +29,7 @@ public class ServerLauncher {
     private Timer mainTimer;
     private int round;
     private static final int MAXNUMBEROFROUND = 2;
-    private static final long TURNTIME = 30;
+    private static final long TURNTIME = 10000;
     private Game game;
     private Timer turnTimer;
     private boolean canJoin;
@@ -46,7 +46,7 @@ public class ServerLauncher {
     /**
      * RMI port.
      */
-    private static final int RMI_PORT = 4242;
+    private static final int RMI_PORT = new ServerSettings().setFromJSON().getPort();
 
     /**
      * Mutex object to handle concurrency between users during loginPlayer.
@@ -298,6 +298,7 @@ public class ServerLauncher {
                 }
                 //startTurnCountDown((int)TURNTIME);
                 //start turn timer;
+                startTurnCountDownTimer(TURNTIME);
                 getDiceAndPlace(playerInterface, player);
                 //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
         /*
@@ -308,6 +309,19 @@ public class ServerLauncher {
                 endturn();
             }
 
+        }
+        private void startTurnCountDownTimer(long waitingTime) {
+            turnTimer = new Timer();
+            turnTimer.schedule(new TurnCountDownTask(), waitingTime);
+        }
+
+        private void cancelTurnTimer() {
+            synchronized (TURN_MUTEX) {
+                if (turnTimer != null) {
+                    turnTimer.cancel();
+                    turnTimer.purge();
+                }
+            }
         }
 
         public void getDiceAndPlace(PlayerInterface playerInterface, Player player) {
@@ -408,7 +422,7 @@ public class ServerLauncher {
                 }
             }
         }
-
+        /*
         public void startTurnCountDown(int MAXTIMETURN) {
             turnLatch = new CountDownLatch(MAXTIMETURN);
             turnTimer.scheduleAtFixedRate(new TurnCountDownTask(), 1000, 1000);
@@ -426,7 +440,7 @@ public class ServerLauncher {
                     turnTimer.purge();
                 }
             }
-        }
+        }*/
 
         private void notifyAllTurn(String username){
             for(User user : nicknames){
@@ -445,13 +459,14 @@ public class ServerLauncher {
         @Override
         public void run() {
             synchronized (TURN_MUTEX) {
-                if (turnLatch.getCount() > 0) {
+                //endturn();
+                //if (turnLatch.getCount() > 0) {
                     //onUpdateCountdown((int) turnLatch.getCount() - 1);
-                    if (turnLatch.getCount() == 1) {
-                        turnTimer.cancel();
-                        turnTimer.purge();
-                    }
-                    turnLatch.countDown();
+                    //if (turnLatch.getCount() == 1) {
+                        //turnTimer.cancel();
+                        //turnTimer.purge();
+                    //}
+                    //turnLatch.countDown();
                 }
             }
         }
@@ -488,4 +503,4 @@ public class ServerLauncher {
     }
 
 
-}
+

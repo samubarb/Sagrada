@@ -6,8 +6,8 @@ package it.polimi.ingsw.model;
 public class PuOSetDifferentColor extends PublicObjective implements iObjective{
     private int points;
 
-    public PuOSetDifferentColor(String name, Color color,int points) {
-        super(name, color);
+    public PuOSetDifferentColor(String name,int points) {
+        super(name);
         this.points=points;
     }
 

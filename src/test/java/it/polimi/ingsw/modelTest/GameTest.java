@@ -54,8 +54,9 @@ public class GameTest {
         gameTest.setAddPlayer(playerOne);
         gameTest.setAddPlayer(playerTwo);
         gameTest.setAddPlayer(playerThree);
-        gameTest.configureGame();
-        gameTest.setTurnOrder();
+        GameConfigurator gameConfigurator=new GameConfigurator(gameTest);
+        //gameTest.configureGame();
+        //gameTest.setTurnOrder();
         System.out.print(gameTest.getTurnOrder()[0].getName());
         System.out.print(gameTest.getTurnOrder()[1].getName());
         System.out.println(gameTest.getTurnOrder()[2].getName());
@@ -83,6 +84,11 @@ public class GameTest {
         System.out.println(testPlayer.getName());
         System.out.println("index"+gameTest.getCurrentPlayerIndex());
         System.out.println("round "+ gameTest.getRound());
+        System.out.print(gameTest.getTurnOrder()[0].getName());
+        System.out.print(gameTest.getTurnOrder()[1].getName());
+        System.out.println(gameTest.getTurnOrder()[2].getName());
+        testPlayer=gameTest.getCurrentPlayer();
+        System.out.println(testPlayer.getName());
         System.out.print(gameTest.getTurnOrder()[0].getName());
         System.out.print(gameTest.getTurnOrder()[1].getName());
         System.out.println(gameTest.getTurnOrder()[2].getName());
