@@ -1,10 +1,14 @@
 package it.polimi.ingsw.model.toolCards;
 
+import it.polimi.ingsw.model.Action;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Coordinates;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.exceptions.*;
 
 import java.io.Serializable;
 
-public class ToolCard implements Serializable {
+public class ToolCard implements Serializable,iTool {
     private int number;
     private String name;
     private Color color;
@@ -45,5 +49,28 @@ public class ToolCard implements Serializable {
         this.alreadyUsed = alreadyUsed;
     }
 
+    @Override
+    public void useTool(Player player) {
 
+    }
+
+    @Override
+    public void useTool(Player player, Coordinates coordinates) {
+
+    }
+
+    @Override
+    public void useTool(Player player, Action action) throws NutChosenWrongException {
+
+    }
+
+    @Override
+    public void useTool(Player player, Coordinates initialPosition, Coordinates finalPosition) {
+
+    }
+
+    @Override
+    public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) throws FrameValueAndColorException, WindowPatternValueException, WindowPatternColorException, BusyPositionException, AdjacentDiceException {
+
+    }
 }
