@@ -6,16 +6,15 @@ import java.io.Serializable;
 public class PuODifferentShades extends PublicObjective implements iObjective {
 
     private String flagColumnLine;
-    private int points;
     public static final int LINE_SIZE= 4;
     public static final int COLUMN_SIZE = 5;
 
     //flagColumnLine 0--->line 1--->column
 
     public PuODifferentShades(String name, String flagColumnLine, int points) {
-        super(name);
+        super(name,points);
         this.flagColumnLine = flagColumnLine;
-        this.points = points;
+
     }
 
     public String getFlagColumnLine() {
@@ -26,19 +25,11 @@ public class PuODifferentShades extends PublicObjective implements iObjective {
         this.flagColumnLine = flagColumnLine;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
     @Override
     public String toString() {
         return "PuODifferentShades{" +
                 "flagColumnLine=" + flagColumnLine +
-                ", points=" + points +
+                ", points=" + getPoints() +
                 '}';
     }
 
@@ -56,7 +47,7 @@ public class PuODifferentShades extends PublicObjective implements iObjective {
                 }
 
                 if(allDifferent)
-                    score+=points;
+                    score+=this.getPoints();
                 else allDifferent=true;
             }
         }
@@ -69,7 +60,7 @@ public class PuODifferentShades extends PublicObjective implements iObjective {
                     }
                 }
                 if (allDifferent)
-                    score += points;
+                    score += this.getPoints();
                 else allDifferent = true;
             }
         }

@@ -4,11 +4,11 @@ package it.polimi.ingsw.model;
 
 
 public class PuOSetDifferentColor extends PublicObjective implements iObjective{
-    private int points;
+
 
     public PuOSetDifferentColor(String name,int points) {
-        super(name);
-        this.points=points;
+        super(name,points);
+
     }
 
     @Override
@@ -28,6 +28,6 @@ public class PuOSetDifferentColor extends PublicObjective implements iObjective{
             if (countColoredDice[i]<minVal)
                 minVal=countColoredDice[i];
         }
-        return (this.points*minVal);
+        return (this.getPoints()*minVal);
     }
 }

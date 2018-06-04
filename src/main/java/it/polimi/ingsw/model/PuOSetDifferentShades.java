@@ -5,11 +5,10 @@ import java.io.Serializable;
 
 public class PuOSetDifferentShades extends PublicObjective implements iObjective{
 
-    private int points;
 
     public PuOSetDifferentShades(String name,int points) {
-        super(name);
-        this.points=points;
+        super(name,points);
+
     }
 
     @Override
@@ -25,6 +24,6 @@ public class PuOSetDifferentShades extends PublicObjective implements iObjective
             if (countDiceValue[i]<minVal)
                 minVal=countDiceValue[i];
         }
-        return (points*minVal);
+        return (this.getPoints()*minVal);
     }
 }

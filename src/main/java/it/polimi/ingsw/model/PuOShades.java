@@ -8,24 +8,14 @@ public class PuOShades extends PublicObjective implements iObjective {
     public static final String MEDIUM_SHADES="mediumShades";
     public static final String DARK_SHADES="darkShades";
 
-    private int points;
-
     //set 1 if lightShades 3 if mediumShades 5 if darkShades
     private String typeOfShades;
 
     public PuOShades(String name, int points, String typeOfShades) {
-        super(name);
-        this.points = points;
+        super(name,points);
         this.typeOfShades = typeOfShades;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
 
     public String getTypeOfShades() {
         return typeOfShades;
@@ -38,7 +28,7 @@ public class PuOShades extends PublicObjective implements iObjective {
     @Override
     public String toString() {
         return "PuOShades{" +
-                "points=" + points +
+                "points=" + getPoints() +
                 ", typeOfShades=" + typeOfShades +
                 '}';
     }
