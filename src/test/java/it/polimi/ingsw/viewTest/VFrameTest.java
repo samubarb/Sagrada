@@ -1,10 +1,9 @@
 package it.polimi.ingsw.viewTest;
 
-import it.polimi.ingsw.view.VColor;
-import it.polimi.ingsw.view.VCoordinates;
-import it.polimi.ingsw.view.VDice;
-import it.polimi.ingsw.view.VFrame;
-import it.polimi.ingsw.view.exceptions.IllegalCoordinatesException;
+import it.polimi.ingsw.view.other_elements.VColor;
+import it.polimi.ingsw.view.other_elements.VCoordinates;
+import it.polimi.ingsw.view.game_elements.VDice;
+import it.polimi.ingsw.view.game_elements.VFrame;
 import it.polimi.ingsw.inputoutput.IOManager;
 import org.junit.jupiter.api.Test;
 

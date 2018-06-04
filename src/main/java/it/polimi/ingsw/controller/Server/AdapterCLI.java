@@ -2,9 +2,15 @@ package it.polimi.ingsw.controller.Server;
 
 import it.polimi.ingsw.controller.Adapter;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.view.*;
+import it.polimi.ingsw.view.cards.VPrivateObjectiveCard;
+import it.polimi.ingsw.view.cards.VPublicObjectiveCard;
+import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
+import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
+import it.polimi.ingsw.view.game_elements.*;
+import it.polimi.ingsw.view.other_elements.VColor;
+import it.polimi.ingsw.view.other_elements.VCoordinates;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -63,7 +69,6 @@ public final class AdapterCLI implements Adapter {
         return new Coordinates(x, y);
     }
 
-
     public VPlayer playerToView(Player player) { // Player adapter from Model to View
         VPlayer vPlayer = new VPlayer(player.getName()); // initialize the player's name
         vPlayer.setColor(colorToView(player.getColor())); // set the player's color
@@ -72,17 +77,39 @@ public final class AdapterCLI implements Adapter {
         return vPlayer;
     }
 
-
     public VGame gameToView(Game game) { // Game adapter from Model to View
         VGame vGame = new VGame();
-        for (Player p : game.getPlayers()) { // add all players
-            vGame.addVPlayer(playerToView(p));
+        for (Player p : game.getPlayers()) { // add all the players in the game
+            try {
+                vGame.addVPlayer(playerToView(p));
+            }
+            catch (TooManyPlayersException e) {
+                println("Limite giocatori raggiunto. Il giocatore " + colorToView(p.getColor()) + p.getName() + VColor.RESET + " NON è stato aggiunto alla partita.");
+            }
+        }
+
+        for (PublicObjective pub : game.getPublicObjectives()) // add all publicObjective cards in the game
+            vGame.addPublicObjective(publicObjectiveCardToView(pub));
+
+        try {
+            vGame.setVCurrentDice(currentDiceToView(game.getCurrentDice()));
+        } catch (InvalidPositionException e) {
+            println("Errore: CurrentDice ha ricevuto una posizione non valida.");
+            println("Uscendo...");
+            System.exit(1);
         }
 
 
         return vGame;
     }
 
+    public VPrivateObjectiveCard privateObjectiveCardToView(PrivateObjective objCard) {
+        return new VPrivateObjectiveCard(objCard.getName(), colorToView(objCard.getColor()));
+    }
+
+    public VPublicObjectiveCard publicObjectiveCardToView(PublicObjective objCard) {
+        return new VPublicObjectiveCard(objCard.getName(), objCard.getPoints());
+    }
 
     public VCurrentDice currentDiceToView(Dice[] currentDice) throws InvalidPositionException { // currentDice adapter from Model to View
         VCurrentDice vCurrentDice = new VCurrentDice(currentDice.length);

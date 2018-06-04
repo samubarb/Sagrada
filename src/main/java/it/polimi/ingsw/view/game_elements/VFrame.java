@@ -1,7 +1,7 @@
 
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.game_elements;
 
-import it.polimi.ingsw.view.exceptions.IllegalCoordinatesException;
+import it.polimi.ingsw.view.other_elements.VCoordinates;
 
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
 

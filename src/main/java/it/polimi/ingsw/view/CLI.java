@@ -2,6 +2,12 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.view.exceptions.IllegalCoordinatesException;
 import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
+import it.polimi.ingsw.view.game_elements.VDice;
+import it.polimi.ingsw.view.game_elements.VGame;
+import it.polimi.ingsw.view.game_elements.VPlayer;
+import it.polimi.ingsw.view.other_elements.VCoordinates;
+import it.polimi.ingsw.view.other_elements.VMove;
+import it.polimi.ingsw.view.other_elements.VSettings;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -63,14 +69,6 @@ public class CLI implements View {
         } while (flag);
 
         return xy;
-    }
-
-    public VMove askMove(VPlayer player) {
-        return player.askMove();
-    }
-    public VMove reAskMove(VPlayer player) {
-        println("La mossa non è valida. Fai ritenta una mossa valida.");
-        return player.askMove();
     }
 
     public void updateState(VGame game) {

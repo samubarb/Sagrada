@@ -1,6 +1,6 @@
 package it.polimi.ingsw.viewTest;
 
-import it.polimi.ingsw.view.VColor;
+import it.polimi.ingsw.view.other_elements.VColor;
 import org.junit.jupiter.api.Test;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;

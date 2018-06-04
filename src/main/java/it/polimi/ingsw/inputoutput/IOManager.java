@@ -59,15 +59,12 @@ public final class IOManager {
 
     public static void enter() {
         while (!getString().equals(""));
-        return;
     }
 
     public static boolean Sn() {
         String answer = getString().toLowerCase();
 
-        if (answer.equals("") || answer.equals("s") || answer.equals("si") || answer.equals("sì"))
-            return true;
-        return false;
+        return (answer.equals("") || answer.equals("s") || answer.equals("si") || answer.equals("sì"));
     }
 
     public static void retry() {
@@ -97,5 +94,13 @@ public final class IOManager {
     public static void waitKey() {
         print("Premi un tasto per continuare...");
         getString();
+    }
+
+    public static void fineExit() { // exit the program with no error state
+        System.exit(0);
+    }
+
+    public static void errorExit() { // exit the program with an error state
+        System.exit(1);
     }
 }

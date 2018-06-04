@@ -1,8 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.view.*;
+import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
+import it.polimi.ingsw.view.game_elements.*;
+import it.polimi.ingsw.view.other_elements.VColor;
+import it.polimi.ingsw.view.other_elements.VCoordinates;
 
 public interface Adapter {
 

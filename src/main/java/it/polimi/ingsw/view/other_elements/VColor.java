@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.other_elements;
 
 public enum VColor {
     RED("\u001B[31m"),

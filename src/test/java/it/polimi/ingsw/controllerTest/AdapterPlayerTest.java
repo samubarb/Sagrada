@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameConfigurator;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.view.VPlayer;
+import it.polimi.ingsw.view.game_elements.VPlayer;
 import org.junit.jupiter.api.Test;
 
 import static it.polimi.ingsw.inputoutput.IOManager.println;

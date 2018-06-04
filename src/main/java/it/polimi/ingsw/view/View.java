@@ -1,6 +1,9 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
+import it.polimi.ingsw.view.game_elements.VGame;
+import it.polimi.ingsw.view.game_elements.VPlayer;
+import it.polimi.ingsw.view.other_elements.VCoordinates;
 
 public interface View {
 
@@ -11,8 +14,8 @@ public interface View {
     void setTurn(VPlayer player);
 
     /* Moves handling */
-    VMove askMove(VPlayer player); // use by the server to interrogate the client and let the user input his move
-    VMove reAskMove(VPlayer player); // in case of a bad placement, send an error message and re-ask a new move
+    // VMove askMove(VPlayer player); // use by the server to interrogate the client and let the user input his move
+    // VMove reAskMove(VPlayer player); // in case of a bad placement, send an error message and re-ask a new move
 
     int askDice();
     VCoordinates askCoordinates();

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 
@@ -15,7 +15,8 @@ public class VCurrentDice {
         if (position > this.dice.length) {
             throw new InvalidPositionException();
         }
-        this.dice[position] = dice;
+        else
+            this.dice[position] = dice;
     }
     /*
     public int length() {

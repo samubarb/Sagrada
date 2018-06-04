@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.other_elements;
 
 public class VSettings {
     private boolean CLIvsGUI; // false = CLI, true = GUI

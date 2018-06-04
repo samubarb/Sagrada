@@ -5,8 +5,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Dice;
 import it.polimi.ingsw.model.Frame;
-import it.polimi.ingsw.view.VCoordinates;
-import it.polimi.ingsw.view.VFrame;
+import it.polimi.ingsw.view.game_elements.VFrame;
 import org.junit.jupiter.api.Test;
 
 import static it.polimi.ingsw.inputoutput.IOManager.println;

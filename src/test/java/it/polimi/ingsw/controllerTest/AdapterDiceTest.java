@@ -1,11 +1,9 @@
 package it.polimi.ingsw.controllerTest;
 
 import it.polimi.ingsw.controller.Server.AdapterCLI;
-import it.polimi.ingsw.model.Frame;
-import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.view.VColor;
-import it.polimi.ingsw.view.VDice;
+import it.polimi.ingsw.view.other_elements.VColor;
+import it.polimi.ingsw.view.game_elements.VDice;
 import org.junit.jupiter.api.Test;
 
 import static it.polimi.ingsw.inputoutput.IOManager.println;

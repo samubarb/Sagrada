@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.Server.AdapterCLI;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameConfigurator;
 import it.polimi.ingsw.model.WindowPattern;
-import it.polimi.ingsw.view.VWindowPattern;
+import it.polimi.ingsw.view.cards.VWindowPattern;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -1,4 +1,7 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.other_elements;
+
+import it.polimi.ingsw.view.cards.VToolCard;
+import it.polimi.ingsw.view.game_elements.VDice;
 
 public class VMove {
     private VDice dice;

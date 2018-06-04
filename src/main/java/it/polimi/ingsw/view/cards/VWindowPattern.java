@@ -1,5 +1,8 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.cards;
 
+import it.polimi.ingsw.view.other_elements.VColor;
+import it.polimi.ingsw.view.other_elements.VCoordinates;
+import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
 
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
@@ -12,16 +15,6 @@ public class VWindowPattern {
     public VWindowPattern() {
         this.pattern = new VDice[5][4];
     }
-
-    /*
-    public void setConstraint(VColor color, VCoordinates xy) {
-        this.pattern[xy.getX() - 1][xy.getY() - 1] = new VDice (0, color);
-    }
-
-    public void setConstraint(int value, VCoordinates xy) {
-        this.pattern[xy.getX() - 1][xy.getY() - 1] = new VDice (value, VColor.RESET);
-    }
-    */
 
     public void setConstraint(VDice dice, VCoordinates xy) throws ConstraintNotValidException {
         if (dice == null) {

@@ -1,4 +1,6 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.game_elements;
+
+import it.polimi.ingsw.view.other_elements.VColor;
 
 public class VDice {
         // U+2680 to U+2685

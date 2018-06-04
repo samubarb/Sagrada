@@ -101,7 +101,7 @@ buildNumber.properties
 # SonarLint working directories, configuration files (including credentials)
 .sonarlint/
 
-###Cient adn server setting###
+### Client and Server settings ###
 #JSONconf folder
 JSONconf/ClientSettings.json
 JSONconf/ServerSettings.json
