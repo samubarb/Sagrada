@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.RMIApi;
 
 import it.polimi.ingsw.controller.Server.User;
+import it.polimi.ingsw.model.Action;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Dice;
 import it.polimi.ingsw.model.Game;
@@ -23,4 +24,69 @@ public interface PlayerInterface extends Remote, Serializable {
     public Coordinates getDiceFinalPosition() throws RemoteException;
     public void setClientGame(Game game) throws  RemoteException;
     public void printPlayersFrame() throws  RemoteException;
+    public int getMoves() throws  RemoteException;
+    public int getToolcard() throws  RemoteException;
+
+
+    /**
+     * Richiede un dado dalla riserva di dadi (currentDice)
+     * @return
+     * @throws RemoteException
+     */
+    public int getDiceFromReserve() throws  RemoteException;
+
+    /**
+     * Richiede il tipo di azione ( incremento o decremento)
+     * @return
+     * @throws RemoteException
+     */
+    public Action getTypeOfAction() throws  RemoteException;
+
+    /**
+     * Richiede il dado del frame da spostare
+     * @return
+     * @throws RemoteException
+     */
+    public Coordinates getDiceToBeMoved() throws RemoteException;
+
+    /**
+     * Richiede la posizione finale nel frame
+     * @return
+     * @throws RemoteException
+     */
+    public Coordinates getDiceDestination() throws RemoteException;
+
+    /**
+     * overloading del metodo sopra citato la i indica se il primo o il secondo dado
+     * @param i ordinal number
+     * @return
+     * @throws RemoteException
+     */
+    public Coordinates getDiceToBeMoved(int i) throws RemoteException;
+
+    /**
+     * come sopra
+     * @param i
+     * @return
+     * @throws RemoteException
+     */
+    public Coordinates getDiceDestination(int i) throws RemoteException;
+
+    /**
+     * chiede un dado dal tracciato dei round sarà da settare solo la x delle coordinate
+     * @return
+     * @throws RemoteException
+     */
+    public Coordinates getRoundDiceToBeSwapped() throws RemoteException;
+
+    /**
+     * serve per chiedere all'utente se vuole piazzare il dado dopo che è stato tirato nuovamente
+     * @return
+     * @throws RemoteException
+     */
+    public boolean doYouWantToPlace() throws RemoteException;
+
+
+
+
 }
