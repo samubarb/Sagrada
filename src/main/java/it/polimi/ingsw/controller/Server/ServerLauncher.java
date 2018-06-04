@@ -3,11 +3,9 @@ package it.polimi.ingsw.controller.Server;
 
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.Server.Rmi.rmiStartServer;
-import it.polimi.ingsw.model.Coordinates;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameConfigurator;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.model.toolCards.iTool;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -22,6 +20,10 @@ import java.util.concurrent.TimeUnit;
  * It represent the game server.
  */
 public class ServerLauncher {
+    private static final int DICEPLACE = 1;
+    private static final int TOOLCARD = 2;
+    private static final int DONOTHING = 3;
+
     public static final int MAXPLAYER = 4;
     public static final int MINPLAYERS = 2;
     public static final long TIMETOWAITINROOM = 5000;
@@ -36,6 +38,9 @@ public class ServerLauncher {
     private CountDownLatch startLatch;
     private CountDownLatch turnLatch;
     private static Player currentPlayer;
+    private static boolean dicePlaced = true;
+    private static boolean toolCardUsed = true;
+    private static boolean nothingToDo = true;
 
 
     /**
@@ -218,8 +223,7 @@ public class ServerLauncher {
                 //canJoin = false;
                 cancelTimer();
                 startCountDownTimer(START_IMMEDIATELY);
-            }
-            else if (nicknames.size() == 2) {
+            } else if (nicknames.size() == 2) {
                 startCountDownTimer(TIMETOWAITINROOM);
             }
             return true;
@@ -254,6 +258,8 @@ public class ServerLauncher {
     }
 
     private class GameHandler extends TimerTask {
+        private CountDownLatch turnLatch;
+        private CountDownLatch countDownLatch;
 
         /**
          * This method is executed when the time is expired. At first, it closes the room.
@@ -269,6 +275,7 @@ public class ServerLauncher {
             dispatchGameSession();
             System.out.println("ldistribuita la game session");
             //configureGame();
+            //setupPlayerPatternChoice();
             while (game.getRound() <= MAXNUMBEROFROUND) {
                 currentPlayer = game.getCurrentPlayer();
                 String currentPlayerName = currentPlayer.getName();
@@ -288,62 +295,159 @@ public class ServerLauncher {
             //selectWinner();
             //notifyWinner();
         }
+        /*
+        public void setupPlayerPatternChoice(){
+            for (User user : nicknames){
+                user.getPlayerInterface().choosePattern();
+            }
+        }*/
 
         public void startTurn(PlayerInterface playerInterface, Player player) {
             synchronized (TURN_MUTEX) {
-                try {
-                    playerInterface.setMyTurn(true);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-                //startTurnCountDown((int)TURNTIME);
-                //start turn timer;
-                startTurnCountDownTimer(TURNTIME);
-                getDiceAndPlace(playerInterface, player);
-                //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
+                while(!(nothingToDo||(toolCardUsed&&dicePlaced))) {
+                    try {
+                        playerInterface.setMyTurn(true);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    //startTurnCountDown((int)TURNTIME);
+                    //start turn timer;
+                    //startTurnCountDownTimer(TURNTIME, playerInterface);
+                    //startTimer(TURNTIME, playerInterface);
+                    getMoves(playerInterface, player);
+                    getDiceAndPlace(playerInterface, player);
+                    //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
         /*
         if cartautensile usa cartautensile chiede cosa vuole la carta utensile se serve poi richiede
         if posiziona dado posiziona dado poi richiede IL SOLO DA IMPLEMENTARE dopo non richiede ma termina il turno
         if nulla end turn
          */
-                endturn();
-            }
-
-        }
-        private void startTurnCountDownTimer(long waitingTime) {
-            turnTimer = new Timer();
-            turnTimer.schedule(new TurnCountDownTask(), waitingTime);
-        }
-
-        private void cancelTurnTimer() {
-            synchronized (TURN_MUTEX) {
-                if (turnTimer != null) {
-                    turnTimer.cancel();
-                    turnTimer.purge();
+                    endturn(playerInterface);
                 }
             }
+
+        }
+        public void getMoves(PlayerInterface playerInterface, Player player){
+            //chiedo la mossa 0, 1 ,2, 3
+            int moves = 0;
+            try {
+                moves = playerInterface.getMoves();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+            if (moves == DICEPLACE){
+                getDiceAndPlace(playerInterface, player);
+            }
+            else if (moves == TOOLCARD){
+                int toolCard = 0;
+                try {
+                    toolCard = playerInterface.getToolcard();
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                useToolcard(toolCard, playerInterface, player);
+            }
+            else if (moves == DONOTHING){
+                nothingToDo = true;
+            }
+
+        }
+        public void useToolcard(int i, PlayerInterface playerInterface, Player player){
+            switch(i){
+                case 1: useGrozingPliers(i, playerInterface, player);
+                    break;
+                case 2: useEnglimiseBrush(i, playerInterface, player);
+                    break;
+                case 3: useCopperFoilBurnisher(i, playerInterface, player);
+                    break;
+                case 4: useLathekin(i, playerInterface, player);
+                    break;
+                case 5: useLensCutter(i, playerInterface, player);
+                    break;
+                case 6: useFluxBrush(i, playerInterface, player);
+                    break;
+            }
+        }
+        public void useGrozingPliers(int i, PlayerInterface playerInterface, Player player){
+            try {
+                    player.checkFavorTokenPlayer(game.getToolCards()[i-1]);
+                    int dice = playerInterface.getDiceFromReserve();
+                    player.setChosenNut(game.getDiceFromCurrentDice(dice));
+                    Action action = playerInterface.getTypeOfAction();
+                    game.getToolCards()[i - 1].useTool(player, action);
+            } catch (FavorTokenException e) {
+                e.printStackTrace();
+                //print no abbastanza vafor token
+            } catch (NutChosenWrongException e) {
+                e.printStackTrace();
+                //problem with nutchosen non puoi cambiare 1 to 6 e 6 to 1
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                ///aòosfjdiefeinf
+            }
         }
 
-        public void getDiceAndPlace(PlayerInterface playerInterface, Player player) {
-            int position = 0;
+        public void useEnglimiseBrush(int i, PlayerInterface playerInterface, Player player){
             try {
-                position = playerInterface.getDiceToBePlaced();
-            } catch (RemoteException e) {
+                player.checkFavorTokenPlayer(game.getToolCards()[i-1]);
+                Coordinates initialCoordinates = playerInterface.getDiceToBeMoved();
+                Coordinates finalCoordinates = playerInterface.getDiceDestination();
+                game.getToolCards()[i - 1].useTool(player, initialCoordinates, finalCoordinates);
+            }
+            catch (IllegalArgumentException e){
+                ///Jjlshdivcoiled
+            }
+            catch (FavorTokenException e) {
+                e.printStackTrace();
+            } catch (RemoteException e){
                 e.printStackTrace();
             }
-            player.setChosenNut(game.getDiceFromCurrentDice(position));
-            Coordinates coordinates = null;
-            try {
-                coordinates = playerInterface.getDiceFinalPosition();
 
+        }
+
+
+        public void useCopperFoilBurnisher(int i, PlayerInterface playerInterface, Player player) {
+            try {
+                player.checkFavorTokenPlayer(game.getToolCards()[i - 1]);
+
+                Coordinates initialCoordinates = playerInterface.getDiceToBeMoved();
+                Coordinates finalCoordinates = playerInterface.getDiceDestination();
+
+                game.getToolCards()[i - 1].useTool(player, initialCoordinates, finalCoordinates);
+            } catch (IllegalArgumentException e) {
+                ///Jjlshdivcoiled
+            } catch (FavorTokenException e) {
+                e.printStackTrace();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+        }
+
+
+        public void useLathekin(int i, PlayerInterface playerInterface, Player player){
             try {
-                player.positionDice(player.getChosenNut(), coordinates);
+                player.checkFavorTokenPlayer(game.getToolCards()[i-1]);
+            } catch (FavorTokenException e1) {
+                e1.printStackTrace();
+            }
+            Coordinates initialCoordinates1 = null;
+            Coordinates initialCoordinates2 = null;
+            Coordinates finalCoordinates1 = null;
+            Coordinates finalCoordinates2 = null;
+            try {
+                initialCoordinates1 = playerInterface.getDiceToBeMoved(1);
+                finalCoordinates1 = playerInterface.getDiceDestination(1);
+                initialCoordinates2 = playerInterface.getDiceToBeMoved(2);
+                finalCoordinates2 = playerInterface.getDiceDestination(2);
+            } catch (RemoteException e){
+                e.printStackTrace();
+            }
+            try {
+                game.getToolCards()[i - 1].useTool(player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
             } catch (WindowPatternColorException e) {
                 try {
                     playerInterface.printaaa("Non è rispettato il colore del dado");
+
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
@@ -377,11 +481,170 @@ public class ServerLauncher {
                 }
                 e.printStackTrace();
             }
+            dicePlaced = true;
+            return;
+
+        }
+
+        public void useLensCutter(int i, PlayerInterface playerInterface, Player player){
+            try {
+                player.checkFavorTokenPlayer(game.getToolCards()[i-1]);
+            } catch (FavorTokenException e1) {
+                e1.printStackTrace();
+            }
+            int dice;
+            Coordinates roundDice = null;
+            try {
+                dice = playerInterface.getDiceFromReserve();
+                player.setChosenNut((game.getDiceFromCurrentDice(dice)));
+                roundDice = playerInterface.getRoundDiceToBeSwapped();
+            } catch (RemoteException e){
+                e.printStackTrace();
+            }
+            game.getToolCards()[i-1].useTool(player, roundDice);
+        }
+
+        public void useFluxBrush(int i, PlayerInterface playerInterface, Player player){
+            int dice = 0;
+            try {
+                dice = playerInterface.getDiceFromReserve();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            player.setChosenNut(game.getDiceFromCurrentDice(dice));
+            game.getToolCards()[i-1].useTool(player);
+            boolean placeDice = false;
+            try {
+                placeDice = playerInterface.doYouWantToPlace();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            if(placeDice) {
+                Coordinates coordinates = null;
+                try {
+                    coordinates = playerInterface.getDiceFinalPosition();
+
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    player.positionDice(player.getChosenNut(), coordinates);
+                } catch (WindowPatternColorException e) {
+                    try {
+                        playerInterface.printaaa("Non è rispettato il colore del dado");
+
+                    } catch (RemoteException e1) {
+                        e1.printStackTrace();
+                    }
+                    e.printStackTrace();
+                } catch (WindowPatternValueException e) {
+                    try {
+                        playerInterface.printaaa("Non è rispettato il valore del dado");
+                    } catch (RemoteException e1) {
+                        e1.printStackTrace();
+                    }
+                    e.printStackTrace();
+                } catch (FrameValueAndColorException e) {
+                    try {
+                        playerInterface.printaaa("Non è rispettato il controllo dei dadi ortogonali adiacenti");
+                    } catch (RemoteException e1) {
+                        e1.printStackTrace();
+                    }
+                    e.printStackTrace();
+                } catch (BusyPositionException e) {
+                    try {
+                        playerInterface.printaaa("c'è già un dado");
+                    } catch (RemoteException e1) {
+                        e1.printStackTrace();
+                    }
+                    e.printStackTrace();
+                } catch (AdjacentDiceException e) {
+                    try {
+                        playerInterface.printaaa("Non ci sono dadi adiacenti alla posizione indicata");
+                    } catch (RemoteException e1) {
+                        e1.printStackTrace();
+                    }
+                    e.printStackTrace();
+                }
+                dicePlaced = true;
+                return;
+            }
+        }
+
+        private void startTurnCountDownTimer(long waitingTime, PlayerInterface playerInterface) {
+            turnTimer = new Timer();
+            turnTimer.schedule(new TurnCountDownTask(), waitingTime);
+        }
+
+        private void cancelTurnTimer(PlayerInterface playerInterface) {
+            synchronized (TURN_MUTEX) {
+                if (turnTimer != null) {
+                    turnTimer.cancel();
+                    turnTimer.purge();
+                }
+            }
+        }
+
+        public void getDiceAndPlace(PlayerInterface playerInterface, Player player) {
+            int position = 0;
+            try {
+                position = playerInterface.getDiceToBePlaced();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            player.setChosenNut(game.getDiceFromCurrentDice(position));
+            Coordinates coordinates = null;
+            try {
+                coordinates = playerInterface.getDiceFinalPosition();
+
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            try {
+                player.positionDice(player.getChosenNut(), coordinates);
+            } catch (WindowPatternColorException e) {
+                try {
+                    playerInterface.printaaa("Non è rispettato il colore del dado");
+
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+            } catch (WindowPatternValueException e) {
+                try {
+                    playerInterface.printaaa("Non è rispettato il valore del dado");
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+            } catch (FrameValueAndColorException e) {
+                try {
+                    playerInterface.printaaa("Non è rispettato il controllo dei dadi ortogonali adiacenti");
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+            } catch (BusyPositionException e) {
+                try {
+                    playerInterface.printaaa("c'è già un dado");
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+            } catch (AdjacentDiceException e) {
+                try {
+                    playerInterface.printaaa("Non ci sono dadi adiacenti alla posizione indicata");
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+            }
+            dicePlaced = true;
             return;
         }
 
-        public void endturn() {
-            cancelTurnTimer();
+        public void endturn(PlayerInterface playerInterface) {
+            cancelTurnTimer(playerInterface);
 
         }
 
@@ -392,20 +655,20 @@ public class ServerLauncher {
             }
         }
 
-        private void createGameSession(){
-            for (User user: nicknames){
+        private void createGameSession() {
+            for (User user : nicknames) {
                 game.setAddPlayer(new Player(user.getUsername()));
             }
             new GameConfigurator(game);
 
         }
-        private void updateGameSession(){
-            for(User user : nicknames){
-                try{
+
+        private void updateGameSession() {
+            for (User user : nicknames) {
+                try {
                     user.getPlayerInterface().setClientGame(game);
                     user.getPlayerInterface().printPlayersFrame();
-                }
-                catch(RemoteException e){
+                } catch (RemoteException e) {
 
                 }
             }
@@ -422,28 +685,9 @@ public class ServerLauncher {
                 }
             }
         }
-        /*
-        public void startTurnCountDown(int MAXTIMETURN) {
-            turnLatch = new CountDownLatch(MAXTIMETURN);
-            turnTimer.scheduleAtFixedRate(new TurnCountDownTask(), 1000, 1000);
-            try {
-                turnLatch.await();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                //Server.error(e);
-            }
-        }
-        private void cancelTurnTimer() {
-            synchronized (TURN_MUTEX) {
-                if (turnTimer != null) {
-                    turnTimer.cancel();
-                    turnTimer.purge();
-                }
-            }
-        }*/
 
-        private void notifyAllTurn(String username){
-            for(User user : nicknames){
+        private void notifyAllTurn(String username) {
+            for (User user : nicknames) {
                 try {
                     user.getPlayerInterface().notifyTurn(username);
                 } catch (RemoteException e) {
@@ -451,56 +695,50 @@ public class ServerLauncher {
                 }
             }
         }
+
+        void startTimer(long moveWaitingTime, PlayerInterface playerInterface) {
+            int time = (int) (TURNTIME / 1000);
+            this.turnLatch = new CountDownLatch(time);
+            turnTimer.scheduleAtFixedRate(new TurnCountDownTask(), 1000, 1000);
+            try {
+                turnLatch.await();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        void stopTimer() {
+            synchronized (TURN_MUTEX) {
+                resetTimer();
+                while (countDownLatch.getCount() > 0)
+                    countDownLatch.countDown();
+            }
+        }
+
+        public void resetTimer() {
+            turnTimer.cancel();
+            turnTimer.purge();
+        }
     }
+
     private class TurnCountDownTask extends TimerTask {
-        /**
-         * Code executed by the timer every seconds on a secondary thread.
-         */
+
         @Override
         public void run() {
             synchronized (TURN_MUTEX) {
-                //endturn();
-                //if (turnLatch.getCount() > 0) {
-                    //onUpdateCountdown((int) turnLatch.getCount() - 1);
-                    //if (turnLatch.getCount() == 1) {
-                        //turnTimer.cancel();
-                        //turnTimer.purge();
-                    //}
-                    //turnLatch.countDown();
+                if (turnLatch.getCount() > 0) {
+                    if (turnLatch.getCount() == 1){
+                        turnTimer.cancel();
+                        turnTimer.purge();
+                    }
+                    turnLatch.countDown();
                 }
             }
         }
 
-        public void onUpdateCountdown(int remainingTime){
-            return;
-        }
 
-        /*
-         * This method verify every second if the player is connected If the
-         * player disconnect it will be setted isOnline as false and then
-         * notified to all players that the player went offline It takes as
-         * input the player to monitor and the remaining time of the timer
-         * It's a void method
-         *//*
-        public void onUpdateCountdown(String currentPlayer, int remainingTime) {
-            try {
-                for (Player player : players) {
-                    if (!(player.getName().equals(currentPlayer))) {
-                    } else {
-                        player.getPlayerInterface().onUpdateTurnCountdown(remainingTime);
-                    }
-                }
-            } catch (RemoteException e) {
-                Server.error("player disconnected", e);
-                for (Player player : players) {
-                    if (!(player.getName().equals(currentPlayer))) {
-                    } else {
-                        player.setOnline(false);
-                    }
-                }
-
-            }*/
     }
+}
 
 
 

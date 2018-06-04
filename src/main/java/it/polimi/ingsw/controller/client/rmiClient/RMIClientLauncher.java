@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.Server.Socket.Connect;
 import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.controller.client.ClientLauncher;
 import it.polimi.ingsw.controller.client.ClientSettings;
+import it.polimi.ingsw.model.Action;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -363,5 +364,59 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
             println(new AdapterCLI().frameToView(game.getPlayerByUsername(player.getName()).getFrame()).toString());
             println(new AdapterCLI().patternToView(game.getPlayerByUsername(player.getName()).getWindowPattern()).toString());
         }
+    }
+
+    @Override
+    public int getMoves() {
+        //int moves = view.askMove();
+        //return moves;
+        return 1;
+    }
+
+    @Override
+    public int getToolcard() throws RemoteException {
+        //int toolCard = view.askToolcard();
+        //return toolCard;
+        return 1;
+    }
+
+    @Override
+    public int getDiceFromReserve() throws RemoteException {
+        return 0;
+    }
+
+    @Override
+    public Action getTypeOfAction() throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public Coordinates getDiceToBeMoved() throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public Coordinates getDiceDestination() throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public Coordinates getDiceToBeMoved(int i) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public Coordinates getDiceDestination(int i) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public Coordinates getRoundDiceToBeSwapped() throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public boolean doYouWantToPlace() throws RemoteException {
+        return false;
     }
 }
