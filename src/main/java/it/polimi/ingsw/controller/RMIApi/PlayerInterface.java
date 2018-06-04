@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.RMIApi;
 
 import it.polimi.ingsw.controller.Server.User;
+import it.polimi.ingsw.model.Action;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Dice;
 import it.polimi.ingsw.model.Game;
@@ -23,4 +24,19 @@ public interface PlayerInterface extends Remote, Serializable {
     public Coordinates getDiceFinalPosition() throws RemoteException;
     public void setClientGame(Game game) throws  RemoteException;
     public void printPlayersFrame() throws  RemoteException;
+    public int getMoves() throws  RemoteException;
+    public int getToolcard() throws  RemoteException;
+
+    public int getDiceFromReserve() throws  RemoteException;
+    public Action getTypeOfAction() throws  RemoteException;
+    public Coordinates getDiceToBeMoved() throws RemoteException;
+    public Coordinates getDiceDestination() throws RemoteException;
+    public Coordinates getDiceToBeMoved(int i) throws RemoteException;
+    public Coordinates getDiceDestination(int i) throws RemoteException;
+    public Coordinates getRoundDiceToBeSwapped() throws RemoteException;
+    public boolean doYouWantToPlace() throws RemoteException;
+
+
+
+
 }
