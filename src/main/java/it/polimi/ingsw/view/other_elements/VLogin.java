@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.other_elements;
 
 public class VLogin {
     private String name, password;

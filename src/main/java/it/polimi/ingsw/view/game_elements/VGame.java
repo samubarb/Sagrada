@@ -53,8 +53,15 @@ public class VGame {
     }
 
     public int askToolCard() {
+        println("Scegli quale Tool Card utilizzare" + newline);
+        println(this.tools.toString());
+        int value;
+        do {
+            println("Inserisci il numero corrispondente: ");
+            value = getInt();
+        } while(value <= 0 || value > this.tools.size());
 
-        return 0;
+        return value - 1; // return the index
     }
 
     public void addVPlayer(VPlayer player) throws TooManyPlayersException { // add a player to the game
