@@ -6,7 +6,6 @@ import java.io.Serializable;
 public class PuODifferentColor extends PublicObjective implements iObjective {
 
     private String flagColumnLine;
-    private int points;
     public static final int LINE_SIZE= 4;
     public static final int COLUMN_SIZE = 5;
     public static final String COLUMN="column";
@@ -16,16 +15,16 @@ public class PuODifferentColor extends PublicObjective implements iObjective {
     //flagColumnLine 0--->line 1--->column
 
     public PuODifferentColor(String name, String flag,int points) {
-        super(name);
+        super(name,points);
         this.flagColumnLine=flag;
-        this.points=points;
+
     }
 
     @Override
     public String toString() {
         return "PuODifferentColor{" +
                 "flagColumnLine=" + flagColumnLine +
-                ", points=" + points +
+                ", points=" + this.getPoints() +
                 '}';
     }
 
@@ -43,7 +42,7 @@ public class PuODifferentColor extends PublicObjective implements iObjective {
                     }
 
                 if(allDifferent)
-                    score+=points;
+                    score+=this.getPoints();
                 else allDifferent=true;
                 }
             }
@@ -56,7 +55,7 @@ public class PuODifferentColor extends PublicObjective implements iObjective {
                         }
                     }
                     if (allDifferent)
-                        score += points;
+                        score += this.getPoints();
                     else allDifferent = true;
                 }
             }
