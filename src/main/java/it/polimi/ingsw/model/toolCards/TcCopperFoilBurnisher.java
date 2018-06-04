@@ -11,16 +11,19 @@ public class TcCopperFoilBurnisher extends ToolCard implements iTool {
 
     @Override
     public void useTool(Player player) {
+        //this method is not used
 
     }
 
     @Override
     public void useTool(Player player, Coordinates coordinates) {
+        //this method is not used
 
     }
 
     @Override
     public void useTool(Player player, Action action) throws NutChosenWrongException {
+        //this method is not used
 
     }
 
@@ -43,6 +46,7 @@ public class TcCopperFoilBurnisher extends ToolCard implements iTool {
 
     @Override
     public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) {
+        //this method is not used
 
     }
 }

@@ -51,26 +51,31 @@ public class ToolCard implements Serializable,iTool {
 
     @Override
     public void useTool(Player player) {
+        //this method is not used
 
     }
 
     @Override
     public void useTool(Player player, Coordinates coordinates) {
+        //this method is not used
 
     }
 
     @Override
     public void useTool(Player player, Action action) throws NutChosenWrongException {
+        //this method is not used
 
     }
 
     @Override
     public void useTool(Player player, Coordinates initialPosition, Coordinates finalPosition) {
+        //this method is not used
 
     }
 
     @Override
     public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) throws FrameValueAndColorException, WindowPatternValueException, WindowPatternColorException, BusyPositionException, AdjacentDiceException {
+        //this method is not used
 
     }
 }

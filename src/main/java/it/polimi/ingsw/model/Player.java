@@ -168,9 +168,9 @@ public class Player implements Serializable{
     public boolean checkWindowPatternValueRestriction(Dice dice, Coordinates position){
         if(getWindowPattern().getDicePosition(position).getValue()==DEFAUTL_VALUE)
             return true;
-        else if(getWindowPattern().getDicePosition(position).getValue()==dice.getValue())
+        if(getWindowPattern().getDicePosition(position).getValue()==dice.getValue())
             return true;
-        return false;
+        else return false;
 
 
     }
