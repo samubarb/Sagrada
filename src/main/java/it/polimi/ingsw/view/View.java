@@ -1,5 +1,8 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.WindowPattern;
+import it.polimi.ingsw.view.cards.VToolCard;
+import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.game_elements.VPlayer;
@@ -19,7 +22,10 @@ public interface View {
 
     int askDice();
     VCoordinates askCoordinates();
-
+    /* TO IMPLEMENT NOW
+    int askWindowPattern(); // returns the position of the used card
+    int askToolCard(); // tool cards are taken from Game
+    */
     // new user to sign in
     String askNewUsername() throws UsernameTooShortException;
     String askNewPassword();
@@ -29,6 +35,8 @@ public interface View {
     String askUsername();
     String askPassword();
     void loggedIn(String player); // invoked by the server to permit login
+
+
 
     /*
     Mosse che mi servono by teo

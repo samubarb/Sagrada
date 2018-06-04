@@ -79,7 +79,8 @@ public final class AdapterCLI implements Adapter {
 
     public VGame gameToView(Game game) { // Game adapter from Model to View
         VGame vGame = new VGame();
-        for (Player p : game.getPlayers()) { // add all the players in the game
+        /* add all players in the game */
+        for (Player p : game.getPlayers()) {
             try {
                 vGame.addVPlayer(playerToView(p));
             }
@@ -88,9 +89,11 @@ public final class AdapterCLI implements Adapter {
             }
         }
 
-        for (PublicObjective pub : game.getPublicObjectives()) // add all publicObjective cards in the game
+        /* add all publicObjective cards in the game */
+        for (PublicObjective pub : game.getPublicObjectives())
             vGame.addPublicObjective(publicObjectiveCardToView(pub));
 
+        /* add CurrentDice */
         try {
             vGame.setVCurrentDice(currentDiceToView(game.getCurrentDice()));
         } catch (InvalidPositionException e) {
@@ -99,8 +102,29 @@ public final class AdapterCLI implements Adapter {
             System.exit(1);
         }
 
+        /* set round */
+        vGame.setRound(game.getRound());
+
+        /* set RoundTrack */
+        vGame.setRoundTrack(roundTrackToView(game.getRoundTrack()));
+
+        /* set Turn */
+        vGame.setTurn(playerToView(game.getCurrentPlayer()));
 
         return vGame;
+    }
+
+    public VRoundTrack roundTrackToView(Dice[] track) {
+        VRoundTrack vTrack = new VRoundTrack(track.length);
+        for (int i = 0; i < track.length; i++)
+            try {
+                vTrack.add(diceToView(track[i]), i);
+            }
+            catch (InvalidPositionException e) {
+                println("Errore: dimensioni non coerenti");
+                errorExit();
+            }
+        return vTrack;
     }
 
     public VPrivateObjectiveCard privateObjectiveCardToView(PrivateObjective objCard) {
