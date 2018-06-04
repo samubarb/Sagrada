@@ -18,12 +18,11 @@ public class VCurrentDice {
         else
             this.dice[position] = dice;
     }
-    /*
-    public int length() {
+
+    public int size() {
         return this.dice.length;
 
     }
-    */
 
     public VDice get(int position) {
         return this.dice[position];

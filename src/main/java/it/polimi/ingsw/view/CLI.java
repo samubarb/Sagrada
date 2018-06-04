@@ -23,7 +23,8 @@ public class CLI implements View {
     }
 
     public CLI() {
-        this.settings = new VSettings();
+        this.settings = new VSettings(); // reset settings to the default
+        this.game = new VGame();
     }
 
     public void startCLI() {
@@ -32,13 +33,15 @@ public class CLI implements View {
     }
 
     public int askDice() {
-        int value;
-        do {
-            println("Quale dei dadi vuoi pescare? Inserisci il numero corrispondente");
-            value = getInt();
-        } while (value <= 0 /*|| value > */);
+        return this.game.askDice();
+    }
 
-        return value - 1;
+    public int askWindowPattern() {
+        return this.game.askWindowPattern();
+    }
+
+    public int askToolCard() {
+        return this.game.askToolCard();
     }
 
     public VCoordinates askCoordinates() {

@@ -18,10 +18,8 @@ public interface Adapter {
 
     // Game adapters
     VGame gameToView(Game game);
-    // Game gameToModel(VGame game);
+    // Game gameToModel(VGame game); // shouldn't be necessary
 
     VPlayer playerToView(Player player);
     VCurrentDice currentDiceToView(Dice[] currentDice) throws InvalidPositionException;
-
-
 }

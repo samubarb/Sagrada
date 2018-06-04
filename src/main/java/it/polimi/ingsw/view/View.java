@@ -22,10 +22,10 @@ public interface View {
 
     int askDice();
     VCoordinates askCoordinates();
-    /* TO IMPLEMENT NOW
+
     int askWindowPattern(); // returns the position of the used card
     int askToolCard(); // tool cards are taken from Game
-    */
+
     // new user to sign in
     String askNewUsername() throws UsernameTooShortException;
     String askNewPassword();

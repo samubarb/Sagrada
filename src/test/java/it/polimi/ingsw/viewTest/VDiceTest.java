@@ -5,15 +5,14 @@ import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.inputoutput.IOManager;
 import org.junit.jupiter.api.Test;
 
+import static it.polimi.ingsw.inputoutput.IOManager.print;
+
 public class VDiceTest {
 
     @Test
     public void setPositionDiceTest(){
-
-        for (VColor vc : VColor.values()) {
+        for (VColor vc : VColor.values())
             for (int i = 1; i <= 6; i++)
-                IOManager.print(new VDice(i, vc).toString());
-            //IOManager.println("\n");
-        }
+                print(new VDice(i, vc).toString());
     }
 }
