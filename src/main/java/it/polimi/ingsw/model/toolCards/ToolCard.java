@@ -49,6 +49,7 @@ public class ToolCard implements Serializable,iTool {
         this.alreadyUsed = alreadyUsed;
     }
 
+    public Color getColor() { return this.color; }
     @Override
     public void useTool(Player player) {
         //this method is not used

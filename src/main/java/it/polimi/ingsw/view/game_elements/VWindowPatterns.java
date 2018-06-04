@@ -13,7 +13,7 @@ public class VWindowPatterns {
     }
 
     public void add(VWindowPattern pattern, int position) throws InvalidPositionException{
-        if (position > this.patterns.length) {
+        if (position < 0 || position > this.patterns.length) {
             throw new InvalidPositionException();
         }
         else

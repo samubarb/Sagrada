@@ -2,8 +2,10 @@ package it.polimi.ingsw.controller.Server;
 
 import it.polimi.ingsw.controller.Adapter;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.toolCards.ToolCard;
 import it.polimi.ingsw.view.cards.VPrivateObjectiveCard;
 import it.polimi.ingsw.view.cards.VPublicObjectiveCard;
+import it.polimi.ingsw.view.cards.VToolCard;
 import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
@@ -34,6 +36,19 @@ public final class AdapterCLI implements Adapter {
                 }
             }
         return vPattern;
+    }
+
+    public VWindowPatterns patternsToView(WindowPattern[] patterns) {
+        VWindowPatterns vPatterns = new VWindowPatterns(patterns.length);
+        for (int i = 0; i < patterns.length; i++) {
+            try {
+                vPatterns.add(patternToView(patterns[i]), i);
+            } catch (InvalidPositionException e) {
+                println("Errore: VWindowPatterns ha ricevuto una posizione non valida.");
+                errorExit();
+            }
+        }
+        return vPatterns;
     }
 
     public VFrame frameToView(Frame frame) { // Frame adapter from Model to View
@@ -98,9 +113,14 @@ public final class AdapterCLI implements Adapter {
             vGame.setVCurrentDice(currentDiceToView(game.getCurrentDice()));
         } catch (InvalidPositionException e) {
             println("Errore: CurrentDice ha ricevuto una posizione non valida.");
-            println("Uscendo...");
-            System.exit(1);
+            errorExit();
         }
+
+        /* add ToolCards */
+        vGame.setTools(toolsToView(game.getToolCards()));
+
+        /* add WindowPatterns */
+        vGame.setPatterns(patternsToView(game.getWindowPatternCards()));
 
         /* set round */
         vGame.setRound(game.getRound());
@@ -112,6 +132,23 @@ public final class AdapterCLI implements Adapter {
         vGame.setTurn(playerToView(game.getCurrentPlayer()));
 
         return vGame;
+    }
+
+    public VToolCards toolsToView(ToolCard[] tools) {
+        VToolCards vTools = new VToolCards(tools.length);
+        for (int i = 0; i < tools.length; i++) {
+            try {
+                vTools.add(toolCardToView(tools[i]), i);
+            } catch (InvalidPositionException e) {
+                println("Errore: ToolCards ha ricevuto una posizione non valida.");
+                errorExit();
+            }
+        }
+        return vTools;
+    }
+
+    public VToolCard toolCardToView(ToolCard toolCard) {
+        return new VToolCard(toolCard.getName(), colorToView(toolCard.getColor()));
     }
 
     public VRoundTrack roundTrackToView(Dice[] track) {

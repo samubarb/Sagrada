@@ -1,9 +1,6 @@
 package it.polimi.ingsw.view.game_elements;
 
-import it.polimi.ingsw.view.cards.VObjectiveCard;
-import it.polimi.ingsw.view.cards.VPrivateObjectiveCard;
-import it.polimi.ingsw.view.cards.VPublicObjectiveCard;
-import it.polimi.ingsw.view.cards.VWindowPattern;
+import it.polimi.ingsw.view.cards.*;
 import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
 import it.polimi.ingsw.view.game_elements.VCurrentDice;
 import it.polimi.ingsw.view.game_elements.VPlayer;
@@ -19,6 +16,7 @@ public class VGame {
     private ArrayList<VPublicObjectiveCard> publicObjectives;
     private VCurrentDice dice;
     private VWindowPatterns patterns;
+    private VToolCards tools;
 
     private VRoundTrack roundTrack;
     private int round;
@@ -68,6 +66,14 @@ public class VGame {
 
     public void addPublicObjective(VPublicObjectiveCard objCard) {
         this.publicObjectives.add(objCard);
+    }
+
+    public void setTools(VToolCards tools) {
+        this.tools = tools;
+    }
+
+    public void setPatterns(VWindowPatterns patterns) {
+        this.patterns = patterns;
     }
 
     public void setVCurrentDice(VCurrentDice dice) { this.dice = dice; }

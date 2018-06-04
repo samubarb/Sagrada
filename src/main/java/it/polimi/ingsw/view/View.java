@@ -12,7 +12,6 @@ public interface View {
 
     void updateState(VGame game);
 
-
     /* Server to Client requests */
     void setTurn(VPlayer player);
 
