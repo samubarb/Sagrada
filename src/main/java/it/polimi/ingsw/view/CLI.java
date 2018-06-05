@@ -26,6 +26,7 @@ public class CLI implements View {
         this.clientPlayer = new VPlayer(player);
         this.settings = new VSettings(); // reset settings to the default
         this.game = new VGame();
+        this.game.setClientPlayer(player);
     }
 
     public void updateGame(VGame game) {
@@ -48,10 +49,6 @@ public class CLI implements View {
         return this.game.askDice();
     }
 
-    public VCoordinates askCoordinates(int i) {
-        return new VCoordinates(1,1);
-    }
-
     public int askWindowPattern() {
         return this.game.askWindowPattern();
     }
@@ -69,7 +66,12 @@ public class CLI implements View {
     }
 
     public VCoordinates askCoordinates() {
-        println("Dove lo vuoi posizionare");
+        println("Dove lo vuoi posizionare?");
+        return askXy();
+    }
+
+    public VCoordinates askCoordinates(int i) {
+        println("Dove vuoi piazzare il dado numero " + i +"?");
         return askXy();
     }
 
@@ -124,7 +126,7 @@ public class CLI implements View {
                 break;
             case 5:
                 if (exit())
-                    System.exit(0);
+                    fineExit();
                 break;
             default:
                 retry();
