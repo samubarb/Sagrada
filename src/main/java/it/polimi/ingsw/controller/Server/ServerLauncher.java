@@ -283,6 +283,7 @@ public class ServerLauncher {
             System.out.println("ldistribuita la game session");
             //configureGame();
             //setupPlayerPatternChoice();
+
             while (game.getRound() <= MAXNUMBEROFROUND) {
                 currentPlayer = game.getCurrentPlayer();
                 String currentPlayerName = currentPlayer.getName();
@@ -335,6 +336,7 @@ public class ServerLauncher {
         if nulla end turn
          */
                     endturn(playerInterface);
+
                 }
             //teo}
 
