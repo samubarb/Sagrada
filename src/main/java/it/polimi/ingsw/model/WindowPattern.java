@@ -13,6 +13,7 @@ public class WindowPattern implements Serializable {
     public WindowPattern(int favorTokenToAssign, String name) {
         this.favorTokenToAssign = favorTokenToAssign;
         this.name = name;
+        this.pattern=new Frame();
     }
 
     public WindowPattern(int favorTokenToAssign, String name, Frame pattern) {
