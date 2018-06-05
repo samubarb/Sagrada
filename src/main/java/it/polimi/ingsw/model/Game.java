@@ -304,6 +304,18 @@ public class Game implements Serializable{
         return new Player();
     }
 
+    /**
+     * resets the die in the current dice array
+     * @param player
+     * @param position
+     */
+    public void restoreDice(Player player,int position){
+        Dice dice=player.getChosenNut();
+        player.setChosenNut(new Dice());
+        getCurrentDice()[position]=dice;
+
+    }
+
 
 
 
