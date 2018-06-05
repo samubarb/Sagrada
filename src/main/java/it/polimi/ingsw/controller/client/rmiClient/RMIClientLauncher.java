@@ -79,9 +79,10 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
             System.out.println("Restart Client, connection to server error");
             return;
         }
-        view.splash();
+
         username = getUsername(input);
         view = new CLI(username);
+        view.splash();
 
         playerInterface = this;
         registerPlayerOnServer(username, playerInterface);
