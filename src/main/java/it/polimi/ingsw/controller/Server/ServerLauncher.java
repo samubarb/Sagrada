@@ -127,6 +127,10 @@ public class ServerLauncher {
         return offlineNicknames;
     }
 
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public static Object getLoginMutex() {
         return LOGIN_MUTEX;
     }
@@ -241,9 +245,12 @@ public class ServerLauncher {
         return false;
     }
 
-    public void getClientInterface(String username) {
-
-    }
+    /*public PlayerInterface getClientInterface(String username) {
+        for(User user: nicknames){
+            if(user.getUsername().equals(username))
+                return user.getPlayerInterface();
+        }
+    }*/
 
     private void startCountDownTimer(long waitingTime) {
         mainTimer = new Timer();
@@ -318,6 +325,8 @@ public class ServerLauncher {
                     //startTurnCountDownTimer(TURNTIME, playerInterface);
                     //startTimer(TURNTIME, playerInterface);
                     getMoves(playerInterface, player);
+                    updateGameSession();
+
                     //getDiceAndPlace(playerInterface, player);
                     //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
         /*
@@ -357,31 +366,32 @@ public class ServerLauncher {
         }
         public void useToolcard(int i, PlayerInterface playerInterface, Player player){
             switch(i){
-                case 1: useGrozingPliers(i, playerInterface, player);
+                case 0: useGrozingPliers(i, playerInterface, player);
                     break;
-                case 2: useEnglimiseBrush(i, playerInterface, player);
+                case 1: useEnglimiseBrush(i, playerInterface, player);
                     break;
-                case 3: useCopperFoilBurnisher(i, playerInterface, player);
+                case 2: useCopperFoilBurnisher(i, playerInterface, player);
                     break;
-                case 4: useLathekin(i, playerInterface, player);
+                case 3: useLathekin(i, playerInterface, player);
                     break;
-                case 5: useLensCutter(i, playerInterface, player);
+                case 4: useLensCutter(i, playerInterface, player);
                     break;
-                case 6: useFluxBrush(i, playerInterface, player);
+                case 5: useFluxBrush(i, playerInterface, player);
                     break;
             }
         }
         public void useGrozingPliers(int i, PlayerInterface playerInterface, Player player){
             try {
-                    player.checkFavorTokenPlayer(game.getToolCards()[i-1]);
+                    //player.checkFavorTokenPlayer(game.getToolCards()[i]);
                     int dice = playerInterface.getDiceFromReserve();
                     player.setChosenNut(game.getDiceFromCurrentDice(dice));
                     Action action = playerInterface.getTypeOfAction();
-                    game.getToolCards()[i - 1].useTool(player, action);
-            } catch (FavorTokenException e) {
+                    game.getToolCards()[i].useTool(player, action);
+                    game.restoreDice(player, dice);
+            }/* catch (FavorTokenException e) {
                 e.printStackTrace();
                 //print no abbastanza vafor token
-            } catch (NutChosenWrongException e) {
+            } */catch (NutChosenWrongException e) {
                 e.printStackTrace();
                 //problem with nutchosen non puoi cambiare 1 to 6 e 6 to 1
             } catch (RemoteException e) {
@@ -392,10 +402,10 @@ public class ServerLauncher {
 
         public void useEnglimiseBrush(int i, PlayerInterface playerInterface, Player player){
             try {
-                player.checkFavorTokenPlayer(game.getToolCards()[i-1]);
+                player.checkFavorTokenPlayer(game.getToolCards()[i]);
                 Coordinates initialCoordinates = playerInterface.getDiceToBeMoved();
                 Coordinates finalCoordinates = playerInterface.getDiceDestination();
-                game.getToolCards()[i - 1].useTool(player, initialCoordinates, finalCoordinates);
+                game.getToolCards()[i].useTool(player, initialCoordinates, finalCoordinates);
             }
             catch (IllegalArgumentException e){
                 ///Jjlshdivcoiled
@@ -411,12 +421,12 @@ public class ServerLauncher {
 
         public void useCopperFoilBurnisher(int i, PlayerInterface playerInterface, Player player) {
             try {
-                player.checkFavorTokenPlayer(game.getToolCards()[i - 1]);
+                player.checkFavorTokenPlayer(game.getToolCards()[i]);
 
                 Coordinates initialCoordinates = playerInterface.getDiceToBeMoved();
                 Coordinates finalCoordinates = playerInterface.getDiceDestination();
 
-                game.getToolCards()[i - 1].useTool(player, initialCoordinates, finalCoordinates);
+                game.getToolCards()[i].useTool(player, initialCoordinates, finalCoordinates);
             } catch (IllegalArgumentException e) {
                 ///Jjlshdivcoiled
             } catch (FavorTokenException e) {
@@ -429,7 +439,7 @@ public class ServerLauncher {
 
         public void useLathekin(int i, PlayerInterface playerInterface, Player player){
             try {
-                player.checkFavorTokenPlayer(game.getToolCards()[i-1]);
+                player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e1) {
                 e1.printStackTrace();
             }
@@ -446,7 +456,7 @@ public class ServerLauncher {
                 e.printStackTrace();
             }
             try {
-                game.getToolCards()[i - 1].useTool(player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
+                game.getToolCards()[i].useTool(player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
             } catch (WindowPatternColorException e) {
                 try {
                     playerInterface.printaaa("Non è rispettato il colore del dado");
@@ -491,7 +501,7 @@ public class ServerLauncher {
 
         public void useLensCutter(int i, PlayerInterface playerInterface, Player player){
             try {
-                player.checkFavorTokenPlayer(game.getToolCards()[i-1]);
+                player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e1) {
                 e1.printStackTrace();
             }
@@ -501,10 +511,12 @@ public class ServerLauncher {
                 dice = playerInterface.getDiceFromReserve();
                 player.setChosenNut((game.getDiceFromCurrentDice(dice)));
                 roundDice = playerInterface.getRoundDiceToBeSwapped();
+                game.getToolCards()[i].useTool(player, roundDice);
+                game.restoreDice(player, dice);
             } catch (RemoteException e){
                 e.printStackTrace();
             }
-            game.getToolCards()[i-1].useTool(player, roundDice);
+
         }
 
         public void useFluxBrush(int i, PlayerInterface playerInterface, Player player){
@@ -515,8 +527,9 @@ public class ServerLauncher {
                 e.printStackTrace();
             }
             player.setChosenNut(game.getDiceFromCurrentDice(dice));
-            game.getToolCards()[i-1].useTool(player);
-            boolean placeDice = false;
+            game.getToolCards()[i].useTool(player);
+            game.restoreDice(player, dice);
+            /*boolean placeDice = false;
             try {
                 placeDice = playerInterface.doYouWantToPlace();
             } catch (RemoteException e) {
@@ -571,7 +584,7 @@ public class ServerLauncher {
                 }
                 dicePlaced = true;
                 return;
-            }
+            }*/
         }
 
         private void startTurnCountDownTimer(long waitingTime, PlayerInterface playerInterface) {

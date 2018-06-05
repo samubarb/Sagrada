@@ -390,12 +390,12 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public Action getTypeOfAction() throws RemoteException {
-        return null;
+        return new AdapterCLI().booleanToAction(view.askAction());
     }
 
     @Override
     public Coordinates getDiceToBeMoved() throws RemoteException {
-        return null;
+        return new AdapterCLI().coordinatesToModel(view.askCoordinates());
     }
 
     @Override
@@ -405,21 +405,22 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public Coordinates getDiceToBeMoved(int i) throws RemoteException {
-        return null;
+        return new AdapterCLI().coordinatesToModel(view.askCoordinates(i));
     }
 
     @Override
     public Coordinates getDiceDestination(int i) throws RemoteException {
-        return null;
+        return new AdapterCLI().coordinatesToModel(view.askCoordinates(i));
     }
 
     @Override
     public Coordinates getRoundDiceToBeSwapped() throws RemoteException {
-        return null;
+        return new AdapterCLI().intToCoordinates(view.askToPickFromRoundTrack());
     }
 
     @Override
     public boolean doYouWantToPlace() throws RemoteException {
         return false;
     }
+
 }
