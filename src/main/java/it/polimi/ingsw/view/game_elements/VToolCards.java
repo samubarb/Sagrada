@@ -13,7 +13,7 @@ public class VToolCards {
     }
 
     public void add(VToolCard tool, int position) throws InvalidPositionException {
-        if (position <= 0 || position > this.toolCards.length) {
+        if (position < 0 || position > this.toolCards.length) {
             throw new InvalidPositionException();
         }
         else
