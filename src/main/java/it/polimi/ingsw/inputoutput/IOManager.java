@@ -57,6 +57,22 @@ public final class IOManager {
         return value;
     }
 
+    public static int getIntBound(int lower, int upper) {
+        int value;
+        boolean flag = true;
+
+        do {
+            if (flag)
+                println("Scegli inserendo il numero corrispondente: ");
+            else
+                println("Devi inserire un intero compreso tra " + lower + " e " + upper + ": ");
+            value = getInt();
+            flag = false;
+        } while(value < lower || value > upper);
+
+        return value;
+    }
+
     public static void enter() {
         while (!getString().equals(""));
     }

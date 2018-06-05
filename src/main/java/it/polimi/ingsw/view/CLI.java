@@ -44,6 +44,14 @@ public class CLI implements View {
         return this.game.askToolCard();
     }
 
+    public int askMove() {
+        println("Scegli cosa fare tra:");
+        println("1. Piazzare un dado");
+        println("2. Usare una Tool Card");
+        println("3. Passare il turno");
+        return getIntBound(1, 3);
+    }
+
     public VCoordinates askCoordinates() {
         println("Dove lo vuoi posizionare");
         return askXy();
