@@ -26,7 +26,7 @@ public class VRoundTrack {
 
     @Override
     public String toString() {
-        StringBuilder string = new StringBuilder();
+        StringBuilder string = new StringBuilder("Round Track:").append(newline);
         for(VDice vd : this.track)
             if (vd != null)
                 string.append(vd.toString());
