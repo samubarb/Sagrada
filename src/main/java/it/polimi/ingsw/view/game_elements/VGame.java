@@ -28,7 +28,6 @@ public class VGame {
 
     public int askDice() {
         int value = getInt(1, this.dice.size());
-
         return value - 1; // return the wanted index
     }
 
@@ -91,7 +90,7 @@ public class VGame {
     public String toString() {
         StringBuilder string = new StringBuilder();
         string.
-                append("Round: " + this.round).append(newline).
+                append("Round: " + this.round).append("\n\n").
                 append(this.roundTrack.toString()).append(newline);
         /*if (this.turn.getName().equals(this.clientPlayer.getName()))
             string.append("È il tuo turno, ");

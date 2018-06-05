@@ -12,6 +12,6 @@ public class VPublicObjectiveCard extends VObjectiveCard{
 
     @Override
     public String toString() {
-        return super.getName() + "Punti: " + points + newline + super.getDescription();
+        return newline + super.getName() + " " + "Punti: " + points + newline + super.getDescription();
     }
 }
