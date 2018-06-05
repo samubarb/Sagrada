@@ -124,6 +124,14 @@ public class CLI implements View {
         return xy;
     }
 
+    public void youWin() {
+        println("Hai vinto" + this.game.getClientPlayer().toString()+ "!");
+    }
+
+    public void youLose() {
+        println("Hai perso" + this.game.getClientPlayer().toString() + "!");
+    }
+
     public void updateState(VGame game) {
         this.game = game;
         clearScreen();
