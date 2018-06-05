@@ -31,7 +31,6 @@ public class VGame {
     public int askDice() {
         int value;
         do {
-            println("Quale dei dadi vuoi pescare?");
             println(this.dice.toString());
             println("Inserisci il numero corrispondente: ");
             value = getInt();
