@@ -15,6 +15,7 @@ public interface Adapter {
     VCoordinates coordinatesToView(Coordinates xy);
     VDice diceToView(Dice dice);
     Coordinates coordinatesToModel(VCoordinates xy);
+    Action booleanToAction(boolean action);
 
     // Game adapters
     VGame gameToView(Game game);

@@ -34,6 +34,10 @@ public class CLI implements View {
         this.game.setClientPlayer(this.clientPlayer.getName());
     }
 
+    public int askToPickFromRoundTrack() {
+        return this.game.askToPickFromTrack();
+    }
+
     public void startCLI() {
         this.splash();
         while(this.chooser(this.menu()));

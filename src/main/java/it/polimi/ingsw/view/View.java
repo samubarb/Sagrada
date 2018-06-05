@@ -28,13 +28,15 @@ public interface View {
     int askMove(); // returns 1 for a dice placing, 2 for use a toolcard, 3 to pass the turn
     int askWindowPattern(); // returns the position of the used card
     int askToolCard(); // tool cards are taken from Game
-
     boolean askAction(); // true for increase, false for decrease, use with booleanToAction() adapter
+    int askToPickFromRoundTrack();
 
     // new user to sign in
     String askNewUsername() throws UsernameTooShortException;
     String askNewPassword();
     String chooseAnotherUsername(String user /*username already taken*/) throws UsernameTooShortException; // if the username already exists let the player choose another one
+
+
 
     // old user to log in
     String askUsername();
@@ -43,14 +45,7 @@ public interface View {
 
 
     /*
-
-    boolean askAction(); //increase e decrease
-
-    ritorna coordinates (solo coordinata X) per identificare un dato nel VGame.VRoundTrack()
-
-    boolean askConfirmDice(); // chiede
-
-    VGame(String nome player di questo game)
+    boolean askConfirmDice(); // chiede se va bene dopo il reroll
 
     gestione errore
     nomedelmetodo(Errore);

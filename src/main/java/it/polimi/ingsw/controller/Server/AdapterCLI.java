@@ -86,6 +86,10 @@ public final class AdapterCLI implements Adapter {
         return new Coordinates(x, y);
     }
 
+    public Coordinates intToCoordinates(int value) { // used to simplify overriding
+        return new Coordinates(value , 0);
+    }
+
     public VPlayer playerToView(Player player) { // Player adapter from Model to View
         VPlayer vPlayer = new VPlayer(player.getName()); // initialize the player's name
         vPlayer.setColor(colorToView(player.getColor())); // set the player's color

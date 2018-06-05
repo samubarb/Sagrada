@@ -27,38 +27,30 @@ public class VGame {
     }
 
     public int askDice() {
-        int value;
-        do {
-            println(this.dice.toString());
-            println("Inserisci il numero corrispondente: ");
-            value = getInt();
-        } while (value <= 0 || value > this.dice.size());
+        int value = getInt(1, this.dice.size());
 
-        return value - 1; // return the index
+        return value - 1; // return the wanted index
     }
 
     public int askWindowPattern() {
         println("Scegli il tuo Window Pattern tra questi: ");
         println(patterns.toString());
-        int value;
-        do {
-            println("Inserisci il numero corrispondente: ");
-            value = getInt();
-        } while(value <= 0 || value > patterns.size());
-
-        return value - 1; // return the index
+        int value = getInt(1, this.patterns.size());
+        return value - 1; // return the wanted index
     }
 
     public int askToolCard() {
         println("Scegli quale Tool Card utilizzare" + newline);
         println(this.tools.toString());
-        int value;
-        do {
-            println("Inserisci il numero corrispondente: ");
-            value = getInt();
-        } while(value <= 0 || value > this.tools.size());
+        int value = getInt(1, this.tools.size());
+        return value - 1; // return the wanted index
+    }
 
-        return value - 1; // return the index
+    public int askToPickFromTrack() {
+        println("Quale dado vuoi scegliere?");
+        println(this.roundTrack.toString());
+        int value = getInt(1, this.roundTrack.size());
+        return value - 1; // return the wanted index
     }
 
     public void addVPlayer(VPlayer player) throws TooManyPlayersException { // add a player to the game

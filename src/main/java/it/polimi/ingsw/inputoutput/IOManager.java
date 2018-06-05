@@ -63,7 +63,7 @@ public final class IOManager {
 
         do {
             if (flag)
-                println("Scegli inserendo il numero corrispondente: ");
+                println("Inserisci il numero corrispondente: ");
             else
                 println("Devi inserire un intero compreso tra " + lower + " e " + upper + ": ");
             value = getInt();
