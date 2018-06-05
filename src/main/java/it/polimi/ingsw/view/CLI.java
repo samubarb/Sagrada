@@ -53,6 +53,13 @@ public class CLI implements View {
         return this.game.askDice();
     }
 
+    public boolean askConfirmDice(VDice dice) {
+        println("Ti piace il dado rilanciato?");
+        println(dice.toString());
+        println("Premi ENTER per confermare, qualsiasi altro tasto per annullare: ");
+        return getEnter();
+    }
+
     @Override
     public int askWindowPattern() {
         return this.game.askWindowPattern();

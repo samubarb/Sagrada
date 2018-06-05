@@ -73,8 +73,12 @@ public final class IOManager {
         return value;
     }
 
+    public static boolean getEnter() {
+        return getString().equals("");
+    }
+
     public static void enter() {
-        while (!getString().equals(""));
+        while (!getEnter());
     }
 
     public static boolean Sn() {
