@@ -31,8 +31,7 @@ public final class AdapterCLI implements Adapter {
                 } catch (ConstraintNotValidException e) {
                     println("Qualcosa è andato storto.");
                     println("Un vincolo del pattern non è corretto (solo colore OPPURE solo numero)");
-                    e.printStackTrace();
-                    System.exit(1);
+                    errorExit();
                 }
             }
         return vPattern;
@@ -120,7 +119,7 @@ public final class AdapterCLI implements Adapter {
         vGame.setTools(toolsToView(game.getToolCards()));
 
         /* add WindowPatterns */
-        vGame.setPatterns(patternsToView(game.getWindowPatternCards()));
+        // vGame.setPatterns(patternsToView(game.getWindowPatternCards())); // to decomment in the future
 
         /* set round */
         vGame.setRound(game.getRound());
