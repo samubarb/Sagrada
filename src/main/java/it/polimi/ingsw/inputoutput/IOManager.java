@@ -57,7 +57,7 @@ public final class IOManager {
         return value;
     }
 
-    public static int getIntBound(int lower, int upper) {
+    public static int getInt(int lower, int upper) {
         int value;
         boolean flag = true;
 

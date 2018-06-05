@@ -29,6 +29,8 @@ public interface View {
     int askWindowPattern(); // returns the position of the used card
     int askToolCard(); // tool cards are taken from Game
 
+    boolean askAction(); // true for increase, false for decrease
+
     // new user to sign in
     String askNewUsername() throws UsernameTooShortException;
     String askNewPassword();
@@ -39,15 +41,8 @@ public interface View {
     String askPassword();
     void loggedIn(String player); // invoked by the server to permit login
 
+
     /*
-
-    overload dei metodi askDice(int i) e askCoordinates();
-
-    1. int askMove(); // 1-dice; 2-usa tool; 3-passa turno
-        una visual che possa scegliere se:
-            -piazzare dado
-            -usare carta tool
-            -non fare nulla
 
     boolean askAction(); //increase e decrease
 

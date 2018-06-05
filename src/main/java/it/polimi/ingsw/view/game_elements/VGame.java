@@ -2,8 +2,6 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.*;
 import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
-import it.polimi.ingsw.view.game_elements.VCurrentDice;
-import it.polimi.ingsw.view.game_elements.VPlayer;
 
 import java.util.ArrayList;
 
@@ -107,7 +105,6 @@ public class VGame {
             string.append("È il tuo turno, ");
         else*/
         string.append("È il turno di ");
-
         string.append(this.turn.getName()).append(newline);
 
         for (VPlayer vp : this.players) {

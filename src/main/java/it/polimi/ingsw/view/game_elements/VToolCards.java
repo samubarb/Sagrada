@@ -17,7 +17,7 @@ public class VToolCards {
             throw new InvalidPositionException();
         }
         else
-            this.toolCards = toolCards;
+            this.toolCards[position] = tool;
     }
 
     public int size() {

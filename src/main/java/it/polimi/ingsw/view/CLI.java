@@ -49,12 +49,25 @@ public class CLI implements View {
         return this.game.askDice();
     }
 
+    @Override
     public int askWindowPattern() {
         return this.game.askWindowPattern();
     }
 
+    @Override
     public int askToolCard() {
         return this.game.askToolCard();
+    }
+
+    @Override
+    public boolean askAction() {
+        println("Incremento o decremento?");
+        println("1. Incremento");
+        println("2. Decremento");
+        int value = getInt(1, 2);
+        if (value == 1)
+            return true;
+        return false;
     }
 
     public int askMove() {
@@ -62,7 +75,7 @@ public class CLI implements View {
         println("1. Piazzare un dado");
         println("2. Usare una Tool Card");
         println("3. Passare il turno");
-        return getIntBound(1, 3);
+        return getInt(1, 3);
     }
 
     public VCoordinates askCoordinates() {
