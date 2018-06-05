@@ -30,7 +30,7 @@ public class ServerLauncher {
     public static final long START_IMMEDIATELY = 0;
     private Timer mainTimer;
     private int round;
-    private static final int MAXNUMBEROFROUND = 2;
+    private static final int MAXNUMBEROFROUND = 10;
     private static final long TURNTIME = 10000;
     private Game game;
     private Timer turnTimer;
@@ -303,6 +303,9 @@ public class ServerLauncher {
         }*/
 
         public void startTurn(PlayerInterface playerInterface, Player player) {
+            nothingToDo = false;
+            toolCardUsed = false;
+            dicePlaced = false;
             //synchronized (TURN_MUTEX) {
                 while(!(nothingToDo||(toolCardUsed&&dicePlaced))) {
                     try {
@@ -314,8 +317,8 @@ public class ServerLauncher {
                     //start turn timer;
                     //startTurnCountDownTimer(TURNTIME, playerInterface);
                     //startTimer(TURNTIME, playerInterface);
-                    //getMoves(playerInterface, player);
-                    getDiceAndPlace(playerInterface, player);
+                    getMoves(playerInterface, player);
+                    //getDiceAndPlace(playerInterface, player);
                     //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
         /*
         if cartautensile usa cartautensile chiede cosa vuole la carta utensile se serve poi richiede

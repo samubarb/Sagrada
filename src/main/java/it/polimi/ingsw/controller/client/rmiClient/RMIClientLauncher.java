@@ -57,8 +57,8 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     static Connect client;
 
     public void startRMIClient(){
-        view = new CLI();
-        vGame
+
+        //view = new CLI();
         input = new Scanner(System.in);
         /*InetAddress addr = null;
         try {
@@ -80,14 +80,15 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
             return;
         }
 
-
-
         username = getUsername(input);
+        view = new CLI(username);
+
         playerInterface = this;
         registerPlayerOnServer(username, playerInterface);
         isMyTurn = false;
         gameStarted = true;
         while(gameStarted) {
+
             while (isMyTurn) {
                 System.out.println("cosa vuoi fare:\n" + "1 numero giocatori registrati");
                 int response = Integer.parseInt(input.next());
@@ -337,20 +338,20 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public int getDiceToBePlaced() throws RemoteException {
-        println("Array da cui scegliere");
+        /*println("Array da cui scegliere");
         try {
             println(new AdapterCLI().currentDiceToView(game.getCurrentDice()).toString());
         } catch (InvalidPositionException e) {
             e.printStackTrace();
-        }
+        }*/
         return view.askDice();
 
     }
 
     @Override
     public Coordinates getDiceFinalPosition() throws RemoteException {
-        println(new AdapterCLI().frameToView(game.getPlayerByUsername(username).getFrame()).toString());
-        println(new AdapterCLI().patternToView(game.getPlayerByUsername(username).getWindowPattern()).toString());
+        /*println(new AdapterCLI().frameToView(game.getPlayerByUsername(username).getFrame()).toString());
+        println(new AdapterCLI().patternToView(game.getPlayerByUsername(username).getWindowPattern()).toString());*/
         return new AdapterCLI().coordinatesToModel(view.askCoordinates());
                // new Coordinates(0,2);
     }
@@ -358,29 +359,28 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     @Override
     public void setClientGame(Game game) throws RemoteException {
         this.setGame(game);
+        this.view.updateState(new AdapterCLI().gameToView(game));
     }
 
     @Override
     public void printPlayersFrame() throws RemoteException {
-        for(Player player: game.getPlayers()){
+        /*for(Player player: game.getPlayers()){
             println(player.getName());
             println(new AdapterCLI().frameToView(game.getPlayerByUsername(player.getName()).getFrame()).toString());
             println(new AdapterCLI().patternToView(game.getPlayerByUsername(player.getName()).getWindowPattern()).toString());
-        }
+        }*/
     }
 
     @Override
     public int getMoves() {
-        //int moves = view.askMove();
-        //return moves;
-        return 1;
+        int moves = view.askMove();
+        return moves;
     }
 
     @Override
     public int getToolcard() throws RemoteException {
-        //int toolCard = view.askToolcard();
-        //return toolCard;
-        return 1;
+        int toolCard = view.askToolCard();
+        return toolCard;
     }
 
     @Override
