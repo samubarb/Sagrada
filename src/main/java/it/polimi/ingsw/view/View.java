@@ -20,11 +20,12 @@ public interface View {
     // VMove reAskMove(VPlayer player); // in case of a bad placement, send an error message and re-ask a new move
 
     int askDice();
+    int askDice(int i); // as askDice(), but personalized in case of multiple dice choose
+
     VCoordinates askCoordinates();
+    VCoordinates askCoordinates(int i); // as askCoordinates, but personalized in case of multiple dice choose
 
-
-
-    int askMove();
+    int askMove(); // returns 1 for a dice placing, 2 for use a toolcard, 3 to pass the turn
     int askWindowPattern(); // returns the position of the used card
     int askToolCard(); // tool cards are taken from Game
 

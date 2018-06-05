@@ -55,7 +55,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     static Connect client;
 
     public void startRMIClient(){
-        view = new CLI();
+        view = new CLI("Test Player");
         input = new Scanner(System.in);
         InetAddress addr = null;
         try {

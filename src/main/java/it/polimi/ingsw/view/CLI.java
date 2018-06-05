@@ -12,19 +12,25 @@ import it.polimi.ingsw.view.other_elements.VSettings;
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class CLI implements View {
-    private VPlayer player;
+    private VPlayer clientPlayer;
     private VGame game;
     private static VSettings settings;
     private VSettings tempSettings;
 
     public static void main(String[] args) {
-        CLI cli = new CLI();
+        CLI cli = new CLI("Test Player");
         cli.startCLI();
     }
 
-    public CLI() {
+    public CLI(String player) {
+        this.clientPlayer = new VPlayer(player);
         this.settings = new VSettings(); // reset settings to the default
         this.game = new VGame();
+    }
+
+    public void updateGame(VGame game) {
+        this.game = game;
+        this.game.setClientPlayer(this.clientPlayer.getName());
     }
 
     public void startCLI() {
@@ -33,7 +39,17 @@ public class CLI implements View {
     }
 
     public int askDice() {
+        println("Scegli il dado da pescare");
         return this.game.askDice();
+    }
+
+    public int askDice(int i) {
+        println("Scegli il dado numero " + i);
+        return this.game.askDice();
+    }
+
+    public VCoordinates askCoordinates(int i) {
+        return new VCoordinates(1,1);
     }
 
     public int askWindowPattern() {
