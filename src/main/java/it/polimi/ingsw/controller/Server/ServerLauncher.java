@@ -38,9 +38,9 @@ public class ServerLauncher {
     private CountDownLatch startLatch;
     private CountDownLatch turnLatch;
     private static Player currentPlayer;
-    private static boolean dicePlaced = true;
-    private static boolean toolCardUsed = true;
-    private static boolean nothingToDo = true;
+    private static boolean dicePlaced = false;
+    private static boolean toolCardUsed = false;
+    private static boolean nothingToDo = false;
 
 
     /**
@@ -303,7 +303,7 @@ public class ServerLauncher {
         }*/
 
         public void startTurn(PlayerInterface playerInterface, Player player) {
-            synchronized (TURN_MUTEX) {
+            //synchronized (TURN_MUTEX) {
                 while(!(nothingToDo||(toolCardUsed&&dicePlaced))) {
                     try {
                         playerInterface.setMyTurn(true);
@@ -314,7 +314,7 @@ public class ServerLauncher {
                     //start turn timer;
                     //startTurnCountDownTimer(TURNTIME, playerInterface);
                     //startTimer(TURNTIME, playerInterface);
-                    getMoves(playerInterface, player);
+                    //getMoves(playerInterface, player);
                     getDiceAndPlace(playerInterface, player);
                     //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
         /*
@@ -324,7 +324,7 @@ public class ServerLauncher {
          */
                     endturn(playerInterface);
                 }
-            }
+            //teo}
 
         }
         public void getMoves(PlayerInterface playerInterface, Player player){
@@ -644,7 +644,12 @@ public class ServerLauncher {
         }
 
         public void endturn(PlayerInterface playerInterface) {
-            cancelTurnTimer(playerInterface);
+            //cancelTurnTimer(playerInterface);
+            try {
+                playerInterface.setMyTurn(false);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
 
         }
 
