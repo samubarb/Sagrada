@@ -103,10 +103,10 @@ public class VGame {
         string.
                 append("Round: " + this.round).append(newline).
                 append(this.roundTrack.toString()).append(newline);
-        if (this.turn.getName().equals(this.clientPlayer.getName()))
+        /*if (this.turn.getName().equals(this.clientPlayer.getName()))
             string.append("È il tuo turno, ");
-        else
-            string.append("È il turno di ");
+        else*/
+        string.append("È il turno di ");
 
         string.append(this.turn.getName()).append(newline);
 
