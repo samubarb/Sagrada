@@ -68,6 +68,9 @@ public final class AdapterCLI implements Adapter {
         return new VDice(dice.getValue(), colorToView(dice.getColor()));
     }
 
+    public Action booleanToAction(boolean action) {
+        return action ? Action.INCREASE : Action.DECREASE;
+    }
 
     public VCoordinates coordinatesToView(Coordinates xy) { // Coordinates adapter from View to Model
         int x, y;
@@ -114,6 +117,7 @@ public final class AdapterCLI implements Adapter {
             println("Errore: CurrentDice ha ricevuto una posizione non valida.");
             errorExit();
         }
+
 
         /* add ToolCards */
         vGame.setTools(toolsToView(game.getToolCards()));

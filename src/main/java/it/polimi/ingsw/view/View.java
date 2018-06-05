@@ -29,7 +29,7 @@ public interface View {
     int askWindowPattern(); // returns the position of the used card
     int askToolCard(); // tool cards are taken from Game
 
-    boolean askAction(); // true for increase, false for decrease
+    boolean askAction(); // true for increase, false for decrease, use with booleanToAction() adapter
 
     // new user to sign in
     String askNewUsername() throws UsernameTooShortException;
