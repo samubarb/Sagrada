@@ -16,6 +16,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
+import it.polimi.ingsw.view.game_elements.VGame;
 
 import java.io.Serializable;
 import java.net.InetAddress;
@@ -48,6 +49,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     private static Registry serverRegistry;
     private static Game game;
     private static View view;
+    private static VGame vGame;
 
     //debug timer
     static int interval = 7;
@@ -55,9 +57,10 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     static Connect client;
 
     public void startRMIClient(){
-        view = new CLI("Test Player");
+        view = new CLI();
+        vGame
         input = new Scanner(System.in);
-        InetAddress addr = null;
+        /*InetAddress addr = null;
         try {
             addr = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
@@ -69,7 +72,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
             System.out.println( InetAddress.getLocalHost().getHostAddress());
         } catch (UnknownHostException e) {
             e.printStackTrace();
-        }
+        }:*/
         address = new ServerSettings().setFromJSON().getServerAddress();//getIpServer(input);
         port = new ServerSettings().setFromJSON().getPort();//getPortServer(input);
         if(!connect(address, port)){
@@ -382,7 +385,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public int getDiceFromReserve() throws RemoteException {
-        return 0;
+        return view.askDice();
     }
 
     @Override
@@ -397,7 +400,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public Coordinates getDiceDestination() throws RemoteException {
-        return null;
+        return new AdapterCLI().coordinatesToModel(view.askCoordinates());
     }
 
     @Override
