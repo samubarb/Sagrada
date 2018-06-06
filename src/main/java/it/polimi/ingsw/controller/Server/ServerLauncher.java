@@ -389,6 +389,18 @@ public class ServerLauncher {
                     break;
                 case 5: useFluxBrush(i, playerInterface, player);
                     break;
+                case 6: useGlazingHammer(i, playerInterface, player);
+                    break;
+                case 7: useRunningPliers(i, playerInterface, player);
+                    break;
+                case 8: useCorkBackedStraightedge(i, playerInterface, player);
+                    break;
+                case 9: useGrindingStone(i, playerInterface, player);
+                    break;
+                /*case 10: useFluxBrush(i, playerInterface, player);
+                    break;
+                case 11: TapWheel(i, playerInterface, player);
+                    break;*/
             }
         }
         public void useGrozingPliers(int i, PlayerInterface playerInterface, Player player){
@@ -546,6 +558,47 @@ public class ServerLauncher {
             game.getToolCards()[i].useTool(player);
             game.restoreDice(player, dice);
             toolCardUsed = true;
+        }
+
+        public void useGlazingHammer(int i, PlayerInterface playerInterface, Player player){
+            if (!dicePlaced) {
+                game.getToolCards()[i].useTool(player);
+                toolCardUsed = true;
+            }
+            else {
+                //error
+            }
+        }
+
+        public void useRunningPliers(int i, PlayerInterface playerInterface, Player player){
+            game.getToolCards()[i].useTool(player);
+            toolCardUsed = true;
+        }
+
+        public void useCorkBackedStraightedge(int i, PlayerInterface playerInterface, Player player){
+            int dice = 0;
+            try {
+                dice = playerInterface.getDiceFromReserve();
+                Coordinates finalCoordinates = playerInterface.getDiceDestination();
+                player.setChosenNut(game.getDiceFromCurrentDice(dice));
+                game.getToolCards()[i].useTool(player, finalCoordinates);
+                toolCardUsed = true;
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void useGrindingStone(int i, PlayerInterface playerInterface, Player player){
+            int dice = 0;
+            try {
+                dice = playerInterface.getDiceFromReserve();
+                player.setChosenNut(game.getDiceFromCurrentDice(dice));
+                game.getToolCards()[i].useTool(player);
+                game.restoreDice(player, dice);
+                toolCardUsed = true;
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
 
         private void startTurnCountDownTimer(long waitingTime, PlayerInterface playerInterface) {
