@@ -34,7 +34,7 @@ public class ServerLauncher {
     private static final long TURNTIME = 10000;
     private Game game;
     private Timer turnTimer;
-    private boolean canJoin;
+    private boolean canJoin = true;
     private CountDownLatch startLatch;
     private CountDownLatch turnLatch;
     private static Player currentPlayer;
@@ -170,67 +170,78 @@ public class ServerLauncher {
     public boolean registerUser(PlayerInterface clientPlayer, String username) {
 
         synchronized (LOGIN_MUTEX) {
-            if ((this.nicknames.size() + this.offlineNicknames.size()) >= MAXPLAYER) {
-                System.out.println("max player reached");
+            if(canJoin) {
+                if ((this.nicknames.size() + this.offlineNicknames.size()) >= MAXPLAYER) {
+                    System.out.println("max player reached");
+                    canJoin = false;
+                    try {
+                        clientPlayer.onRegister("Max player reached");
+                        System.out.println("Max player reached");
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                }
+                if (this.offlineNicknames.size() > 0) {
+                    //reconnection of already registered player
+                    for (User user : offlineNicknames) {
+                        if (user.getUsername().equals(username)) {
+
+                            this.nicknames.add(new User(username, clientPlayer));
+                            this.offlineNicknames.remove(user);
+                            try {
+                                clientPlayer.onRegister("Welcome again reconnected user: " + username);
+                                System.out.println("User logged again: " + username);
+                                //rmiServer.executeCheckConnectionThread();
+
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                            //ridò il game al giocatore
+                            return true;
+                        }
+                    }
+                } else if (nicknames.size() > 0) {
+                    for (User user : nicknames) {
+                        if (user.getUsername().equals(username)) {
+                            try {
+                                clientPlayer.printaaa("Name already in use");
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                            return false;
+                        }
+                    }
+                }
                 try {
-                    clientPlayer.onRegister("Max player reached");
-                    System.out.println("Max player reached");
+                    clientPlayer.onRegister("User logged as: " + username);
+                    clientPlayer.onRegister("welcome");
+                    for (User user : serverLauncher.getNicknames()) {
+                        user.getPlayerInterface().notifyConnection(username);
+                    }
+                    System.out.println("User logged as: " + username);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                nicknames.add(new User(username, clientPlayer));
+                if (nicknames.size() == MAXPLAYER) {
+                    canJoin = false;
+                    cancelTimer();
+                    startCountDownTimer(START_IMMEDIATELY);
+                } else if (nicknames.size() == 2) {
+                    startCountDownTimer(TIMETOWAITINROOM);
+                }
+                return true;
+            }
+            else {
+                try {
+                    clientPlayer.printaaa("game already started");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
                 return false;
             }
-            if (this.offlineNicknames.size() > 0) {
-                //reconnection of already registered player
-                for (User user : offlineNicknames) {
-                    if (user.getUsername().equals(username)) {
-
-                        this.nicknames.add(new User(username, clientPlayer));
-                        this.offlineNicknames.remove(user);
-                        try {
-                            clientPlayer.onRegister("Welcome again reconnected user: " + username);
-                            System.out.println("User logged again: " + username);
-                            //rmiServer.executeCheckConnectionThread();
-
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        //ridò il game al giocatore
-                        return true;
-                    }
-                }
-            } else if (nicknames.size() > 0) {
-                for (User user : nicknames) {
-                    if (user.getUsername().equals(username)) {
-                        try {
-                            clientPlayer.printaaa("Name already in use");
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            }
-            try {
-                clientPlayer.onRegister("User logged as: " + username);
-                clientPlayer.onRegister("welcome");
-                for (User user : serverLauncher.getNicknames()) {
-                    user.getPlayerInterface().notifyConnection(username);
-                }
-                System.out.println("User logged as: " + username);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-                return false;
-            }
-            nicknames.add(new User(username, clientPlayer));
-            if (nicknames.size() == MAXPLAYER) {
-                //canJoin = false;
-                cancelTimer();
-                startCountDownTimer(START_IMMEDIATELY);
-            } else if (nicknames.size() == 2) {
-                startCountDownTimer(TIMETOWAITINROOM);
-            }
-            return true;
         }
     }
 
@@ -245,12 +256,6 @@ public class ServerLauncher {
         return false;
     }
 
-    /*public PlayerInterface getClientInterface(String username) {
-        for(User user: nicknames){
-            if(user.getUsername().equals(username))
-                return user.getPlayerInterface();
-        }
-    }*/
 
     private void startCountDownTimer(long waitingTime) {
         mainTimer = new Timer();
@@ -350,16 +355,20 @@ public class ServerLauncher {
                 e1.printStackTrace();
             }
             if (moves == DICEPLACE){
-                getDiceAndPlace(playerInterface, player);
+                if(!dicePlaced) {
+                    getDiceAndPlace(playerInterface, player);
+                }
             }
             else if (moves == TOOLCARD){
-                int toolCard = 0;
-                try {
-                    toolCard = playerInterface.getToolcard();
-                } catch (RemoteException e1) {
-                    e1.printStackTrace();
+                if(!toolCardUsed) {
+                    int toolCard = 0;
+                    try {
+                        toolCard = playerInterface.getToolcard();
+                    } catch (RemoteException e1) {
+                        e1.printStackTrace();
+                    }
+                    useToolcard(toolCard, playerInterface, player);
                 }
-                useToolcard(toolCard, playerInterface, player);
             }
             else if (moves == DONOTHING){
                 nothingToDo = true;
@@ -384,16 +393,17 @@ public class ServerLauncher {
         }
         public void useGrozingPliers(int i, PlayerInterface playerInterface, Player player){
             try {
-                    //player.checkFavorTokenPlayer(game.getToolCards()[i]);
+                    player.checkFavorTokenPlayer(game.getToolCards()[i]);
                     int dice = playerInterface.getDiceFromReserve();
                     player.setChosenNut(game.getDiceFromCurrentDice(dice));
                     Action action = playerInterface.getTypeOfAction();
                     game.getToolCards()[i].useTool(player, action);
                     game.restoreDice(player, dice);
-            }/* catch (FavorTokenException e) {
+                    toolCardUsed = true;
+            } catch (FavorTokenException e) {
                 e.printStackTrace();
                 //print no abbastanza vafor token
-            } */catch (NutChosenWrongException e) {
+            } catch (NutChosenWrongException e) {
                 e.printStackTrace();
                 //problem with nutchosen non puoi cambiare 1 to 6 e 6 to 1
             } catch (RemoteException e) {
@@ -408,6 +418,7 @@ public class ServerLauncher {
                 Coordinates initialCoordinates = playerInterface.getDiceToBeMoved();
                 Coordinates finalCoordinates = playerInterface.getDiceDestination();
                 game.getToolCards()[i].useTool(player, initialCoordinates, finalCoordinates);
+                toolCardUsed = true;
             }
             catch (IllegalArgumentException e){
                 ///Jjlshdivcoiled
@@ -429,6 +440,7 @@ public class ServerLauncher {
                 Coordinates finalCoordinates = playerInterface.getDiceDestination();
 
                 game.getToolCards()[i].useTool(player, initialCoordinates, finalCoordinates);
+                toolCardUsed = true;
             } catch (IllegalArgumentException e) {
                 ///Jjlshdivcoiled
             } catch (FavorTokenException e) {
@@ -459,6 +471,7 @@ public class ServerLauncher {
             }
             try {
                 game.getToolCards()[i].useTool(player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
+                toolCardUsed = true;
             } catch (WindowPatternColorException e) {
                 try {
                     playerInterface.printaaa("Non è rispettato il colore del dado");
@@ -515,6 +528,7 @@ public class ServerLauncher {
                 roundDice = playerInterface.getRoundDiceToBeSwapped();
                 game.getToolCards()[i].useTool(player, roundDice);
                 game.restoreDice(player, dice);
+                toolCardUsed = true;
             } catch (RemoteException e){
                 e.printStackTrace();
             }
@@ -531,62 +545,7 @@ public class ServerLauncher {
             player.setChosenNut(game.getDiceFromCurrentDice(dice));
             game.getToolCards()[i].useTool(player);
             game.restoreDice(player, dice);
-            /*boolean placeDice = false;
-            try {
-                placeDice = playerInterface.doYouWantToPlace();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-            if(placeDice) {
-                Coordinates coordinates = null;
-                try {
-                    coordinates = playerInterface.getDiceFinalPosition();
-
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    player.positionDice(player.getChosenNut(), coordinates);
-                } catch (WindowPatternColorException e) {
-                    try {
-                        playerInterface.printaaa("Non è rispettato il colore del dado");
-
-                    } catch (RemoteException e1) {
-                        e1.printStackTrace();
-                    }
-                    e.printStackTrace();
-                } catch (WindowPatternValueException e) {
-                    try {
-                        playerInterface.printaaa("Non è rispettato il valore del dado");
-                    } catch (RemoteException e1) {
-                        e1.printStackTrace();
-                    }
-                    e.printStackTrace();
-                } catch (FrameValueAndColorException e) {
-                    try {
-                        playerInterface.printaaa("Non è rispettato il controllo dei dadi ortogonali adiacenti");
-                    } catch (RemoteException e1) {
-                        e1.printStackTrace();
-                    }
-                    e.printStackTrace();
-                } catch (BusyPositionException e) {
-                    try {
-                        playerInterface.printaaa("c'è già un dado");
-                    } catch (RemoteException e1) {
-                        e1.printStackTrace();
-                    }
-                    e.printStackTrace();
-                } catch (AdjacentDiceException e) {
-                    try {
-                        playerInterface.printaaa("Non ci sono dadi adiacenti alla posizione indicata");
-                    } catch (RemoteException e1) {
-                        e1.printStackTrace();
-                    }
-                    e.printStackTrace();
-                }
-                dicePlaced = true;
-                return;
-            }*/
+            toolCardUsed = true;
         }
 
         private void startTurnCountDownTimer(long waitingTime, PlayerInterface playerInterface) {
