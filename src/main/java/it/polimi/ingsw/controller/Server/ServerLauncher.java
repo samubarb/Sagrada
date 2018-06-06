@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.toolCards.iTool;
 
+import java.beans.Transient;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -38,9 +40,9 @@ public class ServerLauncher {
     private CountDownLatch startLatch;
     private CountDownLatch turnLatch;
     private static Player currentPlayer;
-    private static boolean dicePlaced = false;
-    private static boolean toolCardUsed = false;
-    private static boolean nothingToDo = false;
+    private boolean dicePlaced = false;
+    private boolean toolCardUsed = false;
+    private boolean nothingToDo = false;
 
 
     /**
@@ -398,9 +400,9 @@ public class ServerLauncher {
                 case 9: useGrindingStone(i, playerInterface, player);
                     break;
                 /*case 10: useFluxBrush(i, playerInterface, player);
-                    break;
-                case 11: TapWheel(i, playerInterface, player);
                     break;*/
+                case 11: useTapWheel(i, playerInterface, player);
+                    break;
             }
         }
         public void useGrozingPliers(int i, PlayerInterface playerInterface, Player player){
@@ -597,6 +599,47 @@ public class ServerLauncher {
                 game.restoreDice(player, dice);
                 toolCardUsed = true;
             } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void useTapWheel(int i, PlayerInterface playerInterface, Player player){
+            try {
+                player.checkFavorTokenPlayer(game.getToolCards()[i]);
+            } catch (FavorTokenException e1) {
+                e1.printStackTrace();
+            }
+            int dice;
+            Coordinates roundDice = null;
+            try {
+
+                Coordinates initialCoordinates1 = null;
+                Coordinates initialCoordinates2 = null;
+                Coordinates finalCoordinates1 = null;
+                Coordinates finalCoordinates2 = null;
+
+                initialCoordinates1 = playerInterface.getDiceToBeMoved(1);
+                finalCoordinates1 = playerInterface.getDiceDestination(1);
+                initialCoordinates2 = playerInterface.getDiceToBeMoved(2);
+                finalCoordinates2 = playerInterface.getDiceDestination(2);
+
+
+                try {
+                    game.getToolCards()[i].useTool(player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
+                } catch (FrameValueAndColorException e) {
+                    e.printStackTrace();
+                } catch (WindowPatternValueException e) {
+                    e.printStackTrace();
+                } catch (WindowPatternColorException e) {
+                    e.printStackTrace();
+                } catch (BusyPositionException e) {
+                    e.printStackTrace();
+                } catch (AdjacentDiceException e) {
+                    e.printStackTrace();
+                }
+
+                toolCardUsed = true;
+            } catch (RemoteException e){
                 e.printStackTrace();
             }
         }
