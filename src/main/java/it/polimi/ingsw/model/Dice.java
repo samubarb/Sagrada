@@ -38,6 +38,11 @@ public class Dice implements Serializable{
         this.value = value;
     }
 
+    public void copyDice(Dice dice){
+        this.setValue(dice.getValue());
+        this.setColor(dice.getColor());
+    }
+
     @Override
     public String toString() {
         return "Dice{" +

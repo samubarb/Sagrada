@@ -101,4 +101,30 @@ public class FrameTest {
         System.out.println(dice2.getValue());
         System.out.println(dice3.getValue());
     }
+
+    @Test
+    public void testCopyFrame(){
+        Frame testFrame=new Frame();
+        Dice testDice1=new Dice(Color.RED,6);
+        Dice testDice2=new Dice(Color.RED,3);
+        Dice testDice3=new Dice(Color.BLUE ,1);
+        Dice testDice4=new Dice(Color.YELLOW,3);
+        testFrame.setPositionDice(testDice1,0,0);
+        testFrame.setPositionDice(testDice2,0,1);
+        testFrame.setPositionDice(testDice3,1,0);
+        testFrame.setPositionDice(testDice4,1,1);
+        Frame f=new Frame();
+        f.copyFrame(testFrame);
+        System.out.println(testFrame.getDice(1,1).getValue());
+        System.out.println(testFrame.getDice(1,1).getColor());
+        System.out.println(f.getDice(1,1).getValue());
+        System.out.println(f.getDice(1,1).getColor());
+        testFrame=new Frame();
+        System.out.println(testFrame.getDice(1,1).getValue());
+        System.out.println(testFrame.getDice(1,1).getColor());
+        System.out.println(f.getDice(1,1).getValue());
+        System.out.println(f.getDice(1,1).getColor());
+        assertTrue(f.getDice(1,1).getValue()==3);
+
+    }
 }

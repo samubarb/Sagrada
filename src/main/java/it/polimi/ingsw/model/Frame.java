@@ -274,4 +274,17 @@ public class Frame implements Serializable {
 
     }
 
+    /**
+     * @param frame frame to copy
+     */
+    public void copyFrame(Frame frame){
+
+        for(int i=0;i<LINE_SIZE;i++){
+            for(int j=0;j<COLUMN_SIZE;j++){
+                this.getDice(i,j).copyDice(frame.getDice(i,j));
+            }
+        }
+
+    }
+
 }
