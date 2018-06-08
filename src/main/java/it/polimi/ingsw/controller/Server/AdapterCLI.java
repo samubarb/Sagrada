@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.Server;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Adapter;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.toolCards.ToolCard;
@@ -125,6 +126,7 @@ public final class AdapterCLI implements Adapter {
 
         /* add ToolCards */
         vGame.setTools(toolsToView(game.getToolCards()));
+        //String[] descriptions = getDescriptions();
 
         /* add WindowPatterns */
         // vGame.setPatterns(patternsToView(game.getWindowPatternCards())); // to decomment in the future

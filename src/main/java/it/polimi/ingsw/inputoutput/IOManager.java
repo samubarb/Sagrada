@@ -1,5 +1,7 @@
 package it.polimi.ingsw.inputoutput;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -28,6 +30,11 @@ public final class IOManager {
         }
 
         return string.toString();
+    }
+
+    public static String[] getToolDescriptions() {
+        String file = fileToString("./JSONconf/ToolCardDescription.json");
+        return new Gson().fromJson(file, String[].class);
     }
 
     public static String getString() {

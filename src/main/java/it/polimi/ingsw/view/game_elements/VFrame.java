@@ -22,7 +22,7 @@ public class VFrame {
 
     @Override
     public String toString() {
-        StringBuilder string = new StringBuilder("VFrame\n");
+        StringBuilder string = new StringBuilder();
         string.append("    ");
         for (int i = 0; i < 5; i++)
             string.append(" " + (1 + i) + "   ");

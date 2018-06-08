@@ -127,7 +127,6 @@ public class CLI implements View {
     public void youWin() {
         println("Hai vinto" + this.game.getClientPlayer().toString()+ "!");
     }
-
     public void youLose() {
         println("Hai perso" + this.game.getClientPlayer().toString() + "!");
     }
@@ -310,8 +309,6 @@ public class CLI implements View {
                 "@@@                                                                       @@@@ \n" +
                 "@@@                                                                         #@@\n" +
                 "@                                                                              \n";
-
-
 
         clearScreen();
         print(splash + centerText("Premi INVIO per continuare", "@@    @@     @    @@  @    @@   @@@     @@@   @     %@   @      @ @   @    @@. ".length()));
