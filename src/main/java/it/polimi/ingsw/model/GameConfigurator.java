@@ -64,7 +64,7 @@ public class GameConfigurator implements Serializable {
 
 
     private void createPublicObjective(){
-        PublicObjective[] allPublicObjective=new PublicObjective[9];
+        PublicObjective[] allPublicObjective=new PublicObjective[10];
         allPublicObjective[0]=new PuODifferentColor("Different Color-Column",COLUMN,5);
         allPublicObjective[1]=new PuODifferentColor("Different Color-Line",LINE,6);
         allPublicObjective[2]=new PuODifferentShades("Different Shades-Column",COLUMN,4);
@@ -74,6 +74,7 @@ public class GameConfigurator implements Serializable {
         allPublicObjective[6]=new PuOShades("Dark Shades",2,DARK_SHADES);
         allPublicObjective[7]=new PuOSetDifferentShades("Set Different Shades",5);
         allPublicObjective[8]=new PuOSetDifferentColor("Set Different Color",4);
+        allPublicObjective[9]=new PuOColoredDiagonals("Colored Diagonals",1);
         shuffleObjective(allPublicObjective);
         PublicObjective[] objectivesExtracted=new PublicObjective[3];
         for(int i=0;i<3;i++)
