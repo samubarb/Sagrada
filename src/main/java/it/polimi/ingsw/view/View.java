@@ -23,6 +23,7 @@ public interface View {
     void updateState(VGame game);
     void youWin();
     void youLose();
+    void splash();
 
     // new user to sign in
     String askNewUsername() throws UsernameTooShortException;

@@ -82,6 +82,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
         username = getUsername(input);
         view = new CLI(username);
+        view.splash();
 
         playerInterface = this;
         registerPlayerOnServer(username, playerInterface);

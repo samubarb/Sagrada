@@ -19,7 +19,7 @@ public class rmiStartServer {
          * RMI server.
          */
         private static ServerInterfaceImpl RMIServer;
-        private static final int RMIServerPort = 1098;
+        private static final int RMISERVERPORT = 1098;
         private ServerLauncher serverLauncher;
         private ScheduledExecutorService executor;
 
