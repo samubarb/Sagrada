@@ -34,7 +34,7 @@ public class PuOColoredDiagonals extends PublicObjective implements iObjective {
         int copyX=x;
         int copyY=y;
         int score=0;
-        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[copyX-1][copyY-1].getColor())){
+        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[copyX-1][copyY-1].getColor())&&!this.colorFrame[x][y].getColor().equals(Color.UNCOLORED)){
             if(this.colorFrame[x][y].isAlreadyUsed())
                 if(!this.colorFrame[copyX-1][copyY-1].isAlreadyUsed()){
                     score+=1;
@@ -49,7 +49,7 @@ public class PuOColoredDiagonals extends PublicObjective implements iObjective {
                     this.colorFrame[x][y].setAlreadyUsed(true);}
         }
 
-        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[copyX-1][copyY+1].getColor())){
+        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[copyX-1][copyY+1].getColor())&&!this.colorFrame[x][y].getColor().equals(Color.UNCOLORED)){
             if(this.colorFrame[x][y].isAlreadyUsed())
                 if(!this.colorFrame[copyX-1][copyY+1].isAlreadyUsed()){
                     score+=1;
@@ -64,7 +64,7 @@ public class PuOColoredDiagonals extends PublicObjective implements iObjective {
                     this.colorFrame[x][y].setAlreadyUsed(true);}
         }
 
-        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[copyX+1][copyY-1].getColor())){
+        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[copyX+1][copyY-1].getColor())&&!this.colorFrame[x][y].getColor().equals(Color.UNCOLORED)){
             if(this.colorFrame[x][y].isAlreadyUsed())
                 if(!this.colorFrame[copyX+1][copyY-1].isAlreadyUsed()){
                     score+=1;
@@ -79,7 +79,7 @@ public class PuOColoredDiagonals extends PublicObjective implements iObjective {
                     this.colorFrame[x][y].setAlreadyUsed(true);}
         }
 
-        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[copyX+1][copyY+1].getColor())){
+        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[copyX+1][copyY+1].getColor())&&!this.colorFrame[x][y].getColor().equals(Color.UNCOLORED)){
             if(this.colorFrame[x][y].isAlreadyUsed())
                 if(!this.colorFrame[copyX+1][copyY+1].isAlreadyUsed()){
                     score+=1;
@@ -99,60 +99,60 @@ public class PuOColoredDiagonals extends PublicObjective implements iObjective {
     public int checkLateralDiagonal(){
         int x=0;
         int y=1;
-        int score=0;
-        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[x+1][y-1].getColor())){
-            if(this.colorFrame[x][y].isAlreadyUsed())
-                if(!this.colorFrame[x+1][y-1].isAlreadyUsed())
-                    score+=1;
+        int score2=0;
+        if(this.colorFrame[y][x].getColor().equals(this.colorFrame[y-1][x+1].getColor())&&!this.colorFrame[y][x].getColor().equals(Color.UNCOLORED)){
+            if(this.colorFrame[y][x].isAlreadyUsed())
+                if(!this.colorFrame[y-1][x+1].isAlreadyUsed())
+                    score2+=1;
 
-            if(!this.colorFrame[x][y].isAlreadyUsed())
-                if(!this.colorFrame[x+1][y-1].isAlreadyUsed())
-                    score+=2;
+            if(!this.colorFrame[y][x].isAlreadyUsed())
+                if(!this.colorFrame[y-1][x+1].isAlreadyUsed())
+                    score2+=2;
 
                 else
-                    score +=1;
+                    score2 +=1;
 
         }
         y=2;
-        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[x+1][y+1].getColor())) {
-            if (this.colorFrame[x][y].isAlreadyUsed())
+        if(this.colorFrame[y][x].getColor().equals(this.colorFrame[x+1][y+1].getColor())&&!this.colorFrame[y][x].getColor().equals(Color.UNCOLORED)) {
+            if (this.colorFrame[y][x].isAlreadyUsed())
                 if (!this.colorFrame[x + 1][y + 1].isAlreadyUsed())
-                    score += 1;
+                    score2 += 1;
 
-            if (!this.colorFrame[x][y].isAlreadyUsed())
+            if (!this.colorFrame[y][x].isAlreadyUsed())
                 if (!this.colorFrame[x + 1][y + 1].isAlreadyUsed())
-                    score += 2;
+                    score2+= 2;
 
                 else
-                    score += 1;
+                    score2 += 1;
         }
         x=4;
-        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[x-1][y+1].getColor())){
-            if(this.colorFrame[x][y].isAlreadyUsed())
-                if(!this.colorFrame[x-1][y+1].isAlreadyUsed())
-                    score+=1;
+        if(this.colorFrame[y][x].getColor().equals(this.colorFrame[y+1][x-1].getColor())&&!this.colorFrame[y][x].getColor().equals(Color.UNCOLORED)){
+            if(this.colorFrame[y][x].isAlreadyUsed())
+                if(!this.colorFrame[y+1][x-1].isAlreadyUsed())
+                    score2+=1;
 
-            if(!this.colorFrame[x][y].isAlreadyUsed())
-                if(!this.colorFrame[x-1][y+1].isAlreadyUsed())
-                    score+=2;
+            if(!this.colorFrame[y][x].isAlreadyUsed())
+                if(!this.colorFrame[y+1][x-1].isAlreadyUsed())
+                    score2+=2;
 
                 else
-                    score +=1;
+                    score2 +=1;
         }
         y=1;
-        if(this.colorFrame[x][y].getColor().equals(this.colorFrame[x-1][y-1].getColor())) {
-            if (this.colorFrame[x][y].isAlreadyUsed())
+        if(this.colorFrame[y][x].getColor().equals(this.colorFrame[x-1][y-1].getColor())&&!this.colorFrame[y][x].getColor().equals(Color.UNCOLORED)) {
+            if (this.colorFrame[y][x].isAlreadyUsed())
                 if (!this.colorFrame[x - 1][y - 1].isAlreadyUsed())
-                    score += 1;
+                    score2 += 1;
 
-            if (!this.colorFrame[x][y].isAlreadyUsed())
+            if (!this.colorFrame[y][x].isAlreadyUsed())
                 if (!this.colorFrame[x - 1][y - 1].isAlreadyUsed())
-                    score += 2;
+                    score2 += 2;
 
                 else
-                    score += 1;
+                    score2 += 1;
         }
-        return score;
+        return score2;
 
     }
 
