@@ -39,8 +39,6 @@ public class GameTest {
         for(int i=0;i<5;i++){
             assertTrue(gameTest.getCurrentDice()[i].getColor()!=Color.UNCOLORED);
         }
-
-
     }
 
     @Test
