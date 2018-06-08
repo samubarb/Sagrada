@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
+import it.polimi.ingsw.view.other_elements.VError;
 
 public interface View {
 
@@ -20,9 +21,10 @@ public interface View {
     boolean askConfirmDice(VDice dice); // after a re-roll, asks if the re-rolled dice is fine
 
     // Methods to notify something to the Client
+    void notifyError(VError error);
+    void notifyWin();
+    void notifyLose();
     void updateState(VGame game);
-    void youWin();
-    void youLose();
     void splash();
 
     // new user to sign in
