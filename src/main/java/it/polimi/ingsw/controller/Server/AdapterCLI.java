@@ -96,6 +96,7 @@ public final class AdapterCLI implements Adapter {
         vPlayer.setColor(colorToView(player.getColor())); // set the player's color
         vPlayer.setFrame(frameToView(player.getFrame())); // set the player's frame
         vPlayer.setWpattern(patternToView(player.getWindowPattern())); // set the player's pattern
+        vPlayer.setScore(player.getFinalPoints());
         return vPlayer;
     }
 

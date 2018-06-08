@@ -9,9 +9,9 @@ import it.polimi.ingsw.view.other_elements.VError;
 public interface View {
 
     // Methods to ask something to the Client
-    int askDice();
+    int askDice(); // ask the user which dice wants to pick up from the CurrentDice[]
     int askDice(int i); // as askDice(), but personalized in case of multiple dice choose
-    VCoordinates askCoordinates();
+    VCoordinates askCoordinates(); // ask the player where to put the previews selected dice
     VCoordinates askCoordinates(int i); // as askCoordinates, but personalized in case of multiple dice choose
     int askMove(); // returns 1 for a dice placing, 2 for use a toolcard, 3 to pass the turn
     int askWindowPattern(); // returns the position of the used card
@@ -21,19 +21,21 @@ public interface View {
     boolean askConfirmDice(VDice dice); // after a re-roll, asks if the re-rolled dice is fine
 
     // Methods to notify something to the Client
-    void notifyError(VError error);
-    void notifyWin();
-    void notifyLose();
-    void updateState(VGame game);
-    void splash();
+    void notifyError(VError error); // used to notify and guide the player after a wrong move
+    void notifyScore(); // show the final ranking at the end of the game
+    void notifyWin(); // notify the victory to the winner
+    void notifyLose(); // notify the loose to the loosers
+    void updateState(VGame game); // transfer all the changes from the model to the view
+    void splash(); // show a beautiful splash screen at the begining of the game
 
     // new user to sign in
-    String askNewUsername() throws UsernameTooShortException;
-    String askNewPassword();
+    String askNewUsername() throws UsernameTooShortException; // ask the user to choose a nickname for the game
+
     String chooseAnotherUsername(String user /*username already taken*/) throws UsernameTooShortException; // if the username already exists let the player choose another one
 
     // DEPRECATED
     /*
+    String askNewPassword(); // ask the user the password to login validation
     void setTurn(VPlayer player);
     VMove askMove(VPlayer player); // use by the server to interrogate the client and let the user input his move
     VMove reAskMove(VPlayer player); // in case of a bad placement, send an error message and re-ask a new move
@@ -43,11 +45,7 @@ public interface View {
      */
 
 
-    /*
-        gestione errore
-    nomedelmetodo(Errore);
-
-    una print che visualizza i punteggi void printPunteggi(array[]); o cose simili
-    una print per visualizzare al vincitore HAI VINTO void youWin();
+    /* NEED TO IMPLEMENT
+    una print che visualizzi i punteggi void printPunteggi(array[]); o cose simili
     */
 }

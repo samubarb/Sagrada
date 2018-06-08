@@ -132,6 +132,7 @@ public class CLI implements View {
         println("Hai perso" + this.game.getClientPlayer().toString() + "!");
     }
     public void notifyError(VError error) { println(error.toString()); }
+    public void notifyScore() { game.notifyScore(); }
 
     public void updateState(VGame game) {
         this.game = game;

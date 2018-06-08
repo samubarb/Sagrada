@@ -86,6 +86,13 @@ public class VGame {
         return this.clientPlayer;
     }
 
+    public void notifyScore() {
+        StringBuilder string = new StringBuilder();
+        string.append("Classifica:").append(newline);
+        players.stream().forEachOrdered(vPlayer -> string.append(vPlayer.getName()).append(" ").append(vPlayer.getScore()).append(newline));
+        println(string.toString());
+    }
+
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();

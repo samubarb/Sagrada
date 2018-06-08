@@ -5,12 +5,13 @@ import it.polimi.ingsw.view.cards.VWindowPattern;
 
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
 
-public class VPlayer {
+public class VPlayer implements Comparable {
     private String name;
     private VColor color;
     private VFrame frame;
     private VWindowPattern wpattern;
     private VPrivateObjectives vPrivateObjectives;
+    private int score;
 
     public VPlayer(String name) {
         this.name = name;
@@ -32,6 +33,10 @@ public class VPlayer {
     public VWindowPattern getWpattern() { return this.wpattern; }
     public VFrame getFrame() { return this.frame; }
 
+    public int getScore() {
+        return score;
+    }
+
     public void setColor(VColor color) {
         this.color = color;
     }
@@ -42,6 +47,15 @@ public class VPlayer {
         this.wpattern = wpattern;
     }
     public void setvPrivateObjectives(VPrivateObjectives vPrivateObjectives) { this.vPrivateObjectives = vPrivateObjectives; }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.score;
+    }
 
     @Override
     public String toString() {
