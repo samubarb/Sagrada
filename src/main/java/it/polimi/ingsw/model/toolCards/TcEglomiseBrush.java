@@ -20,12 +20,13 @@ public class TcEglomiseBrush extends ToolCard implements iTool {
     public void useTool(Player player, Coordinates initialPosition, Coordinates finalPosition) {
         Dice diceToMove=new Dice();
         Player fakePlayer=new Player("fake");
-        fakePlayer.setWindowPattern(player.getWindowPattern());
         fakePlayer.getFrame().copyFrame(player.getFrame());
+        fakePlayer.getFrame().setPositionDice(new Dice(),initialPosition);
         diceToMove=(player.getFrame().getDice(initialPosition));
-        if(fakePlayer.checkWindowPatternValueRestriction(diceToMove,finalPosition)&&fakePlayer.checkAdjacentDice(diceToMove,finalPosition)&&
+        if(player.checkWindowPatternValueRestriction(diceToMove,finalPosition)&&fakePlayer.checkAdjacentDice(diceToMove,finalPosition)&&
             fakePlayer.checkFrameValueAndColorRestriction(diceToMove,finalPosition))
             player.getFrame().moveNut(initialPosition,finalPosition);
+
         else
             throw new IllegalArgumentException();
 

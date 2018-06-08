@@ -36,9 +36,13 @@ public class TcCopperFoilBurnisher extends ToolCard implements iTool {
     @Override
     public void useTool(Player player, Coordinates initialPosition, Coordinates finalPosition) {
         Dice diceToMove=new Dice();
+        Player fakePlayer=new Player("fake");
+        fakePlayer.setWindowPattern(player.getWindowPattern());
+        fakePlayer.getFrame().copyFrame(player.getFrame());
+        fakePlayer.getFrame().setPositionDice(new Dice(),initialPosition);
         diceToMove=(player.getFrame().getDice(initialPosition));
-        if(player.checkWindowPatternColorRestriction(diceToMove,finalPosition)&&player.checkAdjacentDice(diceToMove,finalPosition)&&
-                player.checkFrameValueAndColorRestriction(diceToMove,finalPosition))
+        if(fakePlayer.checkWindowPatternColorRestriction(diceToMove,finalPosition)&&fakePlayer.checkAdjacentDice(diceToMove,finalPosition)&&
+                fakePlayer.checkFrameValueAndColorRestriction(diceToMove,finalPosition))
             player.getFrame().moveNut(initialPosition,finalPosition);
         else
             throw new IllegalArgumentException();

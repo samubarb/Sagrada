@@ -39,11 +39,12 @@ public class TcEglomiseBrushTest {
         System.out.println(playerOne.getFrame().getDice(1,1).getColor());
         System.out.println(playerOne.getFrame().getDice(2,0).getValue());
         System.out.println(playerOne.getFrame().getDice(2,0).getColor());
-        tcCard.useTool(playerOne,new Coordinates(1,1),new Coordinates(0,2));
+        tcCard.useTool(playerOne,new Coordinates(1,1),new Coordinates(1,2));
+        System.out.println("mossa fatta");
         System.out.println(playerOne.getFrame().getDice(1,1).getValue());
         System.out.println(playerOne.getFrame().getDice(1,1).getColor());
-        System.out.println(playerOne.getFrame().getDice(2,0).getValue());
-        System.out.println(playerOne.getFrame().getDice(2,0).getColor());
+        System.out.println(playerOne.getFrame().getDice(2,1).getValue());
+        System.out.println(playerOne.getFrame().getDice(2,1).getColor());
 
 
     }
