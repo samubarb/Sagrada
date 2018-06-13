@@ -10,10 +10,12 @@ import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.controller.client.ClientLauncher;
 import it.polimi.ingsw.controller.client.ClientSettings;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 import it.polimi.ingsw.view.game_elements.VGame;
+import it.polimi.ingsw.view.other_elements.VError;
 
 import java.io.Serializable;
 import java.net.InetAddress;
@@ -431,5 +433,50 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     public void notifyScoreBoard() throws RemoteException {
         view.notifyScore();
         return;
+    }
+
+    @Override
+    public void notifyError(RemoteException e) throws RemoteException {
+        view.notifyError(VError.CONNECTION);
+    }
+
+    @Override
+    public void notifyError(FavorTokenException e) throws RemoteException {
+        view.notifyError(VError.FAVOR_TOKEN);
+    }
+
+    @Override
+    public void notifyError(NutChosenWrongException e) throws RemoteException {
+        view.notifyError(VError.NUT_CHOSEN_WRONG);
+    }
+
+    @Override
+    public void notifyError(IllegalArgumentException e) throws RemoteException {
+        view.notifyError(VError.ILLEGAL_MOVE);
+    }
+
+    @Override
+    public void notifyError(WindowPatternColorException e) throws RemoteException {
+        view.notifyError(VError.WP_COLOR);
+    }
+
+    @Override
+    public void notifyError(WindowPatternValueException e) throws RemoteException {
+        view.notifyError(VError.WP_VALUE);
+    }
+
+    @Override
+    public void notifyError(FrameValueAndColorException e) throws RemoteException {
+        view.notifyError(VError.FRAME_VALUE_AND_COLOR);
+    }
+
+    @Override
+    public void notifyError(BusyPositionException e) throws RemoteException {
+        view.notifyError(VError.BUSY_POSITION);
+    }
+
+    @Override
+    public void notifyError(AdjacentDiceException e) throws RemoteException {
+        view.notifyError(VError.ADIACENT_DICE);
     }
 }

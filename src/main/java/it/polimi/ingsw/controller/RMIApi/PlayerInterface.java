@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Action;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Dice;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.exceptions.*;
 
 import java.io.Serializable;
 import java.rmi.Remote;
@@ -89,6 +90,19 @@ public interface PlayerInterface extends Remote, Serializable {
 
     public int getDiceValue(Dice dice) throws RemoteException;
     public void notifyScoreBoard() throws  RemoteException;
+
+    public void notifyError(RemoteException e) throws  RemoteException;
+    public void notifyError(FavorTokenException e) throws  RemoteException;
+    public void notifyError(NutChosenWrongException e) throws  RemoteException;
+    public void notifyError(IllegalArgumentException e) throws  RemoteException;
+    public void notifyError(WindowPatternColorException e) throws  RemoteException;
+    public void notifyError(WindowPatternValueException e) throws  RemoteException;
+    public void notifyError(FrameValueAndColorException e) throws  RemoteException;
+    public void notifyError(BusyPositionException e) throws  RemoteException;
+    public void notifyError(AdjacentDiceException e) throws  RemoteException;
+
+
+
 
 
 
