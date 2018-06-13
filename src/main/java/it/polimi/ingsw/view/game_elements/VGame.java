@@ -2,10 +2,8 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.*;
 import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
-import it.polimi.ingsw.view.other_elements.VColor;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import static it.polimi.ingsw.inputoutput.IOManager.getInt;
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
@@ -29,6 +27,7 @@ public class VGame {
     }
 
     public int askDice() {
+        println(this.dice.toString());
         int value = getInt(1, this.dice.size());
         return value - 1; // return the wanted index
     }

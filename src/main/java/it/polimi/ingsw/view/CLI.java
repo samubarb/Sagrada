@@ -5,10 +5,7 @@ import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.game_elements.VPlayer;
-import it.polimi.ingsw.view.other_elements.VCoordinates;
-import it.polimi.ingsw.view.other_elements.VError;
-import it.polimi.ingsw.view.other_elements.VMove;
-import it.polimi.ingsw.view.other_elements.VSettings;
+import it.polimi.ingsw.view.other_elements.*;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -50,7 +47,6 @@ public class CLI implements View {
     }
 
     public int askDice(int i) {
-        println("Scegli il dado numero " + i);
         return this.game.askDice();
     }
 
@@ -63,7 +59,7 @@ public class CLI implements View {
 
     @Override
     public int askDiceNumber(VDice dice) {
-        println("Scegli il numero per il tuo " + dice.getColor() + "dado: ");
+        println("Scegli il numero per il tuo " + dice.getColor() + "DADO: " + VColor.RESET);
         return getInt(1, 6);
     }
 

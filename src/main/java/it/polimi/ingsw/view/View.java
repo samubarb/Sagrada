@@ -47,6 +47,10 @@ public interface View {
 
 
     /* NEED TO IMPLEMENT
-    una print che visualizzi i punteggi void printPunteggi(array[]); o cose simili
+     - show favor tokens of WPcard
+     - correggi stampa colore in askDiceNumber()
+     - descrizioni delle carte obiettivo
+     -
+
     */
 }
