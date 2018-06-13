@@ -127,7 +127,6 @@ public class CLI implements View {
                 println("Coordinate non valide.");
             }
         } while (flag);
-
         return xy;
     }
 

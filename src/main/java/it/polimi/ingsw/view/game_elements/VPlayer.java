@@ -3,7 +3,9 @@ package it.polimi.ingsw.view.game_elements;
 import it.polimi.ingsw.view.other_elements.VColor;
 import it.polimi.ingsw.view.cards.VWindowPattern;
 
+import static it.polimi.ingsw.inputoutput.IOManager.errorExit;
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
+import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class VPlayer implements Comparable {
     private String name;
@@ -51,10 +53,32 @@ public class VPlayer implements Comparable {
         this.score = score;
     }
 
+    public String getReadyForPodium() {
+        return this.color + this.name + " " + this.score + newline;
+    }
+
     @Override
     public int compareTo(Object o) {
-        return this.score;
+        final int BEFORE = -1;
+        final int EQUAL = 0;
+        final int AFTER = 1;
+
+        try {
+            VPlayer other = (VPlayer) o;
+            return this.getScore() > other.getScore() ? BEFORE : AFTER;
+        } catch (ClassCastException e) {
+            println("");
+            errorExit();
+        }
+
+        return EQUAL;
     }
+
+    /*
+    public VPlayer compareTo(VPlayer other) {
+        return this.getScore() > other.getScore() ? this : other;
+    }
+    */
 
     @Override
     public String toString() {

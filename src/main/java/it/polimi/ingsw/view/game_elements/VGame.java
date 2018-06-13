@@ -97,7 +97,7 @@ public class VGame {
     public void notifyScore() {
         StringBuilder string = new StringBuilder();
         string.append("Classifica partita: ").append(newline);
-        players.stream().sorted(Comparator.comparing(VPlayer::getScore)).forEach(vPlayer -> string.append(vPlayer.getColor()).append(vPlayer.getName()).append(" ").append(vPlayer.getScore()).append(newline));
+        players.stream().sorted((p1, p2) -> p1.compareTo(p2)).forEach(p -> string.append(p.getReadyForPodium()));
         println(string.toString());
     }
 
