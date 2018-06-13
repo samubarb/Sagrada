@@ -28,6 +28,7 @@ public interface PlayerInterface extends Remote, Serializable {
     public int getToolcard() throws  RemoteException;
 
 
+
     /**
      * Richiede un dado dalla riserva di dadi (currentDice)
      * @return
@@ -85,6 +86,9 @@ public interface PlayerInterface extends Remote, Serializable {
      * @throws RemoteException
      */
     public boolean doYouWantToPlace() throws RemoteException;
+
+    public int getDiceValue(Dice dice) throws RemoteException;
+    public void notifyScoreBoard() throws  RemoteException;
 
 
 
