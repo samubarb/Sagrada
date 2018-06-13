@@ -14,8 +14,4 @@ public class VMoveTest {
         VMove move = new VMove(new VDice(5, VColor.PURPLE), new VCoordinates(2,2));
         println(move.toString());
     }
-
-    @Test
-    public void askMovePrint() {
-    }
 }

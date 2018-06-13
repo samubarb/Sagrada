@@ -45,12 +45,11 @@ public interface View {
     void loggedIn(String player); // invoked by the server to permit login
      */
 
-
     /* NEED TO IMPLEMENT
-     - show favor tokens of WPcard
-     - correggi stampa colore in askDiceNumber()
-     - descrizioni delle carte obiettivo
-     -
-
+     - handle null choice of VCurrentDice !!!
+     - show favor tokens of WPcards
+     - descrizioni delle carte obiettivo pubblico
+     - mostra carte obiettivo privato di ogni player
+     - fix the always FALSE returning in the CLI menu
     */
 }
