@@ -38,7 +38,7 @@ public final class IOManager {
     }
 
     public static String getToolDescription(int i) {
-        return getToolDescriptions()[i];
+        return getToolDescriptions()[i - 1];
     }
 
     public static String getString() {
