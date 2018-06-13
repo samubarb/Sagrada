@@ -15,7 +15,7 @@ public enum VError {
 
     private String errorMessage;
 
-    private VError(String errorMessage) {
+    VError(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
