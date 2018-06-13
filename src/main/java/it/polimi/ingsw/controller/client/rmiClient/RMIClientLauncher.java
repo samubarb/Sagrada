@@ -423,7 +423,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public int getDiceValue(Dice dice) throws RemoteException {
-         return askDiceNumber(new AdapterCLI().diceToView(dice));
+         return view.askDiceNumber(new AdapterCLI().diceToView(dice));
 
     }
 
