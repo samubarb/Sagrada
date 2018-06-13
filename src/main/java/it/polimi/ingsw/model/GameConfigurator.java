@@ -60,6 +60,7 @@ public class GameConfigurator implements Serializable {
         game.addWindowPatternCard(createWPCfirmitas(),9);
         game.addWindowPatternCard(createWPCauroraSagradis(),10);
         game.addWindowPatternCard(createWPCshadowThief(),11);
+        //shuffleWindowPatternCards(game.getWindowPatternCards());
     }
 
 
@@ -84,6 +85,8 @@ public class GameConfigurator implements Serializable {
 
     }
 
+
+
     public void shuffleObjective(PublicObjective[] objective) {
         Random rnd = ThreadLocalRandom.current();
         for (int i = objective.length - 1; i > 0; i--)
@@ -94,6 +97,19 @@ public class GameConfigurator implements Serializable {
             objective[index] = objective[i];
             objective[i] = a;
         }
+    }
+
+    public void shuffleWindowPatternCards(WindowPattern[] windowPatterns){
+        Random rnd = ThreadLocalRandom.current();
+        for (int i = windowPatterns.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            WindowPattern a;
+            a = windowPatterns[index];
+            windowPatterns[index] = windowPatterns[i];
+            windowPatterns[i] = a;
+        }
+
     }
 
     public PrivateObjective[] createPrivateObjective(){
@@ -353,6 +369,7 @@ public class GameConfigurator implements Serializable {
         WindowPattern shadowThief =new WindowPattern(5,"ShadowThief",frame);
         return shadowThief;
     }
+
 
 
 

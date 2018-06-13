@@ -23,6 +23,7 @@ public class Game implements Serializable{
     private int currentPlayerIndex;
     private Stack<Player> turnStack;
     private WindowPattern[] windowPatternCards;
+    private int  counnterForWindowPattern;
 
     public Game() {
         this.players = new ArrayList<Player>();
@@ -36,6 +37,7 @@ public class Game implements Serializable{
         this.currentPlayerIndex=0;
         this.turnStack=new Stack<Player>();
         this.windowPatternCards=new WindowPattern[24];
+        this.counnterForWindowPattern=0;
 
         setDefaultDice(roundTrack);
         setRolledDice();
@@ -46,6 +48,8 @@ public class Game implements Serializable{
     public void setAddPlayer(Player player){
         players.add(player);
     }
+
+
 
     public int getRound() {
         return round;
@@ -313,6 +317,20 @@ public class Game implements Serializable{
         Dice dice=player.getChosenNut();
         player.setChosenNut(new Dice());
         getCurrentDice()[position]=dice;
+
+    }
+
+    /**
+     * @return
+     */
+    public WindowPattern[] getWindowPatternForAPlayer(){
+        WindowPattern[] arrayForPlayer=new WindowPattern[4];
+        for(int i=0;i<arrayForPlayer.length;i++){
+            arrayForPlayer[i]=windowPatternCards[i+counnterForWindowPattern];
+        }
+        counnterForWindowPattern+=4;
+        return arrayForPlayer;
+
 
     }
 

@@ -127,6 +127,11 @@ public class Player implements Serializable{
         this.currentGame = currentGame;
     }
 
+    public void addFinalPoints(int points){
+        this.finalPoints+=points;
+
+    }
+
     /*
     * checkFavorTokenPlayer:
     * check if the tool card has already been used and check if the player has enough favor tokens
