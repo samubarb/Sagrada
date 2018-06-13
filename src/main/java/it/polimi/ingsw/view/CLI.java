@@ -62,6 +62,12 @@ public class CLI implements View {
     }
 
     @Override
+    public int askDiceNumber(VDice dice) {
+        println("Scegli il numero per il tuo " + dice.getColor() + "dado: ");
+        return getInt(1, 6);
+    }
+
+    @Override
     public int askWindowPattern() {
         return this.game.askWindowPattern();
     }
@@ -121,7 +127,6 @@ public class CLI implements View {
                 println("Coordinate non valide.");
             }
         } while (flag);
-
         return xy;
     }
 

@@ -2,22 +2,22 @@ package it.polimi.ingsw.view.cards;
 
 import it.polimi.ingsw.view.other_elements.VColor;
 
-import static it.polimi.ingsw.inputoutput.IOManager.newline;
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VToolCard {
     private String name;
-    private String description;
     private VColor color;
+    private int number;
 
 
-    public VToolCard(String name, VColor color) {
+    public VToolCard(String name, VColor color, int number) {
         this.name = name;
         this.color = color;
-        this.description = setDescription();
+        this.number = number;
     }
 
-    private String setDescription() {
-        return "Description here";
+    private String getDescription() {
+        return getToolDescription(this.number);
     }
 
     public String getName() {
@@ -32,7 +32,7 @@ public class VToolCard {
     public String toString() {
         StringBuilder string = new StringBuilder();
         string.append(this.color).append(this.name).append(VColor.RESET).append(newline).
-                append(this.description).append(newline);
+                append(this.getDescription()).append(newline);
         return string.toString();
     }
 }

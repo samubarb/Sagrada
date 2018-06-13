@@ -32,9 +32,13 @@ public final class IOManager {
         return string.toString();
     }
 
-    public static String[] getToolDescriptions() {
+    private static String[] getToolDescriptions() {
         String file = fileToString("./JSONconf/ToolCardDescription.json");
         return new Gson().fromJson(file, String[].class);
+    }
+
+    public static String getToolDescription(int i) {
+        return getToolDescriptions()[i];
     }
 
     public static String getString() {

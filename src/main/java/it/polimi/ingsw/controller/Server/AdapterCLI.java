@@ -158,7 +158,7 @@ public final class AdapterCLI implements Adapter {
     }
 
     public VToolCard toolCardToView(ToolCard toolCard) {
-        return new VToolCard(toolCard.getName(), colorToView(toolCard.getColor()));
+        return new VToolCard(toolCard.getName(), colorToView(toolCard.getColor()), toolCard.getNumber());
     }
 
     public VRoundTrack roundTrackToView(Dice[] track) {
