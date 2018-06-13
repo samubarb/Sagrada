@@ -60,7 +60,20 @@ public class GameConfigurator implements Serializable {
         game.addWindowPatternCard(createWPCfirmitas(),9);
         game.addWindowPatternCard(createWPCauroraSagradis(),10);
         game.addWindowPatternCard(createWPCshadowThief(),11);
-        //shuffleWindowPatternCards(game.getWindowPatternCards());
+        game.addWindowPatternCard(createFractalDrops(),12);
+        game.addWindowPatternCard(createChromaticSplendor(),13);
+        game.addWindowPatternCard(createLuzCelestial(),14);
+        game.addWindowPatternCard(createGravitas(),15);
+        game.addWindowPatternCard(createLuxAstram(),16);
+        game.addWindowPatternCard(createFirelight(),17);
+        game.addWindowPatternCard(createRipplesOfLight(),18);
+        game.addWindowPatternCard(createComitas(),19);
+        game.addWindowPatternCard(createFulgorDelCielo(),20);
+        game.addWindowPatternCard(createLuxMundi(),21);
+        game.addWindowPatternCard(createSunsGlory(),22);
+        game.addWindowPatternCard(createWaterOfLife(),23);
+
+        shuffleWindowPatternCards(game.getWindowPatternCards());
     }
 
 
@@ -369,6 +382,236 @@ public class GameConfigurator implements Serializable {
         WindowPattern shadowThief =new WindowPattern(5,"ShadowThief",frame);
         return shadowThief;
     }
+
+    public WindowPattern createFractalDrops(){
+        Frame frame =new Frame();
+        frame.setPositionDice(dice4,0,1);
+        frame.setPositionDice(yellowDice,0,3);
+        frame.setPositionDice(dice6,0,4);
+        frame.setPositionDice(redDice,1,0);
+        frame.setPositionDice(dice2,1,2);
+        frame.setPositionDice(redDice,2,2);
+        frame.setPositionDice(purpleDice,2,3);
+        frame.setPositionDice(dice1,2,4);
+        frame.setPositionDice(blueDice,3,0);
+        frame.setPositionDice(yellowDice,3,1);
+        WindowPattern fractalDrops =new WindowPattern(3,"Fractal Drops",frame);
+        return fractalDrops;
+
+    }
+
+    public WindowPattern createChromaticSplendor(){
+        Frame frame =new Frame();
+        frame.setPositionDice(greenDice,0,2);
+        frame.setPositionDice(dice2,1,0);
+        frame.setPositionDice(yellowDice,1,1);
+        frame.setPositionDice(dice5,1,2);
+        frame.setPositionDice(blueDice,1,3);
+        frame.setPositionDice(dice1,1,4);
+        frame.setPositionDice(redDice,2,1);
+        frame.setPositionDice(dice3,2,2);
+        frame.setPositionDice(purpleDice,2,3);
+        frame.setPositionDice(dice1,3,0);
+        frame.setPositionDice(dice6,3,2);
+        frame.setPositionDice(dice4,3,4);
+        WindowPattern chromaticSplendor =new WindowPattern(4,"Chromatic Splendor",frame);
+        return chromaticSplendor;
+    }
+
+    public WindowPattern createLuzCelestial(){
+        Frame frame =new Frame();
+        frame.setPositionDice(redDice,0,2);
+        frame.setPositionDice(dice5,0,3);
+        frame.setPositionDice(purpleDice,1,0);
+        frame.setPositionDice(dice4,1,1);
+        frame.setPositionDice(greenDice,1,3);
+        frame.setPositionDice(dice3,1,4);
+        frame.setPositionDice(dice6,2,0);
+        frame.setPositionDice(blueDice,2,3);
+        frame.setPositionDice(yellowDice,3,1);
+        frame.setPositionDice(dice2,3,2);
+        WindowPattern luzCelestial =new WindowPattern(3,"Luz Celestial",frame);
+        return luzCelestial;
+    }
+
+    public WindowPattern createGravitas(){
+        Frame frame =new Frame();
+        frame.setPositionDice(dice1,0,0);
+        frame.setPositionDice(dice3,0,2);
+        frame.setPositionDice(blueDice,0,3);
+        frame.setPositionDice(dice2,1,1);
+        frame.setPositionDice(blueDice,1,2);
+        frame.setPositionDice(dice6,2,0);
+        frame.setPositionDice(blueDice,2,1);
+        frame.setPositionDice(dice4,2,3);
+        frame.setPositionDice(blueDice,3,0);
+        frame.setPositionDice(dice5,3,1);
+        frame.setPositionDice(dice2,3,2);
+        frame.setPositionDice(dice1,3,4);
+        WindowPattern gravitas =new WindowPattern(5,"Gravitas",frame);
+        return gravitas;
+    }
+
+    public WindowPattern createLuxAstram(){
+        Frame frame =new Frame();
+        frame.setPositionDice(dice1,0,1);
+        frame.setPositionDice(greenDice,0,2);
+        frame.setPositionDice(purpleDice,0,3);
+        frame.setPositionDice(dice4,0,4);
+        frame.setPositionDice(dice6,1,0);
+        frame.setPositionDice(purpleDice,1,1);
+        frame.setPositionDice(dice2,1,2);
+        frame.setPositionDice(dice5,1,3);
+        frame.setPositionDice(greenDice,1,4);
+        frame.setPositionDice(dice1,2,0);
+        frame.setPositionDice(greenDice,2,1);
+        frame.setPositionDice(dice5,2,2);
+        frame.setPositionDice(dice3,2,3);
+        frame.setPositionDice(purpleDice,2,4);
+        WindowPattern luxAstram =new WindowPattern(5,"Lux Astram",frame);
+        return luxAstram;
+    }
+
+    public WindowPattern createFirelight(){
+        Frame frame =new Frame();
+        frame.setPositionDice(dice3,0,0);
+        frame.setPositionDice(dice4,0,1);
+        frame.setPositionDice(dice1,0,2);
+        frame.setPositionDice(dice5,0,3);
+        frame.setPositionDice(dice6,1,1);
+        frame.setPositionDice(dice2,1,2);
+        frame.setPositionDice(yellowDice,1,4);
+        frame.setPositionDice(yellowDice,2,3);
+        frame.setPositionDice(redDice,2,4);
+        frame.setPositionDice(dice5,3,0);
+        frame.setPositionDice(yellowDice,3,3);
+        frame.setPositionDice(redDice,3,3);
+        frame.setPositionDice(dice6,3,4);
+        WindowPattern fireLight =new WindowPattern(5,"Firelight",frame);
+        return fireLight;
+    }
+
+    public WindowPattern createRipplesOfLight(){
+        Frame frame =new Frame();
+        frame.setPositionDice(redDice,0,3);
+        frame.setPositionDice(dice5,0,4);
+        frame.setPositionDice(purpleDice,1,2);
+        frame.setPositionDice(dice4,1,3);
+        frame.setPositionDice(blueDice,1,4);
+        frame.setPositionDice(blueDice,2,1);
+        frame.setPositionDice(dice3,2,2);
+        frame.setPositionDice(yellowDice,2,3);
+        frame.setPositionDice(dice6,2,4);
+        frame.setPositionDice(yellowDice,3,0);
+        frame.setPositionDice(dice2,3,1);
+        frame.setPositionDice(greenDice,3,2);
+        frame.setPositionDice(dice1,3,3);
+        frame.setPositionDice(redDice,3,4);
+        WindowPattern ripplesOfLight =new WindowPattern(5,"Ripples of Light",frame);
+        return ripplesOfLight;
+    }
+
+    public WindowPattern createComitas(){
+        Frame frame =new Frame();
+        frame.setPositionDice(yellowDice,0,0);
+        frame.setPositionDice(dice2,0,2);
+        frame.setPositionDice(dice6,0,4);
+        frame.setPositionDice(dice4,1,1);
+        frame.setPositionDice(dice5,1,3);
+        frame.setPositionDice(yellowDice,1,4);
+        frame.setPositionDice(yellowDice,2,3);
+        frame.setPositionDice(dice5,2,4);
+        frame.setPositionDice(dice1,3,0);
+        frame.setPositionDice(dice2,3,1);
+        frame.setPositionDice(yellowDice,3,2);
+        frame.setPositionDice(dice3,3,3);
+        WindowPattern comitas =new WindowPattern(5,"Comitas",frame);
+        return comitas;
+    }
+
+    public WindowPattern createFulgorDelCielo(){
+        Frame frame =new Frame();
+        frame.setPositionDice(blueDice,0,1);
+        frame.setPositionDice(redDice,0,2);
+        frame.setPositionDice(dice4,1,1);
+        frame.setPositionDice(dice5,1,2);
+        frame.setPositionDice(blueDice,1,4);
+        frame.setPositionDice(blueDice,2,0);
+        frame.setPositionDice(dice2,2,1);
+        frame.setPositionDice(redDice,2,3);
+        frame.setPositionDice(dice5,2,4);
+        frame.setPositionDice(dice6,3,0);
+        frame.setPositionDice(redDice,3,1);
+        frame.setPositionDice(dice3,3,2);
+        frame.setPositionDice(dice1,3,3);
+        WindowPattern fulgorDelCielo =new WindowPattern(5,"Fulgor del Cielo",frame);
+        return fulgorDelCielo;
+    }
+
+    public WindowPattern createWaterOfLife(){
+        Frame frame =new Frame();
+        frame.setPositionDice(dice6,0,0);
+        frame.setPositionDice(blueDice,0,1);
+        frame.setPositionDice(dice1,0,4);
+        frame.setPositionDice(dice5,1,1);
+        frame.setPositionDice(blueDice,1,2);
+        frame.setPositionDice(dice4,2,0);
+        frame.setPositionDice(redDice,2,1);
+        frame.setPositionDice(dice2,2,2);
+        frame.setPositionDice(blueDice,2,3);
+        frame.setPositionDice(greenDice,3,0);
+        frame.setPositionDice(dice6,3,1);
+        frame.setPositionDice(yellowDice,3,2);
+        frame.setPositionDice(dice3,3,3);
+        frame.setPositionDice(purpleDice,3,4);
+        WindowPattern waterOfLife =new WindowPattern(6,"Water of Life",frame);
+        return waterOfLife;
+    }
+
+    public WindowPattern createLuxMundi(){
+        Frame frame =new Frame();
+        frame.setPositionDice(dice1,0,2);
+        frame.setPositionDice(dice1,1,0);
+        frame.setPositionDice(greenDice,1,1);
+        frame.setPositionDice(dice3,1,2);
+        frame.setPositionDice(blueDice,1,3);
+        frame.setPositionDice(dice2,1,4);
+        frame.setPositionDice(blueDice,2,0);
+        frame.setPositionDice(dice5,2,1);
+        frame.setPositionDice(dice4,2,2);
+        frame.setPositionDice(dice6,2,3);
+        frame.setPositionDice(greenDice,2,4);
+        frame.setPositionDice(blueDice,3,1);
+        frame.setPositionDice(dice5,3,2);
+        frame.setPositionDice(greenDice,3,3);
+        WindowPattern luxMundi =new WindowPattern(6,"Lux Mundi",frame);
+        return luxMundi;
+
+    }
+
+    public WindowPattern createSunsGlory(){
+        Frame frame =new Frame();
+        frame.setPositionDice(dice1,0,0);
+        frame.setPositionDice(purpleDice,0,1);
+        frame.setPositionDice(yellowDice,0,2);
+        frame.setPositionDice(dice4,0,4);
+        frame.setPositionDice(purpleDice,1,0);
+        frame.setPositionDice(yellowDice,1,1);
+        frame.setPositionDice(dice6,1,4);
+        frame.setPositionDice(yellowDice,2,0);
+        frame.setPositionDice(dice5,2,3);
+        frame.setPositionDice(dice3,2,4);
+        frame.setPositionDice(dice5,3,1);
+        frame.setPositionDice(dice4,3,2);
+        frame.setPositionDice(dice2,3,3);
+        frame.setPositionDice(dice1,3,4);
+        WindowPattern sunsGlory =new WindowPattern(6,"Suns's Glory",frame);
+        return sunsGlory;
+    }
+
+
+
+
 
 
 

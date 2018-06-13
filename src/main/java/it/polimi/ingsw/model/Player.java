@@ -19,7 +19,10 @@ public class Player implements Serializable{
     private Game currentGame;
     private Dice chosenNut;
     private boolean firstDice=true;
+    private int previousPlayerToken;
     public static final int DEFAUTL_VALUE = 0;
+    public static final int LINE_SIZE=4;
+    public static final int COLUMN_SIZE=5;
 
     /*
      *constructor of default
@@ -36,6 +39,7 @@ public class Player implements Serializable{
         this.windowPattern = null;
         this.privateObjective = new PrivateObjective();
         this.chosenNut=new Dice();
+        this.previousPlayerToken=0;
     }
 
     public Player(String name, Color color) {
@@ -45,6 +49,7 @@ public class Player implements Serializable{
         this.windowPattern = null;
         this.privateObjective = new PrivateObjective();
         this.chosenNut=new Dice();
+        this.previousPlayerToken=0;
     }
 
     public Player(String name, Color color, Frame frame, WindowPattern windowPattern) {
@@ -53,6 +58,7 @@ public class Player implements Serializable{
         this.frame = frame;
         this.windowPattern = windowPattern;
         this.chosenNut=new Dice();
+        this.previousPlayerToken=0;
     }
 
     public String getName() {
@@ -132,12 +138,30 @@ public class Player implements Serializable{
 
     }
 
+    public int getPreviousPlayerToken() {
+        return previousPlayerToken;
+    }
+
+    public void setPreviousPlayerToken(int previousPlayerToken) {
+        this.previousPlayerToken = previousPlayerToken;
+    }
+
+    public int playerFramePoints(){
+        int points=0;
+        for(int i=0;i<LINE_SIZE;i++)
+            for(int j=0;j<COLUMN_SIZE;j++)
+                if(this.frame.getDice(i,j).getColor().equals(Color.UNCOLORED))
+                    points++;
+        return -points;
+    }
+
     /*
     * checkFavorTokenPlayer:
     * check if the tool card has already been used and check if the player has enough favor tokens
      */
 
     public boolean checkFavorTokenPlayer(ToolCard toolCard) throws FavorTokenException {
+        previousPlayerToken=getFavorTokens();
         if(toolCard.getAlreadyUsed())
             if(getFavorTokens()>=2){
                 setFavorTokens(getFavorTokens()-2);
@@ -148,6 +172,18 @@ public class Player implements Serializable{
             else throw new FavorTokenException();
             toolCard.setAlreadyUsed(true);
             return true;
+
+    }
+
+    /**
+     * @param toolCard
+     */
+    public void restoreFavorTokenPlayer(ToolCard toolCard){
+
+        if(getPreviousPlayerToken()-getFavorTokens()==1)
+            toolCard.setAlreadyUsed(false);
+        setFavorTokens(getPreviousPlayerToken());
+
 
     }
 
