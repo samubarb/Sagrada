@@ -50,7 +50,6 @@ public class CLI implements View {
     }
 
     public int askDice(int i) {
-        println("Scegli il dado numero " + i);
         return this.game.askDice();
     }
 
