@@ -10,7 +10,8 @@ public enum VError {
     NUT_CHOSEN_WRONG ("Il dado selezionato non corrisponde."),
     WP_COLOR ("Non puoi posizionare il dado perché è presente un vincolo di colore."),
     WP_VALUE ("Non puoi posizionare il dado perché è presente un vincolo valore."),
-    CONNECTION ("Problemi di connessione.");
+    CONNECTION ("Problemi di connessione."),
+    ILLEGAL_MOVE ("Mossa non valida.");
 
     private String errorMessage;
 
