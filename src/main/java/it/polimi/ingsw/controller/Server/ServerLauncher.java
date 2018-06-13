@@ -34,7 +34,7 @@ public class ServerLauncher {
     public static final long START_IMMEDIATELY = 0;
     private Timer mainTimer;
     private int round;
-    private static final int MAXNUMBEROFROUND = 10;
+    private static final int MAXNUMBEROFROUND = 2;
     private static final long TURNTIME = 10000;
     private Game game;
     private Timer turnTimer;
@@ -233,7 +233,7 @@ public class ServerLauncher {
                     canJoin = false;
                     cancelTimer();
                     startCountDownTimer(START_IMMEDIATELY);
-                } else if (nicknames.size() == 2) {
+                } else if (nicknames.size() == MINPLAYERS) {
                     startCountDownTimer(TIMETOWAITINROOM);
                 }
                 return true;
