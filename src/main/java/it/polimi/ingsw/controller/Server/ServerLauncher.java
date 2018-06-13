@@ -624,6 +624,14 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
+            } catch (IllegalArgumentException e){
+                try {
+                    playerInterface.notifyError(e);
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                restoreFavorToken(player, i);
+                game.restoreDice(player, dice);
             }
         }
 
