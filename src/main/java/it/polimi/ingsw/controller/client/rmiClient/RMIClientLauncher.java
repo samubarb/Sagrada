@@ -9,10 +9,7 @@ import it.polimi.ingsw.controller.Server.Socket.Connect;
 import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.controller.client.ClientLauncher;
 import it.polimi.ingsw.controller.client.ClientSettings;
-import it.polimi.ingsw.model.Action;
-import it.polimi.ingsw.model.Coordinates;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
@@ -424,4 +421,15 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         return false;
     }
 
+    @Override
+    public int getDiceValue(Dice dice) throws RemoteException {
+         return askDiceNumber(new AdapterCLI().diceToView(dice));
+
+    }
+
+    @Override
+    public void notifyScoreBoard() throws RemoteException {
+        view.notifyScore();
+        return;
+    }
 }

@@ -307,6 +307,8 @@ public class ServerLauncher {
                     }
                 }
             }
+            calculateFinalScore(game);
+            notifyWinner(game);
             //selectWinner();
             //notifyWinner();
         }
@@ -399,8 +401,8 @@ public class ServerLauncher {
                     break;
                 case 9: useGrindingStone(i, playerInterface, player);
                     break;
-                /*case 10: useFluxBrush(i, playerInterface, player);
-                    break;*/
+                case 10: useFluxRemover(i, playerInterface, player);
+                    break;
                 case 11: useTapWheel(i, playerInterface, player);
                     break;
             }
@@ -603,6 +605,21 @@ public class ServerLauncher {
             }
         }
 
+        public void useFluxRemover(int i, PlayerInterface playerInterface, Player player){
+            int dice = 0;
+            try {
+                dice = playerInterface.getDiceFromReserve();
+                player.setChosenNut(game.getDiceFromCurrentDice(dice));
+                game.getToolCards()[i].useTool(player);
+                int value = playerInterface.getDiceValue(player.getChosenNut());
+                player.getChosenNut().setValue(value);
+                game.restoreDice(player, dice);
+                toolCardUsed = true;
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
         public void useTapWheel(int i, PlayerInterface playerInterface, Player player){
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -724,6 +741,36 @@ public class ServerLauncher {
                 e.printStackTrace();
             }
 
+        }
+
+        public void calculateFinalScore(Game game){
+            for(Player player: game.getPlayers()) {
+                getFinalPointsFromPublicObjectives(game, player);
+                getFinalPointsFromPrivateObjective(game, player);
+            }
+        }
+
+        public void getFinalPointsFromPublicObjectives(Game game, Player player){
+            for (PublicObjective publicObjective : game.getPublicObjectives()) {
+                int finalScore = publicObjective.calculateScore(player);
+                player.addFinalPoints(finalScore);
+            }
+        }
+
+        public void getFinalPointsFromPrivateObjective(Game game, Player player){
+            int privatePoint = player.getPrivateObjective().calculateScore(player);
+            player.addFinalPoints(privatePoint);
+        }
+
+        public void notifyWinner(Game game){
+            //calculate classifica
+            for(User user : getNicknames()){
+                try {
+                    user.getPlayerInterface().notifyScoreBoard();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
 
