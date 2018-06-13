@@ -49,7 +49,6 @@ public interface View {
     /* NEED TO IMPLEMENT
      - show favor tokens of WPcard
      - correggi stampa colore in askDiceNumber()
-     - mostra dadi in askDice()
      - descrizioni delle carte obiettivo
      -
 
