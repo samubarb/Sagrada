@@ -2,8 +2,10 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.*;
 import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
+import it.polimi.ingsw.view.other_elements.VColor;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import static it.polimi.ingsw.inputoutput.IOManager.getInt;
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
@@ -59,6 +61,12 @@ public class VGame {
             this.players.add(player);
     }
 
+    public void setScore(String playerName, int score) {
+        for(VPlayer vp : this.players)
+            if (vp.getName() == playerName)
+                vp.setScore(score);
+    }
+
     public void addPublicObjective(VPublicObjectiveCard objCard) {
         this.publicObjectives.add(objCard);
     }
@@ -84,6 +92,13 @@ public class VGame {
     public void removePlayer(VPlayer player) { this.players.remove(player); } // remove player from the game
     public VPlayer getClientPlayer() {
         return this.clientPlayer;
+    }
+
+    public void notifyScore() {
+        StringBuilder string = new StringBuilder();
+        string.append("Classifica partita: ").append(newline);
+        players.stream().sorted(Comparator.comparing(VPlayer::getScore)).forEach(vPlayer -> string.append(vPlayer.getColor()).append(vPlayer.getName()).append(" ").append(vPlayer.getScore()).append(newline));
+        println(string.toString());
     }
 
     @Override

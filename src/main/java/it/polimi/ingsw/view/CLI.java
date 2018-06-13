@@ -6,6 +6,7 @@ import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.game_elements.VPlayer;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
+import it.polimi.ingsw.view.other_elements.VError;
 import it.polimi.ingsw.view.other_elements.VMove;
 import it.polimi.ingsw.view.other_elements.VSettings;
 
@@ -124,13 +125,14 @@ public class CLI implements View {
         return xy;
     }
 
-    public void youWin() {
+    public void notifyWin() {
         println("Hai vinto" + this.game.getClientPlayer().toString()+ "!");
     }
-
-    public void youLose() {
+    public void notifyLose() {
         println("Hai perso" + this.game.getClientPlayer().toString() + "!");
     }
+    public void notifyError(VError error) { println(error.toString()); }
+    public void notifyScore() { game.notifyScore(); }
 
     public void updateState(VGame game) {
         this.game = game;
@@ -310,8 +312,6 @@ public class CLI implements View {
                 "@@@                                                                       @@@@ \n" +
                 "@@@                                                                         #@@\n" +
                 "@                                                                              \n";
-
-
 
         clearScreen();
         print(splash + centerText("Premi INVIO per continuare", "@@    @@     @    @@  @    @@   @@@     @@@   @     %@   @      @ @   @    @@. ".length()));

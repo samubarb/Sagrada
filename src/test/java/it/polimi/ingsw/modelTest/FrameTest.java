@@ -26,11 +26,8 @@ public class FrameTest {
         Dice dice=new Dice(Color.RED,0);
         Dice dice2=new Dice(Color.UNCOLORED,3);
         println(new AdapterCLI().frameToView(testFrame).toString());
-
         assertTrue(testFrame.getNumberOfDice(dice)==2);
         assertTrue(testFrame.getNumberOfDice(dice2)==2);
-
-
     }
 
     @Test
