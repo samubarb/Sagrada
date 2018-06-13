@@ -19,6 +19,7 @@ public interface View {
     boolean askAction(); // true for increase, false for decrease, use with booleanToAction() adapter
     int askToPickFromRoundTrack(); // effect of a toolcard: you can take a dice
     boolean askConfirmDice(VDice dice); // after a re-roll, asks if the re-rolled dice is fine
+    int askDiceNumber(VDice dice); // asks the user with which number wants to re-place a specific dice
 
     // Methods to notify something to the Client
     void notifyError(VError error); // used to notify and guide the player after a wrong move
