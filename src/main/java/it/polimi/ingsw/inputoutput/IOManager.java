@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 public final class IOManager {
     public final static String newline = "\n";
     public static String Sn = "[S/n]";
+    public static int gridSpace = 50;
 
     public static String fileToString(String filePath)
     {
@@ -30,6 +31,26 @@ public final class IOManager {
         }
 
         return string.toString();
+    }
+
+    public static String centerText(String toCenter, int maxLen) {
+        int len = toCenter.replaceAll("\u001B\\[[;\\d]*m", "").length();
+
+        if (maxLen <= 0 || maxLen < len)
+            return "";
+        if (len == maxLen)
+            return toCenter;
+
+        StringBuilder centered = new StringBuilder();
+        for (len = (maxLen - len) / 2; len >= 0; len--)
+            centered.append(" ");
+
+        centered.append(toCenter);
+
+        for (len = (maxLen - len) / 2 + toCenter.length() - 1; len < maxLen; len++)
+            centered.append(" ");
+
+        return centered.toString();
     }
 
     private static String[] getToolDescriptions() {
@@ -102,7 +123,7 @@ public final class IOManager {
         println("Riprova con un numero tra quelli mostrati.");
     }
 
-    public static void println(String toPrint) {
+    public static void println(Object toPrint) {
         System.out.println(toPrint);
         System.out.flush();
     }

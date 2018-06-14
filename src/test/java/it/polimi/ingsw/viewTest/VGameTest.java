@@ -27,7 +27,6 @@ public class VGameTest {
         game.setScore("TestPlayer2", 42);
         game.setScore("TestPlayer3", 2);
         game.setScore("TestPlayer4", 7);
-
         game.notifyScore();
     }
 }

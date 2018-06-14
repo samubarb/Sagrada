@@ -3,9 +3,7 @@ package it.polimi.ingsw.view.game_elements;
 import it.polimi.ingsw.view.other_elements.VColor;
 import it.polimi.ingsw.view.cards.VWindowPattern;
 
-import static it.polimi.ingsw.inputoutput.IOManager.errorExit;
-import static it.polimi.ingsw.inputoutput.IOManager.newline;
-import static it.polimi.ingsw.inputoutput.IOManager.println;
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VPlayer implements Comparable {
     private String name;
@@ -54,7 +52,7 @@ public class VPlayer implements Comparable {
     }
 
     public String getReadyForPodium() {
-        return this.color + this.name + " " + this.score + newline;
+        return this.color + this.name + " " + this.score + VColor.RESET + newline;
     }
 
     @Override
@@ -70,24 +68,22 @@ public class VPlayer implements Comparable {
             println("");
             errorExit();
         }
-
         return EQUAL;
     }
 
-    /*
-    public VPlayer compareTo(VPlayer other) {
-        return this.getScore() > other.getScore() ? this : other;
-    }
-    */
-
     @Override
     public String toString() {
+        String frame[] = this.frame.toString().split(newline);
+        String wpattern[] = this.wpattern.toString().split(newline);
         StringBuilder string = new StringBuilder();
 
-        string.append(newline).
-                append(this.color.toString() + this.name + VColor.RESET).append(newline).
-                append(this.frame.toString()).append(newline).
-                append(this.wpattern.toString()).append(newline);
+        string.append(newline).append(centerText(this.color.toString() + this.name + VColor.RESET, gridSpace));
+        string.append(centerText(wpattern[0], gridSpace)).append(newline);
+
+        int len = frame.length < wpattern.length ? frame.length : wpattern.length;
+
+        for (int i = 0; i < len; i++)
+            string.append(centerText(frame[i], gridSpace)).append(centerText(wpattern[i + 1], gridSpace)).append(newline);
         return string.toString();
     }
 }

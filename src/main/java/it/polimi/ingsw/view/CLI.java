@@ -320,22 +320,6 @@ public class CLI implements View {
         clearScreen();
     }
 
-    private String centerText(String toCenter, int maxLen) {
-        int len = toCenter.length();
-
-        if (maxLen <= 0 || maxLen < len)
-            return "";
-        if (len == maxLen)
-            return toCenter;
-
-        StringBuilder centered = new StringBuilder();
-        for (len = (maxLen - len) / 2; len >= 0; len--) {
-            centered.append(" ");
-        }
-        centered.append(toCenter).append("\n");
-        return centered.toString();
-    }
-
     public void loggedIn(String playerLogged) {
         this.game.setClientPlayer(playerLogged);
         println("Accesso effettuato come " + playerLogged);
