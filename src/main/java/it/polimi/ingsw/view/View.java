@@ -46,7 +46,6 @@ public interface View {
      */
 
     /* NEED TO IMPLEMENT
-     - handle null choice of VCurrentDice !!!
      - show favor tokens of WPcards
      - descrizioni delle carte obiettivo pubblico
      - mostra carte obiettivo privato di ogni player

@@ -53,7 +53,7 @@ public class VPlayer implements Comparable {
 
     public String getReadyForPodium() {
         return this.color + this.name + " " + this.score + VColor.RESET + newline;
-    }
+    } // prepare Player and relative score to be sorted in the final ranking
 
     @Override
     public int compareTo(Object o) {
@@ -77,12 +77,12 @@ public class VPlayer implements Comparable {
         String wpattern[] = this.wpattern.toString().split(newline);
         StringBuilder string = new StringBuilder();
 
-        string.append(newline).append(centerText(this.color.toString() + this.name + VColor.RESET, gridSpace));
-        string.append(centerText(wpattern[0], gridSpace)).append(newline);
+        string.append(newline).
+                append(centerText(this.color + this.name + VColor.RESET, gridSpace)).
+                append(centerText(wpattern[0], gridSpace)).
+                append(newline);
 
-        int len = frame.length < wpattern.length ? frame.length : wpattern.length;
-
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < frame.length; i++)
             string.append(centerText(frame[i], gridSpace)).append(centerText(wpattern[i + 1], gridSpace)).append(newline);
         return string.toString();
     }

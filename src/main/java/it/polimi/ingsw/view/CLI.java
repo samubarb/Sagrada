@@ -15,11 +15,6 @@ public class CLI implements View {
     private static VSettings settings;
     private VSettings tempSettings;
 
-    public static void main(String[] args) {
-        CLI cli = new CLI("Test Player");
-        cli.startCLI();
-    }
-
     public CLI(String player) {
         this.clientPlayer = new VPlayer(player);
         this.settings = new VSettings(); // reset settings to the default

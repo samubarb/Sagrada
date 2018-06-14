@@ -35,6 +35,7 @@ public final class IOManager {
 
     public static String centerText(String toCenter, int maxLen) {
         int len = toCenter.replaceAll("\u001B\\[[;\\d]*m", "").length();
+        int spaces = (maxLen - len) / 2;
 
         if (maxLen <= 0 || maxLen < len)
             return "";
@@ -42,12 +43,10 @@ public final class IOManager {
             return toCenter;
 
         StringBuilder centered = new StringBuilder();
-        for (len = (maxLen - len) / 2; len >= 0; len--)
+        for (int i = 0; i < spaces; i++)
             centered.append(" ");
-
         centered.append(toCenter);
-
-        for (len = (maxLen - len) / 2 + toCenter.length() - 1; len < maxLen; len++)
+        for (int i = 0; i < spaces; i++)
             centered.append(" ");
 
         return centered.toString();
