@@ -130,7 +130,7 @@ public final class AdapterCLI implements Adapter {
         //String[] descriptions = getDescriptions();
 
         /* add WindowPatterns */
-        // vGame.setPatterns(patternsToView(game.getWindowPatternCards())); // to decomment in the future
+        vGame.setPatterns(patternsToView(game.getWindowPatternCards()));
 
         /* set round */
         vGame.setRound(game.getRound());
