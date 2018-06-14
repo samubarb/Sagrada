@@ -27,8 +27,11 @@ public class VGame {
     }
 
     public int askDice() {
+        int value;
         println(this.dice.toString());
-        int value = getInt(1, this.dice.size());
+        do {
+            value = getInt(1, this.dice.size());
+        } while (this.dice.get(value - 1) == null);
         return value - 1; // return the wanted index
     }
 
