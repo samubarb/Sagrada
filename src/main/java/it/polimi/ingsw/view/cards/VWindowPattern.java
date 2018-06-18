@@ -4,6 +4,9 @@ import it.polimi.ingsw.view.other_elements.VColor;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
 
@@ -62,5 +65,24 @@ public class VWindowPattern {
             string.append("\n");
         }
         return string.toString();
+    }
+
+    public GridPane toGUI() {
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10));
+        grid.setVgap(10);
+        grid.setHgap(10);
+
+        Label name = new Label(this.name); // Set name of WPcard
+        GridPane.setConstraints(name, 0,0);
+
+        for (int j = 0; j < 4; j++)
+            for (int i = 0; i < 5; i++)
+                if (pattern[i][j] != null) {
+                    GridPane.setConstraints(pattern[i][j].toGUI(), i + 1, j + 1);
+                    grid.getChildren().addAll(pattern[i][j].toGUI());
+                }
+
+        return grid;
     }
 }
