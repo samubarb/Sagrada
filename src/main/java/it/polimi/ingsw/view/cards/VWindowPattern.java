@@ -39,6 +39,7 @@ public class VWindowPattern {
     public void setName(String name) {
         this.name = name;
     }
+    public String getName() { return this.name; }
 
     public void setToken(int token) {
         this.token = token;

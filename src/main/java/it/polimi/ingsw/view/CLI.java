@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.game_elements.VPlayer;
+import it.polimi.ingsw.view.game_elements.VWindowPatterns;
 import it.polimi.ingsw.view.other_elements.*;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
@@ -59,8 +60,10 @@ public class CLI implements View {
     }
 
     @Override
-    public int askWindowPattern() {
-        return this.game.askWindowPattern();
+    public int askWindowPattern(VWindowPatterns vpCards) {
+        println("Scegli la tua carta Window Pattern tra le seguenti: ");
+        println(vpCards);
+        return getInt(1, vpCards.size()) - 1;
     }
 
     @Override

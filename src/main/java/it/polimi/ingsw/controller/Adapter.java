@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.other_elements.VCoordinates;
 public interface Adapter {
 
     VWindowPattern patternToView(WindowPattern pattern);
+    VWindowPatterns patternToView(WindowPattern[] patterns);
     VFrame frameToView(Frame frame);
     VColor colorToView(Color color);
     VCoordinates coordinatesToView(Coordinates xy);

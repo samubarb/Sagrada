@@ -61,7 +61,7 @@ public class VDice {
 
     public Label toGUI() {
         Label dice = new Label(this.color.toString());
-        
+
         //dice.setStyle();
         return dice;
     }

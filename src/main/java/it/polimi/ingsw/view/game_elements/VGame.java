@@ -35,13 +35,6 @@ public class VGame {
         return value - 1; // return the wanted index
     }
 
-    public int askWindowPattern() {
-        println("Scegli il tuo Window Pattern tra questi: ");
-        println(patterns.toString());
-        int value = getInt(1, this.patterns.size());
-        return value - 1; // return the wanted index
-    }
-
     public int askToolCard() {
         println("Scegli quale Tool Card utilizzare" + newline);
         println(this.tools.toString());

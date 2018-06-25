@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
+import it.polimi.ingsw.view.game_elements.VWindowPatterns;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
 import it.polimi.ingsw.view.other_elements.VError;
 
@@ -14,7 +15,7 @@ public interface View {
     VCoordinates askCoordinates(); // ask the player where to put the previews selected dice
     VCoordinates askCoordinates(int i); // as askCoordinates, but personalized in case of multiple dice choose
     int askMove(); // returns 1 for a dice placing, 2 for use a toolcard, 3 to pass the turn
-    int askWindowPattern(); // returns the position of the used card
+    int askWindowPattern(VWindowPatterns wpCards); // returns the position of the used card
     int askToolCard(); // tool cards are taken from Game
     boolean askAction(); // true for increase, false for decrease, use with booleanToAction() adapter
     int askToPickFromRoundTrack(); // effect of a toolcard: you can take a dice
@@ -46,6 +47,7 @@ public interface View {
      */
 
     /* NEED TO IMPLEMENT
+     - show only 4 WPcards in askWindowPattern(VPatterns patterns) ()
      - show favor tokens of WPcards
      - descrizioni delle carte obiettivo pubblico
      - mostra carte obiettivo privato di ogni player

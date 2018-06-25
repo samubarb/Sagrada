@@ -38,7 +38,7 @@ public final class AdapterCLI implements Adapter {
         return vPattern;
     }
 
-    public VWindowPatterns patternsToView(WindowPattern[] patterns) {
+    public VWindowPatterns patternToView(WindowPattern[] patterns) {
         VWindowPatterns vPatterns = new VWindowPatterns(patterns.length);
         for (int i = 0; i < patterns.length; i++) {
             try {
@@ -130,7 +130,7 @@ public final class AdapterCLI implements Adapter {
         //String[] descriptions = getDescriptions();
 
         /* add WindowPatterns */
-        vGame.setPatterns(patternsToView(game.getWindowPatternCards()));
+        vGame.setPatterns(patternToView(game.getWindowPatternCards()));
 
         /* set round */
         vGame.setRound(game.getRound());

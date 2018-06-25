@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.game_elements.VPlayer;
+import it.polimi.ingsw.view.game_elements.VWindowPatterns;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
 import it.polimi.ingsw.view.other_elements.VError;
 import it.polimi.ingsw.view.other_elements.VSettings;
@@ -53,6 +54,10 @@ public class GUI extends Application implements View  {
     }
 
     public int askMove() {
+        return 0;
+    }
+
+    public int askWindowPattern(VWindowPatterns wpCards) {
         return 0;
     }
 

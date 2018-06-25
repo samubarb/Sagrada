@@ -3,6 +3,8 @@ package it.polimi.ingsw.view.game_elements;
 import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 
+import static it.polimi.ingsw.inputoutput.IOManager.centerText;
+import static it.polimi.ingsw.inputoutput.IOManager.gridSpace;
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
 
 public class VWindowPatterns {
@@ -27,8 +29,9 @@ public class VWindowPatterns {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
-        for (int i = 0; i < this.patterns.length; i++)
-            string.append("(" + (i + 1) + ") ").append(patterns[i].toString()).append(newline);
+        for (VWindowPattern pattern : patterns) {
+            string.append(pattern).append(newline);
+        }
         return string.toString();
     }
 }
