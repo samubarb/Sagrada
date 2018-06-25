@@ -5,10 +5,13 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameConfigurator;
 import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.view.cards.VWindowPattern;
+import it.polimi.ingsw.view.game_elements.VWindowPatterns;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.inputoutput.IOManager.gridSpace;
+import static it.polimi.ingsw.inputoutput.IOManager.makeHorizontal;
 import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class AdapterPatternTest {
@@ -36,5 +39,18 @@ public class AdapterPatternTest {
         }
     }
 
+    @Test
+    public void printPatternsTest() {
+        GameConfigurator gameConf = new GameConfigurator(new Game());
 
+        WindowPattern[] patterns = new WindowPattern[4];
+        patterns[0] = gameConf.createWPCVirtus();
+        patterns[1] = gameConf.createWPCauroraeMgnificus();
+        patterns[2] = gameConf.createWPCauroraSagradis();
+        patterns[3] = gameConf.createWPCbatllo();
+
+        VWindowPatterns vPatterns = new AdapterCLI().patternToView(patterns);
+
+        println(vPatterns);
+    }
 }

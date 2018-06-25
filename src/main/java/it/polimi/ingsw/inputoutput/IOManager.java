@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 public final class IOManager {
     public final static String newline = "\n";
     public static String Sn = "[S/n]";
-    public static int gridSpace = 50;
+    public static int gridSpace = 34; // tune it for horizontal spacing of Frames and WindowPatterns
 
     public static String fileToString(String filePath)
     {
@@ -50,6 +50,20 @@ public final class IOManager {
             centered.append(" ");
 
         return centered.toString();
+    }
+
+    public static String makeHorizontal(String input, int rows, int columnSpace) {
+        String[] chopped = input.split("\n");
+
+        StringBuilder string = new StringBuilder();
+        for(int i = 0; i < rows; i++) {
+            for (int j = i ; j < chopped.length; j += rows) {
+                string.append(centerText(chopped[j], columnSpace));
+            }
+            string.append(newline);
+        }
+
+        return string.toString();
     }
 
     private static String[] getToolDescriptions() {

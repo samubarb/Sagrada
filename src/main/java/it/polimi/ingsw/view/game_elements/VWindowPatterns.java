@@ -3,9 +3,7 @@ package it.polimi.ingsw.view.game_elements;
 import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 
-import static it.polimi.ingsw.inputoutput.IOManager.centerText;
-import static it.polimi.ingsw.inputoutput.IOManager.gridSpace;
-import static it.polimi.ingsw.inputoutput.IOManager.newline;
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VWindowPatterns {
     VWindowPattern[] patterns;
@@ -29,9 +27,12 @@ public class VWindowPatterns {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
-        for (VWindowPattern pattern : patterns) {
-            string.append(pattern).append(newline);
-        }
-        return string.toString();
+        for (int i = 0; i < this.patterns.length; i++)
+            string.append("(" + (i + 1) + ") ").append(patterns[i]).append(newline);
+
+        int height = patterns[0].toString().split("\n").length + 1;
+        println("HEIGHT: " + height);
+
+        return makeHorizontal(string.toString(), height, gridSpace);
     }
 }
