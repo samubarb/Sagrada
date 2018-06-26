@@ -34,13 +34,14 @@ public class ServerLauncher {
     public static final long START_IMMEDIATELY = 0;
     private Timer mainTimer;
     private int round;
-    private static final int MAXNUMBEROFROUND = 2;
+    private static final int MAXNUMBEROFROUND = 1;
     private static final long TURNTIME = 10000;
     private Game game;
     private Timer turnTimer;
     private boolean canJoin = true;
     private CountDownLatch startLatch;
     private CountDownLatch turnLatch;
+    private Object countDownMutex;
     private static Player currentPlayer;
     private boolean dicePlaced = false;
     private boolean toolCardUsed = false;
@@ -292,7 +293,7 @@ public class ServerLauncher {
             System.out.println("ldistribuita la game session");
             //configureGame();
             //setupPlayerPatternChoice();
-
+            chooseWindowPattern();
             while (game.getRound() <= MAXNUMBEROFROUND) {
                 currentPlayer = game.getCurrentPlayer();
                 String currentPlayerName = currentPlayer.getName();
@@ -304,55 +305,77 @@ public class ServerLauncher {
                             e.printStackTrace();
                         }
                         updateGameSession();
-                        startTurn(user.getPlayerInterface(), currentPlayer);
-                        updateGameSession();
+                        //Syncronized sul turn mutex
+                        synchronized (TURN_MUTEX){
+                            startTurn(user.getPlayerInterface(), currentPlayer);
+                            updateGameSession();
+                        }
                     }
                 }
             }
             calculateFinalScore(game);
-            notifyWinner(game);
+            notifyWinnerAndLoosers(game);
             //selectWinner();
             //notifyWinner();
         }
+
         /*
         public void setupPlayerPatternChoice(){
             for (User user : nicknames){
                 user.getPlayerInterface().choosePattern();
             }
         }*/
+        public void chooseWindowPattern() {
+            for (User user : getNicknames()) {
+                WindowPattern[] windowPattern = null;
+                int index = 0;
+                try {
+                    windowPattern = game.getWindowPatternForAPlayer();
+                    index = user.getPlayerInterface().chooseWindowPattern(windowPattern);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                for (Player player : game.getPlayers()) {
+                    if (player.getName().equals(user.getUsername())) {
+                        player.setWindowPattern(windowPattern[index]);
+                    }
+                }
+            }
+        }
 
         public void startTurn(PlayerInterface playerInterface, Player player) {
+            //startTimer(TURNTIME, playerInterface);
             nothingToDo = false;
             toolCardUsed = false;
             dicePlaced = false;
-            //synchronized (TURN_MUTEX) {
-                while(!(nothingToDo||(toolCardUsed&&dicePlaced))) {
-                    try {
-                        playerInterface.setMyTurn(true);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                    //startTurnCountDown((int)TURNTIME);
-                    //start turn timer;
-                    //startTurnCountDownTimer(TURNTIME, playerInterface);
-                    //startTimer(TURNTIME, playerInterface);
-                    getMoves(playerInterface, player);
-                    updateGameSession();
+            while (!(nothingToDo || (toolCardUsed && dicePlaced))) {
+                try {
+                    playerInterface.setMyTurn(true);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                //startTurnCountDown((int)TURNTIME);
+                //start turn timer;
+                //startTurnCountDownTimer(TURNTIME, playerInterface);
+                //startTimer(TURNTIME, playerInterface);
+                getMoves(playerInterface, player);
+                updateGameSession();
 
-                    //getDiceAndPlace(playerInterface, player);
-                    //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
+                //getDiceAndPlace(playerInterface, player);
+                //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
         /*
         if cartautensile usa cartautensile chiede cosa vuole la carta utensile se serve poi richiede
         if posiziona dado posiziona dado poi richiede IL SOLO DA IMPLEMENTARE dopo non richiede ma termina il turno
         if nulla end turn
          */
-                    endturn(playerInterface);
+                endturn(playerInterface);
 
-                }
+            }
             //teo}
 
         }
-        public void getMoves(PlayerInterface playerInterface, Player player){
+
+        public void getMoves(PlayerInterface playerInterface, Player player) {
             //chiedo la mossa 0, 1 ,2, 3
             int moves = 0;
             try {
@@ -360,13 +383,12 @@ public class ServerLauncher {
             } catch (RemoteException e1) {
                 e1.printStackTrace();
             }
-            if (moves == DICEPLACE){
-                if(!dicePlaced) {
+            if (moves == DICEPLACE) {
+                if (!dicePlaced) {
                     getDiceAndPlace(playerInterface, player);
                 }
-            }
-            else if (moves == TOOLCARD){
-                if(!toolCardUsed) {
+            } else if (moves == TOOLCARD) {
+                if (!toolCardUsed) {
                     int toolCard = 0;
                     try {
                         toolCard = playerInterface.getToolcard();
@@ -375,41 +397,54 @@ public class ServerLauncher {
                     }
                     useToolcard(toolCard, playerInterface, player);
                 }
-            }
-            else if (moves == DONOTHING){
+            } else if (moves == DONOTHING) {
                 nothingToDo = true;
             }
 
         }
-        public void useToolcard(int i, PlayerInterface playerInterface, Player player){
-            switch(i){
-                case 0: useGrozingPliers(i, playerInterface, player);
+
+        public void useToolcard(int i, PlayerInterface playerInterface, Player player) {
+            switch (i) {
+                case 0:
+                    useGrozingPliers(i, playerInterface, player);
                     break;
-                case 1: useEnglimiseBrush(i, playerInterface, player);
+                case 1:
+                    useEnglimiseBrush(i, playerInterface, player);
                     break;
-                case 2: useCopperFoilBurnisher(i, playerInterface, player);
+                case 2:
+                    useCopperFoilBurnisher(i, playerInterface, player);
                     break;
-                case 3: useLathekin(i, playerInterface, player);
+                case 3:
+                    useLathekin(i, playerInterface, player);
                     break;
-                case 4: useLensCutter(i, playerInterface, player);
+                case 4:
+                    useLensCutter(i, playerInterface, player);
                     break;
-                case 5: useFluxBrush(i, playerInterface, player);
+                case 5:
+                    useFluxBrush(i, playerInterface, player);
                     break;
-                case 6: useGlazingHammer(i, playerInterface, player);
+                case 6:
+                    useGlazingHammer(i, playerInterface, player);
                     break;
-                case 7: useRunningPliers(i, playerInterface, player);
+                case 7:
+                    useRunningPliers(i, playerInterface, player);
                     break;
-                case 8: useCorkBackedStraightedge(i, playerInterface, player);
+                case 8:
+                    useCorkBackedStraightedge(i, playerInterface, player);
                     break;
-                case 9: useGrindingStone(i, playerInterface, player);
+                case 9:
+                    useGrindingStone(i, playerInterface, player);
                     break;
-                case 10: useFluxRemover(i, playerInterface, player);
+                case 10:
+                    useFluxRemover(i, playerInterface, player);
                     break;
-                case 11: useTapWheel(i, playerInterface, player);
+                case 11:
+                    useTapWheel(i, playerInterface, player);
                     break;
             }
         }
-        public void useGrozingPliers(int i, PlayerInterface playerInterface, Player player){
+
+        public void useGrozingPliers(int i, PlayerInterface playerInterface, Player player) {
 
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -420,15 +455,15 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
-                //print no abbastanza vafor token
+                return;
             }
             try {
-                    int dice = playerInterface.getDiceFromReserve();
-                    player.setChosenNut(game.getDiceFromCurrentDice(dice));
-                    Action action = playerInterface.getTypeOfAction();
-                    game.getToolCards()[i].useTool(player, action);
-                    game.restoreDice(player, dice);
-                    toolCardUsed = true;
+                int dice = playerInterface.getDiceFromReserve();
+                player.setChosenNut(game.getDiceFromCurrentDice(dice));
+                Action action = playerInterface.getTypeOfAction();
+                game.getToolCards()[i].useTool(player, action);
+                game.restoreDice(player, dice);
+                toolCardUsed = true;
             } catch (NutChosenWrongException e) {
                 e.printStackTrace();
                 try {
@@ -438,6 +473,7 @@ public class ServerLauncher {
                 }
                 //problem with nutchosen cant change 1 to 6 or 6 to 1
                 restoreFavorToken(player, i);
+                return;
             } catch (RemoteException e) {
                 e.printStackTrace();
                 try {
@@ -446,20 +482,21 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
+                return;
             }
         }
 
-        public void useEnglimiseBrush(int i, PlayerInterface playerInterface, Player player){
-            oneDiceMoveToolUsage(i, playerInterface,player);
+        public void useEnglimiseBrush(int i, PlayerInterface playerInterface, Player player) {
+            oneDiceMoveToolUsage(i, playerInterface, player);
         }
 
 
         public void useCopperFoilBurnisher(int i, PlayerInterface playerInterface, Player player) {
-            oneDiceMoveToolUsage(i, playerInterface,player);
+            oneDiceMoveToolUsage(i, playerInterface, player);
         }
 
 
-        public void useLathekin(int i, PlayerInterface playerInterface, Player player){
+        public void useLathekin(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -469,6 +506,7 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
+                return;
             }
             Coordinates initialCoordinates1 = null;
             Coordinates initialCoordinates2 = null;
@@ -481,7 +519,7 @@ public class ServerLauncher {
                 finalCoordinates2 = playerInterface.getDiceDestination(2);
                 twoDiceToolUsage(i, playerInterface, player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
 
-            } catch (RemoteException e){
+            } catch (RemoteException e) {
                 e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
@@ -489,14 +527,16 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
+                //toolCardUsed = false;
+                return;
             }
 
-            dicePlaced = true;
+            toolCardUsed = true;
             return;
 
         }
 
-        public void useLensCutter(int i, PlayerInterface playerInterface, Player player){
+        public void useLensCutter(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -506,6 +546,7 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
+                return;
             }
             int dice;
             Coordinates roundDice = null;
@@ -516,7 +557,7 @@ public class ServerLauncher {
                 game.getToolCards()[i].useTool(player, roundDice);
                 game.restoreDice(player, dice);
                 toolCardUsed = true;
-            } catch (RemoteException e){
+            } catch (RemoteException e) {
                 e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
@@ -524,11 +565,13 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
+                //toolCardUsed = false;
+                return;
             }
 
         }
 
-        public void useFluxBrush(int i, PlayerInterface playerInterface, Player player){
+        public void useFluxBrush(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -538,6 +581,7 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
+                return;
             }
 
             int dice = 0;
@@ -551,6 +595,8 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
+                //toolCardUsed = false;
+                return;
             }
             player.setChosenNut(game.getDiceFromCurrentDice(dice));
             game.getToolCards()[i].useTool(player);
@@ -558,7 +604,7 @@ public class ServerLauncher {
             toolCardUsed = true;
         }
 
-        public void useGlazingHammer(int i, PlayerInterface playerInterface, Player player){
+        public void useGlazingHammer(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -568,22 +614,23 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
+                return;
             }
             if (!dicePlaced) {
                 game.getToolCards()[i].useTool(player);
                 toolCardUsed = true;
-            }
-            else {
+            } else {
                 restoreFavorToken(player, i);
                 try {
                     playerInterface.notifyError(new IllegalArgumentException());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
+                return;
             }
         }
 
-        public void useRunningPliers(int i, PlayerInterface playerInterface, Player player){
+        public void useRunningPliers(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -593,12 +640,13 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
+                return;
             }
             game.getToolCards()[i].useTool(player);
             toolCardUsed = true;
         }
 
-        public void useCorkBackedStraightedge(int i, PlayerInterface playerInterface, Player player){
+        public void useCorkBackedStraightedge(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -608,6 +656,7 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
+                return;
             }
             int dice = 0;
             try {
@@ -624,7 +673,9 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
-            } catch (IllegalArgumentException e){
+                game.restoreDice(player, dice);
+                return;
+            } catch (IllegalArgumentException e) {
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -632,10 +683,11 @@ public class ServerLauncher {
                 }
                 restoreFavorToken(player, i);
                 game.restoreDice(player, dice);
+                return;
             }
         }
 
-        public void useGrindingStone(int i, PlayerInterface playerInterface, Player player){
+        public void useGrindingStone(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -645,6 +697,7 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
+                return;
             }
             int dice = 0;
             try {
@@ -661,10 +714,12 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
+                return;
+
             }
         }
 
-        public void useFluxRemover(int i, PlayerInterface playerInterface, Player player){
+        public void useFluxRemover(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -674,6 +729,7 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
+                return;
             }
             int dice = 0;
             try {
@@ -692,10 +748,11 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
+                return;
             }
         }
 
-        public void useTapWheel(int i, PlayerInterface playerInterface, Player player){
+        public void useTapWheel(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -705,6 +762,7 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
+                return;
             }
             int dice;
             Coordinates roundDice = null;
@@ -722,7 +780,7 @@ public class ServerLauncher {
 
                 twoDiceToolUsage(i, playerInterface, player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
                 toolCardUsed = true;
-            } catch (RemoteException e){
+            } catch (RemoteException e) {
                 e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
@@ -730,22 +788,22 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
+                return;
             }
         }
-
+        /*
         private void startTurnCountDownTimer(long waitingTime, PlayerInterface playerInterface) {
             turnTimer = new Timer();
             turnTimer.schedule(new TurnCountDownTask(), waitingTime);
         }
 
         private void cancelTurnTimer(PlayerInterface playerInterface) {
-            synchronized (TURN_MUTEX) {
                 if (turnTimer != null) {
                     turnTimer.cancel();
                     turnTimer.purge();
                 }
-            }
-        }
+
+        }*/
 
         public void getDiceAndPlace(PlayerInterface playerInterface, Player player) {
             int position = 0;
@@ -753,7 +811,12 @@ public class ServerLauncher {
                 position = playerInterface.getDiceToBePlaced();
             } catch (RemoteException e) {
                 e.printStackTrace();
-
+                try {
+                    playerInterface.notifyError(e);
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                return;
             }
             player.setChosenNut(game.getDiceFromCurrentDice(position));
             Coordinates coordinates = null;
@@ -762,52 +825,72 @@ public class ServerLauncher {
 
             } catch (RemoteException e) {
                 e.printStackTrace();
+                try {
+                    playerInterface.notifyError(e);
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                return;
             }
             try {
                 player.positionDice(player.getChosenNut(), coordinates);
             } catch (WindowPatternColorException e) {
                 try {
-                    playerInterface.printaaa("Non è rispettato il colore del dado");
-
+                    playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
                 e.printStackTrace();
+                game.restoreDice(player, position);
+                dicePlaced = false;
+                return;
             } catch (WindowPatternValueException e) {
                 try {
-                    playerInterface.printaaa("Non è rispettato il valore del dado");
+                    playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
                 e.printStackTrace();
+                game.restoreDice(player, position);
+                dicePlaced = false;
+                return;
             } catch (FrameValueAndColorException e) {
                 try {
-                    playerInterface.printaaa("Non è rispettato il controllo dei dadi ortogonali adiacenti");
+                    playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
                 e.printStackTrace();
+                game.restoreDice(player, position);
+                dicePlaced = false;
+                return;
             } catch (BusyPositionException e) {
                 try {
-                    playerInterface.printaaa("c'è già un dado");
+                    playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
                 e.printStackTrace();
+                game.restoreDice(player, position);
+                dicePlaced = false;
+                return;
             } catch (AdjacentDiceException e) {
                 try {
-                    playerInterface.printaaa("Non ci sono dadi adiacenti alla posizione indicata");
+                    playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
                 e.printStackTrace();
+                game.restoreDice(player, position);
+                dicePlaced = false;
+                return;
             }
             dicePlaced = true;
             return;
         }
 
         public void endturn(PlayerInterface playerInterface) {
-            //cancelTurnTimer(playerInterface);
+            //stopTimer();
             try {
                 playerInterface.setMyTurn(false);
             } catch (RemoteException e) {
@@ -816,37 +899,90 @@ public class ServerLauncher {
 
         }
 
-        public void calculateFinalScore(Game game){
-            for(Player player: game.getPlayers()) {
+        public void calculateFinalScore(Game game) {
+            for (Player player : game.getPlayers()) {
                 getFinalPointsFromPublicObjectives(game, player);
                 getFinalPointsFromPrivateObjective(game, player);
+                getFinalPointsFromFrame(game, player);
+                getFinalPointsFromFavorToken(game, player);
             }
         }
 
-        public void getFinalPointsFromPublicObjectives(Game game, Player player){
+        public void getFinalPointsFromPublicObjectives(Game game, Player player) {
             for (PublicObjective publicObjective : game.getPublicObjectives()) {
                 int finalScore = publicObjective.calculateScore(player);
                 player.addFinalPoints(finalScore);
             }
         }
 
-        public void getFinalPointsFromPrivateObjective(Game game, Player player){
+        public void getFinalPointsFromPrivateObjective(Game game, Player player) {
             int privatePoint = player.getPrivateObjective().calculateScore(player);
             player.addFinalPoints(privatePoint);
         }
 
-        public void notifyWinner(Game game){
+        public void getFinalPointsFromFrame(Game game, Player player) {
+            int framePoints = player.playerFramePoints();
+            player.addFinalPoints(framePoints);
+        }
+
+        public void getFinalPointsFromFavorToken(Game game, Player player) {
+            int favorPoints = player.getFavorTokens();
+            player.addFinalPoints(favorPoints);
+        }
+
+        public void notifyWinnerAndLoosers(Game game) {
+            String winner = null;
             //calculate classifica
-            for(User user : getNicknames()){
+            for (User user : getNicknames()) {
                 try {
                     user.getPlayerInterface().notifyScoreBoard();
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
             }
+            winner = calculateWinner(game);
+            for (User user: getNicknames()){
+                if(user.getUsername().equals(winner)) {
+                    try {
+                        user.getPlayerInterface().notifyWinner();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                        try {
+                            user.getPlayerInterface().notifyError(e);
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+                else {
+                    try {
+                        user.getPlayerInterface().notifyLoosers();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                        try {
+                            user.getPlayerInterface().notifyError(e);
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+
+        }
+        public String calculateWinner(Game game){
+            String winner = null;
+            int winnerPoints = -100;
+            for (Player player: game.getPlayers()){
+                if(player.getFinalPoints()>winnerPoints){
+                    winner = player.getName();
+                    winnerPoints = player.getFinalPoints();
+                }
+            }
+            return winner;
         }
 
-        public void twoDiceToolUsage(int i, PlayerInterface playerInterface, Player player, Coordinates initialCoordinates1, Coordinates finalCoordinates1, Coordinates initialCoordinates2, Coordinates finalCoordinates2){
+        public void twoDiceToolUsage(int i, PlayerInterface playerInterface, Player player, Coordinates initialCoordinates1, Coordinates finalCoordinates1, Coordinates initialCoordinates2, Coordinates finalCoordinates2) {
             try {
                 game.getToolCards()[i].useTool(player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
                 toolCardUsed = true;
@@ -864,6 +1000,7 @@ public class ServerLauncher {
                 }
                 e.printStackTrace();
                 restoreFavorToken(player, i);
+                return;
             } catch (WindowPatternValueException e) {
                 try {
                     playerInterface.notifyError(e);
@@ -877,6 +1014,7 @@ public class ServerLauncher {
                 }
                 e.printStackTrace();
                 restoreFavorToken(player, i);
+                return;
             } catch (FrameValueAndColorException e) {
                 try {
                     playerInterface.notifyError(e);
@@ -890,6 +1028,7 @@ public class ServerLauncher {
                 }
                 e.printStackTrace();
                 restoreFavorToken(player, i);
+                return;
             } catch (BusyPositionException e) {
                 try {
                     playerInterface.notifyError(e);
@@ -903,6 +1042,7 @@ public class ServerLauncher {
                 }
                 e.printStackTrace();
                 restoreFavorToken(player, i);
+                return;
             } catch (AdjacentDiceException e) {
                 try {
                     playerInterface.notifyError(e);
@@ -916,23 +1056,25 @@ public class ServerLauncher {
                 }
                 e.printStackTrace();
                 restoreFavorToken(player, i);
+                return;
             }
         }
 
-        public void oneDiceMoveToolUsage(int i, PlayerInterface playerInterface, Player player){
+        public void oneDiceMoveToolUsage(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
                 Coordinates initialCoordinates = playerInterface.getDiceToBeMoved();
                 Coordinates finalCoordinates = playerInterface.getDiceDestination();
                 game.getToolCards()[i].useTool(player, initialCoordinates, finalCoordinates);
                 toolCardUsed = true;
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
+                return;
             } catch (FavorTokenException e) {
                 e.printStackTrace();
                 try {
@@ -940,7 +1082,8 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
-            } catch (RemoteException e){
+                return;
+            } catch (RemoteException e) {
                 e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
@@ -948,10 +1091,11 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
+                return;
             }
         }
 
-        public void restoreFavorToken(Player player, int i){
+        public void restoreFavorToken(Player player, int i) {
             player.restoreFavorTokenPlayer(game.getToolCards()[i]);
             toolCardUsed = false;
         }
@@ -1004,7 +1148,7 @@ public class ServerLauncher {
         }
 
         void startTimer(long moveWaitingTime, PlayerInterface playerInterface) {
-            int time = (int) (TURNTIME / 1000);
+            int time = (int) (moveWaitingTime / 1000);
             this.turnLatch = new CountDownLatch(time);
             turnTimer.scheduleAtFixedRate(new TurnCountDownTask(), 1000, 1000);
             try {
@@ -1015,35 +1159,33 @@ public class ServerLauncher {
         }
 
         void stopTimer() {
-            synchronized (TURN_MUTEX) {
-                resetTimer();
-                while (countDownLatch.getCount() > 0)
-                    countDownLatch.countDown();
-            }
+            resetTimer();
+            while (countDownLatch.getCount() > 0)
+                countDownLatch.countDown();
         }
 
-        public void resetTimer() {
+        private void resetTimer() {
             turnTimer.cancel();
             turnTimer.purge();
         }
     }
 
+
     private class TurnCountDownTask extends TimerTask {
 
         @Override
         public void run() {
-            synchronized (TURN_MUTEX) {
+            synchronized (countDownMutex) {
                 if (turnLatch.getCount() > 0) {
-                    if (turnLatch.getCount() == 1){
+                    if (turnLatch.getCount() == 1) {
                         turnTimer.cancel();
                         turnTimer.purge();
                     }
                     turnLatch.countDown();
                 }
             }
+
         }
-
-
     }
 }
 
