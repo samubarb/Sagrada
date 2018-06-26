@@ -127,7 +127,7 @@ public class CLI implements View {
     public void notifyWin() {
         println("Hai vinto " + this.clientPlayer.getName() + "!");
     }
-    
+
     public void notifyLose() {
         println("Hai perso " + this.clientPlayer.getName() + "!");
     }
