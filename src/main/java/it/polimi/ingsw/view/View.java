@@ -53,4 +53,10 @@ public interface View {
      - mostra carte obiettivo privato di ogni player
      - fix the always FALSE returning in the CLI menu
     */
+
+    /**
+     * - Final UML
+     * - Javadoc
+     * -
+     */
 }
