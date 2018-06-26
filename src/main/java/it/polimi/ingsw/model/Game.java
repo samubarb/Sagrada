@@ -24,6 +24,7 @@ public class Game implements Serializable{
     private Stack<Player> turnStack;
     private WindowPattern[] windowPatternCards;
     private int  counnterForWindowPattern;
+    private boolean diceRolled;
 
     public Game() {
         this.players = new ArrayList<Player>();
@@ -38,6 +39,7 @@ public class Game implements Serializable{
         this.turnStack=new Stack<Player>();
         this.windowPatternCards=new WindowPattern[24];
         this.counnterForWindowPattern=0;
+        this.diceRolled=false;
 
         setDefaultDice(roundTrack);
         setRolledDice();
@@ -104,6 +106,14 @@ public class Game implements Serializable{
 
     public void setPublicObjectives(PublicObjective[] publicObjectives) {
         this.publicObjectives = publicObjectives;
+    }
+
+    public boolean isDiceRolled() {
+        return diceRolled;
+    }
+
+    public void setDiceRolled(boolean diceRolled) {
+        this.diceRolled = diceRolled;
     }
 
     /*public Dice[] getRemainingDice() {
@@ -215,7 +225,7 @@ public class Game implements Serializable{
     public void randomDice(Dice[] dice){
         Random random=new Random();
         for(int i=0;i< dice.length;i++)
-            //if(dice[i].getValue()!=0)
+            //if(diceRolled&&dice[i].getValue()!=0)
                 dice[i].setValue(random.nextInt(6)+1);
 
     }
@@ -225,6 +235,7 @@ public class Game implements Serializable{
         for(int i=0;i<rolledDice.length;i++)
             rolledDice[i]=new Dice();
         randomDice(rolledDice);
+        //setDiceRolled(true);
         for(int x=0;x<18;x++)
             rolledDice[x].setColor(Color.RED);
         for(int y=18;y<36;y++)
