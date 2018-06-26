@@ -479,4 +479,19 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     public void notifyError(AdjacentDiceException e) throws RemoteException {
         view.notifyError(VError.ADIACENT_DICE);
     }
+
+    @Override
+    public int chooseWindowPattern(WindowPattern[] windowPattern) throws RemoteException {
+        return view.askWindowPattern(new AdapterCLI().patternToView(windowPattern));
+    }
+
+    @Override
+    public void notifyWinner() throws RemoteException {
+        view.notifyWin();
+    }
+
+    @Override
+    public void notifyLoosers() throws RemoteException {
+        view.notifyLose();
+    }
 }
