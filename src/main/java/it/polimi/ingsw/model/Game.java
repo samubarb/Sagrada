@@ -215,7 +215,7 @@ public class Game implements Serializable{
     public void randomDice(Dice[] dice){
         Random random=new Random();
         for(int i=0;i< dice.length;i++)
-            if(dice[i].getValue()!=0)
+            //if(dice[i].getValue()!=0)
                 dice[i].setValue(random.nextInt(6)+1);
 
     }
