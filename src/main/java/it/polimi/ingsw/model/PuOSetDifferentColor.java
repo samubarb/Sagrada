@@ -17,6 +17,8 @@ public class PuOSetDifferentColor extends PublicObjective implements iObjective{
         int size=5;
         int[] countColoredDice=new int[size];
         Dice[] fakeArrayDice=new Dice[size];
+        for(int i=0;i<fakeArrayDice.length;i++)
+            fakeArrayDice[i]=new Dice();
         fakeArrayDice[0].setColor(Color.RED);
         fakeArrayDice[1].setColor(Color.GREEN);
         fakeArrayDice[2].setColor(Color.PURPLE);
