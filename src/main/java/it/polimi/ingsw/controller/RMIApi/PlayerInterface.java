@@ -1,10 +1,7 @@
 package it.polimi.ingsw.controller.RMIApi;
 
 import it.polimi.ingsw.controller.Server.User;
-import it.polimi.ingsw.model.Action;
-import it.polimi.ingsw.model.Coordinates;
-import it.polimi.ingsw.model.Dice;
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.*;
 
 import java.io.Serializable;
@@ -100,7 +97,9 @@ public interface PlayerInterface extends Remote, Serializable {
     public void notifyError(FrameValueAndColorException e) throws  RemoteException;
     public void notifyError(BusyPositionException e) throws  RemoteException;
     public void notifyError(AdjacentDiceException e) throws  RemoteException;
-
+    public int chooseWindowPattern(WindowPattern windowPattern[]) throws RemoteException;
+    public void notifyWinner() throws  RemoteException;
+    public void notifyLoosers() throws RemoteException;
 
 
 

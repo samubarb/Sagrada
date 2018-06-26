@@ -45,6 +45,10 @@ public class Game implements Serializable{
         //setCurrentDice();
     }
 
+    /**
+     * adds the player in the player array list
+     * @param player
+     */
     public void setAddPlayer(Player player){
         players.add(player);
     }
@@ -67,6 +71,9 @@ public class Game implements Serializable{
         this.players = players;
     }
 
+    /**
+     * @return array all rolled dice
+     */
     public Dice[] getRolledDice() {
         return rolledDice;
     }
@@ -99,13 +106,13 @@ public class Game implements Serializable{
         this.publicObjectives = publicObjectives;
     }
 
-    public Dice[] getRemainingDice() {
+    /*public Dice[] getRemainingDice() {
         return currentDice;
     }
 
     public void setRemainingDice(Dice[] remainingDice) {
         this.currentDice = remainingDice;
-    }
+    }*/
 
     public Dice[] getCurrentDice() {
         return currentDice;
@@ -153,14 +160,15 @@ public class Game implements Serializable{
         this.windowPatternCards[position]=card;
     }
 
+    /**
+     * set the current dice with a default dice
+     */
     public void setCurrentDice(){
         for(int i=0;i<currentDice.length;i++)
             currentDice[i]=new Dice();
     }
 
     public Dice getDiceFromCurrentDice(int position){
-
-
         Dice diceToReturn=currentDice[position];
         currentDice[position]=new Dice();
         return diceToReturn;
@@ -207,7 +215,8 @@ public class Game implements Serializable{
     public void randomDice(Dice[] dice){
         Random random=new Random();
         for(int i=0;i< dice.length;i++)
-            dice[i].setValue(random.nextInt(6)+1);
+            if(dice[i].getValue()!=0)
+                dice[i].setValue(random.nextInt(6)+1);
 
     }
 
