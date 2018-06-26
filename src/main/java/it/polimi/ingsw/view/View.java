@@ -47,7 +47,6 @@ public interface View {
      */
 
     /* NEED TO IMPLEMENT
-     - show only 4 WPcards in askWindowPattern(VPatterns patterns) ()
      - show favor tokens of WPcards
      - descrizioni delle carte obiettivo pubblico
      - mostra carte obiettivo privato di ogni player
