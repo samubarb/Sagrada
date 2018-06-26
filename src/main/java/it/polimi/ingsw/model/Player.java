@@ -61,34 +61,63 @@ public class Player implements Serializable{
         this.previousPlayerToken=0;
     }
 
+    /**
+     * get the player's name
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * set the player's name
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * get the player's color
+     * @return
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * set the player's color
+     * @param color
+     */
     public void setColor(Color color) {
         this.color = color;
     }
 
+    /**
+     * @return the player's favor token
+     */
     public int getFavorTokens() {
         return favorTokens;
     }
 
+    /**
+     * @param favorTokens
+     */
     public void setFavorTokens(int favorTokens) {
         this.favorTokens = favorTokens;
     }
 
+    /**
+     * @return the final points
+     */
     public int getFinalPoints() {
         return finalPoints;
     }
 
+    /**
+     * set the final points
+     * @param finalPoints
+     */
     public void setFinalPoints(int finalPoints) {
         this.finalPoints = finalPoints;
     }
@@ -142,10 +171,18 @@ public class Player implements Serializable{
         return previousPlayerToken;
     }
 
+    /**
+     * copy favor token before using the tool card
+     * @param previousPlayerToken
+     */
     public void setPreviousPlayerToken(int previousPlayerToken) {
         this.previousPlayerToken = previousPlayerToken;
     }
 
+    /**
+     * -1 for each open space in the frame
+     * @return
+     */
     public int playerFramePoints(){
         int points=0;
         for(int i=0;i<LINE_SIZE;i++)
@@ -176,6 +213,7 @@ public class Player implements Serializable{
     }
 
     /**
+     * if the toolCard is not used, reset the favor token
      * @param toolCard
      */
     public void restoreFavorTokenPlayer(ToolCard toolCard){
@@ -217,7 +255,7 @@ public class Player implements Serializable{
     }
 
     /**
-     * @param dice
+     * @param dice to be place
      * @param position
      * @return
      */

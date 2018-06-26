@@ -47,6 +47,9 @@ public class GameConfigurator implements Serializable {
 
     }
 
+    /**
+     * @param game
+     */
     private void createWindowPatternCards(Game game){
         game.addWindowPatternCard(createWPCVirtus(),0);
         game.addWindowPatternCard(createWPCViaLux(),1);
@@ -72,7 +75,6 @@ public class GameConfigurator implements Serializable {
         game.addWindowPatternCard(createLuxMundi(),21);
         game.addWindowPatternCard(createSunsGlory(),22);
         game.addWindowPatternCard(createWaterOfLife(),23);
-
         shuffleWindowPatternCards(game.getWindowPatternCards());
     }
 
