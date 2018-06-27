@@ -2,10 +2,22 @@ package it.polimi.ingsw.model.toolCards;
 
 import it.polimi.ingsw.model.*;
 
+import java.util.Random;
+
 public class TcGlazingHammer extends ToolCard implements iTool {
 
     public TcGlazingHammer(int number, String name,Color color) {
         super(number, name,color);
+    }
+
+    public void toolRandomDice(Dice[] dice){
+        Random random=new Random();
+
+        for(int i=0;i< dice.length;i++)
+            if(dice[i].getValue()!=0)
+                dice[i].setValue(random.nextInt(6)+1);
+
+
     }
 
     /**
@@ -14,7 +26,7 @@ public class TcGlazingHammer extends ToolCard implements iTool {
      */
     @Override
     public void useTool(Player player) {
-        player.getCurrentGame().randomDice(player.getCurrentGame().getCurrentDice());
+        toolRandomDice(player.getCurrentGame().getCurrentDice());
 
 
     }
