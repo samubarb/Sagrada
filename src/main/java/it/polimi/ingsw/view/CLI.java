@@ -49,6 +49,7 @@ public class CLI implements View {
     @Override
     public int askWindowPattern(VWindowPatterns vpCards) {
         println("Scegli la tua carta Window Pattern tra le seguenti: ");
+        println(newline);
         println(vpCards);
         return getInt(1, vpCards.size()) - 1;
     }

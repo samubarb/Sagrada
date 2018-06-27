@@ -42,6 +42,9 @@ public class VGame {
         return value - 1; // return the wanted index
     }
 
+    /**
+     * @return
+     */
     public int askToPickFromTrack() {
         println("Quale dado vuoi scegliere?");
         println(this.roundTrack.toString());
