@@ -16,10 +16,9 @@ public class VGame {
     private VCurrentDice dice;
     private VWindowPatterns patterns;
     private VToolCards tools;
-
     private VRoundTrack roundTrack;
     private int round;
-    private VPlayer turn, clientPlayer;
+    private VPlayer turn;
 
 
     public VGame() {
@@ -81,14 +80,8 @@ public class VGame {
     public void setTurn(VPlayer player) {
         this.turn = player;
     }
-    public void setClientPlayer(String clientPlayer) {
-        this.clientPlayer = new VPlayer(clientPlayer);
-    }
 
     public void removePlayer(VPlayer player) { this.players.remove(player); } // remove player from the game
-    public VPlayer getClientPlayer() {
-        return this.clientPlayer;
-    }
 
     public void notifyScore() {
         StringBuilder string = new StringBuilder();

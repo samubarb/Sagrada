@@ -10,7 +10,6 @@ import it.polimi.ingsw.view.other_elements.VError;
 public interface View {
     // Methods to ask something to the Client
     int askDice(); // ask the user which dice wants to pick up from the CurrentDice[]
-    //int askDice(int i); // as askDice(), but personalized in case of multiple dice choose
     VCoordinates askCoordinates(); // ask the player where to put the previews selected dice
     VCoordinates askCoordinates(int i); // as askCoordinates, but personalized in case of multiple dice choose
     int askMove(); // returns 1 for a dice placing, 2 for use a toolcard, 3 to pass the turn
@@ -18,7 +17,7 @@ public interface View {
     int askToolCard(); // tool cards are taken from Game
     boolean askAction(); // true for increase, false for decrease, use with booleanToAction() adapter
     int askToPickFromRoundTrack(); // effect of a toolcard: you can take a dice
-    //boolean askConfirmDice(VDice dice); // after a re-roll, asks if the re-rolled dice is fine
+
     int askDiceNumber(VDice dice); // asks the user with which number wants to re-place a specific dice
 
     // Methods to notify something to the Client
@@ -45,7 +44,6 @@ public interface View {
      */
 
     /* NEED TO IMPLEMENT
-     - delete the comemnted methods above two methods
      - show favor tokens of WPcards
      - descrizioni delle carte obiettivo pubblico
      - mostra carte obiettivo privato di ogni player

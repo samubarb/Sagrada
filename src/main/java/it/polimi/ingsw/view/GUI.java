@@ -23,7 +23,6 @@ public class GUI extends Application implements View  {
         this.clientPlayer = new VPlayer(player);
         this.settings = new VSettings(); // reset settings to the default
         this.game = new VGame();
-        this.game.setClientPlayer(player);
         this.window.setTitle("Sagrada");
     }
 

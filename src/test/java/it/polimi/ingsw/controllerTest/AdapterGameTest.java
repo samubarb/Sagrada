@@ -22,7 +22,6 @@ public class AdapterGameTest {
         println(game.getCurrentPlayer().getName());
 
         VGame vGame = new AdapterCLI().gameToView(game);
-        vGame.setClientPlayer(tp1.getName());
         println(vGame.toString());
     }
 }

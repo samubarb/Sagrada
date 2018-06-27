@@ -20,12 +20,10 @@ public class CLI implements View {
         this.clientPlayer = new VPlayer(player);
         this.settings = new VSettings(); // reset settings to the default
         this.game = new VGame();
-        this.game.setClientPlayer(player);
     }
 
     public void updateGame(VGame game) {
         this.game = game;
-        this.game.setClientPlayer(this.clientPlayer.getName());
     }
 
     public int askToPickFromRoundTrack() {
@@ -40,17 +38,6 @@ public class CLI implements View {
     public int askDice() {
         println("Scegli il dado da pescare");
         return this.game.askDice();
-    }
-
-    public int askDice(int i) {
-        return this.game.askDice();
-    }
-
-    public boolean askConfirmDice(VDice dice) {
-        println("Ti piace il dado rilanciato?");
-        println(dice.toString());
-        println("Premi ENTER per confermare, qualsiasi altro tasto per annullare: ");
-        return getEnter();
     }
 
     @Override
@@ -320,7 +307,6 @@ public class CLI implements View {
     }
 
     public void loggedIn(String playerLogged) {
-        this.game.setClientPlayer(playerLogged);
         println("Accesso effettuato come " + playerLogged);
     }
 
