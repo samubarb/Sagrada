@@ -225,8 +225,8 @@ public class Game implements Serializable{
     public void randomDice(Dice[] dice){
         Random random=new Random();
         for(int i=0;i< dice.length;i++)
-            //if(diceRolled&&dice[i].getValue()!=0)
-                dice[i].setValue(random.nextInt(6)+1);
+            dice[i].setValue(random.nextInt(6)+1);
+
 
     }
 
@@ -235,7 +235,7 @@ public class Game implements Serializable{
         for(int i=0;i<rolledDice.length;i++)
             rolledDice[i]=new Dice();
         randomDice(rolledDice);
-        //setDiceRolled(true);
+
         for(int x=0;x<18;x++)
             rolledDice[x].setColor(Color.RED);
         for(int y=18;y<36;y++)
@@ -246,6 +246,7 @@ public class Game implements Serializable{
             rolledDice[a].setColor(Color.YELLOW);
         for(int w=72;w<90;w++)
             rolledDice[w].setColor(Color.PURPLE);
+       // setDiceRolled(true);
     }
 
 
