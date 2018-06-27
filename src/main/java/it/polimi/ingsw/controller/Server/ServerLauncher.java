@@ -834,6 +834,16 @@ public class ServerLauncher {
             }
             try {
                 player.positionDice(player.getChosenNut(), coordinates);
+            } catch (AdjacentDiceException e) {
+                try {
+                    playerInterface.notifyError(e);
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+                game.restoreDice(player, position);
+                dicePlaced = false;
+                return;
             } catch (WindowPatternColorException e) {
                 try {
                     playerInterface.notifyError(e);
@@ -865,16 +875,6 @@ public class ServerLauncher {
                 dicePlaced = false;
                 return;
             } catch (BusyPositionException e) {
-                try {
-                    playerInterface.notifyError(e);
-                } catch (RemoteException e1) {
-                    e1.printStackTrace();
-                }
-                e.printStackTrace();
-                game.restoreDice(player, position);
-                dicePlaced = false;
-                return;
-            } catch (AdjacentDiceException e) {
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
