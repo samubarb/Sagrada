@@ -10,6 +10,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.newline;
 import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class VGame {
+    private final static int maxPlayer = 4;
     private ArrayList<VPlayer> players;
     private ArrayList<VPublicObjectiveCard> publicObjectives;
     private VCurrentDice dice;
@@ -50,7 +51,7 @@ public class VGame {
     }
 
     public void addVPlayer(VPlayer player) throws TooManyPlayersException { // add a player to the game
-        if (this.players.size() >= 5)
+        if (this.players.size() > maxPlayer)
             throw new TooManyPlayersException();
         else
             this.players.add(player);
