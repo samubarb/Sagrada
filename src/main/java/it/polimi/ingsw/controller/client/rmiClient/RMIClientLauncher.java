@@ -327,12 +327,12 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public void notifyTurn(String username) throws RemoteException {
-        System.out.println("è il turno di:"+username);
+        //System.out.println("è il turno di:"+username);
     }
 
     @Override
     public void setMyTurn(boolean isMyTurn) throws RemoteException {
-        System.out.println("è il tuo turno");
+        //System.out.println("è il tuo turno");
         this.setIsMyTurn(isMyTurn);
     }
 
