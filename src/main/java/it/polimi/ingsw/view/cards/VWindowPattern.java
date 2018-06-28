@@ -5,10 +5,13 @@ import it.polimi.ingsw.view.other_elements.VCoordinates;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
 import javafx.geometry.Insets;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
-import static it.polimi.ingsw.inputoutput.IOManager.newline;
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VWindowPattern {
     private String name;
@@ -68,22 +71,26 @@ public class VWindowPattern {
         return string.toString();
     }
 
-    public GridPane toGUI() {
+    public GridPane toGUI() { /*To refine*/
+        Color color;
+        Label cardName = new Label(this.name);
         GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10));
-        grid.setVgap(10);
-        grid.setHgap(10);
 
-        Label name = new Label(this.name); // Set name of WPcard
-        GridPane.setConstraints(name, 0,0);
+        grid.setStyle("-fx-background-color: grey;");
 
-        for (int j = 0; j < 4; j++)
-            for (int i = 0; i < 5; i++)
-                if (pattern[i][j] != null) {
-                    GridPane.setConstraints(pattern[i][j].toGUI(), i + 1, j + 1);
-                    grid.getChildren().addAll(pattern[i][j].toGUI());
-                }
+        grid.setHgap(padding); // set horizontal gap
+        grid.setVgap(padding); // set vertical gap
+        grid.setPadding(new Insets(padding)); // set all around padding gaps
 
+        // grid.add(cardName, 0,0);
+
+        for (int j = 0; j < rows; j++)
+            for(int i = 0; i < cols; i++) {
+                color = this.pattern[i][j] == null ? Color.TRANSPARENT : this.pattern[i][j].colorToGUI();
+                grid.add(new Rectangle(cellWidth, cellHeight, color), i , j);
+            }
+
+        //grid.setStyle("-fx-stroke-width: 3;");
         return grid;
     }
 }

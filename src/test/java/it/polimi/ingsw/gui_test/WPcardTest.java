@@ -12,9 +12,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
-public class WPcardTest extends Application {
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
-    private Stage window;
+public class WPcardTest extends Application {
 
     @Test
     public void WPcardTest() {
@@ -22,18 +22,18 @@ public class WPcardTest extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        this.window = primaryStage;
-        this.window.setTitle("Window Patter Card");
+    public void start(Stage primaryStage) {
 
         GameConfigurator gconf = new GameConfigurator(new Game());
         WindowPattern wp = gconf.createWPCsunCatcher();
         Adapter adapt = new AdapterCLI();
         VWindowPattern vWP = adapt.patternToView(wp);
         GridPane wpGUI = vWP.toGUI();
-        Scene scene = new Scene(wpGUI, 600,500);
 
-        this.window.setScene(scene);
-        this.window.show();
+        Scene scene = new Scene(wpGUI, cols * (cellWidth + padding + 2)  , rows * (cellHeight + padding + 2));
+
+        primaryStage.setTitle("WPcard");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }

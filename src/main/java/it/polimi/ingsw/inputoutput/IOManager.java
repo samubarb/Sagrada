@@ -15,6 +15,14 @@ public final class IOManager {
     public static String Sn = "[S/n]";
     public static int gridSpace = 34; // tune it for horizontal spacing of Frames and WindowPatterns
 
+    public final static int rows = 4;
+    public final static int cols = 5;
+
+    public final static int padding = 10;
+
+    public final static int cellWidth = 60;
+    public final static int cellHeight = 60;
+
     public static String fileToString(String filePath)
     {
         StringBuilder string = new StringBuilder();

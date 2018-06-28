@@ -27,8 +27,8 @@ public class VDice {
         this.color = color;
     }
 
-    public Color colorToGUI(VColor vc) {
-        switch (vc) {
+    public Color colorToGUI() {
+        switch (this.color) {
             case RED:
                 return Color.RED;
             case YELLOW:
