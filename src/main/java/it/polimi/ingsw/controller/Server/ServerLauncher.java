@@ -175,8 +175,36 @@ public class ServerLauncher {
     public boolean registerUser(PlayerInterface clientPlayer, String username) {
 
         synchronized (LOGIN_MUTEX) {
-            if(canJoin) {
-                if ((this.nicknames.size() + this.offlineNicknames.size()) >= MAXPLAYER) {
+            /*if (this.offlineNicknames.size() > 0) {
+                //reconnection of already registered player
+                for (User user : offlineNicknames) {
+                    if (user.getUsername().equals(username)) {
+
+                        this.nicknames.add(new User(username, clientPlayer));
+                        this.offlineNicknames.remove(user);
+                        try {
+                            clientPlayer.onRegister("Welcome again reconnected user: " + username);
+                            System.out.println("User logged again: " + username);
+                            //rmiServer.executeCheckConnectionThread();
+                            //clientPlayer.setClientGame(game);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            clientPlayer.setClientGame(game);
+                        } catch (RemoteException e) {
+                            try {
+                                clientPlayer.notifyError(e);
+                            } catch (RemoteException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }*/
+            //if(canJoin) {
+                if ((this.nicknames.size() + this.offlineNicknames.size()) >= MAXPLAYER&&canJoin) {
                     System.out.println("max player reached");
                     canJoin = false;
                     try {
@@ -198,9 +226,18 @@ public class ServerLauncher {
                                 clientPlayer.onRegister("Welcome again reconnected user: " + username);
                                 System.out.println("User logged again: " + username);
                                 //rmiServer.executeCheckConnectionThread();
-
+                                //clientPlayer.setClientGame(game);
                             } catch (RemoteException e) {
                                 e.printStackTrace();
+                            }
+                            try {
+                                clientPlayer.setClientGame(game);
+                            } catch (RemoteException e) {
+                                try {
+                                    clientPlayer.notifyError(e);
+                                } catch (RemoteException e1) {
+                                    e1.printStackTrace();
+                                }
                             }
                             //ridò il game al giocatore
                             return true;
@@ -238,15 +275,15 @@ public class ServerLauncher {
                     startCountDownTimer(TIMETOWAITINROOM);
                 }
                 return true;
-            }
-            else {
+            //}
+            /*else {
                 try {
                     clientPlayer.printaaa("game already started");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
                 return false;
-            }
+            //}*/
         }
     }
 
@@ -304,11 +341,11 @@ public class ServerLauncher {
                         } catch (RemoteException e) {
                             e.printStackTrace();
                         }
-                        updateGameSession();
+                        //updateGameSession();//this updateGameSession update the initial current dice
                         //Syncronized sul turn mutex
                         synchronized (TURN_MUTEX){
                             startTurn(user.getPlayerInterface(), currentPlayer);
-                            updateGameSession();
+                            //updateGameSession();
                         }
                     }
                 }
@@ -358,8 +395,9 @@ public class ServerLauncher {
                 //start turn timer;
                 //startTurnCountDownTimer(TURNTIME, playerInterface);
                 //startTimer(TURNTIME, playerInterface);
-                getMoves(playerInterface, player);
                 updateGameSession();
+                getMoves(playerInterface, player);
+                //updateGameSessionHide(); //this update update the change of the inner turn current dice
 
                 //getDiceAndPlace(playerInterface, player);
                 //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
@@ -810,7 +848,6 @@ public class ServerLauncher {
             try {
                 position = playerInterface.getDiceToBePlaced();
             } catch (RemoteException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -824,7 +861,6 @@ public class ServerLauncher {
                 coordinates = playerInterface.getDiceFinalPosition();
 
             } catch (RemoteException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -840,7 +876,6 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
-                e.printStackTrace();
                 game.restoreDice(player, position);
                 dicePlaced = false;
                 return;
@@ -850,7 +885,6 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
-                e.printStackTrace();
                 game.restoreDice(player, position);
                 dicePlaced = false;
                 return;
@@ -860,7 +894,6 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
-                e.printStackTrace();
                 game.restoreDice(player, position);
                 dicePlaced = false;
                 return;
@@ -870,7 +903,6 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
-                e.printStackTrace();
                 game.restoreDice(player, position);
                 dicePlaced = false;
                 return;
@@ -880,7 +912,6 @@ public class ServerLauncher {
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
-                e.printStackTrace();
                 game.restoreDice(player, position);
                 dicePlaced = false;
                 return;
@@ -1118,18 +1149,19 @@ public class ServerLauncher {
             for (User user : nicknames) {
                 try {
                     user.getPlayerInterface().setClientGame(game);
-                    user.getPlayerInterface().printPlayersFrame();
+                    //user.getPlayerInterface().printPlayersFrame();
                 } catch (RemoteException e) {
 
                 }
             }
         }
 
+
         private void dispatchGameSession() {
             //Server.debug("[ROOM] Game ready, dispatching base game to all players");
             for (User user : getNicknames()) {
                 try {
-                    user.getPlayerInterface().setClientGame(game);
+                    user.getPlayerInterface().setClientGameHide(game);
 
                 } catch (RemoteException e) {
                     //Server.error("problem with set player game", e);

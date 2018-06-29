@@ -363,6 +363,11 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     }
 
     @Override
+    public void setClientGameHide(Game game) throws RemoteException {
+        this.setGame(game);
+    }
+
+    @Override
     public void printPlayersFrame() throws RemoteException {
         /*for(Player player: game.getPlayers()){
             println(player.getName());
