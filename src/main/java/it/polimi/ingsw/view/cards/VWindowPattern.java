@@ -5,10 +5,13 @@ import it.polimi.ingsw.view.other_elements.VCoordinates;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
@@ -71,11 +74,15 @@ public class VWindowPattern {
         return string.toString();
     }
 
-    public GridPane toGUI() { /*To refine*/
+    public Group toGUI() { /*To refine*/
         Color color;
         Label cardName = new Label(this.name);
         GridPane grid = new GridPane();
+        GridPane wpattern = new GridPane();
+        GridPane favorTokens = new GridPane();
+        Group root = new Group();
 
+        wpattern.setStyle("-fx-background-color: grey;");
         grid.setStyle("-fx-background-color: grey;");
 
         grid.setHgap(padding); // set horizontal gap
@@ -84,13 +91,22 @@ public class VWindowPattern {
 
         // grid.add(cardName, 0,0);
 
-        for (int j = 0; j < rows; j++)
-            for(int i = 0; i < cols; i++) {
+        for (int j = 0; j < rows; j++) {
+            for (int i = 0; i < cols; i++) {
                 color = this.pattern[i][j] == null ? Color.TRANSPARENT : this.pattern[i][j].colorToGUI();
-                grid.add(new Rectangle(cellWidth, cellHeight, color), i , j);
+                grid.add(new Rectangle(cellWidth, cellHeight, color), i, j);
             }
+        }
 
-        //grid.setStyle("-fx-stroke-width: 3;");
-        return grid;
+        for (int i = 0; i < this.token; i++)
+            favorTokens.add(new Circle(10, Color.WHITE), i, 0);
+
+        wpattern.add(cardName, 0,0);
+        wpattern.add(grid, 0, 1);
+        wpattern.add(favorTokens, 0, 2);
+
+        root.getChildren().addAll(wpattern);
+
+        return root;
     }
 }

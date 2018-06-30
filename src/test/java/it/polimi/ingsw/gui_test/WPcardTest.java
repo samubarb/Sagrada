@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.GameConfigurator;
 import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.view.cards.VWindowPattern;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -28,9 +29,9 @@ public class WPcardTest extends Application {
         WindowPattern wp = gconf.createWPCsunCatcher();
         Adapter adapt = new AdapterCLI();
         VWindowPattern vWP = adapt.patternToView(wp);
-        GridPane wpGUI = vWP.toGUI();
+        Group wpGUI = vWP.toGUI();
 
-        Scene scene = new Scene(wpGUI, cols * (cellWidth + padding + 2)  , rows * (cellHeight + padding + 2));
+        Scene scene = new Scene(wpGUI);
 
         primaryStage.setTitle("WPcard");
         primaryStage.setScene(scene);
