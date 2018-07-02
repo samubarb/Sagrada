@@ -25,6 +25,7 @@ public class Game implements Serializable{
     private WindowPattern[] windowPatternCards;
     private int  counnterForWindowPattern;
     private boolean diceRolled;
+    private Player[] initialTurnOrder;
 
     public Game() {
         this.players = new ArrayList<Player>();
@@ -40,6 +41,7 @@ public class Game implements Serializable{
         this.windowPatternCards=new WindowPattern[24];
         this.counnterForWindowPattern=0;
         this.diceRolled=false;
+        this.initialTurnOrder=null;
 
         setDefaultDice(roundTrack);
         setRolledDice();
@@ -206,8 +208,10 @@ public class Game implements Serializable{
     public void configureGame(){
         int numberOfPlayer=players.size();
         this.turnOrder = new Player[numberOfPlayer];
+        this.initialTurnOrder=new Player[numberOfPlayer];
         for(int i=0; i<turnOrder.length;i++){
             turnOrder[i]=players.get(i);
+            initialTurnOrder[i]=players.get(i);
         }
         this.currentDice = new Dice[(numberOfPlayer*2)+1];
         setCurrentDice();
@@ -292,7 +296,7 @@ public class Game implements Serializable{
     public void setTurnOrder(){
         Player[] newTurnOrder=new Player[players.size()];
         for(int i=0;i<turnOrder.length;i++){
-            newTurnOrder[i]=turnOrder[((i+round-1)%turnOrder.length)];
+            newTurnOrder[i]=initialTurnOrder[((i+round-1)%turnOrder.length)];
         }
         turnOrder=newTurnOrder;
 

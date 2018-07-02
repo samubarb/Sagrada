@@ -90,6 +90,24 @@ public class GameTest {
         System.out.print(gameTest.getTurnOrder()[0].getName());
         System.out.print(gameTest.getTurnOrder()[1].getName());
         System.out.println(gameTest.getTurnOrder()[2].getName());
+        testPlayer=gameTest.getCurrentPlayer();
+        testPlayer=gameTest.getCurrentPlayer();
+        testPlayer=gameTest.getCurrentPlayer();
+        testPlayer=gameTest.getCurrentPlayer();
+        testPlayer=gameTest.getCurrentPlayer();
+        testPlayer=gameTest.getCurrentPlayer();
+        System.out.print(gameTest.getTurnOrder()[0].getName());
+        System.out.print(gameTest.getTurnOrder()[1].getName());
+        System.out.println(gameTest.getTurnOrder()[2].getName());
+        testPlayer=gameTest.getCurrentPlayer();
+        testPlayer=gameTest.getCurrentPlayer();
+        testPlayer=gameTest.getCurrentPlayer();
+        testPlayer=gameTest.getCurrentPlayer();
+        testPlayer=gameTest.getCurrentPlayer();
+        testPlayer=gameTest.getCurrentPlayer();
+        System.out.print(gameTest.getTurnOrder()[0].getName());
+        System.out.print(gameTest.getTurnOrder()[1].getName());
+        System.out.println(gameTest.getTurnOrder()[2].getName());
 
 
     }
