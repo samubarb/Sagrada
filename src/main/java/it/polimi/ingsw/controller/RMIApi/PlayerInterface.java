@@ -10,15 +10,60 @@ import java.rmi.RemoteException;
 
 public interface PlayerInterface extends Remote, Serializable {
 
+    /**This metjod is used to verify if a player is connected yet
+     * @return a string, no matter what it is
+     * @throws RemoteException
+     */
     public String ping () throws RemoteException;
+
+    /**This method is used to notify players in game that a player has disconnected
+     * @param user the user that has gone offline
+     * @throws RemoteException
+     */
     public void notifyDisconnection(User user) throws  RemoteException;
+
     public void notifyReconnection(User user) throws  RemoteException;
+
+    /**This method is used to notify player already connected that a player has connected
+     * @param username is te name of the player connected
+     * @throws RemoteException
+     */
     public void notifyConnection (String username) throws RemoteException;
+
+    /**This method notify players the current player playing
+     * @param username player playing's name
+     * @throws RemoteException
+     */
     public void notifyTurn (String username) throws RemoteException;
+
+    /**This method is a general output
+     * @param string string to output
+     * @throws RemoteException
+     */
     public void printaaa (String string) throws RemoteException;
+
+    /**This method is a general print used during registration of a player
+     * @param string string to be printed
+     * @throws RemoteException
+     */
     public void onRegister(String string) throws  RemoteException;
+
+    /**This method set the turn to the current player
+     * @param isMyTurn true if player has to play false otherwise
+     * @throws RemoteException
+     */
     public void setMyTurn(boolean isMyTurn) throws  RemoteException;
+
+    /**This method asks the dice from the current dice to be placed
+     * @return the index of the dice
+     * @throws RemoteException
+     */
     public int getDiceToBePlaced() throws  RemoteException;
+
+    /**This method asks the final coordinates of the dice to be placed or moved
+     * @return final coordinates of the dice
+     * @throws RemoteException
+     */
     public Coordinates getDiceFinalPosition() throws RemoteException;
     public void setClientGame(Game game) throws  RemoteException;
     public void setClientGameHide(Game game) throws  RemoteException;

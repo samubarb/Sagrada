@@ -487,7 +487,6 @@ public class ServerLauncher {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -495,8 +494,18 @@ public class ServerLauncher {
                 }
                 return;
             }
+            int dice = 0;
             try {
-                int dice = playerInterface.getDiceFromReserve();
+                dice = playerInterface.getDiceFromReserve();
+            } catch (RemoteException e) {
+                try {
+                    playerInterface.notifyError(e);
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            try {
+
                 player.setChosenNut(game.getDiceFromCurrentDice(dice));
                 Action action = playerInterface.getTypeOfAction();
                 game.getToolCards()[i].useTool(player, action);
@@ -511,6 +520,7 @@ public class ServerLauncher {
                 }
                 //problem with nutchosen cant change 1 to 6 or 6 to 1
                 restoreFavorToken(player, i);
+                game.restoreDice(player, dice);
                 return;
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -538,7 +548,6 @@ public class ServerLauncher {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -578,7 +587,6 @@ public class ServerLauncher {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -613,7 +621,6 @@ public class ServerLauncher {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -646,7 +653,6 @@ public class ServerLauncher {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -672,7 +678,6 @@ public class ServerLauncher {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -688,7 +693,6 @@ public class ServerLauncher {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -729,7 +733,6 @@ public class ServerLauncher {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -761,7 +764,6 @@ public class ServerLauncher {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -794,7 +796,6 @@ public class ServerLauncher {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -936,6 +937,7 @@ public class ServerLauncher {
                 getFinalPointsFromPrivateObjective(game, player);
                 getFinalPointsFromFrame(game, player);
                 getFinalPointsFromFavorToken(game, player);
+                updateGameSession();
             }
         }
 
@@ -1029,7 +1031,7 @@ public class ServerLauncher {
                         e2.printStackTrace();
                     }
                 }
-                e.printStackTrace();
+
                 restoreFavorToken(player, i);
                 return;
             } catch (WindowPatternValueException e) {
@@ -1043,7 +1045,6 @@ public class ServerLauncher {
                         e2.printStackTrace();
                     }
                 }
-                e.printStackTrace();
                 restoreFavorToken(player, i);
                 return;
             } catch (FrameValueAndColorException e) {
@@ -1057,7 +1058,6 @@ public class ServerLauncher {
                     }
                     e1.printStackTrace();
                 }
-                e.printStackTrace();
                 restoreFavorToken(player, i);
                 return;
             } catch (BusyPositionException e) {
@@ -1071,7 +1071,6 @@ public class ServerLauncher {
                         e2.printStackTrace();
                     }
                 }
-                e.printStackTrace();
                 restoreFavorToken(player, i);
                 return;
             } catch (AdjacentDiceException e) {
@@ -1085,7 +1084,6 @@ public class ServerLauncher {
                         e2.printStackTrace();
                     }
                 }
-                e.printStackTrace();
                 restoreFavorToken(player, i);
                 return;
             }
@@ -1107,7 +1105,6 @@ public class ServerLauncher {
                 restoreFavorToken(player, i);
                 return;
             } catch (FavorTokenException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
@@ -1115,7 +1112,6 @@ public class ServerLauncher {
                 }
                 return;
             } catch (RemoteException e) {
-                e.printStackTrace();
                 try {
                     playerInterface.notifyError(e);
                 } catch (RemoteException e1) {
