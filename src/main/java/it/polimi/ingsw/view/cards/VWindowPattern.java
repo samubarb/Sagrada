@@ -13,6 +13,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -77,29 +79,45 @@ public class VWindowPattern {
     public Group toGUI() { /*To refine*/
         Color color;
         Label cardName = new Label(this.name);
+        Label labelTokens = new Label("Segnalini favore: ");
         GridPane grid = new GridPane();
         GridPane wpattern = new GridPane();
         GridPane favorTokens = new GridPane();
         Group root = new Group();
 
         wpattern.setStyle("-fx-background-color: grey;");
-        grid.setStyle("-fx-background-color: grey;");
 
+        grid.setStyle("-fx-background-color: grey;");
         grid.setHgap(padding); // set horizontal gap
         grid.setVgap(padding); // set vertical gap
         grid.setPadding(new Insets(padding)); // set all around padding gaps
+        grid.setGridLinesVisible(false);
 
-        // grid.add(cardName, 0,0);
+        cardName.setFont(Font.font(null, FontWeight.BOLD, 20));
+        cardName.setPadding(new Insets(padding));
+
+        labelTokens.setFont(Font.font(null, FontWeight.NORMAL, 14));
+
+        favorTokens.setPadding(new Insets(padding));
+        favorTokens.setHgap(thinPadding);
 
         for (int j = 0; j < rows; j++) {
             for (int i = 0; i < cols; i++) {
                 color = this.pattern[i][j] == null ? Color.TRANSPARENT : this.pattern[i][j].colorToGUI();
-                grid.add(new Rectangle(cellWidth, cellHeight, color), i, j);
+                Rectangle cell = new Rectangle(cellWidth, cellHeight, color);
+                cell.setStroke(Color.BLACK);
+                cell.setStrokeWidth(thinPadding);
+                grid.add(cell, i, j);
             }
         }
 
+        favorTokens.add(labelTokens, 0, 0);
+
         for (int i = 0; i < this.token; i++)
-            favorTokens.add(new Circle(10, Color.WHITE), i, 0);
+            favorTokens.add(new Circle(10, Color.WHITE), i + 1, 0);
+
+
+
 
         wpattern.add(cardName, 0,0);
         wpattern.add(grid, 0, 1);

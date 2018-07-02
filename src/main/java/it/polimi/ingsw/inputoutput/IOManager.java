@@ -19,6 +19,8 @@ public final class IOManager {
     public final static int cols = 5;
 
     public final static int padding = 10;
+    public final static int thinPadding = 5;
+
 
     public final static int cellWidth = 60;
     public final static int cellHeight = 60;

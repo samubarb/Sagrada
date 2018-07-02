@@ -68,15 +68,12 @@ public class VGame {
     public void addPublicObjective(VPublicObjectiveCard objCard) {
         this.publicObjectives.add(objCard);
     }
-
     public void setTools(VToolCards tools) {
         this.tools = tools;
     }
-
     public void setPatterns(VWindowPatterns patterns) {
         this.patterns = patterns;
     }
-
     public void setVCurrentDice(VCurrentDice dice) { this.dice = dice; }
     public void setRoundTrack(VRoundTrack track) { this.roundTrack = track; }
     public void setRound(int round) { this.round = round; }
