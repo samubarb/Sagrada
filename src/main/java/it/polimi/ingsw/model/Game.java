@@ -26,6 +26,7 @@ public class Game implements Serializable{
     private int  counnterForWindowPattern;
     private boolean diceRolled;
     private Player[] initialTurnOrder;
+    private boolean isSecondTurn;
 
     public Game() {
         this.players = new ArrayList<Player>();
@@ -172,6 +173,14 @@ public class Game implements Serializable{
         this.windowPatternCards[position]=card;
     }
 
+    public boolean isSecondTurn() {
+        return isSecondTurn;
+    }
+
+    public void setSecondTurn(boolean secondTurn) {
+        isSecondTurn = secondTurn;
+    }
+
     /**
      * set the current dice with a default dice
      */
@@ -307,10 +316,13 @@ public class Game implements Serializable{
 
         Player currentPlayer=new Player();
 
-        if (turnStack.empty())
+        if (turnStack.empty()){
             nextRound();
+            isSecondTurn=false;
+        }
         if(this.currentPlayerIndex>=turnOrder.length&&!turnStack.empty()){
             currentPlayer=turnStack.pop();
+            isSecondTurn=true;
             setCurrentPlayerIndex(this.currentPlayerIndex+1);
         }
         if(this.currentPlayerIndex<turnOrder.length){
