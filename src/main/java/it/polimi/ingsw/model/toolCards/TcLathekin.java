@@ -57,19 +57,5 @@ public class TcLathekin extends ToolCard implements iTool {
         fakePlayer.positionDice(player.getFrame().getDice(initialPositionSecondNut),finalPositionSecondNut);
         player.setFrame(fakePlayer.getFrame());
 
-      /*  if(finalPositionFirstNut.equals(initialPositionSecondNut)){
-            dice=player.getFrame().getDice(initialPositionSecondNut);
-            player.getFrame().setPositionDice(new Dice(),initialPositionSecondNut);
-            player.positionDice(player.getFrame().getDice(initialPositionFirstNut),finalPositionFirstNut);
-            player.getFrame().setPositionDice(new Dice(),initialPositionFirstNut);
-            player.positionDice(dice,finalPositionSecondNut);
-        }
-        else {
-
-            player.positionDice(player.getFrame().getDice(initialPositionFirstNut), finalPositionFirstNut);
-            player.getFrame().setPositionDice(new Dice(), initialPositionFirstNut);
-            player.positionDice(player.getFrame().getDice(initialPositionSecondNut), finalPositionSecondNut);
-            player.getFrame().setPositionDice(new Dice(), initialPositionSecondNut);
-        }*/
     }
 }

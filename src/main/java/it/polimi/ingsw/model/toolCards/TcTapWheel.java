@@ -39,20 +39,14 @@ public class TcTapWheel extends ToolCard implements iTool {
           !player.getCurrentGame().checkColorDice(player.getFrame().getDice(initialPositionFirstNut)))
            throw new IllegalArgumentException();
        else {
-           Dice dice = new Dice();
-           if (finalPositionFirstNut.equals(initialPositionSecondNut)) {
-               dice = player.getFrame().getDice(initialPositionSecondNut);
-               player.getFrame().setPositionDice(new Dice(), initialPositionSecondNut);
-               player.positionDice(player.getFrame().getDice(initialPositionFirstNut), finalPositionFirstNut);
-               player.getFrame().setPositionDice(new Dice(), initialPositionFirstNut);
-               player.positionDice(dice, finalPositionSecondNut);
-           } else {
-
-               player.positionDice(player.getFrame().getDice(initialPositionFirstNut), finalPositionFirstNut);
-               player.getFrame().setPositionDice(new Dice(), initialPositionFirstNut);
-               player.positionDice(player.getFrame().getDice(initialPositionSecondNut), finalPositionSecondNut);
-               player.getFrame().setPositionDice(new Dice(), initialPositionSecondNut);
-           }
+           Player fakePlayer=new Player("fake");
+           fakePlayer.setWindowPattern(player.getWindowPattern());
+           fakePlayer.getFrame().copyFrame(player.getFrame());
+           fakePlayer.getFrame().setPositionDice(new Dice(),initialPositionFirstNut);
+           fakePlayer.getFrame().setPositionDice(new Dice(),initialPositionSecondNut);
+           fakePlayer.positionDice(player.getFrame().getDice(initialPositionFirstNut),finalPositionFirstNut);
+           fakePlayer.positionDice(player.getFrame().getDice(initialPositionSecondNut),finalPositionSecondNut);
+           player.setFrame(fakePlayer.getFrame());
        }
     }
 }
