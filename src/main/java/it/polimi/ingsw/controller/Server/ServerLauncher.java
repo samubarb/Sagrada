@@ -565,7 +565,6 @@ public class ServerLauncher {
                 initialCoordinates2 = playerInterface.getDiceToBeMoved(2);
                 finalCoordinates2 = playerInterface.getDiceDestination(2);
                 twoDiceToolUsage(i, playerInterface, player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
-                toolCardUsed = true;
             } catch (RemoteException e) {
                 e.printStackTrace();
                 try {
