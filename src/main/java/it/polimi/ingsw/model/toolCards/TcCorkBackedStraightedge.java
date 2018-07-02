@@ -22,7 +22,7 @@ public class TcCorkBackedStraightedge extends ToolCard implements iTool {
      */
     @Override
     public void useTool(Player player, Coordinates coordinates) {
-        if(player.checkWindowPatternColorRestriction(player.getChosenNut(),coordinates)&&player.checkWindowPatternValueRestriction(player.getChosenNut(),coordinates))
+        if(player.checkWindowPatternColorRestriction(player.getChosenNut(),coordinates)&&player.checkWindowPatternValueRestriction(player.getChosenNut(),coordinates)&&!player.checkAdjacentDice(player.getChosenNut(),coordinates))
             player.getFrame().setPositionDice(player.getChosenNut(),coordinates);
         else
             throw new IllegalArgumentException();
