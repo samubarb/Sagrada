@@ -565,7 +565,7 @@ public class ServerLauncher {
                 initialCoordinates2 = playerInterface.getDiceToBeMoved(2);
                 finalCoordinates2 = playerInterface.getDiceDestination(2);
                 twoDiceToolUsage(i, playerInterface, player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
-
+                toolCardUsed = true;
             } catch (RemoteException e) {
                 e.printStackTrace();
                 try {
@@ -578,12 +578,15 @@ public class ServerLauncher {
                 return;
             }
 
-            toolCardUsed = true;
+
             return;
 
         }
 
         public void useLensCutter(int i, PlayerInterface playerInterface, Player player) {
+            /*if(game.getRound()==1){
+                playerInterface.notifyEmptyRoundTrack();
+            }*/
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -818,7 +821,6 @@ public class ServerLauncher {
                 finalCoordinates2 = playerInterface.getDiceDestination(2);
 
                 twoDiceToolUsage(i, playerInterface, player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
-                toolCardUsed = true;
             } catch (RemoteException e) {
                 e.printStackTrace();
                 try {
@@ -1086,6 +1088,14 @@ public class ServerLauncher {
                 }
                 restoreFavorToken(player, i);
                 return;
+            } catch (IllegalArgumentException e) {
+                try {
+                    playerInterface.notifyError(e);
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                restoreFavorToken(player, i);
+                return;
             }
         }
 
@@ -1120,6 +1130,7 @@ public class ServerLauncher {
                 restoreFavorToken(player, i);
                 return;
             }
+
         }
 
         public void restoreFavorToken(Player player, int i) {

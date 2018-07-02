@@ -143,6 +143,7 @@ public interface PlayerInterface extends Remote, Serializable {
     public void notifyError(FrameValueAndColorException e) throws  RemoteException;
     public void notifyError(BusyPositionException e) throws  RemoteException;
     public void notifyError(AdjacentDiceException e) throws  RemoteException;
+    //public void notifyEmpityRoundTrack() throws  RemoteException;
     public int chooseWindowPattern(WindowPattern windowPattern[]) throws RemoteException;
     public void notifyWinner() throws  RemoteException;
     public void notifyLoosers() throws RemoteException;

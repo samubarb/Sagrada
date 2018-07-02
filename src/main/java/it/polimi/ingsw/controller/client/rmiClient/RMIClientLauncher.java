@@ -499,4 +499,10 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     public void notifyLoosers() throws RemoteException {
         view.notifyLose();
     }
+
+    /*@Override
+    public void notifyEmpityRoundTrack() throws RemoteException {
+
+    }*/
+
 }
