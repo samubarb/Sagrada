@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.toolCards;
 import it.polimi.ingsw.model.*;
 
 public class TcLensCutter extends ToolCard implements iTool {
+    private final static int FIRST_ROUND=1;
 
 
     public TcLensCutter(int number, String name,Color color) {
@@ -16,7 +17,8 @@ public class TcLensCutter extends ToolCard implements iTool {
      */
     @Override
     public void useTool(Player player, Coordinates coordinates) {
-
+       if(player.getCurrentGame().getRoundTrack()[coordinates.getX()].getColor()==Color.UNCOLORED||player.getCurrentGame().getRound()==FIRST_ROUND)
+           throw new IllegalArgumentException();
        Dice diceFromRoundTrack= player.getCurrentGame().getRoundTrack()[coordinates.getX()];
        Dice flagDice=new Dice();
        flagDice=player.getChosenNut();
