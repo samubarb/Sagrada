@@ -677,7 +677,7 @@ public class ServerLauncher {
                 }
                 return;
             }
-            if (!dicePlaced) {
+            if (!dicePlaced&&game.isSecondTurn()) {
                 game.getToolCards()[i].useTool(player);
                 toolCardUsed = true;
             } else {
