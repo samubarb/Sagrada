@@ -583,9 +583,6 @@ public class ServerLauncher {
         }
 
         public void useLensCutter(int i, PlayerInterface playerInterface, Player player) {
-            /*if(game.getRound()==1){
-                playerInterface.notifyEmptyRoundTrack();
-            }*/
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
             } catch (FavorTokenException e) {
@@ -596,10 +593,19 @@ public class ServerLauncher {
                 }
                 return;
             }
-            int dice;
-            Coordinates roundDice = null;
+            int dice = 0;
             try {
                 dice = playerInterface.getDiceFromReserve();
+            } catch (RemoteException e) {
+                try {
+                    playerInterface.notifyError(e);
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            Coordinates roundDice = null;
+            try {
+
                 player.setChosenNut((game.getDiceFromCurrentDice(dice)));
                 roundDice = playerInterface.getRoundDiceToBeSwapped();
                 game.getToolCards()[i].useTool(player, roundDice);
@@ -614,6 +620,15 @@ public class ServerLauncher {
                 }
                 restoreFavorToken(player, i);
                 //toolCardUsed = false;
+                return;
+            } catch (IllegalArgumentException e){
+                try {
+                    playerInterface.notifyError(e);
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                restoreFavorToken(player, i);
+                game.restoreDice(player, dice);
                 return;
             }
 
@@ -703,12 +718,15 @@ public class ServerLauncher {
                 return;
             }
             int dice = 0;
+            if(dicePlaced == true)
+                return;
             try {
                 dice = playerInterface.getDiceFromReserve();
                 Coordinates finalCoordinates = playerInterface.getDiceDestination();
                 player.setChosenNut(game.getDiceFromCurrentDice(dice));
                 game.getToolCards()[i].useTool(player, finalCoordinates);
                 toolCardUsed = true;
+                dicePlaced = true;
             } catch (RemoteException e) {
                 e.printStackTrace();
                 try {
