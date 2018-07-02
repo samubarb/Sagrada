@@ -38,8 +38,8 @@ public class GameConfigurator implements Serializable {
         PrivateObjective[] privateObjective=new PrivateObjective[3];
         privateObjective=createPrivateObjective();
         for(int i=0;i<game.getTurnOrder().length;i++){
-            game.getTurnOrder()[i].setWindowPattern(game.getWindoePatternCard(i));
-            game.getTurnOrder()[i].setFavorTokens(game.getWindoePatternCard(i).getFavorTokenToAssign());
+            game.getTurnOrder()[i].setWindowPattern(game.getWindoePatternCard(i*4));
+            game.getTurnOrder()[i].setFavorTokens(game.getWindoePatternCard(i*4).getFavorTokenToAssign());
             game.getTurnOrder()[i].setCurrentGame(game);
             game.getTurnOrder()[i].setPrivateObjective(privateObjective[i]);
 
