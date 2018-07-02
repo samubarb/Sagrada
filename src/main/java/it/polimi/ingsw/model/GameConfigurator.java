@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.toolCards.*;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 

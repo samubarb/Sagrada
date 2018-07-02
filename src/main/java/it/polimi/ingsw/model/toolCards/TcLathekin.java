@@ -48,13 +48,16 @@ public class TcLathekin extends ToolCard implements iTool {
      */
     @Override
     public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) throws FrameValueAndColorException, WindowPatternValueException, WindowPatternColorException, BusyPositionException,AdjacentDiceException {
-        Dice dice=new Dice();
-        /*Player fakePlayer=new Player("fake");
+        Player fakePlayer=new Player("fake");
         fakePlayer.setWindowPattern(player.getWindowPattern());
         fakePlayer.getFrame().copyFrame(player.getFrame());
         fakePlayer.getFrame().setPositionDice(new Dice(),initialPositionFirstNut);
-        fakePlayer.getFrame().setPositionDice(new Dice(),initialPositionSecondNut);*/
-        if(finalPositionFirstNut.equals(initialPositionSecondNut)){
+        fakePlayer.getFrame().setPositionDice(new Dice(),initialPositionSecondNut);
+        fakePlayer.positionDice(player.getFrame().getDice(initialPositionFirstNut),finalPositionFirstNut);
+        fakePlayer.positionDice(player.getFrame().getDice(initialPositionSecondNut),finalPositionSecondNut);
+        player.setFrame(fakePlayer.getFrame());
+
+      /*  if(finalPositionFirstNut.equals(initialPositionSecondNut)){
             dice=player.getFrame().getDice(initialPositionSecondNut);
             player.getFrame().setPositionDice(new Dice(),initialPositionSecondNut);
             player.positionDice(player.getFrame().getDice(initialPositionFirstNut),finalPositionFirstNut);
@@ -67,6 +70,6 @@ public class TcLathekin extends ToolCard implements iTool {
             player.getFrame().setPositionDice(new Dice(), initialPositionFirstNut);
             player.positionDice(player.getFrame().getDice(initialPositionSecondNut), finalPositionSecondNut);
             player.getFrame().setPositionDice(new Dice(), initialPositionSecondNut);
-        }
+        }*/
     }
 }
