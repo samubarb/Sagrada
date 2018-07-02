@@ -226,7 +226,7 @@ public class GameConfigurator implements Serializable {
         frame.setPositionDice(dice2,3,0);
         frame.setPositionDice(blueDice,3,3);
         frame.setPositionDice(yellowDice,3,4);
-        WindowPattern kaleidoscopicDream=new WindowPattern(4,"KaleidoscopicDream",frame);
+        WindowPattern kaleidoscopicDream=new WindowPattern(4,"Kaleidoscopic Dream",frame);
         return kaleidoscopicDream;
 
     }
@@ -246,7 +246,7 @@ public class GameConfigurator implements Serializable {
         frame.setPositionDice(dice1,3,0);
         frame.setPositionDice(greenDice,3,3);
         frame.setPositionDice(dice4,3,4);
-        WindowPattern auroraeMagnificus=new WindowPattern(5,"AuroraeMagnificus",frame);
+        WindowPattern auroraeMagnificus=new WindowPattern(5,"Aurorae Magnificus",frame);
         return auroraeMagnificus;
 
     }
@@ -263,7 +263,7 @@ public class GameConfigurator implements Serializable {
         frame.setPositionDice(greenDice,3,0);
         frame.setPositionDice(dice3,3,1);
         frame.setPositionDice(purpleDice,3,4);
-        WindowPattern sunCatcher=new WindowPattern(3,"SunCatcher",frame);
+        WindowPattern sunCatcher=new WindowPattern(3,"Sun Catcher",frame);
         return sunCatcher;
 
     }
@@ -283,7 +283,7 @@ public class GameConfigurator implements Serializable {
         frame.setPositionDice(greenDice,2,3);
         frame.setPositionDice(dice3,3,1);
         frame.setPositionDice(dice5,3,3);
-        WindowPattern symphonyOfLight=new WindowPattern(6,"SymphonyOfLight",frame);
+        WindowPattern symphonyOfLight=new WindowPattern(6,"Symphony Of Light",frame);
         return symphonyOfLight;
 
     }
@@ -361,7 +361,7 @@ public class GameConfigurator implements Serializable {
         frame.setPositionDice(dice1,2,1);
         frame.setPositionDice(dice5,2,3);
         frame.setPositionDice(dice6,3,2);
-        WindowPattern auroraSagradis=new WindowPattern(4,"AuroraSagradis",frame);
+        WindowPattern auroraSagradis=new WindowPattern(4,"Aurora Sagradis",frame);
         return auroraSagradis;
 
     }
@@ -381,7 +381,7 @@ public class GameConfigurator implements Serializable {
         frame.setPositionDice(dice5,3,0);
         frame.setPositionDice(purpleDice,3,3);
         frame.setPositionDice(dice6,3,4);
-        WindowPattern shadowThief =new WindowPattern(5,"ShadowThief",frame);
+        WindowPattern shadowThief =new WindowPattern(5,"Shadow Thief",frame);
         return shadowThief;
     }
 
