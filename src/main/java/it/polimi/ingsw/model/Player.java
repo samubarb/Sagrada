@@ -296,6 +296,10 @@ public class Player implements Serializable{
      * @throws FrameValueAndColorException
      */
     public boolean positionDice(Dice dice, Coordinates position) throws WindowPatternColorException, WindowPatternValueException, FrameValueAndColorException, BusyPositionException, AdjacentDiceException {
+        if(firstDice)
+            if(!(position.getY()==DEFAUTL_VALUE || position.getY()==LINE_SIZE-1||position.getX()==DEFAUTL_VALUE||position.getX()==COLUMN_SIZE-1))
+                throw new AdjacentDiceException();
+
         if(!checkIfThePositionIsFree(position))
             throw new BusyPositionException();
         if(!checkWindowPatternColorRestriction(dice,position))
