@@ -11,7 +11,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.*;
 import static javafx.scene.paint.Color.BLACK;
 
 public class VDice {
-    
+
     private static final String colorConstraint = "\u2593"; // used in VWindowPattern
 
     private int value;

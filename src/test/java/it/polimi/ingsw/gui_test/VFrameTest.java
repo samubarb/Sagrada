@@ -32,6 +32,7 @@ public class VFrameTest extends Application {
 
         VFrame frame = new VFrame();
         frame.setDice(new VDice(5, VColor.BLUE), new VCoordinates(2, 2));
+        frame.setDice(new VDice(1, VColor.YELLOW), new VCoordinates(4, 3));
 
 
         GridPane frameGUI = frame.buildGrid(vWP);
