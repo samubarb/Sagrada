@@ -337,6 +337,7 @@ public class ServerLauncher {
                 if(game.getRound()<=MAXNUMBEROFROUND) {
 
                     String currentPlayerName = currentPlayer.getName();
+                    //for()
                     for (User user : serverLauncher.getNicknames()) {
                         if (user.getUsername().equals(currentPlayer.getName())) {
                             try {

@@ -49,6 +49,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     private static Game game;
     private static View view;
     private static VGame vGame;
+    private static  boolean isRegistered;
 
     //debug timer
     static int interval = 7;
@@ -78,13 +79,14 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
             System.out.println("Restart Client, connection to server error");
             return;
         }
+        while(!isRegistered){
+            username = getUsername(input);
+            view = new CLI(username);
+            view.splash();
 
-        username = getUsername(input);
-        view = new CLI(username);
-        view.splash();
-
-        playerInterface = this;
-        registerPlayerOnServer(username, playerInterface);
+            playerInterface = this;
+            isRegistered = registerPlayerOnServer(username, playerInterface);
+        }
         isMyTurn = false;
         gameStarted = true;
         while(gameStarted) {
@@ -167,10 +169,11 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         return input.next();
     }
 
-    public static void registerPlayerOnServer(String username, PlayerInterface playerInterface){
+    public static boolean registerPlayerOnServer(String username, PlayerInterface playerInterface){
         System.out.println("Try to login user with nickname: " + username);
+        boolean registered = false;
         try {
-            server.register(playerInterface, username);
+            registered =  server.register(playerInterface, username);
         } catch (RemoteException e) {
             try {
                 server.print("Problem with the comunication with the server"+ e);
@@ -179,6 +182,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
                 System.out.println("errore remote");
             }
         }
+        return registered;
     }
 
 
