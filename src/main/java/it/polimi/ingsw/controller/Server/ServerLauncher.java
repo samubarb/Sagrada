@@ -34,7 +34,7 @@ public class ServerLauncher {
     public static final long START_IMMEDIATELY = 0;
     private Timer mainTimer;
     private int round;
-    private static final int MAXNUMBEROFROUND = 10;
+    private static final int MAXNUMBEROFROUND = 1;
     private static final long TURNTIME = 10000;
     private Game game;
     private Timer turnTimer;
@@ -331,25 +331,29 @@ public class ServerLauncher {
             //configureGame();
             //setupPlayerPatternChoice();
             chooseWindowPattern();
-            while (game.getRound() <= MAXNUMBEROFROUND) {
+            //while (game.getRound() <= MAXNUMBEROFROUND) {
+            do {
                 currentPlayer = game.getCurrentPlayer();
-                String currentPlayerName = currentPlayer.getName();
-                for (User user : serverLauncher.getNicknames()) {
-                    if (user.getUsername().equals(currentPlayer.getName())) {
-                        try {
-                            user.getPlayerInterface().notifyTurn(user.getUsername());
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        //updateGameSession();//this updateGameSession update the initial current dice
-                        //Syncronized sul turn mutex
-                        synchronized (TURN_MUTEX){
-                            startTurn(user.getPlayerInterface(), currentPlayer);
-                            //updateGameSession();
+                if(game.getRound()<=MAXNUMBEROFROUND) {
+
+                    String currentPlayerName = currentPlayer.getName();
+                    for (User user : serverLauncher.getNicknames()) {
+                        if (user.getUsername().equals(currentPlayer.getName())) {
+                            try {
+                                user.getPlayerInterface().notifyTurn(user.getUsername());
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                            //updateGameSession();//this updateGameSession update the initial current dice
+                            //Syncronized sul turn mutex
+                            synchronized (TURN_MUTEX) {
+                                startTurn(user.getPlayerInterface(), currentPlayer);
+                                //updateGameSession();
+                            }
                         }
                     }
                 }
-            }
+            } while (game.getRound() <= MAXNUMBEROFROUND);
             calculateFinalScore(game);
             notifyWinnerAndLoosers(game);
             //selectWinner();
