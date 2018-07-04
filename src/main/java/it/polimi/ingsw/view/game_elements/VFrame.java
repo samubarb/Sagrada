@@ -1,9 +1,14 @@
 
 package it.polimi.ingsw.view.game_elements;
 
+import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
+import javafx.scene.Group;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
+import static it.polimi.ingsw.inputoutput.IOManager.thinPadding;
 
 public class VFrame {
     VDice[][] frame;
@@ -41,5 +46,20 @@ public class VFrame {
             string.append("\n");
         }
         return string.toString();
+    }
+
+    public GridPane buildGrid(VWindowPattern windowPattern) {
+        GridPane wp = windowPattern.buildGrid();
+
+        for (int i = 0; i < 5; i++)
+            for (int j = 0; j < 4; j++) {
+                if (this.frame[i][j] != null) {
+                    Pane face = this.frame[i][j].toGUI();
+                    face.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
+                    wp.add(face, i, j);
+                }
+            }
+
+        return wp;
     }
 }

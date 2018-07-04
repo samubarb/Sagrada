@@ -1,22 +1,17 @@
 package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.other_elements.VColor;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class VDice {
-    // U+2680 to U+2685
-    public static final String[] faces = {
-            "\u2680",
-            "\u2681",
-            "\u2682",
-            "\u2683",
-            "\u2684",
-            "\u2685"
-    };
+import static it.polimi.ingsw.inputoutput.IOManager.*;
+import static javafx.scene.paint.Color.BLACK;
 
+public class VDice {
+    
     private static final String colorConstraint = "\u2593"; // used in VWindowPattern
 
     private int value;
@@ -44,6 +39,24 @@ public class VDice {
         }
     }
 
+    private StackPane full() {
+        StackPane stack = new StackPane();
+        stack.getChildren().add(empty());
+        Circle dot = new Circle();
+        dot.setRadius(dotRadius);
+        dot.setFill(BLACK);
+        stack.getChildren().add(dot);
+        return stack;
+    }
+
+    private Rectangle empty() {
+        Rectangle empty = new Rectangle();
+        empty.setFill(colorToGUI());
+        empty.setWidth(thirdOfCell);
+        empty.setHeight(thirdOfCell);
+        return empty;
+    }
+
     public int getValue() {
         return this.value;
     }
@@ -59,10 +72,94 @@ public class VDice {
         return this.color.toString() + "[" + this.value + "]" + this.color.RESET;
     }
 
-    public Label toGUI() {
-        Label dice = new Label(this.color.toString());
+    public GridPane toGUI() {
+        GridPane face = new GridPane();
 
-        //dice.setStyle();
-        return dice;
+        switch(this.value) {
+            case 1:
+                face.add(empty(), 0, 0);
+                face.add(empty(), 0, 1);
+                face.add(empty(), 0, 2);
+                face.add(empty(), 1, 0);
+                face.add(full(), 1, 1); // center
+                face.add(empty(), 1, 2);
+                face.add(empty(), 2, 0);
+                face.add(empty(), 2, 1);
+                face.add(empty(), 2, 2);
+                break;
+
+            case 2:
+                face.add(empty(), 0, 0);
+                face.add(empty(), 0, 1);
+                face.add(full(), 0, 2); //top right
+                face.add(empty(), 1, 0);
+                face.add(empty(), 1, 1);
+                face.add(empty(), 1, 2);
+                face.add(full(), 2, 0); // bottom left
+                face.add(empty(), 2, 1);
+                face.add(empty(), 2, 2);
+                break;
+
+            case 3:
+                face.add(empty(), 0, 0);
+                face.add(empty(), 0, 1);
+                face.add(full(), 0, 2); //top right
+                face.add(empty(), 1, 0);
+                face.add(full(), 1, 1); // center
+                face.add(empty(), 1, 2);
+                face.add(full(), 2, 0); // bottom left
+                face.add(empty(), 2, 1);
+                face.add(empty(), 2, 2);
+                break;
+
+            case 4:
+                face.add(full(), 0, 0); // top left
+                face.add(empty(), 0, 1);
+                face.add(full(), 0, 2); // top right
+                face.add(empty(), 1, 0);
+                face.add(empty(), 1, 1);
+                face.add(empty(), 1, 2);
+                face.add(full(), 2, 0); // bottom left
+                face.add(empty(), 2, 1);
+                face.add(full(), 2, 2); // bottom right
+                break;
+
+            case 5:
+                face.add(full(), 0, 0); // top left
+                face.add(empty(), 0, 1);
+                face.add(full(), 0, 2); // top right
+                face.add(empty(), 1, 0);
+                face.add(full(), 1, 1); // center
+                face.add(empty(), 1, 2);
+                face.add(full(), 2, 0); // bottom left
+                face.add(empty(), 2, 1);
+                face.add(full(), 2, 2); // bottom right
+                break;
+
+            case 6:
+                face.add(full(), 0, 0); // top left
+                face.add(empty(), 0, 1);
+                face.add(full(), 0, 2); // top right
+                face.add(full(), 1, 0); // center left
+                face.add(empty(), 1, 1);
+                face.add(full(), 1, 2); // center right
+                face.add(full(), 2, 0); // bottom left
+                face.add(empty(), 2, 1);
+                face.add(full(), 2, 2); // bottom right
+                break;
+
+            default:
+                face.add(empty(), 0, 0);
+                face.add(empty(), 0, 1);
+                face.add(empty(), 0, 2);
+                face.add(empty(), 1, 0);
+                face.add(empty(), 1, 1);
+                face.add(empty(), 1, 2);
+                face.add(empty(), 2, 0);
+                face.add(empty(), 2, 1);
+                face.add(empty(), 2, 2);
+                break;
+        }
+        return face;
     }
 }

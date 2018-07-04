@@ -2,10 +2,12 @@ package it.polimi.ingsw.gui_test;
 
 import it.polimi.ingsw.controller.Adapter;
 import it.polimi.ingsw.controller.Server.AdapterCLI;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameConfigurator;
-import it.polimi.ingsw.model.WindowPattern;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.cards.VWindowPattern;
+import it.polimi.ingsw.view.game_elements.VDice;
+import it.polimi.ingsw.view.game_elements.VFrame;
+import it.polimi.ingsw.view.other_elements.VColor;
+import it.polimi.ingsw.view.other_elements.VCoordinates;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -13,9 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.inputoutput.IOManager.*;
-
-public class WPcardTest extends Application {
+public class VFrameTest extends Application {
 
     @Test
     public void WPcardTest() {
@@ -29,9 +29,15 @@ public class WPcardTest extends Application {
         WindowPattern wp = gconf.createWPCsunCatcher();
         Adapter adapt = new AdapterCLI();
         VWindowPattern vWP = adapt.patternToView(wp);
-        Group wpGUI = vWP.toGUI();
 
-        Scene scene = new Scene(wpGUI);
+        VFrame frame = new VFrame();
+        frame.setDice(new VDice(5, VColor.BLUE), new VCoordinates(2, 2));
+
+
+        GridPane frameGUI = frame.buildGrid(vWP);
+
+        Group group = new Group(frameGUI);
+        Scene scene = new Scene(group);
 
         primaryStage.setTitle("WPcard");
         primaryStage.setScene(scene);

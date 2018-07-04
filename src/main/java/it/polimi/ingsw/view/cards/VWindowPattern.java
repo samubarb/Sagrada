@@ -8,8 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -76,22 +75,42 @@ public class VWindowPattern {
         return string.toString();
     }
 
-    public Group toGUI() { /*To refine*/
-        Color color;
-        Label cardName = new Label(this.name);
-        Label labelTokens = new Label("Segnalini favore: ");
+    public GridPane buildGrid() {
         GridPane grid = new GridPane();
-        GridPane wpattern = new GridPane();
-        GridPane favorTokens = new GridPane();
-        Group root = new Group();
-
-        wpattern.setStyle("-fx-background-color: grey;");
 
         grid.setStyle("-fx-background-color: grey;");
         grid.setHgap(padding); // set horizontal gap
         grid.setVgap(padding); // set vertical gap
         grid.setPadding(new Insets(padding)); // set all around padding gaps
         grid.setGridLinesVisible(false);
+
+        for (int j = 0; j < rows; j++) {
+            for (int i = 0; i < cols; i++) {
+                if (this.pattern[i][j] == null) {
+                    Rectangle cell = new Rectangle(cellWidth + 2, cellHeight, Color.TRANSPARENT);
+                    cell.setStroke(Color.BLACK);
+                    cell.setStrokeWidth(thinPadding);
+                    grid.add(cell, i, j);
+                }
+                else {
+                    grid.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
+                    Pane face = this.pattern[i][j].toGUI();
+                    face.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
+                    grid.add(face, i, j);
+                }
+            }
+        }
+        return grid;
+    }
+
+    public Group toGUI() {
+        Group root = new Group();
+        GridPane grid = this.buildGrid();
+        GridPane wpattern = new GridPane();
+
+        Label cardName = new Label(this.name);
+        Label labelTokens = new Label("Segnalini favore: ");
+        GridPane favorTokens = new GridPane();
 
         cardName.setFont(Font.font(null, FontWeight.BOLD, 20));
         cardName.setPadding(new Insets(padding));
@@ -101,23 +120,12 @@ public class VWindowPattern {
         favorTokens.setPadding(new Insets(padding));
         favorTokens.setHgap(thinPadding);
 
-        for (int j = 0; j < rows; j++) {
-            for (int i = 0; i < cols; i++) {
-                color = this.pattern[i][j] == null ? Color.TRANSPARENT : this.pattern[i][j].colorToGUI();
-                Rectangle cell = new Rectangle(cellWidth, cellHeight, color);
-                cell.setStroke(Color.BLACK);
-                cell.setStrokeWidth(thinPadding);
-                grid.add(cell, i, j);
-            }
-        }
+        wpattern.setStyle("-fx-background-color: grey;");
 
         favorTokens.add(labelTokens, 0, 0);
 
         for (int i = 0; i < this.token; i++)
             favorTokens.add(new Circle(10, Color.WHITE), i + 1, 0);
-
-
-
 
         wpattern.add(cardName, 0,0);
         wpattern.add(grid, 0, 1);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.inputoutput;
 
 import com.google.gson.Gson;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +12,8 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 
 public final class IOManager {
+    private final static String img_path = "./img/";
+
     public final static String newline = "\n";
     public static String Sn = "[S/n]";
     public static int gridSpace = 34; // tune it for horizontal spacing of Frames and WindowPatterns
@@ -19,11 +22,16 @@ public final class IOManager {
     public final static int cols = 5;
 
     public final static int padding = 10;
-    public final static int thinPadding = 5;
+    public final static int thinPadding = 2;
 
+    public final static int cellWidth = 64;
+    public final static int cellHeight = 64;
+    public final static int thirdOfCell = cellWidth / 3;
+    public final static int dotRadius = thirdOfCell * 4 / 5 / 2;
 
-    public final static int cellWidth = 60;
-    public final static int cellHeight = 60;
+    public static Image getImage(String filePath) {
+        return new Image(Paths.get(img_path + filePath).toString());
+    }
 
     public static String fileToString(String filePath)
     {
