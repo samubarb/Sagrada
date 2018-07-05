@@ -20,7 +20,6 @@ public class VGame {
     private int round;
     private VPlayer turn;
 
-
     public VGame() {
         this.players = new ArrayList<VPlayer>();
         this.publicObjectives = new ArrayList<VPublicObjectiveCard>();

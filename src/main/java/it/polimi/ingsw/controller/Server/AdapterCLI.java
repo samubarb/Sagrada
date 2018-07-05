@@ -132,7 +132,7 @@ public final class AdapterCLI implements Adapter {
 
 
         /* add ToolCards */
-        vGame.setTools(toolsToView(game.getToolCards()));
+        vGame.setTools(toolsToView(game.getGameToolCards()));
         //String[] descriptions = getDescriptions();
 
         /* add WindowPatterns */
