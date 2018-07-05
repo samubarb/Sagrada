@@ -334,6 +334,7 @@ public class ServerLauncher {
             //while (game.getRound() <= MAXNUMBEROFROUND) {
             do {
                 currentPlayer = game.getCurrentPlayer();
+                updateGameSessionHide();
                 if(game.getRound()<=MAXNUMBEROFROUND) {
 
                     String currentPlayerName = currentPlayer.getName();
@@ -347,6 +348,7 @@ public class ServerLauncher {
                             }
                             //updateGameSession();//this updateGameSession update the initial current dice
                             //Syncronized sul turn mutex
+
                             synchronized (TURN_MUTEX) {
                                 startTurn(user.getPlayerInterface(), currentPlayer);
                                 //updateGameSession();
@@ -1178,6 +1180,17 @@ public class ServerLauncher {
             for (User user : nicknames) {
                 try {
                     user.getPlayerInterface().setClientGame(game);
+                    //user.getPlayerInterface().printPlayersFrame();
+                } catch (RemoteException e) {
+
+                }
+            }
+        }
+
+        private void updateGameSessionHide(){
+            for (User user : nicknames) {
+                try {
+                    user.getPlayerInterface().setClientGameHide(game);
                     //user.getPlayerInterface().printPlayersFrame();
                 } catch (RemoteException e) {
 
