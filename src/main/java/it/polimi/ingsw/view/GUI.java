@@ -20,10 +20,6 @@ public class GUI extends Application implements View  {
     private Stage window;
 
     public GUI(String player) {
-        this.clientPlayer = new VPlayer(player);
-        this.settings = new VSettings(); // reset settings to the default
-        this.game = new VGame();
-        this.window.setTitle("Sagrada");
     }
 
     public void show() {

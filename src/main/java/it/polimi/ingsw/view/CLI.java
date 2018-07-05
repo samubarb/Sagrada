@@ -79,12 +79,12 @@ public class CLI implements View {
     }
 
     public VCoordinates askCoordinates() {
-        println("Dove lo vuoi posizionare?");
+        println("Inserisci le coordinate: ?");
         return askXy();
     }
 
     public VCoordinates askCoordinates(int i) {
-        println("Dove vuoi piazzare il dado numero " + i +"?");
+        println("Inserisci le coordinate del dado numero " + i +"?");
         return askXy();
     }
 

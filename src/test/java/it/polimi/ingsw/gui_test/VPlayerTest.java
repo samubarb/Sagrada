@@ -31,7 +31,6 @@ public class VPlayerTest extends Application {
         p1.setFrame(frame);
         VPlayer player = ada.playerToView(p1);
 
-
         Group group = player.toGUI();
         Scene scene = new Scene(group);
 

@@ -96,6 +96,11 @@ public final class AdapterCLI implements Adapter {
         vPlayer.setColor(colorToView(player.getColor())); // set the player's color
         vPlayer.setFrame(frameToView(player.getFrame())); // set the player's frame
         vPlayer.setFavorTokens(player.getFavorTokens());
+
+        VPrivateObjectives privObj = new VPrivateObjectives();
+        privObj.add(privateObjectiveCardToView(player.getPrivateObjective()));
+        vPlayer.setvPrivateObjectives(privObj);
+
         vPlayer.setWpattern(patternToView(player.getWindowPattern())); // set the player's pattern
         vPlayer.setScore(player.getFinalPoints());
         return vPlayer;
@@ -140,7 +145,7 @@ public final class AdapterCLI implements Adapter {
         vGame.setRoundTrack(roundTrackToView(game.getRoundTrack()));
 
         /* set Turn */
-        vGame.setTurn(playerToView(game.getCurrentPlayer()));
+        vGame.setTurn(playerToView(game.getActualPlayer()));
 
         return vGame;
     }
