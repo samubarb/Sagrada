@@ -19,7 +19,7 @@ public class CLI implements View {
     public CLI(String player) {
         this.clientPlayer = new VPlayer(player);
         this.settings = new VSettings(); // reset settings to the default
-        this.game = new VGame();
+        this.game = new VGame(this.clientPlayer);
     }
 
     public void updateGame(VGame game) {

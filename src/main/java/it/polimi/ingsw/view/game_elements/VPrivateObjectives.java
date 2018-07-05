@@ -4,6 +4,8 @@ import it.polimi.ingsw.view.cards.VPrivateObjectiveCard;
 
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.inputoutput.IOManager.newline;
+
 public class VPrivateObjectives {
     private ArrayList<VPrivateObjectiveCard> privateObjetive;
 
@@ -15,4 +17,11 @@ public class VPrivateObjectives {
         this.privateObjetive.add(vPrivateObjectiveCard);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        for (VPrivateObjectiveCard privObj : privateObjetive)
+            string.append(privObj).append(newline);
+        return string.toString();
+    }
 }

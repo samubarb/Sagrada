@@ -107,7 +107,7 @@ public final class AdapterCLI implements Adapter {
     }
 
     public VGame gameToView(Game game) { // Game adapter from Model to View
-        VGame vGame = new VGame();
+        VGame vGame = new VGame(new VPlayer("Test"));
         /* add all players in the game */
         for (Player p : game.getPlayers()) {
             try {

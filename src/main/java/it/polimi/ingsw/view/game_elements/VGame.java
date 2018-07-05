@@ -19,10 +19,12 @@ public class VGame {
     private VRoundTrack roundTrack;
     private int round;
     private VPlayer turn;
+    private VPlayer clientPlayer;
 
-    public VGame() {
+    public VGame(VPlayer clientPlayer) {
         this.players = new ArrayList<VPlayer>();
         this.publicObjectives = new ArrayList<VPublicObjectiveCard>();
+        this.clientPlayer = clientPlayer;
     }
 
     public int askDice() {
@@ -104,6 +106,8 @@ public class VGame {
 
         for (VPlayer vp : this.players) {
             string.append(vp.toString());
+            if (this.turn.getName() == vp.getName())
+                string.append(vp.getvPrivateObjectives().toString());
         }
 
         for (VPublicObjectiveCard objCard : this.publicObjectives) {

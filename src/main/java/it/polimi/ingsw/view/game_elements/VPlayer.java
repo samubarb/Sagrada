@@ -46,6 +46,7 @@ public class VPlayer implements Comparable {
     public int getScore() {
         return this.score;
     }
+    public VPrivateObjectives getvPrivateObjectives() { return this.vPrivateObjectives; }
 
     public void setColor(VColor color) {
         this.color = color;
@@ -96,8 +97,6 @@ public class VPlayer implements Comparable {
         for (int i = 0; i < frame.length; i++)
             string.append(centerText(frame[i], gridSpace)).append(centerText(wpattern[i + 1], gridSpace)).append(newline);
 
-        string.append(newline)
-                .append(this.vPrivateObjectives.toString());
         return string.toString();
     }
 
