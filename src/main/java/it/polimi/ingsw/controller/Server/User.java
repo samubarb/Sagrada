@@ -10,10 +10,12 @@ import java.util.ArrayList;
 public class User implements Serializable {
     String username;
     PlayerInterface playerInterface;
+    boolean isOnline;
 
     public User(String username, PlayerInterface playerInterface) {
         this.username = username;
         this.playerInterface = playerInterface;
+        this.isOnline = true;
     }
     public User(){
         this.username="dacco";
