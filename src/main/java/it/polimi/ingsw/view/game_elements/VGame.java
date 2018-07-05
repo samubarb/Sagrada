@@ -19,12 +19,11 @@ public class VGame {
     private VRoundTrack roundTrack;
     private int round;
     private VPlayer turn;
-    private VPlayer clientPlayer;
+    private String clientPlayer;
 
-    public VGame(VPlayer clientPlayer) {
+    public VGame() {
         this.players = new ArrayList<VPlayer>();
         this.publicObjectives = new ArrayList<VPublicObjectiveCard>();
-        this.clientPlayer = clientPlayer;
     }
 
     public int askDice() {
@@ -82,6 +81,7 @@ public class VGame {
     public void setTurn(VPlayer player) {
         this.turn = player;
     }
+    public void setClientPlayer(String clientPlayer) { this.clientPlayer = clientPlayer; }
 
     public void removePlayer(VPlayer player) { this.players.remove(player); } // remove player from the game
 
@@ -98,14 +98,17 @@ public class VGame {
         string.
                 append("Round: " + this.round).append("\n\n").
                 append(this.roundTrack.toString()).append(newline);
-        if (this.clientPlayer.getName().equals(this.turn.getName()))
-            string.append("È il tuo turno, ");
-        else string.append("È il turno di ");
+
+        /**/ println(this.clientPlayer);
+        if (this.turn != null)
+            if (this.clientPlayer.equals(this.turn.getName()))
+                string.append("È il tuo turno, ");
+            else string.append("È il turno di ");
         string.append(this.turn.getName()).append(newline);
 
         for (VPlayer vp : this.players) {
             string.append(vp.toString());
-            if (this.clientPlayer.getName().equals(vp.getName()))
+            if (this.clientPlayer.equals(vp.getName()))
                 string.append(vp.getvPrivateObjectives().toString());
         }
 

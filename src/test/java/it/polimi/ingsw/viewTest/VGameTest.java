@@ -18,7 +18,7 @@ public class VGameTest {
 
     @Test
     public void printRankingTest() throws TooManyPlayersException {
-        VGame game = new VGame(new VPlayer("Test"));
+        VGame game = new VGame();
         game.addVPlayer(new VPlayer("TestPlayer1", VColor.GREEN));
         game.addVPlayer(new VPlayer("TestPlayer2", VColor.BLUE));
         game.addVPlayer(new VPlayer("TestPlayer3", VColor.PURPLE));

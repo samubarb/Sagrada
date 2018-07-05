@@ -11,15 +11,16 @@ import it.polimi.ingsw.view.other_elements.*;
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class CLI implements View {
-    private VPlayer clientPlayer;
+    private String clientPlayer;
     private VGame game;
     private static VSettings settings;
     private VSettings tempSettings;
 
-    public CLI(String player) {
-        this.clientPlayer = new VPlayer(player);
+    public CLI(String clientPlayer) {
+        this.clientPlayer = clientPlayer;
         this.settings = new VSettings(); // reset settings to the default
-        this.game = new VGame(this.clientPlayer);
+        this.game = new VGame();
+        this.game.setClientPlayer(clientPlayer);
     }
 
     public void updateGame(VGame game) {
@@ -113,16 +114,17 @@ public class CLI implements View {
     }
 
     public void notifyWin() {
-        println("Hai vinto " + this.clientPlayer.getName() + "!");
+        println("Hai vinto " + this.clientPlayer + "!");
     }
 
     public void notifyLose() {
-        println("Hai perso " + this.clientPlayer.getName() + "!");
+        println("Hai perso " + this.clientPlayer + "!");
     }
     public void notifyError(VError error) { println(error.toString()); }
     public void notifyScore() { game.notifyScore(); }
 
     public void updateState(VGame game) {
+        game.setClientPlayer(this.clientPlayer);
         this.game = game;
         clearScreen();
         println(this.game.toString());
