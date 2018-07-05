@@ -21,6 +21,7 @@ public class Game implements Serializable{
     private Dice[] roundTrack;
     private int round;
     private int currentPlayerIndex;
+    private Player actualPlayer;
     private Stack<Player> turnStack;
     private WindowPattern[] windowPatternCards;
     private int  counnterForWindowPattern;
@@ -43,6 +44,7 @@ public class Game implements Serializable{
         this.counnterForWindowPattern=0;
         this.diceRolled=false;
         this.initialTurnOrder=null;
+        this.actualPlayer=null;
 
         setDefaultDice(roundTrack);
         setRolledDice();
@@ -179,6 +181,14 @@ public class Game implements Serializable{
 
     public void setSecondTurn(boolean secondTurn) {
         isSecondTurn = secondTurn;
+    }
+
+    public Player getActualPlayer() {
+        return actualPlayer;
+    }
+
+    public void setActualPlayer(Player actualPlayer) {
+        this.actualPlayer = actualPlayer;
     }
 
     /**
@@ -334,7 +344,7 @@ public class Game implements Serializable{
        // if (turnStack.empty())
                // nextRound();
 
-
+        actualPlayer=currentPlayer;
         return currentPlayer;
     }
 
