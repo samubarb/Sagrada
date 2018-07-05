@@ -50,7 +50,7 @@ public class GameConfigurator implements Serializable {
        game.setWindowPatternCards(gson.fromJson(fileToString(json_windowPattern_path),WindowPattern[].class));
        for(int i=0;i<fakeWindowPatterns.length;i++)
            fakeWindowPatterns[i]=game.getWindowPatternCards()[i];
-        shuffleWindowPatternCards(game.getWindowPatternCards());
+        shuffleObjective(game.getWindowPatternCards());
     }
 
 
@@ -85,33 +85,6 @@ public class GameConfigurator implements Serializable {
             objective[index] = objective[i];
             objective[i] = a;
         }
-    }
-
-
-
-    public void shuffleObjective(PublicObjective[] objective) {
-        Random rnd = ThreadLocalRandom.current();
-        for (int i = objective.length - 1; i > 0; i--)
-        {
-            int index = rnd.nextInt(i + 1);
-            PublicObjective a;
-            a = objective[index];
-            objective[index] = objective[i];
-            objective[i] = a;
-        }
-    }
-
-    public void shuffleWindowPatternCards(WindowPattern[] windowPatterns){
-        Random rnd = ThreadLocalRandom.current();
-        for (int i = windowPatterns.length - 1; i > 0; i--)
-        {
-            int index = rnd.nextInt(i + 1);
-            WindowPattern a;
-            a = windowPatterns[index];
-            windowPatterns[index] = windowPatterns[i];
-            windowPatterns[i] = a;
-        }
-
     }
 
     public PrivateObjective[] createPrivateObjective(){
