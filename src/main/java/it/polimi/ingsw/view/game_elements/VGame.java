@@ -106,7 +106,7 @@ public class VGame {
 
         for (VPlayer vp : this.players) {
             string.append(vp.toString());
-            if (this.turn.getName() == vp.getName())
+            if (this.clientPlayer.getName() == vp.getName())
                 string.append(vp.getvPrivateObjectives().toString());
         }
 
