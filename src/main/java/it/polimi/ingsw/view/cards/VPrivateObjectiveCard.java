@@ -15,7 +15,7 @@ public class VPrivateObjectiveCard extends VObjectiveCard{
 
     @Override
     protected String getDescription() {
-        return getPrivateObjectiveDescriptions(this.color);
+        return getPrivateObjectiveDescription(this.color);
     }
 
     @Override

@@ -44,8 +44,6 @@ public interface View {
     /* NEED TO IMPLEMENT
      - show favor tokens of WPcards
      - descrizioni delle carte obiettivo pubblico
-     - mostra carte obiettivo privato di ogni player
      - fix the always FALSE returning in the CLI men
-     - svuota buffer prima di chiedere input di qualsiasi tipo
     */
 }

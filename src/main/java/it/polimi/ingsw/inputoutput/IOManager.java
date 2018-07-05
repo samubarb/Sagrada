@@ -2,6 +2,7 @@ package it.polimi.ingsw.inputoutput;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.view.exceptions.ColorIncompatibleException;
+import it.polimi.ingsw.view.exceptions.NameIncompatibleException;
 import it.polimi.ingsw.view.other_elements.VColor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +28,7 @@ public final class IOManager {
     private final static String json_path = "./JSONconf/";
     private final static String tool_description_path = json_path + "ToolCardDescription.json";
     private final static String private_obj_description_path = json_path + "PrivateObjectiveDescription.json";
+    private final static String public_obj_description_path = json_path + "PublicObjectiveDescription.json";
 
     public final static String newline = "\n";
     public static String Sn = "[S/n]";
@@ -124,16 +126,35 @@ public final class IOManager {
         return getToolDescriptions()[i - 1];
     }
 
+    private static String[] getPublicObjectiveDescriptions() {
+        String file = fileToString(public_obj_description_path);
+        return new Gson().fromJson(file, String[].class);
+    }
+
+    public static String getPublicObjectiveDescription(String cardName) {
+        String description = "";
+
+        try {
+            description = getPublicObjectiveDescriptions()[getPublicObjectiveNumber(cardName) - 1];
+        } catch (NameIncompatibleException e) {
+            println("Card name is incompatible.");
+            errorExit();
+        }
+
+
+        return description;
+    }
+
     private static String[] getPrivateObjectiveDescriptions() {
         String file = fileToString(private_obj_description_path);
         return new Gson().fromJson(file, String[].class);
     }
 
-    public static String getPrivateObjectiveDescriptions(VColor color) {
+    public static String getPrivateObjectiveDescription(VColor color) {
         String description = "";
 
         try {
-            description = getPrivateObjectiveDescriptions()[getPrivateObjectiveNumber(color)];
+            description = getPrivateObjectiveDescriptions()[getPrivateObjectiveNumber(color) - 1];
         } catch (ColorIncompatibleException e) {
             println(" Color is incompatible.");
             errorExit();
@@ -158,24 +179,48 @@ public final class IOManager {
         }
     }
 
+    private static int getPublicObjectiveNumber(String cardName) throws NameIncompatibleException {
+        switch (cardName) {
+            case "Different Color-Column":
+                return 1;
+            case "Different Color-Line":
+                return 2;
+            case "Different Shades-Column":
+                return 3;
+            case "Different Shades-Line":
+                return 4;
+            case "Light Shades":
+                return 5;
+            case "Medium Shades":
+                return 6;
+            case "Dark Shades":
+                return 7;
+            case "Set Different Shades":
+                return 8;
+            case "Set Different Color":
+                return 9;
+            case "Colored Diagonals":
+                return 10;
+            default:
+                throw  new NameIncompatibleException();
+        }
+    }
+
     public static String getString() {
         Scanner keyboard = new Scanner(System.in);
-        return keyboard.nextLine();
+        String string = keyboard.nextLine();
+        return string;
     }
 
     public static int getInt() {
         int value = 0;
         boolean flag = true;
 
-        Scanner scanner = new Scanner(System.in);
-
-        while(scanner.hasNext())
-            scanner.next();
-
         int i = 0;
         while (flag) {
             flag = false;
             try {
+                Scanner scanner = new Scanner(System.in);
                 value = scanner.nextInt();
             } catch (InputMismatchException e) {
                 flag = true;

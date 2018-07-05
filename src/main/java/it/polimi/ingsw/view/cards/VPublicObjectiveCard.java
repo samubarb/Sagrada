@@ -14,7 +14,7 @@ public class VPublicObjectiveCard extends VObjectiveCard{
 
     @Override
     protected String getDescription() {
-        return "public description here";
+        return getPublicObjectiveDescription(this.getName());
     }
 
     @Override
