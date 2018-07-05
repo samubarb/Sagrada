@@ -39,7 +39,8 @@ public class VGame {
         println("Scegli quale Tool Card utilizzare" + newline);
         println(this.tools.toString());
         int value = getInt(1, this.tools.size());
-        return value - 1; // return the wanted index
+
+        return this.tools.getToolCard(value - 1).getNumber() - 1;
     }
 
     /**

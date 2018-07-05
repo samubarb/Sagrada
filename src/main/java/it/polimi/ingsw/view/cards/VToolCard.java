@@ -25,6 +25,10 @@ public class VToolCard {
         return this.name;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
     public VColor getColor() {
         return color;
     }

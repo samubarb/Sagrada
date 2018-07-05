@@ -24,6 +24,12 @@ public class VToolCards {
         return this.toolCards.length;
     }
 
+    VToolCard getToolCard(int i) throws ArrayIndexOutOfBoundsException {
+        if (i < toolCards.length)
+            return toolCards[i];
+        else throw new ArrayIndexOutOfBoundsException();
+    }
+
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
