@@ -16,6 +16,7 @@ public class Game implements Serializable{
     private Dice[] rolledDice;
     private Player[] turnOrder;
     private ToolCard[] toolCards;
+    private ToolCard[] gameToolCards;
     private PublicObjective[] publicObjectives;
     private Dice[] currentDice;
     private Dice[] roundTrack;
@@ -33,7 +34,8 @@ public class Game implements Serializable{
         this.players = new ArrayList<Player>();
         this.rolledDice = new Dice[90];
         this.turnOrder = null;
-        this.toolCards = new ToolCard[3];
+        this.toolCards = new ToolCard[12];
+        this.gameToolCards=new ToolCard[3];
         this.publicObjectives = new PublicObjective[3];
         this.currentDice = null;
         this.round=0;
@@ -189,6 +191,14 @@ public class Game implements Serializable{
 
     public void setActualPlayer(Player actualPlayer) {
         this.actualPlayer = actualPlayer;
+    }
+
+    public ToolCard[] getGameToolCards() {
+        return gameToolCards;
+    }
+
+    public void setGameToolCards(ToolCard[] gameToolCards) {
+        this.gameToolCards = gameToolCards;
     }
 
     /**

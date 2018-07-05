@@ -165,11 +165,16 @@ public class GameConfigurator implements Serializable {
         toolCard[9]=new TcGrindingStone(10,"Grinding Stone",Color.GREEN);
         toolCard[10]=new TcFluxRemover(11,"Flux Remover",Color.PURPLE);
         toolCard[11]=new TcTapWheel(12,"Tap Wheel",Color.BLUE);
-        shuffleObjective(toolCard);
+        game.setToolCards(toolCard);
+        ToolCard[] toolCards2= new ToolCard[12];
+        for(int i=0;i<toolCard.length;i++)
+            toolCards2[i]=toolCard[i];
+        shuffleObjective(toolCards2);
         ToolCard[] toolcard3= new ToolCard[3];
+
         for(int i=0;i<toolcard3.length;i++)
-            toolcard3[i]=toolCard[i];
-        game.setToolCards(toolcard3);
+            toolcard3[i]=toolCards2[i];
+        game.setGameToolCards(toolcard3);
 
     }
 
