@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.toolCards.*;
 
 import java.io.*;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -35,7 +36,7 @@ public class GameConfigurator implements Serializable {
         createWindowPatternCards(game);
         createPublicObjective();
         createToolCards();
-        PrivateObjective[] privateObjective=new PrivateObjective[3];
+        PrivateObjective[] privateObjective=new PrivateObjective[4];
         privateObjective=createPrivateObjective();
         for(int i=0;i<game.getTurnOrder().length;i++){
             game.getTurnOrder()[i].setWindowPattern(game.getWindoePatternCard(i*4));
@@ -100,6 +101,18 @@ public class GameConfigurator implements Serializable {
 
     }
 
+    public void shuffleObjective(Object[]objective) {
+        Random rnd = ThreadLocalRandom.current();
+        for (int i = objective.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            Object a;
+            a = objective[index];
+            objective[index] = objective[i];
+            objective[i] = a;
+        }
+    }
+
 
 
     public void shuffleObjective(PublicObjective[] objective) {
@@ -139,19 +152,24 @@ public class GameConfigurator implements Serializable {
     }
 
     public void createToolCards(){
-        game.getToolCards()[0]=new TcGrozingPliers(1,"Grozing Pliers",Color.PURPLE);
-        game.getToolCards()[1]=new TcEglomiseBrush(2,"Eglomise Brush",Color.BLUE);
-        game.getToolCards()[2]=new TcCopperFoilBurnisher(3,"Copper Foil Burnisher",Color.RED);
-        game.getToolCards()[3]=new TcLathekin(4,"Lathekin",Color.YELLOW);
-        game.getToolCards()[4]=new TcLensCutter(5,"Lens Cutter",Color.GREEN);
-        game.getToolCards()[5]=new TcFluxBrush(6,"Flux Brush",Color.PURPLE);
-        game.getToolCards()[6]=new TcGlazingHammer(7,"Glazing Hammer",Color.BLUE);
-        game.getToolCards()[7]=new TcRunningPliers(8,"Running Pliers",Color.RED);
-        game.getToolCards()[8]=new TcCorkBackedStraightedge(9,"Cork Backed Straightedge",Color.YELLOW);
-        game.getToolCards()[9]=new TcGrindingStone(10,"Grinding Stone",Color.GREEN);
-        game.getToolCards()[10]=new TcFluxRemover(11,"Flux Remover",Color.PURPLE);
-        game.getToolCards()[11]=new TcTapWheel(12,"Tap Wheel",Color.BLUE);
-
+        ToolCard[] toolCard= new ToolCard[12];
+        toolCard[0]=new TcGrozingPliers(1,"Grozing Pliers",Color.PURPLE);
+        toolCard[1]=new TcEglomiseBrush(2,"Eglomise Brush",Color.BLUE);
+        toolCard[2]=new TcCopperFoilBurnisher(3,"Copper Foil Burnisher",Color.RED);
+        toolCard[3]=new TcLathekin(4,"Lathekin",Color.YELLOW);
+        toolCard[4]=new TcLensCutter(5,"Lens Cutter",Color.GREEN);
+        toolCard[5]=new TcFluxBrush(6,"Flux Brush",Color.PURPLE);
+        toolCard[6]=new TcGlazingHammer(7,"Glazing Hammer",Color.BLUE);
+        toolCard[7]=new TcRunningPliers(8,"Running Pliers",Color.RED);
+        toolCard[8]=new TcCorkBackedStraightedge(9,"Cork Backed Straightedge",Color.YELLOW);
+        toolCard[9]=new TcGrindingStone(10,"Grinding Stone",Color.GREEN);
+        toolCard[10]=new TcFluxRemover(11,"Flux Remover",Color.PURPLE);
+        toolCard[11]=new TcTapWheel(12,"Tap Wheel",Color.BLUE);
+        shuffleObjective(toolCard);
+        ToolCard[] toolcard3= new ToolCard[3];
+        for(int i=0;i<toolcard3.length;i++)
+            toolcard3[i]=toolCard[i];
+        game.setToolCards(toolcard3);
 
     }
 
