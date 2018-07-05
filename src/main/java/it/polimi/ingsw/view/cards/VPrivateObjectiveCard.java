@@ -14,8 +14,13 @@ public class VPrivateObjectiveCard extends VObjectiveCard{
     }
 
     @Override
+    protected String getDescription() {
+        return getPrivateObjectiveDescriptions(this.color);
+    }
+
+    @Override
     public String toString() {
-        return this.color + super.getName() + VColor.RESET + newline + super.getDescription();
+        return newline + this.color + this.getDescription() + VColor.RESET + newline ;
     }
 
     public ImageView toGUI(int prog_number) {

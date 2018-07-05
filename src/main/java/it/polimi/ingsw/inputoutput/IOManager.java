@@ -1,6 +1,8 @@
 package it.polimi.ingsw.inputoutput;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.view.exceptions.ColorIncompatibleException;
+import it.polimi.ingsw.view.other_elements.VColor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -23,6 +25,7 @@ public final class IOManager {
 
     private final static String json_path = "./JSONconf/";
     private final static String tool_description_path = json_path + "ToolCardDescription.json";
+    private final static String private_obj_description_path = json_path + "PrivateObjectiveDescription.json";
 
     public final static String newline = "\n";
     public static String Sn = "[S/n]";
@@ -120,6 +123,40 @@ public final class IOManager {
         return getToolDescriptions()[i - 1];
     }
 
+    private static String[] getPrivateObjectiveDescriptions() {
+        String file = fileToString(private_obj_description_path);
+        return new Gson().fromJson(file, String[].class);
+    }
+
+    public static String getPrivateObjectiveDescriptions(VColor color) {
+        String description = "";
+
+        try {
+            description = getPrivateObjectiveDescriptions()[getPrivateObjectiveNumber(color)];
+        } catch (ColorIncompatibleException e) {
+            println(" Color is incompatible.");
+            errorExit();
+        }
+        return description;
+    }
+
+    private static int getPrivateObjectiveNumber(VColor color) throws ColorIncompatibleException {
+        switch (color) {
+            case RED:
+                return 1;
+            case YELLOW:
+                return 2;
+            case GREEN:
+                return 3;
+            case BLUE:
+                return 4;
+            case PURPLE:
+                return 5;
+                default:
+                    throw new ColorIncompatibleException();
+        }
+    }
+
     public static String getString() {
         Scanner keyboard = new Scanner(System.in);
         return keyboard.nextLine();
@@ -129,11 +166,16 @@ public final class IOManager {
         int value = 0;
         boolean flag = true;
 
+        Scanner scanner = new Scanner(System.in);
+
+        while(scanner.hasNext())
+            scanner.next();
+
         int i = 0;
         while (flag) {
             flag = false;
             try {
-                value = new Scanner(System.in).nextInt();
+                value = scanner.nextInt();
             } catch (InputMismatchException e) {
                 flag = true;
                 i++;

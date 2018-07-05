@@ -13,8 +13,13 @@ public class VPublicObjectiveCard extends VObjectiveCard{
     }
 
     @Override
+    protected String getDescription() {
+        return "public description here";
+    }
+
+    @Override
     public String toString() {
-        return newline + super.getName() + " " + "Punti: " + points + newline + super.getDescription();
+        return newline + super.getName() + " " + "Punti: " + points + newline + this.getDescription() + newline;
     }
 
     public ImageView toGUI(int prog_number) {
