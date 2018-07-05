@@ -64,7 +64,7 @@ public class Frame implements Serializable {
         return counter;
 
     }
-    public void fillDiceDefault(){
+    private void fillDiceDefault(){
         for(int i=0; i<LINE_SIZE;i++)
             for(int j=0;j<COLUMN_SIZE;j++)
                 this.frame[i][j]=new Dice();

@@ -22,6 +22,7 @@ public final class IOManager {
     public final static String objectives_path = img_path + "objectives/";
     public final static String private_obj_path = objectives_path + "private/";
     public final static String public_obj_path = objectives_path + "public/";
+    public final static String  json_windowPattern_path="./JSONconf/WindowPattern.json";
 
     private final static String json_path = "./JSONconf/";
     private final static String tool_description_path = json_path + "ToolCardDescription.json";
