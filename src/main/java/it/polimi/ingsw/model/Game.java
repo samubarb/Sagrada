@@ -33,7 +33,7 @@ public class Game implements Serializable{
         this.players = new ArrayList<Player>();
         this.rolledDice = new Dice[90];
         this.turnOrder = null;
-        this.toolCards = new ToolCard[12];
+        this.toolCards = new ToolCard[3];
         this.publicObjectives = new PublicObjective[3];
         this.currentDice = null;
         this.round=0;
