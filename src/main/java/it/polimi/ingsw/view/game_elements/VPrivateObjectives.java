@@ -8,7 +8,7 @@ public class VPrivateObjectives {
     private ArrayList<VPrivateObjectiveCard> privateObjetive;
 
     public VPrivateObjectives() {
-
+        this.privateObjetive = new ArrayList<VPrivateObjectiveCard>();
     }
 
     public void add(VPrivateObjectiveCard vPrivateObjectiveCard) {

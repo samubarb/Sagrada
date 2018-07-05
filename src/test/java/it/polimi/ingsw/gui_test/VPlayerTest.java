@@ -26,9 +26,11 @@ public class VPlayerTest extends Application {
         Player p1 = new Player("TestPlayer1", Color.RED);
         p1.setWindowPattern(new GameConfigurator(game).createWPCbatllo());
         p1.setFavorTokens(3);
+        p1.setPrivateObjective(new GameConfigurator(game).createPrivateObjective()[0]);
         Frame frame = new Frame();
         frame.setPositionDice(new Dice(Color.PURPLE, 5), 2, 2);
         p1.setFrame(frame);
+        game.setAddPlayer(p1);
         VPlayer player = ada.playerToView(p1);
 
         Group group = player.toGUI();
