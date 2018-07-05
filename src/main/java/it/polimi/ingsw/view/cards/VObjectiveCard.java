@@ -1,6 +1,11 @@
 package it.polimi.ingsw.view.cards;
 
+
+import javafx.scene.image.ImageView;
+
+import static it.polimi.ingsw.inputoutput.IOManager.getImage;
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
+import static it.polimi.ingsw.inputoutput.IOManager.tools_path;
 
 public class VObjectiveCard {
     private String name;
@@ -22,4 +27,6 @@ public class VObjectiveCard {
     public String toString() {
         return this.name + newline + this.description;
     }
+
+
 }

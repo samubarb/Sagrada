@@ -1,8 +1,7 @@
 package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.other_elements.VColor;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -137,15 +136,15 @@ public class VDice {
                 break;
 
             case 6:
-                face.add(full(), 0, 0); // top left
-                face.add(empty(), 0, 1);
-                face.add(full(), 0, 2); // top right
-                face.add(full(), 1, 0); // center left
+                face.add(full(), 0, 0); // first column
+                face.add(full(), 0, 1);
+                face.add(full(), 0, 2);
+                face.add(empty(), 1, 0);
                 face.add(empty(), 1, 1);
-                face.add(full(), 1, 2); // center right
-                face.add(full(), 2, 0); // bottom left
-                face.add(empty(), 2, 1);
-                face.add(full(), 2, 2); // bottom right
+                face.add(empty(), 1, 2);
+                face.add(full(), 2, 0); // second column
+                face.add(full(), 2, 1);
+                face.add(full(), 2, 2);
                 break;
 
             default:
@@ -160,6 +159,27 @@ public class VDice {
                 face.add(empty(), 2, 2);
                 break;
         }
+
+        face.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
+        return face;
+    }
+
+    public static final GridPane slotDice() {
+        GridPane face = new GridPane();
+
+        for (int j = 0; j < 3; j++)
+            for (int i = 0; i < 3; i++) {
+                Rectangle empty = new Rectangle();
+                empty.setFill(Color.TRANSPARENT);
+                empty.setWidth(thirdOfCell);
+                empty.setHeight(thirdOfCell);
+                face.add(empty, i, j);
+            }
+
+
+
+        face.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
+
         return face;
     }
 }

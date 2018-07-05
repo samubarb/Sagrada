@@ -52,6 +52,10 @@ public class VWindowPattern {
         this.token = token;
     }
 
+    public int getToken() {
+        return token;
+    }
+
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder(this.name + newline);
@@ -87,15 +91,11 @@ public class VWindowPattern {
         for (int j = 0; j < rows; j++) {
             for (int i = 0; i < cols; i++) {
                 if (this.pattern[i][j] == null) {
-                    Rectangle cell = new Rectangle(cellWidth + 2, cellHeight, Color.TRANSPARENT);
-                    cell.setStroke(Color.BLACK);
-                    cell.setStrokeWidth(thinPadding);
-                    grid.add(cell, i, j);
+                    grid.add(VDice.slotDice(), i, j);
                 }
                 else {
                     grid.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
                     Pane face = this.pattern[i][j].toGUI();
-                    face.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
                     grid.add(face, i, j);
                 }
             }

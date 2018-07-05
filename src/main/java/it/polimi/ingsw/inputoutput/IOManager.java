@@ -2,7 +2,10 @@ package it.polimi.ingsw.inputoutput;
 
 import com.google.gson.Gson;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -12,7 +15,14 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 
 public final class IOManager {
-    private final static String img_path = "./img/";
+    public final static String img_path = "./img/";
+    public final static String tools_path = img_path + "toolcards/";
+    public final static String objectives_path = img_path + "objectives/";
+    public final static String private_obj_path = objectives_path + "private/";
+    public final static String public_obj_path = objectives_path + "public/";
+
+    private final static String json_path = "./JSONconf/";
+    private final static String tool_description_path = json_path + "ToolCardDescription.json";
 
     public final static String newline = "\n";
     public static String Sn = "[S/n]";
@@ -28,9 +38,26 @@ public final class IOManager {
     public final static int cellHeight = 64;
     public final static int thirdOfCell = cellWidth / 3;
     public final static int dotRadius = thirdOfCell * 4 / 5 / 2;
+    public final static int cardWidth = 300;
 
-    public static Image getImage(String filePath) {
-        return new Image(Paths.get(img_path + filePath).toString());
+
+
+    public static ImageView getImage(String filePath) {
+        ImageView imageView = new ImageView();
+        try {
+            Image image;
+            image = new Image(new FileInputStream(filePath));
+            imageView.setImage(image);
+        } catch (FileNotFoundException e) {
+            println("Il file " + filePath + " non esiste. Controlla la correttezza del percorso o del nome.");
+            println("Uscendo...");
+            System.exit(2);
+        }
+
+        // Set dimensions
+        imageView.setFitWidth(cardWidth);
+        imageView.setPreserveRatio(true);
+        return imageView;
     }
 
     public static String fileToString(String filePath)
@@ -85,7 +112,7 @@ public final class IOManager {
     }
 
     private static String[] getToolDescriptions() {
-        String file = fileToString("./JSONconf/ToolCardDescription.json");
+        String file = fileToString(tool_description_path);
         return new Gson().fromJson(file, String[].class);
     }
 

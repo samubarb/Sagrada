@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cards;
 
 import it.polimi.ingsw.view.other_elements.VColor;
+import javafx.scene.image.ImageView;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -34,5 +35,10 @@ public class VToolCard {
         string.append(this.color).append(this.name).append(VColor.RESET).append(newline).
                 append(this.getDescription()).append(newline);
         return string.toString();
+    }
+
+    public ImageView toGUI() {
+        String number = "" + this.number;
+        return getImage(tools_path + "tool" + number + ".jpg");
     }
 }

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.cards;
 
-import static it.polimi.ingsw.inputoutput.IOManager.newline;
+import javafx.scene.image.ImageView;
+
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VPublicObjectiveCard extends VObjectiveCard{
     private int points;
@@ -13,5 +15,10 @@ public class VPublicObjectiveCard extends VObjectiveCard{
     @Override
     public String toString() {
         return newline + super.getName() + " " + "Punti: " + points + newline + super.getDescription();
+    }
+
+    public ImageView toGUI(int prog_number) {
+        String number = "" + prog_number;
+        return getImage(public_obj_path + "pub" + number + ".jpg");
     }
 }
