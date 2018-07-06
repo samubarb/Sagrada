@@ -151,6 +151,11 @@ public class Game implements Serializable{
         this.roundTrack = roundTrack;
     }
 
+    public void setRoundTrack(Dice dice, int position){
+        this.roundTrack[position]=dice;
+
+    }
+
     public void setCurrentDice(Dice[] currentDice) {
         this.currentDice = currentDice;
     }
@@ -209,6 +214,9 @@ public class Game implements Serializable{
             currentDice[i]=new Dice();
     }
 
+    public void setCurrentDice(Dice dice,int position){
+        this.currentDice[position]=dice;
+    }
     public Dice getDiceFromCurrentDice(int position){
         Dice diceToReturn=currentDice[position];
         currentDice[position]=new Dice();
