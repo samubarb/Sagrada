@@ -43,6 +43,7 @@ public class ClientLauncher implements Serializable {
         //clientPlayer.setPlayerInterface(playerInterface);
     }*/
 
+
     public static void main(String[] args) {
         clientLauncher = new ClientLauncher();
         rmiClientLauncher = new RMIClientLauncher();
