@@ -217,7 +217,7 @@ public class ServerLauncher {
                             }
                         }
                         try {
-                            clientPlayer.setClientGameHide(game);
+                            clientPlayer.setClientGame(game);
                         } catch (RemoteException e) {
                             try {
                                 clientPlayer.notifyError(e);
