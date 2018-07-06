@@ -89,10 +89,10 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         }
         isMyTurn = false;
         gameStarted = true;
-        while(gameStarted) {
+        //while(gameStarted) {
 
-            while (isMyTurn) {
-                System.out.println("cosa vuoi fare:\n" + "1 numero giocatori registrati");
+           // while (isMyTurn) {
+                /*System.out.println("cosa vuoi fare:\n" + "1 numero giocatori registrati");
                 int response = Integer.parseInt(input.next());
                 if (response == 1) {
                     int playerNumber = 0;
@@ -110,10 +110,10 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
-                    System.out.println(activeInactivePLayer);
-                }
-            }
-        }
+                    System.out.println(activeInactivePLayer);*/
+               // }
+            //}
+        //}
     }
 
     /**
