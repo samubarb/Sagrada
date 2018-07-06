@@ -2,15 +2,14 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.*;
 import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.inputoutput.IOManager.getInt;
-import static it.polimi.ingsw.inputoutput.IOManager.newline;
-import static it.polimi.ingsw.inputoutput.IOManager.println;
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VGame {
     private final static int maxPlayer = 4;
@@ -62,7 +61,7 @@ public class VGame {
 
     public void setScore(String playerName, int score) {
         for(VPlayer vp : this.players)
-            if (vp.getName() == playerName)
+            if (vp.getName().equals(playerName))
                 vp.setScore(score);
     }
 
@@ -124,31 +123,52 @@ public class VGame {
     }
 
     public Group toGUI() {
-        GridPane grid = new GridPane();
+        BorderPane organizer = new BorderPane();
         Group game = new Group();
         VPlayer clientPlayer = null;
+
+        HBox diceChain = new HBox();
+        HBox playersChain = new HBox();
+        HBox objCardsChain = new HBox();
+
+        diceChain.setMaxWidth(1000);
+        //diceChain.set
+        //diceChain.getChildren().add(this.roundTrack.toGUI());
+        diceChain.getChildren().add(this.dice.toGUI());
 
         for (VPlayer p : this.players)
             if (this.clientPlayer.equals(p.getName())) {
                 clientPlayer = p;
-                grid.add(clientPlayer.toGUI(), 0, 0);
-                grid.add(clientPlayer.getvPrivateObjectives().toGUI(), 0, 1);
+                playersChain.getChildren().add(clientPlayer.toGUI());
+                objCardsChain.getChildren().add(clientPlayer.getvPrivateObjectives().toGUI());
             }
 
-        for (int i = 0; i < this.players.size(); i++)
-            if (this.players.get(i) != clientPlayer) {
-                grid.add(this.players.get(i).toGUI(), i + 1, 0);
+
+        for (VPublicObjectiveCard card : publicObjectives) {
+            objCardsChain.getChildren().add(card.toGUI());
+
+        }
+
+
+            int i = 1;
+        for (VPlayer p : this.players)
+            if (p != clientPlayer) {
+                playersChain.getChildren().add(p.toGUI());
+                i++;
             }
 
-        grid.add(this.dice.toGUI(), 1, 1);
+        organizer.setTop(playersChain);
+        organizer.setCenter(objCardsChain);
+        organizer.setBottom(diceChain);
 
-        FlowPane publicObjs = new FlowPane();
-        for (VPublicObjectiveCard card : publicObjectives)
-            publicObjs.getChildren().add(card.toGUI());
+        playersChain.setAlignment(Pos.CENTER);
+        objCardsChain.setAlignment(Pos.CENTER);
+        objCardsChain.setSpacing(thinPadding);
+        diceChain.setAlignment(Pos.CENTER);
 
-        grid.add(publicObjs, 2, 1);
+        organizer.setPadding(new Insets(thinPadding));
 
-        game.getChildren().add(grid);
-        return game;
+
+        return new Group(organizer);
     }
 }

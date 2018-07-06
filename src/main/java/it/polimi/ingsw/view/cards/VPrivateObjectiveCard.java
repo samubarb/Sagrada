@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cards;
 import it.polimi.ingsw.view.exceptions.ColorIncompatibleException;
 import it.polimi.ingsw.view.other_elements.VColor;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -24,7 +25,7 @@ public class VPrivateObjectiveCard extends VObjectiveCard{
         return newline + this.color + this.getDescription() + VColor.RESET + newline ;
     }
 
-    public ImageView toGUI() {
+    public Pane toGUI() {
         String number = null;
         try {
             number = "" + getPrivateObjectiveNumber(this.color);
@@ -32,6 +33,6 @@ public class VPrivateObjectiveCard extends VObjectiveCard{
             println("Colore carta obiettivo privato non valido.");
             errorExit();
         }
-        return getImage(private_obj_path + "pri" + number + ".jpg");
+        return new Pane(getImage(private_obj_path + "pri" + number + ".jpg"));
     }
 }

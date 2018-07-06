@@ -40,9 +40,9 @@ public class VRoundTrack {
 
     public FlowPane toGUI() {
         FlowPane roundTrack = new FlowPane();
-        for (int i = 0; i < this.track.length; i++)
-            if (this.track[i] != null)
-                roundTrack.getChildren().add(this.track[i].toGUI());
+        for (VDice dice : this.track)
+            if (dice != null)
+                roundTrack.getChildren().add(dice.toGUI());
         else roundTrack.getChildren().add(VDice.slotDice());
 
         return roundTrack;

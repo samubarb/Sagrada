@@ -47,6 +47,7 @@ public class VCurrentDice {
         for(VDice vd : this.dice)
             if (vd != null)
                 currentDice.getChildren().add(vd.toGUI());
+        else currentDice.getChildren().add(VDice.slotDice());
 
         return currentDice;
     }
