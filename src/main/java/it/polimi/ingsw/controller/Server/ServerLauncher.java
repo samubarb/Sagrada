@@ -31,7 +31,7 @@ public class ServerLauncher {
 
     public static final int MAXPLAYER = 4;
     public static final int MINPLAYERS = 2;
-    public static final long TIMETOWAITINROOM = 5000;
+    public static final long TIMETOWAITINROOM = 50000;
     public static final long START_IMMEDIATELY = 0;
     public static final boolean CONNECTED = true;
     public static final boolean DISCONNECTED = false;
@@ -163,6 +163,7 @@ public class ServerLauncher {
             for(User serverUser : nicknames){
                 if(serverUser.getUsername().equals(user.getUsername())){
                     serverUser.setOnline(false);
+                    nothingToDo = true;
                 }
             }
             notifyDisconnection(user);
@@ -173,7 +174,7 @@ public class ServerLauncher {
         synchronized (LOGIN_MUTEX) {
             for (User username : nicknames) {
                 try {
-                    username.getPlayerInterface().notifyDisconnection(user);
+                    username.getPlayerInterface().notifyUserDisconnection(user.getUsername());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -203,7 +204,11 @@ public class ServerLauncher {
                         user.setOnline(CONNECTED);
                         user.setPlayerInterface(clientPlayer);
                         try {
-                            clientPlayer.onRegister("user reconnected" + username);
+                            clientPlayer.notifyUserReconnection(username);
+                            /*for (User user2 : serverLauncher.getNicknames()) {
+                                if(!user2.getUsername().equals(username))
+                                    user2.getPlayerInterface().notifyReconnection(username);
+                            }*/
                         } catch (RemoteException e) {
                             try {
                                 clientPlayer.notifyError(e);
@@ -227,11 +232,9 @@ public class ServerLauncher {
             if(canJoin){
                 //max player reached error check
                 if(nicknames.size()>= MAXPLAYER){
-                    System.out.println("max player reached");
                     canJoin = false;
                     try {
-                        clientPlayer.onRegister("Max player reached");
-                        System.out.println("Max player reached");
+                        clientPlayer.notifyMaxPlayerReached();
                     } catch (RemoteException e) {
                         try {
                             clientPlayer.notifyError(e);
@@ -246,7 +249,7 @@ public class ServerLauncher {
                     for(User user : nicknames){
                         if (user.getUsername().equals(username)) {
                             try {
-                                clientPlayer.onRegister("Name already in use");
+                                clientPlayer.notifyNameInUse();
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
@@ -256,12 +259,13 @@ public class ServerLauncher {
 
                 }
                 try {
-                    clientPlayer.onRegister("User logged as: " + username);
-                    clientPlayer.onRegister("welcome");
+                    clientPlayer.notifyUserLogged(username);
+                    //clientPlayer.onRegister("User logged as: " + username);
+                    //clientPlayer.onRegister("welcome");
                     for (User user : serverLauncher.getNicknames()) {
                         user.getPlayerInterface().notifyConnection(username);
                     }
-                    System.out.println("User logged as: " + username);
+                    //System.out.println("User logged as: " + username);
                 } catch (RemoteException e) {
                     return false;
                 }
@@ -277,7 +281,7 @@ public class ServerLauncher {
 
             } else{
                 try {
-                    clientPlayer.printaaa("game already started");
+                    clientPlayer.notifyGameStarted();
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -444,9 +448,7 @@ public class ServerLauncher {
                 currentPlayer = game.getCurrentPlayer();
                 updateGameSessionHide();
                 if(game.getRound()<=MAXNUMBEROFROUND) {
-
                     String currentPlayerName = currentPlayer.getName();
-                    //for()
                     for (User user : serverLauncher.getNicknames()) {
                         if(user.isOnline()) {
                             if (user.getUsername().equals(currentPlayer.getName())) {
@@ -455,9 +457,6 @@ public class ServerLauncher {
                                 } catch (RemoteException e) {
                                     e.printStackTrace();
                                 }
-                                //updateGameSession();//this updateGameSession update the initial current dice
-                                //Syncronized sul turn mutex
-
                                 synchronized (TURN_MUTEX) {
                                     startTurn(user.getPlayerInterface(), currentPlayer);
                                     //updateGameSession();

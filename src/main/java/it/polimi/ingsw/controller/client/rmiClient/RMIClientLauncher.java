@@ -13,13 +13,11 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 import it.polimi.ingsw.view.game_elements.VGame;
+import it.polimi.ingsw.view.other_elements.VConnectionStatus;
 import it.polimi.ingsw.view.other_elements.VError;
 
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -27,7 +25,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 import java.util.Timer;
 
-import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class RMIClientLauncher implements  PlayerInterface, Serializable {
     public static final String RMI_SERVER_INTERFACE = "ServerInterface";
@@ -170,17 +167,11 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     }
 
     public static boolean registerPlayerOnServer(String username, PlayerInterface playerInterface){
-        System.out.println("Try to login user with nickname: " + username);
         boolean registered = false;
         try {
             registered =  server.register(playerInterface, username);
         } catch (RemoteException e) {
-            try {
-                server.print("Problem with the comunication with the server"+ e);
-            } catch (RemoteException e1) {
-                e1.printStackTrace();
-                System.out.println("errore remote");
-            }
+            view.notifyError(VError.CONNECTION);
         }
         return registered;
     }
@@ -310,8 +301,8 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     }
 
     @Override
-    public void notifyReconnection(User user) throws RemoteException {
-        System.out.println("User "+user.getUsername()+" is reconnected");
+    public void notifyReconnection(String username) throws RemoteException {
+        view.notifyConnectionStatus(username, VConnectionStatus.CONNECTED);
     }
 
     @Override
@@ -326,7 +317,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     @Override
     public void notifyConnection(String username) throws RemoteException {
-        System.out.println("Nuovo user connesso: "+ username);
+        view.notifyConnectionStatus(username, VConnectionStatus.CONNECTED);
     }
 
     @Override
@@ -504,9 +495,35 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         view.notifyLose();
     }
 
-    /*@Override
-    public void notifyEmpityRoundTrack() throws RemoteException {
+    @Override
+    public void notifyUserReconnection(String username) throws RemoteException {
+        view.notifyConnectionStatus(username, VConnectionStatus.RECONNECTED);
+        view.notifyGreetings();
+    }
 
-    }*/
+    @Override
+    public void notifyMaxPlayerReached() throws RemoteException {
+        view.notifyError(VError.GAME_FULL);
+    }
 
+    @Override
+    public void notifyNameInUse() throws RemoteException {
+        view.notifyError(VError.USERNAME_DUPLICATE);
+    }
+
+    @Override
+    public void notifyUserLogged(String username) throws RemoteException {
+        view.notifyConnectionStatus(username, VConnectionStatus.CONNECTED);
+        view.notifyGreetings();
+    }
+
+    @Override
+    public void notifyGameStarted() throws RemoteException {
+        view.notifyError(VError.GAME_ALREADY_STARTED);
+    }
+
+    @Override
+    public void notifyUserDisconnection(String username) throws RemoteException {
+        view.notifyConnectionStatus(username, VConnectionStatus.DISCONNECTED);
+    }
 }

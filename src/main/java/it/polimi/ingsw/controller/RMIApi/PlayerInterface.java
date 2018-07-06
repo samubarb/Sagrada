@@ -22,7 +22,7 @@ public interface PlayerInterface extends Remote, Serializable {
      */
     public void notifyDisconnection(User user) throws  RemoteException;
 
-    public void notifyReconnection(User user) throws  RemoteException;
+    public void notifyReconnection(String username) throws  RemoteException;
 
     /**This method is used to notify player already connected that a player has connected
      * @param username is te name of the player connected
@@ -147,6 +147,13 @@ public interface PlayerInterface extends Remote, Serializable {
     public int chooseWindowPattern(WindowPattern windowPattern[]) throws RemoteException;
     public void notifyWinner() throws  RemoteException;
     public void notifyLoosers() throws RemoteException;
+    public void notifyUserReconnection(String username) throws  RemoteException;
+    public void notifyMaxPlayerReached() throws  RemoteException;
+    public void notifyNameInUse() throws  RemoteException;
+    public void notifyUserLogged(String username) throws  RemoteException;
+    public void notifyGameStarted() throws  RemoteException;
+    public void notifyUserDisconnection(String username) throws RemoteException;
+
 
 
 

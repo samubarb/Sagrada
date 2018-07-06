@@ -82,6 +82,15 @@ public class rmiStartServer {
                         user.getPlayerInterface().ping();
                     } catch (RemoteException e) {
                         synchronized (serverLauncher.getLoginMutex()) {
+                            try {
+                                user.getPlayerInterface().notifyUserDisconnection(user.getUsername());
+                            } catch (RemoteException e1) {
+                                try {
+                                    user.getPlayerInterface().notifyError(e);
+                                } catch (RemoteException e2) {
+                                    e2.printStackTrace();
+                                }
+                            }
                             System.out.println("Connection with the client is down. " + user.getUsername());
                             getServerLauncher().disableUser(user);
                         }
