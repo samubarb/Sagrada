@@ -37,15 +37,15 @@ public class ServerLauncher {
     public static final boolean DISCONNECTED = false;
     private Timer mainTimer;
     private int round;
-    private static final int MAXNUMBEROFROUND = 5;
-    private static final long TURNTIME = 10000;
+    private final int MAXNUMBEROFROUND = 5;
+    private final long TURNTIME = 10000;
     private Game game;
     private Timer turnTimer;
     private boolean canJoin = true;
     private CountDownLatch startLatch;
     private CountDownLatch turnLatch;
     private Object countDownMutex;
-    private static Player currentPlayer;
+    private Player currentPlayer;
     private boolean dicePlaced = false;
     private boolean toolCardUsed = false;
     private boolean nothingToDo = false;
@@ -89,7 +89,7 @@ public class ServerLauncher {
     /**
      * Class constructor.
      */
-    public ServerLauncher() {
+    /*public ServerLauncher() {
         rmiServer = new rmiStartServer();
         //socketServer = new SocketServerAbstract(this);
         nicknames = new ArrayList<User>();
@@ -99,8 +99,23 @@ public class ServerLauncher {
         game = new Game();
         turnLatch = new CountDownLatch(1);
         turnTimer = new Timer();
-    }
+    }*/
 
+    public ServerLauncher() {
+        this.mainTimer = new Timer();
+        this.round = 0;
+        this.game = new Game();
+        this.turnTimer = new Timer();
+        this.canJoin = true;
+        this.startLatch = new CountDownLatch(1);
+        this.turnLatch = new CountDownLatch(1);
+        this.countDownMutex = new Object();
+        this.dicePlaced = false;
+        this.toolCardUsed = false;
+        this.nothingToDo = false;
+        this.rmiServer = new rmiStartServer();
+        this.nicknames = new ArrayList<User>();
+    }
 
     public static void main(String[] args) {
         try {
@@ -135,11 +150,11 @@ public class ServerLauncher {
         return offlineNicknames;
     }
 
-    public static Player getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public static Object getLoginMutex() {
+    public Object getLoginMutex() {
         return LOGIN_MUTEX;
     }
 

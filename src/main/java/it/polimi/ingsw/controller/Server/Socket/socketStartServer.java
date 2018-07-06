@@ -4,10 +4,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class socketStartServer {
-    public static void main(String[] args){
-        try{
-            ServerSocket server = new ServerSocket(10999);
-            while(true){
+    public static void main(String[] args) {
+        //try {
+            //ServerSocket server = new ServerSocket(10999);
+           /* while(true){
                 //Blocking call, waiting for a new connection
                 Socket client = server.accept();
 
@@ -18,6 +18,9 @@ public class socketStartServer {
         catch (Exception e){}
         return;
     }
+}*/
+        }
+
 }
 
 
