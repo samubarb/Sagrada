@@ -75,17 +75,20 @@ public class rmiStartServer {
      * Runnable used to check periodically if a RMI client is connected.
      */
     private Runnable checkClientsConnection = () -> {
+        synchronized (getServerLauncher().LOGIN_MUTEX) {
             for (User user : serverLauncher.getNicknames()) {
-                try {
-                    user.getPlayerInterface().ping();
-                } catch (RemoteException e) {
-                    synchronized (serverLauncher.getLoginMutex()) {
-                        System.out.println("Connection with the client is down. " + user.getUsername());
-                        getServerLauncher().disableUser(user);
-                        //activeUsers.remove(pair.getKey());
+                if (user.isOnline()) {
+                    try {
+                        user.getPlayerInterface().ping();
+                    } catch (RemoteException e) {
+                        synchronized (serverLauncher.getLoginMutex()) {
+                            System.out.println("Connection with the client is down. " + user.getUsername());
+                            getServerLauncher().disableUser(user);
+                        }
                     }
                 }
             }
+        }
 
     };
 

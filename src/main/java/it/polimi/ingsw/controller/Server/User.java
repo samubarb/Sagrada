@@ -38,6 +38,11 @@ public class User implements Serializable {
         this.playerInterface = playerInterface;
     }
 
+    public boolean isOnline() {
+        return isOnline;
+    }
 
-
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
 }
