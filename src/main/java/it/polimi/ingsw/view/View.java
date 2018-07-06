@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.game_elements.VWindowPatterns;
+import it.polimi.ingsw.view.other_elements.VConnectionStatus;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
 import it.polimi.ingsw.view.other_elements.VError;
 
@@ -21,8 +22,7 @@ public interface View {
     int askDiceNumber(VDice dice); // asks the user with which number wants to re-place a specific dice
 
     // Methods to notify something to the Client
-    void notifyConnectionEstablished(String userName);
-    void notifyReconnection(String userName);
+    void notifyConnectionStatus(String userName, VConnectionStatus status);
     void notifyGreetings();
     void notifyError(VError error); // used to notify and guide the player after a wrong move
     void notifyScore(); // show the final ranking at the end of the game
