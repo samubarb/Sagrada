@@ -9,10 +9,11 @@ import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class AdapterPlayerTest {
     @Test
-    public void printPlayerTest() {
+    public void testprintPlayer() {
         Player player = new Player("Test Player");
         player.setColor(Color.GREEN);
         player.setWindowPattern(new GameConfigurator(new Game()).createWPCbatllo());
+        player.setPrivateObjective(new PrivateObjective("prova", Color.RED));
 
         VPlayer vPlayer = new AdapterCLI().playerToView(player);
 

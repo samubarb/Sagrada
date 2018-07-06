@@ -16,7 +16,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class AdapterPatternTest {
     @Test
-    public void printPatternTest() {
+    public void testprintPattern() {
         GameConfigurator gameConf = new GameConfigurator(new Game());
         AdapterCLI adapter = new AdapterCLI();
         ArrayList<WindowPattern> patterns = new ArrayList<WindowPattern>();
@@ -40,7 +40,7 @@ public class AdapterPatternTest {
     }
 
     @Test
-    public void printPatternsTest() {
+    public void testprintPatterns() {
         GameConfigurator gameConf = new GameConfigurator(new Game());
 
         WindowPattern[] patterns = new WindowPattern[4];

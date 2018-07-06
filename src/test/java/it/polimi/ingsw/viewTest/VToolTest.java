@@ -7,7 +7,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class VToolTest {
     @Test
-    public void toolDescriptionFromJsonTest() {
+    public void testtoolDescriptionFromJsonTest() {
         for (int i = 1; i <= 12; i++)
             println(getToolDescription(i));
     }

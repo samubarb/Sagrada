@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 public class VFrameTest extends Application {
 
     @Test
-    public void WPcardTest() {
+    public void VFrameTest() {
         launch();
     }
 

@@ -9,7 +9,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class AdapterGameTest {
     @Test
-    public void AdapterGamePrintTest() {
+    public void testAdapterGamePrint() {
         Game game = new Game();
         Player tp1 = new Player("TestPlayer1", Color.GREEN);
         Player tp2 = new Player("TestPlayer2", Color.RED);
@@ -22,6 +22,7 @@ public class AdapterGameTest {
         println(game.getCurrentPlayer().getName());
 
         VGame vGame = new AdapterCLI().gameToView(game);
+        vGame.setClientPlayer("TestPlayer1");
         println(vGame.toString());
     }
 }

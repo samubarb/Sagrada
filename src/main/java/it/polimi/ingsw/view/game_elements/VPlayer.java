@@ -1,11 +1,11 @@
 package it.polimi.ingsw.view.game_elements;
 
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.other_elements.VColor;
 import it.polimi.ingsw.view.cards.VWindowPattern;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -132,6 +132,7 @@ public class VPlayer implements Comparable {
         player.add(cardName, 0,1);
         player.add(grid, 0, 2);
         player.add(favorTokens, 0, 3);
+        //player.add(this.vPrivateObjectives.toGUI(), 0, 4); // managed in game
 
         root.getChildren().addAll(player);
 

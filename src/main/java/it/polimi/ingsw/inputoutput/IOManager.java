@@ -158,7 +158,7 @@ public final class IOManager {
         return description;
     }
 
-    private static int getPrivateObjectiveNumber(VColor color) throws ColorIncompatibleException {
+    public static int getPrivateObjectiveNumber(VColor color) throws ColorIncompatibleException {
         switch (color) {
             case RED:
                 return 1;
@@ -175,7 +175,7 @@ public final class IOManager {
         }
     }
 
-    private static int getPublicObjectiveNumber(String cardName) throws NameIncompatibleException {
+    public static int getPublicObjectiveNumber(String cardName) throws NameIncompatibleException {
         switch (cardName) {
             case "Different Color-Column":
                 return 1;

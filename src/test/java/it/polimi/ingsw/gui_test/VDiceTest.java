@@ -12,7 +12,7 @@ import static javafx.geometry.Pos.TOP_LEFT;
 
 public class VDiceTest extends Application {
     @Test
-    public void WPcardTest() {
+    public void VDiceTest() {
         launch();
     }
 

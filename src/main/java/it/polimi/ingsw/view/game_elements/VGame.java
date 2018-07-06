@@ -2,6 +2,9 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.*;
 import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
+import javafx.scene.Group;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 
@@ -43,9 +46,6 @@ public class VGame {
         return this.tools.getToolCard(value - 1).getNumber() - 1;
     }
 
-    /**
-     * @return
-     */
     public int askToPickFromTrack() {
         println("Quale dado vuoi scegliere?");
         println(this.roundTrack.toString());
@@ -83,8 +83,6 @@ public class VGame {
     }
     public void setClientPlayer(String clientPlayer) { this.clientPlayer = clientPlayer; }
 
-    public void removePlayer(VPlayer player) { this.players.remove(player); } // remove player from the game
-
     public void notifyScore() {
         StringBuilder string = new StringBuilder();
         string.append("Classifica partita: ").append(newline);
@@ -99,7 +97,7 @@ public class VGame {
                 append("Round: " + this.round).append("\n\n").
                 append(this.roundTrack.toString()).append(newline);
 
-        if (this.turn != null) {
+        if (this.turn != null && this.clientPlayer != null) {
             if (this.clientPlayer.equals(this.turn.getName()))
                 string.append("È il tuo turno, ");
             else string.append("È il turno di ");
@@ -107,9 +105,12 @@ public class VGame {
         }
 
         for (VPlayer vp : this.players) {
-            string.append(vp.toString());
-            if (this.clientPlayer.equals(vp.getName()))
-                string.append(vp.getvPrivateObjectives().toString());
+            if (vp != null) {
+                string.append(vp.toString());
+                if (this.clientPlayer.equals(vp.getName()))
+                    if (vp.getvPrivateObjectives() != null)
+                        string.append(vp.getvPrivateObjectives().toString());
+            }
         }
 
         for (VPublicObjectiveCard objCard : this.publicObjectives) {
@@ -120,5 +121,34 @@ public class VGame {
                 append(dice.toString()).append(newline);
 
         return string.toString();
+    }
+
+    public Group toGUI() {
+        GridPane grid = new GridPane();
+        Group game = new Group();
+        VPlayer clientPlayer = null;
+
+        for (VPlayer p : this.players)
+            if (this.clientPlayer.equals(p.getName())) {
+                clientPlayer = p;
+                grid.add(clientPlayer.toGUI(), 0, 0);
+                grid.add(clientPlayer.getvPrivateObjectives().toGUI(), 0, 1);
+            }
+
+        for (int i = 0; i < this.players.size(); i++)
+            if (this.players.get(i) != clientPlayer) {
+                grid.add(this.players.get(i).toGUI(), i + 1, 0);
+            }
+
+        grid.add(this.dice.toGUI(), 1, 1);
+
+        FlowPane publicObjs = new FlowPane();
+        for (VPublicObjectiveCard card : publicObjectives)
+            publicObjs.getChildren().add(card.toGUI());
+
+        grid.add(publicObjs, 2, 1);
+
+        game.getChildren().add(grid);
+        return game;
     }
 }

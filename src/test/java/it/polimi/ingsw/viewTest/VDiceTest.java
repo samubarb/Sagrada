@@ -10,7 +10,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.print;
 public class VDiceTest {
 
     @Test
-    public void setPositionDiceTest(){
+    public void testsetPositionDice(){
         for (VColor vc : VColor.values())
             for (int i = 1; i <= 6; i++)
                 print(new VDice(i, vc).toString());

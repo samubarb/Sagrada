@@ -12,7 +12,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class AdapterFrameTest {
     @Test
-    public void printEmptyFrame() {
+    public void testprintEmptyFrame() {
         Frame frame = new Frame();
         AdapterCLI adapter = new AdapterCLI();
         VFrame vFrame = adapter.frameToView(frame);
@@ -20,7 +20,7 @@ public class AdapterFrameTest {
     }
 
     @Test
-    public void printRandomFrame() {
+    public void testprintRandomFrame() {
         Frame frame = new Frame();
         AdapterCLI adapter = new AdapterCLI();
 

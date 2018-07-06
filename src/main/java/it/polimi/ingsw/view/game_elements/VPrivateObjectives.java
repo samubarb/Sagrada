@@ -1,27 +1,41 @@
 package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.VPrivateObjectiveCard;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
+import static it.polimi.ingsw.inputoutput.IOManager.thinPadding;
 
 public class VPrivateObjectives {
-    private ArrayList<VPrivateObjectiveCard> privateObjetive;
+    private ArrayList<VPrivateObjectiveCard> privateObjetives;
 
     public VPrivateObjectives() {
-        this.privateObjetive = new ArrayList<VPrivateObjectiveCard>();
+        this.privateObjetives = new ArrayList<>();
     }
 
     public void add(VPrivateObjectiveCard vPrivateObjectiveCard) {
-        this.privateObjetive.add(vPrivateObjectiveCard);
+        this.privateObjetives.add(vPrivateObjectiveCard);
     }
 
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
-        for (VPrivateObjectiveCard privObj : privateObjetive)
+        for (VPrivateObjectiveCard privObj : privateObjetives)
             string.append(privObj).append(newline);
         return string.toString();
     }
+
+    public FlowPane toGUI() {
+        FlowPane privateObjs = new FlowPane();
+
+        for (int i = 0; i < this.privateObjetives.size(); i++)
+            privateObjs.getChildren().add(this.privateObjetives.get(i).toGUI());
+
+        privateObjs.setHgap(thinPadding);
+        return privateObjs;
+    }
 }
+

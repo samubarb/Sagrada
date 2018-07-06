@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 public class VPlayerTest extends Application {
 
     @Test
-    public void WPcardTest() {
+    public void VPlayerTest() {
         launch();
     }
 
@@ -39,6 +39,5 @@ public class VPlayerTest extends Application {
         primaryStage.setTitle("Player");
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 }

@@ -9,13 +9,13 @@ import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class VErrorTest {
     @Test
-    public void VErrorPrintTest() {
+    public void testVErrorPrintTest() {
         for (VError e : VError.values())
             println(e.toString());
     }
 
     @Test
-    public void VErrorNotify() {
+    public void testVErrorNotify() {
         View view = new CLI("TestPlayer");
         for (VError e : VError.values())
             view.notifyError(e);

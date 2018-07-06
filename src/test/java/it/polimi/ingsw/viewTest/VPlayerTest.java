@@ -17,12 +17,12 @@ import static it.polimi.ingsw.inputoutput.IOManager.println;
 public class VPlayerTest {
 
     @Test
-    public void printPlayerTest() {
+    public void testprintPlayerTest() {
         println(new VPlayer("TestPlayer", VColor.PURPLE, new VWindowPattern()).toString());
     }
 
     @Test
-    public void printPlayersTest() {
+    public void testprintPlayersTest() {
         Adapter ada = new AdapterCLI();
         Game game = new Game();
 

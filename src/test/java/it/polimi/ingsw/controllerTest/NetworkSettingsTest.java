@@ -8,12 +8,12 @@ import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class NetworkSettingsTest {
     @Test
-    public void ServerfromJSONTest() {
+    public void testServerfromJSON() {
         println(new ServerSettings().setFromJSON().toString());
     }
 
     @Test
-    public void ClientfromJSONTest() {
+    public void testClientfromJSONTest() {
         println(new ClientSettings().setFromJSON().toString());
     }
 }

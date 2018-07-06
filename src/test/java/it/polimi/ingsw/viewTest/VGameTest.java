@@ -10,14 +10,14 @@ import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VGameTest {
     @Test
-    public void printShadowTest() {
+    public void testprintShadowTest() {
         for (VColor vc : VColor.values())
             print(vc.toString() + "\u2593");
         print(VColor.RESET.toString());
     }
 
     @Test
-    public void printRankingTest() throws TooManyPlayersException {
+    public void testprintRankingTest() throws TooManyPlayersException {
         VGame game = new VGame();
         game.addVPlayer(new VPlayer("TestPlayer1", VColor.GREEN));
         game.addVPlayer(new VPlayer("TestPlayer2", VColor.BLUE));
