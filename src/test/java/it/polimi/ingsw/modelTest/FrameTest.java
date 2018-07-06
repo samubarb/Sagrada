@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FrameTest {
 
     @Test
-    public void setPositionDiceTest(){
+    public void testSetPositionDiceTest(){
         Frame testFrame=new Frame();
         Dice testDice1=new Dice(Color.RED,6);
         Dice testDice2=new Dice(Color.RED,3);
@@ -31,7 +31,7 @@ public class FrameTest {
     }
 
     @Test
-    public void getDiceTest(){
+    public void testGetDiceTest(){
         Frame testFrame=new Frame();
         Dice testDice1=new Dice(Color.RED,6);
         Dice testDice2=new Dice(Color.RED,3);

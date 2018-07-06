@@ -29,12 +29,23 @@ public class Frame implements Serializable {
         frame[i][j]=dice;
     }
 
+    /**
+     * return the nut referring to the coordinates
+     * @param position
+     * @return
+     */
     public Dice getDice(Coordinates position){
         Dice fakeDice;
         fakeDice=frame[position.getY()][position.getX()];
         return fakeDice;
     }
 
+    /**
+     * return the nut in the position: line-->i column-->j
+     * @param i
+     * @param j
+     * @return
+     */
     public Dice getDice(int i,int j){
         Dice fakeDice;
         fakeDice=frame[i][j];
@@ -42,6 +53,7 @@ public class Frame implements Serializable {
     }
 
     /**
+     * return the number of dice of the same color/value
      * @param dice
      * @return
      */
@@ -64,6 +76,10 @@ public class Frame implements Serializable {
         return counter;
 
     }
+
+    /**
+     * fills with default dice
+     */
     private void fillDiceDefault(){
         for(int i=0; i<LINE_SIZE;i++)
             for(int j=0;j<COLUMN_SIZE;j++)
@@ -83,6 +99,11 @@ public class Frame implements Serializable {
 
     }
 
+    /**
+     * check central adjacency
+     * @param position
+     * @return
+     */
     public boolean centralAdjacent(Coordinates position){
         if(getDice(position.getY()-1,position.getX()).getValue()!=DEFAULT_VALUE||getDice(position.getY()-1,position.getX()-1).getValue()!=DEFAULT_VALUE||
                 getDice(position.getY(),position.getX()-1).getValue()!=DEFAULT_VALUE|| getDice(position.getY()-1,position.getX()+1).getValue()!=DEFAULT_VALUE||
@@ -92,6 +113,11 @@ public class Frame implements Serializable {
         else return false;
 
     }
+
+    /** check border adjacency
+     * @param position
+     * @return
+     */
     public boolean borderAdjacent(Coordinates position){
 
         if(position.getX()==LEFT_BORDER) {
@@ -122,6 +148,11 @@ public class Frame implements Serializable {
         return false;
     }
 
+    /**
+     * check corner adjacency
+     * @param position
+     * @return
+     */
     public boolean cornerAdjacent(Coordinates position){
         if(position.getY()==UP_BORDER&&position.getX()==LEFT_BORDER){
             if (getDice(position.getY(), position.getX()+1).getValue() != DEFAULT_VALUE || getDice(position.getY()+1, position.getX()+1).getValue() != DEFAULT_VALUE ||
@@ -148,6 +179,7 @@ public class Frame implements Serializable {
     }
 
     /**
+     * check corner orthogonal color and value adjacency
      * @param dice
      * @param position
      * @return
@@ -182,6 +214,12 @@ public class Frame implements Serializable {
 
     }
 
+    /**
+     * check border orthogonal color and value adjacency
+     * @param dice
+     * @param position
+     * @return
+     */
     public boolean checkBorderOrthogonalColorAndValueAdjacency(Dice dice,Coordinates position){
         if(position.getX()==RIGHT_BORDER){
             if (getDice(position.getY(), position.getX()-1).getValue() == dice.getValue() || getDice(position.getY()-1, position.getX()).getValue() == dice.getValue() ||
@@ -214,6 +252,12 @@ public class Frame implements Serializable {
     }
 
 
+    /**
+     * check central orthogonal color and value adjacency
+     * @param dice
+     * @param position
+     * @return
+     */
     public boolean checkCentralOrthogonalColorAndValueAdjacency(Dice dice,Coordinates position){
         if(position.getX()==RIGHT_BORDER){
             if (getDice(position.getY(), position.getX()-1).getValue() == dice.getValue() || getDice(position.getY(), position.getX()+1).getValue() == dice.getValue() ||
@@ -226,13 +270,12 @@ public class Frame implements Serializable {
 
     }
 
-
-
-    /*
-    *   checkPositionDice:
-    *   control of the color and the value of the orthogonally adjacent dice
-    * */
-
+    /**
+     * control of the color and the value of the orthogonally adjacent dice
+     * @param dice
+     * @param position
+     * @return
+     */
     public boolean checkPositionDice(Dice dice,Coordinates position){
         if(position.getX()==LEFT_BORDER)
             if(position.getY()==UP_BORDER||position.getY()==DOWN_BORDER)
@@ -251,7 +294,7 @@ public class Frame implements Serializable {
 
 
     /**
-     * checkControlAdjacentDic
+     * checkControlAdjacentDice
      * @param dice
      * @param position
      * @return
@@ -275,6 +318,7 @@ public class Frame implements Serializable {
     }
 
     /**
+     * create a copy of the frame
      * @param frame frame to copy
      */
     public void copyFrame(Frame frame){

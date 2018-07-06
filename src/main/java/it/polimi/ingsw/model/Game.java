@@ -30,6 +30,9 @@ public class Game implements Serializable{
     private Player[] initialTurnOrder;
     private boolean isSecondTurn;
 
+    /**
+     * game constructor
+     */
     public Game() {
         this.players = new ArrayList<Player>();
         this.rolledDice = new Dice[90];
@@ -51,7 +54,6 @@ public class Game implements Serializable{
         setDefaultDice(roundTrack);
         setRolledDice();
         shuffleRolledDice();
-        //setCurrentDice();
     }
 
     /**
@@ -63,11 +65,18 @@ public class Game implements Serializable{
     }
 
 
-
+    /**
+     *
+     * @return round
+     */
     public int getRound() {
         return round;
     }
 
+    /**
+     * set round
+     * @param round
+     */
     public void setRound(int round) {
         this.round = round;
     }
@@ -123,14 +132,6 @@ public class Game implements Serializable{
         this.diceRolled = diceRolled;
     }
 
-    /*public Dice[] getRemainingDice() {
-        return currentDice;
-    }
-
-    public void setRemainingDice(Dice[] remainingDice) {
-        this.currentDice = remainingDice;
-    }*/
-
     public Dice[] getCurrentDice() {
         return currentDice;
     }
@@ -171,6 +172,7 @@ public class Game implements Serializable{
     public WindowPattern[] getWindowPatternCards() {
         return windowPatternCards;
     }
+
     public WindowPattern getWindoePatternCard(int position){
         return windowPatternCards[position];
     }
@@ -217,6 +219,12 @@ public class Game implements Serializable{
     public void setCurrentDice(Dice dice,int position){
         this.currentDice[position]=dice;
     }
+
+    /**
+     * return the nut from currentDice array
+     * @param position
+     * @return
+     */
     public Dice getDiceFromCurrentDice(int position){
         Dice diceToReturn=currentDice[position];
         currentDice[position]=new Dice();
@@ -236,6 +244,10 @@ public class Game implements Serializable{
         return false;
     }
 
+    /**
+     * fills array of dice by default
+     * @param arrayDice
+     */
     public void setDefaultDice(Dice[] arrayDice){
         for(int i=0;i<arrayDice.length;i++){
             arrayDice[i]=new Dice();

@@ -11,7 +11,7 @@ import java.awt.*;
 public class PuODifferentColourTest {
 
     @Test
-    public void calculateScoreTest(){
+    public void testCalculateScoreTest(){
         Frame testFrame=new Frame();
         Dice testDice1=new Dice(Color.RED,6);
         Dice testDice2=new Dice(Color.GREEN,3);
