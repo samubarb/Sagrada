@@ -26,17 +26,8 @@ public class CLI implements View {
         this.game.setClientPlayer(clientPlayer);
     }
 
-    public void updateGame(VGame game) {
-        this.game = game;
-    }
-
     public int askToPickFromRoundTrack() {
         return this.game.askToPickFromTrack();
-    }
-
-    public void startCLI() {
-        this.splash();
-        while(this.chooser(this.menu()));
     }
 
     public int askDice() {
@@ -131,41 +122,6 @@ public class CLI implements View {
         this.game = game;
         clearScreen();
         println(this.game.toString());
-    }
-    public VMove move(VDice dice, VCoordinates xy) { // Add toolcard here
-        return new VMove(dice, xy);
-    }
-
-    private boolean chooser(int i) {
-        clearScreen();
-        switch (i) {
-            case 1:
-                playGame();
-                break;
-            case 2:
-                settings();
-                break;
-            case 3:
-                gameRules();
-                break;
-            case 4:
-                credits();
-                break;
-            case 5:
-                if (exit())
-                    fineExit();
-                break;
-            default:
-                retry();
-                break;
-        }
-        clearScreen();
-        return true;
-    }
-
-    private void playGame() {
-        println("...start game here");
-        waitKey();
     }
 
     private void settings() {
@@ -312,14 +268,6 @@ public class CLI implements View {
         clearScreen();
     }
 
-    public void loggedIn(String playerLogged) {
-        println("Accesso effettuato come " + playerLogged);
-    }
-
-    public void setTurn(VPlayer player) {
-        this.game.setTurn(player);
-    }
-
     public String askNewUsername() throws UsernameTooShortException {
         println("Inventa un nuovo Username: ");
         String user = getString();
@@ -330,10 +278,6 @@ public class CLI implements View {
         }
     }
 
-    public String askNewPassword() {
-        println("Scegli una password: ");
-        return getString();
-    }
 
     public String chooseAnotherUsername(String username) throws UsernameTooShortException {
         println("Lo username " + username + " è già stato preso.");
@@ -342,16 +286,6 @@ public class CLI implements View {
 
     public String askUsername() {
         println("Username: ");
-        return getString();
-    }
-
-    public String askPassword() {
-        println("Password: ");
-        return getString();
-    }
-
-    private String newUser() {
-        println("Scegli un nuovo Username: ");
         return getString();
     }
 }

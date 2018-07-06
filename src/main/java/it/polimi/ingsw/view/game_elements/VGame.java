@@ -99,12 +99,12 @@ public class VGame {
                 append("Round: " + this.round).append("\n\n").
                 append(this.roundTrack.toString()).append(newline);
 
-        /**/ println(this.clientPlayer);
-        if (this.turn != null)
+        if (this.turn != null) {
             if (this.clientPlayer.equals(this.turn.getName()))
                 string.append("È il tuo turno, ");
             else string.append("È il turno di ");
-        string.append(this.turn.getName()).append(newline);
+            string.append(this.turn.getName()).append(newline);
+        }
 
         for (VPlayer vp : this.players) {
             string.append(vp.toString());

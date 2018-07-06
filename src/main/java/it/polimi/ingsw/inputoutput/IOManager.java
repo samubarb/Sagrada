@@ -56,11 +56,8 @@ public final class IOManager {
             imageView.setImage(image);
         } catch (FileNotFoundException e) {
             println("Il file " + filePath + " non esiste. Controlla la correttezza del percorso o del nome.");
-            println("Uscendo...");
-            System.exit(2);
+            errorExit();
         }
-
-        // Set dimensions
         imageView.setFitWidth(cardWidth);
         imageView.setPreserveRatio(true);
         return imageView;
@@ -77,8 +74,7 @@ public final class IOManager {
         catch (IOException e)
         {
             println("Il file " + filePath + " non esiste. Controlla la correttezza del percorso o del nome.");
-            println("Uscendo...");
-            System.exit(2);
+            errorExit();
         }
 
         return string.toString();
