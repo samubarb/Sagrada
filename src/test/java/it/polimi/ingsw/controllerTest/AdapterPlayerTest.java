@@ -12,7 +12,9 @@ public class AdapterPlayerTest {
     public void testprintPlayer() {
         Player player = new Player("Test Player");
         player.setColor(Color.GREEN);
-        player.setWindowPattern(new GameConfigurator(new Game()).createWPCbatllo());
+        Game game = new Game();
+        game.setAddPlayer(player);
+        player.setWindowPattern(new GameConfigurator(game).createWPCbatllo());
         player.setPrivateObjective(new PrivateObjective("prova", Color.RED));
 
         VPlayer vPlayer = new AdapterCLI().playerToView(player);
