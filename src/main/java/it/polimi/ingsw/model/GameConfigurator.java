@@ -20,6 +20,7 @@ public class GameConfigurator implements Serializable {
 
     private Game game;
     private WindowPattern[] fakeWindowPatterns;
+    private int numberColor;
 
 
     public GameConfigurator(Game game){
@@ -37,6 +38,7 @@ public class GameConfigurator implements Serializable {
             game.getTurnOrder()[i].setFavorTokens(game.getWindoePatternCard(i*4).getFavorTokenToAssign());
             game.getTurnOrder()[i].setCurrentGame(game);
             game.getTurnOrder()[i].setPrivateObjective(privateObjective[i]);
+            setPlayerColor(game.getTurnOrder()[i]);
 
         }
 
@@ -85,6 +87,18 @@ public class GameConfigurator implements Serializable {
             objective[index] = objective[i];
             objective[i] = a;
         }
+    }
+
+    public void setPlayerColor(Player player){
+       Color[] color=new Color[6];
+      // shuffleObjective(color);
+        int i=0;
+        for(Color c: Color.values()) {
+            color[i] = c;
+            i++;
+        }
+       player.setColor(color[numberColor]);
+        numberColor++;
     }
 
     public PrivateObjective[] createPrivateObjective(){

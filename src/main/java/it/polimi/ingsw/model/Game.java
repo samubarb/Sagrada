@@ -254,6 +254,9 @@ public class Game implements Serializable{
         }
     }
 
+    /**
+     * configure the game arrays based on the number of players
+     */
     public void configureGame(){
         int numberOfPlayer=players.size();
         this.turnOrder = new Player[numberOfPlayer];
@@ -268,6 +271,9 @@ public class Game implements Serializable{
 
     }
 
+    /**randomizes the value of the nut
+     * @param dice
+     */
     public void randomDice(Dice dice){
         Random random=new Random();
         dice.setValue(random.nextInt(6)+1);
@@ -275,6 +281,9 @@ public class Game implements Serializable{
     }
 
 
+    /**randomizes the values of the dice
+     * @param dice
+     */
     public void randomDice(Dice[] dice){
         Random random=new Random();
         for(int i=0;i< dice.length;i++)
@@ -283,6 +292,9 @@ public class Game implements Serializable{
 
     }
 
+    /**
+     * sets all the rolledDice and randomizes (value) them into the array (rolledDice)
+     */
     public void setRolledDice(){
 
         for(int i=0;i<rolledDice.length;i++)
@@ -303,6 +315,9 @@ public class Game implements Serializable{
     }
 
 
+    /**
+     * shuffle the dice into the array
+     */
     public void shuffleRolledDice() {
         Random rnd = ThreadLocalRandom.current();
         for (int i = rolledDice.length - 1; i > 0; i--)
@@ -316,6 +331,10 @@ public class Game implements Serializable{
         }
     }
 
+    /**
+     * sets the new array (currentDice) according to the round
+     * @param round
+     */
     public void setNewRolledDice(int round){
         int numberOfPlayers=players.size();
         int k=((numberOfPlayers*2)+1);
@@ -327,6 +346,10 @@ public class Game implements Serializable{
 
 
     }
+
+    /**
+     * change round
+     */
     public void nextRound(){
         Dice lastDice=new Dice();
         if(round!=0) {
@@ -342,6 +365,9 @@ public class Game implements Serializable{
         currentPlayerIndex=0;
     }
 
+    /**
+     * set the new turns array
+     */
     public void setTurnOrder(){
         Player[] newTurnOrder=new Player[players.size()];
         for(int i=0;i<turnOrder.length;i++){
@@ -351,6 +377,10 @@ public class Game implements Serializable{
 
     }
 
+    /**
+     * returns the current player and based on the turn number, increases or decreases the stack
+     * @return
+     */
     public Player getCurrentPlayer(){
 
 
@@ -370,8 +400,7 @@ public class Game implements Serializable{
             currentPlayer=turnOrder[currentPlayerIndex];
             setCurrentPlayerIndex(this.currentPlayerIndex+1);
         }
-
-       // if (turnStack.empty())
+        // if (turnStack.empty())
                // nextRound();
 
         actualPlayer=currentPlayer;
@@ -398,6 +427,7 @@ public class Game implements Serializable{
     }
 
     /**
+     * returns the windowPattern to choose for the player
      * @return
      */
     public WindowPattern[] getWindowPatternForAPlayer(){
