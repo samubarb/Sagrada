@@ -31,7 +31,7 @@ public class ServerLauncher {
 
     public static final int MAXPLAYER = 4;
     public static final int MINPLAYERS = 2;
-    public static final long TIMETOWAITINROOM = 50000;
+    public static final long TIMETOWAITINROOM = 10000;
     public static final long START_IMMEDIATELY = 0;
     public static final boolean CONNECTED = true;
     public static final boolean DISCONNECTED = false;
