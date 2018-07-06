@@ -107,10 +107,13 @@ public class CLI implements View {
         return xy;
     }
 
+
+    public void notifyConnectionEstablished(String userName) { println(userName + " si è connesso."); }
+    public void notifyReconnection(String userName) { println(userName + " si è riconnesso."); }
+    public void notifyGreetings() { println("Benvenuto!"); }
     public void notifyWin() {
         println("Hai vinto " + this.clientPlayer + "!");
     }
-
     public void notifyLose() {
         println("Hai perso " + this.clientPlayer + "!");
     }

@@ -21,6 +21,9 @@ public interface View {
     int askDiceNumber(VDice dice); // asks the user with which number wants to re-place a specific dice
 
     // Methods to notify something to the Client
+    void notifyConnectionEstablished(String userName);
+    void notifyReconnection(String userName);
+    void notifyGreetings();
     void notifyError(VError error); // used to notify and guide the player after a wrong move
     void notifyScore(); // show the final ranking at the end of the game
     void notifyWin(); // notify the victory to the winner
