@@ -91,7 +91,7 @@ public class GameConfigurator implements Serializable {
 
     public void setPlayerColor(Player player){
        Color[] color=new Color[6];
-       shuffleObjective(color);
+      // shuffleObjective(color);
         int i=0;
         for(Color c: Color.values()) {
             color[i] = c;
