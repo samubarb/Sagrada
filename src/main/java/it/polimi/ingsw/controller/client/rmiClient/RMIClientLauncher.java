@@ -76,14 +76,14 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
             System.out.println("Restart Client, connection to server error");
             return;
         }
-        while(!isRegistered){
+        do{
             username = getUsername(input);
             view = new CLI(username);
             view.splash();
 
             playerInterface = this;
             isRegistered = registerPlayerOnServer(username, playerInterface);
-        }
+        } while(!isRegistered);
         isMyTurn = false;
         gameStarted = true;
         //while(gameStarted) {
@@ -354,6 +354,8 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     @Override
     public void setClientGame(Game game) throws RemoteException {
         this.setGame(game);
+        for(Player player: game.getPlayers())
+            System.out.println(player.getName());
         this.view.updateState(new AdapterCLI().gameToView(game));
     }
 

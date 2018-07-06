@@ -205,10 +205,10 @@ public class ServerLauncher {
                         user.setPlayerInterface(clientPlayer);
                         try {
                             clientPlayer.notifyUserReconnection(username);
-                            /*for (User user2 : serverLauncher.getNicknames()) {
+                            for (User user2 : serverLauncher.getNicknames()) {
                                 if(!user2.getUsername().equals(username))
                                     user2.getPlayerInterface().notifyReconnection(username);
-                            }*/
+                            }
                         } catch (RemoteException e) {
                             try {
                                 clientPlayer.notifyError(e);
@@ -217,7 +217,7 @@ public class ServerLauncher {
                             }
                         }
                         try {
-                            clientPlayer.setClientGame(game);
+                            clientPlayer.setClientGameHide(game);
                         } catch (RemoteException e) {
                             try {
                                 clientPlayer.notifyError(e);
@@ -442,7 +442,9 @@ public class ServerLauncher {
             System.out.println("ldistribuita la game session");
             //configureGame();
             //setupPlayerPatternChoice();
-            chooseWindowPattern();
+            //synchronized (LOGIN_MUTEX) {
+                chooseWindowPattern();
+            //}
             //while (game.getRound() <= MAXNUMBEROFROUND) {
             do {
                 currentPlayer = game.getCurrentPlayer();
