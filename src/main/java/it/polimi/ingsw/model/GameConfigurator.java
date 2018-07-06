@@ -27,12 +27,14 @@ public class GameConfigurator implements Serializable {
 
         this.game = game;
         this.fakeWindowPatterns=new WindowPattern[24];
+        this.numberColor=0;
         game.configureGame();
         createWindowPatternCards(game);
         createPublicObjective();
         createToolCards();
         PrivateObjective[] privateObjective=new PrivateObjective[4];
         privateObjective=createPrivateObjective();
+        game.setActualPlayer(new Player());
         for(int i=0;i<game.getTurnOrder().length;i++){
             game.getTurnOrder()[i].setWindowPattern(game.getWindoePatternCard(i*4));
             game.getTurnOrder()[i].setFavorTokens(game.getWindoePatternCard(i*4).getFavorTokenToAssign());
