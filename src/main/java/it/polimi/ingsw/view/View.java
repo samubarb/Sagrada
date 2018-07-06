@@ -43,7 +43,5 @@ public interface View {
 
     /* NEED TO IMPLEMENT
      - show favor tokens of WPcards
-     - descrizioni delle carte obiettivo pubblico
-     - fix the always FALSE returning in the CLI men
     */
 }
