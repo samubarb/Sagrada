@@ -28,13 +28,16 @@ public class ServerLauncher {
     private static final int TOOLCARD = 2;
     private static final int DONOTHING = 3;
 
+
     public static final int MAXPLAYER = 4;
     public static final int MINPLAYERS = 2;
     public static final long TIMETOWAITINROOM = 5000;
     public static final long START_IMMEDIATELY = 0;
+    public static final boolean CONNECTED = true;
+    public static final boolean DISCONNECTED = false;
     private Timer mainTimer;
     private int round;
-    private static final int MAXNUMBEROFROUND = 1;
+    private static final int MAXNUMBEROFROUND = 5;
     private static final long TURNTIME = 10000;
     private Game game;
     private Timer turnTimer;
@@ -61,7 +64,7 @@ public class ServerLauncher {
     /**
      * Mutex object to handle concurrency between users during loginPlayer.
      */
-    private static final Object LOGIN_MUTEX = new Object();
+    public static final Object LOGIN_MUTEX = new Object();
     private static final Object TURN_MUTEX = new Object();
 
 
@@ -142,8 +145,11 @@ public class ServerLauncher {
 
     public void disableUser(User user) {
         synchronized (LOGIN_MUTEX) {
-            offlineNicknames.add(user);
-            nicknames.remove(user);
+            for(User serverUser : nicknames){
+                if(serverUser.getUsername().equals(user.getUsername())){
+                    serverUser.setOnline(false);
+                }
+            }
             notifyDisconnection(user);
         }
     }
@@ -175,6 +181,93 @@ public class ServerLauncher {
     public boolean registerUser(PlayerInterface clientPlayer, String username) {
 
         synchronized (LOGIN_MUTEX) {
+            //reconnection
+            if(this.nicknames.size()>0){
+                for(User user : nicknames){//reconnection of a user
+                    if(!user.isOnline && user.getUsername().equals(username)){
+                        user.setOnline(CONNECTED);
+                        user.setPlayerInterface(clientPlayer);
+                        try {
+                            clientPlayer.onRegister("user reconnected" + username);
+                        } catch (RemoteException e) {
+                            try {
+                                clientPlayer.notifyError(e);
+                            } catch (RemoteException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        try {
+                            clientPlayer.setClientGame(game);
+                        } catch (RemoteException e) {
+                            try {
+                                clientPlayer.notifyError(e);
+                            } catch (RemoteException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+            if(canJoin){
+                //max player reached error check
+                if(nicknames.size()>= MAXPLAYER){
+                    System.out.println("max player reached");
+                    canJoin = false;
+                    try {
+                        clientPlayer.onRegister("Max player reached");
+                        System.out.println("Max player reached");
+                    } catch (RemoteException e) {
+                        try {
+                            clientPlayer.notifyError(e);
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                    return false;
+                }
+                //Name already in use
+                else if (nicknames.size()>0){
+                    for(User user : nicknames){
+                        if (user.getUsername().equals(username)) {
+                            try {
+                                clientPlayer.onRegister("Name already in use");
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                            return false;
+                        }
+                    }
+
+                }
+                try {
+                    clientPlayer.onRegister("User logged as: " + username);
+                    clientPlayer.onRegister("welcome");
+                    for (User user : serverLauncher.getNicknames()) {
+                        user.getPlayerInterface().notifyConnection(username);
+                    }
+                    System.out.println("User logged as: " + username);
+                } catch (RemoteException e) {
+                    return false;
+                }
+                nicknames.add(new User(username, clientPlayer));
+                if (nicknames.size() == MAXPLAYER) {
+                    canJoin = false;
+                    cancelTimer();
+                    startCountDownTimer(START_IMMEDIATELY);
+                } else if (nicknames.size() == MINPLAYERS) {
+                    startCountDownTimer(TIMETOWAITINROOM);
+                }
+                return true;
+
+            } else{
+                try {
+                    clientPlayer.printaaa("game already started");
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
             /*if (this.offlineNicknames.size() > 0) {
                 //reconnection of already registered player
                 for (User user : offlineNicknames) {
@@ -204,7 +297,7 @@ public class ServerLauncher {
                 }
             }*/
             //if(canJoin) {
-                if ((this.nicknames.size() + this.offlineNicknames.size()) >= MAXPLAYER&&canJoin) {
+             /*   if ((this.nicknames.size() + this.offlineNicknames.size()) >= MAXPLAYER&&canJoin) {
                     System.out.println("max player reached");
                     canJoin = false;
                     try {
@@ -274,7 +367,7 @@ public class ServerLauncher {
                 } else if (nicknames.size() == MINPLAYERS) {
                     startCountDownTimer(TIMETOWAITINROOM);
                 }
-                return true;
+                return true;*/
             //}
             /*else {
                 try {
@@ -340,18 +433,20 @@ public class ServerLauncher {
                     String currentPlayerName = currentPlayer.getName();
                     //for()
                     for (User user : serverLauncher.getNicknames()) {
-                        if (user.getUsername().equals(currentPlayer.getName())) {
-                            try {
-                                user.getPlayerInterface().notifyTurn(user.getUsername());
-                            } catch (RemoteException e) {
-                                e.printStackTrace();
-                            }
-                            //updateGameSession();//this updateGameSession update the initial current dice
-                            //Syncronized sul turn mutex
+                        if(user.isOnline()) {
+                            if (user.getUsername().equals(currentPlayer.getName())) {
+                                try {
+                                    user.getPlayerInterface().notifyTurn(user.getUsername());
+                                } catch (RemoteException e) {
+                                    e.printStackTrace();
+                                }
+                                //updateGameSession();//this updateGameSession update the initial current dice
+                                //Syncronized sul turn mutex
 
-                            synchronized (TURN_MUTEX) {
-                                startTurn(user.getPlayerInterface(), currentPlayer);
-                                //updateGameSession();
+                                synchronized (TURN_MUTEX) {
+                                    startTurn(user.getPlayerInterface(), currentPlayer);
+                                    //updateGameSession();
+                                }
                             }
                         }
                     }
