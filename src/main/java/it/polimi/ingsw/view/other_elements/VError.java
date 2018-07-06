@@ -17,7 +17,7 @@ public enum VError {
     // Server side errors
     GAME_FULL ("Numero massimo di giocatori raggiunto."),
     GAME_ALREADY_STARTED ("Partita già cominciata in corso."),
-    USERNAMEE_DUPLICATE ("Il nome scelto è già in uso. Scegli un altro nome utente: ");
+    USERNAME_DUPLICATE ("Il nome scelto è già in uso. Scegli un altro nome utente: ");
 
 
     private String errorMessage;
