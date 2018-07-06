@@ -280,11 +280,6 @@ public final class IOManager {
         System.out.flush();
     }
 
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-
     public static void waitKey() {
         print("Premi un tasto per continuare...");
         getString();

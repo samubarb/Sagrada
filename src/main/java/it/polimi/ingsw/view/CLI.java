@@ -122,7 +122,6 @@ public class CLI implements View {
     public void updateState(VGame game) {
         game.setClientPlayer(this.clientPlayer);
         this.game = game;
-        clearScreen();
         println(this.game.toString());
     }
 
@@ -132,7 +131,6 @@ public class CLI implements View {
     }
 
     private int settingsMenu() {
-        clearScreen();
         println("Impostazioni");
         println("1. Interfaccia grafica");
         println("2. Connessione");
@@ -143,7 +141,6 @@ public class CLI implements View {
     }
 
     private boolean settingsChooser(int i) {
-        clearScreen();
         boolean flag = false;
         switch (i) {
             case 1:
@@ -176,7 +173,6 @@ public class CLI implements View {
     }
 
     private boolean graphicsSettings(){
-        clearScreen();
         println("Quale interfaccia vuoi utilizzare? ");
         println("1. CLI");
         println("2. GUI");
@@ -196,7 +192,6 @@ public class CLI implements View {
     }
 
     private boolean connectionSettings(){
-        clearScreen();
         println("Quale connessione vuoi utilizzare? ");
         println("1. RMI");
         println("2. Socket");
@@ -264,10 +259,8 @@ public class CLI implements View {
                 "@@@                                                                         #@@\n" +
                 "@                                                                              \n";
 
-        clearScreen();
         print(splash + centerText("Premi INVIO per continuare", "@@    @@     @    @@  @    @@   @@@     @@@   @     %@   @      @ @   @    @@. ".length()));
         enter();
-        clearScreen();
     }
 
     public String askNewUsername() throws UsernameTooShortException {
