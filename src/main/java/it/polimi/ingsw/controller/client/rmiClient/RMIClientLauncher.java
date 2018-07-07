@@ -12,23 +12,33 @@ import it.polimi.ingsw.controller.client.ClientSettings;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.view.CLI;
+import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.other_elements.VConnectionStatus;
 import it.polimi.ingsw.view.other_elements.VError;
 
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class RMIClientLauncher implements  PlayerInterface, Serializable {
     public static final String RMI_SERVER_INTERFACE = "ServerInterface";
     public static final String RMI_CLIENT_INTERFACE = "ClientInterface";
+    public static final long START_IMMEDIATELY = 0;
+    public boolean isOnline;
 
     private static String address;
     private static Player clientPlayer;
@@ -45,8 +55,10 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     private static Registry serverRegistry;
     private static Game game;
     private static View view;
+    private  static int viewType;
     private static VGame vGame;
     private static  boolean isRegistered;
+    private static Scanner inputChannel;
 
     //debug timer
     static int interval = 7;
@@ -57,6 +69,9 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
         //view = new CLI();
         input = new Scanner(System.in);
+        viewType = chooseViewType();
+        //generateWatcher();
+        //generateInputChannel();
         /*InetAddress addr = null;
         try {
             addr = InetAddress.getLocalHost();
@@ -78,9 +93,12 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         }
         do{
             username = getUsername(input);
-            view = new CLI(username);
+            if(viewType == 1) {
+                view = new CLI(username);
+            } else if(viewType == 2){
+                view = new GUI(username);
+            }
             view.splash();
-
             playerInterface = this;
             isRegistered = registerPlayerOnServer(username, playerInterface);
         } while(!isRegistered);
@@ -112,6 +130,23 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
             //}
         //}
     }
+    /*public void generateInputChannel(){
+        inputChannel = new Scanner(System.in);
+        InputStream inputStream = new InputStream();
+        ReadableByteChannel rbc  = Channels.newChannel(inputStream);
+    }*/
+
+   /* public void generateWatcher(){
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(checkClientsConnection, 0, 1, TimeUnit.SECONDS);
+    }*/
+
+   public int chooseViewType(){
+       System.out.println("Seleziona l'interfaccia utente");
+       System.out.println("(1) Command line interface");
+       System.out.println("(2) Graphical interface");
+       return Integer.parseInt(input.next());
+   }
 
     /**
      * This method set the address as the ip server typed by the player
@@ -131,6 +166,14 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     public int getPortServer(Scanner input){
         System.out.println("Scrivi la porta del server");
         return Integer.parseInt(input.next());
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
     }
 
     /**
@@ -288,6 +331,14 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
 
     public static void setServerRegistry(Registry serverRegistry) {
         RMIClientLauncher.serverRegistry = serverRegistry;
+    }
+
+    public void throwRemoteException(){
+        try {
+            throw new RemoteException();
+        } catch (RemoteException e) {
+            //restartGame();
+        }
     }
 
     @Override
@@ -526,4 +577,10 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     public void notifyUserDisconnection(String username) throws RemoteException {
         view.notifyConnectionStatus(username, VConnectionStatus.DISCONNECTED);
     }
+
+   /* private Runnable checkClientsConnection = () -> {
+        if(!isOnline){
+            throwRemoteException();
+        }
+    };*/
 }
