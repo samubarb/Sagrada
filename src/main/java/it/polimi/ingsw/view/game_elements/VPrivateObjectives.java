@@ -1,13 +1,11 @@
 package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.VPrivateObjectiveCard;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
-import static it.polimi.ingsw.inputoutput.IOManager.thinPadding;
 
 public class VPrivateObjectives {
     private ArrayList<VPrivateObjectiveCard> privateObjetives;
@@ -28,13 +26,12 @@ public class VPrivateObjectives {
         return string.toString();
     }
 
-    public FlowPane toGUI() {
-        FlowPane privateObjs = new FlowPane();
+    public HBox toGUI() {
+        HBox privateObjs = new HBox();
 
         for (int i = 0; i < this.privateObjetives.size(); i++)
             privateObjs.getChildren().add(this.privateObjetives.get(i).toGUI());
 
-        privateObjs.setHgap(thinPadding);
         return privateObjs;
     }
 }

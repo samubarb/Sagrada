@@ -123,18 +123,13 @@ public class VGame {
     }
 
     public Group toGUI() {
-        BorderPane organizer = new BorderPane();
-        Group game = new Group();
         VPlayer clientPlayer = null;
 
-        HBox diceChain = new HBox();
+        VBox organizer = new VBox();
         HBox playersChain = new HBox();
         HBox objCardsChain = new HBox();
-
-        diceChain.setMaxWidth(1000);
-        //diceChain.set
-        //diceChain.getChildren().add(this.roundTrack.toGUI());
-        diceChain.getChildren().add(this.dice.toGUI());
+        HBox roundTrack = this.roundTrack.toGUI();
+        HBox currentDice = this.dice.toGUI();
 
         for (VPlayer p : this.players)
             if (this.clientPlayer.equals(p.getName())) {
@@ -143,32 +138,30 @@ public class VGame {
                 objCardsChain.getChildren().add(clientPlayer.getvPrivateObjectives().toGUI());
             }
 
+        for (VPlayer p : this.players)
+            if (p != clientPlayer)
+                playersChain.getChildren().add(p.toGUI());
 
-        for (VPublicObjectiveCard card : publicObjectives) {
+        for (VPublicObjectiveCard card : publicObjectives)
             objCardsChain.getChildren().add(card.toGUI());
 
-        }
+        // Add all elements
+        organizer.getChildren().addAll(roundTrack , playersChain, objCardsChain, currentDice);
 
-
-            int i = 1;
-        for (VPlayer p : this.players)
-            if (p != clientPlayer) {
-                playersChain.getChildren().add(p.toGUI());
-                i++;
-            }
-
-        organizer.setTop(playersChain);
-        organizer.setCenter(objCardsChain);
-        organizer.setBottom(diceChain);
-
+        // Alignment
         playersChain.setAlignment(Pos.CENTER);
         objCardsChain.setAlignment(Pos.CENTER);
-        objCardsChain.setSpacing(thinPadding);
-        diceChain.setAlignment(Pos.CENTER);
+        roundTrack.setAlignment(Pos.CENTER);
+        currentDice.setAlignment(Pos.CENTER);
+
+        // Paddings
+        organizer.setSpacing(padding);
+        playersChain.setSpacing(padding);
+        objCardsChain.setSpacing(padding);
+        roundTrack.setSpacing(padding);
+        currentDice.setSpacing(padding);
 
         organizer.setPadding(new Insets(thinPadding));
-
-
         return new Group(organizer);
     }
 }

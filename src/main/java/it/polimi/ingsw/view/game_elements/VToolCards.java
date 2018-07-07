@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.VToolCard;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
+import javafx.scene.layout.HBox;
 
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
 
@@ -39,5 +40,12 @@ public class VToolCards {
                     append(this.toolCards[i].toString()).
                     append(newline);
         return string.toString();
+    }
+
+    public HBox toGUI() {
+        HBox tools = new HBox();
+        for (VToolCard tool : this.toolCards)
+            tools.getChildren().add(tool.toGUI());
+        return tools;
     }
 }
