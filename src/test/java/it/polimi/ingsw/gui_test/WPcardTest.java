@@ -10,6 +10,9 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Box;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +32,7 @@ public class WPcardTest extends Application {
         WindowPattern wp = gconf.createWPCsunCatcher();
         Adapter adapt = new AdapterCLI();
         VWindowPattern vWP = adapt.patternToView(wp);
-        Group wpGUI = vWP.toGUI();
+        VBox wpGUI = vWP.toGUI();
 
         Scene scene = new Scene(wpGUI);
 

@@ -37,9 +37,9 @@ public class VWindowPatterns {
     }
 
     public HBox toGUI() {
-        HBox tools = new HBox();
+        HBox wpatterns = new HBox();
         for (VWindowPattern pattern : this.patterns)
-            tools.getChildren().add(pattern.toGUI());
-        return tools;
+            wpatterns.getChildren().add(pattern.toGUI());
+        return wpatterns;
     }
 }
