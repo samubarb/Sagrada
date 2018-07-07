@@ -3,13 +3,16 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
-import it.polimi.ingsw.view.game_elements.VPlayer;
 import it.polimi.ingsw.view.game_elements.VWindowPatterns;
 import it.polimi.ingsw.view.other_elements.VConnectionStatus;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
 import it.polimi.ingsw.view.other_elements.VError;
 import it.polimi.ingsw.view.other_elements.VSettings;
 import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class GUI extends Application implements View  {
@@ -18,17 +21,36 @@ public class GUI extends Application implements View  {
     private VGame game;
     private static VSettings settings;
     private VSettings tempSettings;
+    private Label message;
+    private Group gameGUI;
+
 
     public GUI(String clientPlayer) {
-        this.clientPlayer = clientPlayer;
-        this.settings = new VSettings(); // reset settings to the default
-        this.game = new VGame();
-        this.game.setClientPlayer(clientPlayer);
+
+
+
+        launch();
+    }
+
+    public GUI() {
+
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.clientPlayer = "Start";
+        this.message = new Label();
+        this.game = new VGame();
+        this.game.setClientPlayer(this.clientPlayer);
+        this.gameGUI = new Group();
 
+        VBox table = new VBox();
+        table.getChildren().addAll(this.gameGUI, this.message);
+
+        Scene scene = new Scene(table);
+        primaryStage.setTitle("Dice");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public int askDice() {
@@ -112,7 +134,11 @@ public class GUI extends Application implements View  {
     }
 
     private void show() {
+        this.gameGUI = this.game.toGUI();
+    }
 
+    public void notifyMessage(String message) {
+        this.message.setText(message);
     }
 
     public void splash() {

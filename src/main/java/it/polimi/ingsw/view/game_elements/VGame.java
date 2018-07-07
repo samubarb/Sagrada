@@ -154,7 +154,7 @@ public class VGame {
         roundTrack.setAlignment(Pos.CENTER);
         currentDice.setAlignment(Pos.CENTER);
 
-        // Paddings
+        // Paddings and spacings
         organizer.setSpacing(padding);
         playersChain.setSpacing(padding);
         objCardsChain.setSpacing(padding);

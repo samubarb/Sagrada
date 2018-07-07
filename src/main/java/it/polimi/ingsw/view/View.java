@@ -29,6 +29,6 @@ public interface View {
     void notifyLose(); // notify the loose to the loosers
     void updateState(VGame game); // transfer all the changes from the model to the view
     void splash(); // show a beautiful splash screen at the begining of the game
-    String askNewUsername() throws UsernameTooShortException; // ask the user to choose a nickname for the game
-    String chooseAnotherUsername(String user /*username already taken*/) throws UsernameTooShortException; // if the username already exists let the player choose another one
+    //String askNewUsername() throws UsernameTooShortException; // ask the user to choose a nickname for the game
+    //String chooseAnotherUsername(String user /*username already taken*/) throws UsernameTooShortException; // if the username already exists let the player choose another one
 }

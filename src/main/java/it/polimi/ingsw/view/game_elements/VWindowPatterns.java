@@ -31,7 +31,7 @@ public class VWindowPatterns {
         for (int i = 0; i < this.patterns.length; i++)
             string.append("(" + (i + 1) + ") ").append(patterns[i]).append(newline);
 
-        int height = patterns[0].toString().split("\n").length + 1;
+        int height = patterns[0].toString().split(newline).length + 1;
 
         return makeHorizontal(string.toString(), height, gridSpace);
     }
