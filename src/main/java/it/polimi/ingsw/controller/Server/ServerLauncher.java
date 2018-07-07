@@ -31,25 +31,28 @@ public class ServerLauncher {
 
     public static final int MAXPLAYER = 4;
     public static final int MINPLAYERS = 2;
-    public static final long TIMETOWAITINROOM = 10000;
+    public static final long TIMETOWAITINROOM = 5000;
     public static final long START_IMMEDIATELY = 0;
     public static final boolean CONNECTED = true;
     public static final boolean DISCONNECTED = false;
     private Timer mainTimer;
     private int round;
-    private final int MAXNUMBEROFROUND = 5;
-    private final long TURNTIME = 10000;
+    private static final int MAXNUMBEROFROUND = 5;
+    private static final long TURNTIME = 10000;
+    private static  final int INTTURNTIME = (int)TURNTIME/1000;
     private Game game;
     private Timer turnTimer;
+    private Timer turnHandlerTimer;
     private boolean canJoin = true;
     private CountDownLatch startLatch;
-    private CountDownLatch turnLatch;
+    private static CountDownLatch turnLatch;
     private Object countDownMutex;
     private Player currentPlayer;
+    private static PlayerInterface currentPlayerInterface;
     private boolean dicePlaced = false;
     private boolean toolCardUsed = false;
     private boolean nothingToDo = false;
-
+    private static TurnTimerHandler turnHandler;
 
     /**
      * SocketClient port.
@@ -106,9 +109,10 @@ public class ServerLauncher {
         this.round = 0;
         this.game = new Game();
         this.turnTimer = new Timer();
+        this.turnHandlerTimer = new Timer();
         this.canJoin = true;
         this.startLatch = new CountDownLatch(1);
-        this.turnLatch = new CountDownLatch(1);
+        //this.turnLatch = new CountDownLatch(1);
         this.countDownMutex = new Object();
         this.dicePlaced = false;
         this.toolCardUsed = false;
@@ -156,6 +160,14 @@ public class ServerLauncher {
 
     public Object getLoginMutex() {
         return LOGIN_MUTEX;
+    }
+
+    public Timer getTurnTimer() {
+        return turnTimer;
+    }
+
+    public static CountDownLatch getTurnLatch() {
+        return turnLatch;
     }
 
     public void disableUser(User user) {
@@ -287,115 +299,6 @@ public class ServerLauncher {
                 }
                 return false;
             }
-            /*if (this.offlineNicknames.size() > 0) {
-                //reconnection of already registered player
-                for (User user : offlineNicknames) {
-                    if (user.getUsername().equals(username)) {
-
-                        this.nicknames.add(new User(username, clientPlayer));
-                        this.offlineNicknames.remove(user);
-                        try {
-                            clientPlayer.onRegister("Welcome again reconnected user: " + username);
-                            System.out.println("User logged again: " + username);
-                            //rmiServer.executeCheckConnectionThread();
-                            //clientPlayer.setClientGame(game);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            clientPlayer.setClientGame(game);
-                        } catch (RemoteException e) {
-                            try {
-                                clientPlayer.notifyError(e);
-                            } catch (RemoteException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                        return true;
-                    }
-                }
-            }*/
-            //if(canJoin) {
-             /*   if ((this.nicknames.size() + this.offlineNicknames.size()) >= MAXPLAYER&&canJoin) {
-                    System.out.println("max player reached");
-                    canJoin = false;
-                    try {
-                        clientPlayer.onRegister("Max player reached");
-                        System.out.println("Max player reached");
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                    return false;
-                }
-                if (this.offlineNicknames.size() > 0) {
-                    //reconnection of already registered player
-                    for (User user : offlineNicknames) {
-                        if (user.getUsername().equals(username)) {
-
-                            this.nicknames.add(new User(username, clientPlayer));
-                            this.offlineNicknames.remove(user);
-                            try {
-                                clientPlayer.onRegister("Welcome again reconnected user: " + username);
-                                System.out.println("User logged again: " + username);
-                                //rmiServer.executeCheckConnectionThread();
-                                //clientPlayer.setClientGame(game);
-                            } catch (RemoteException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                clientPlayer.setClientGame(game);
-                            } catch (RemoteException e) {
-                                try {
-                                    clientPlayer.notifyError(e);
-                                } catch (RemoteException e1) {
-                                    e1.printStackTrace();
-                                }
-                            }
-                            //ridò il game al giocatore
-                            return true;
-                        }
-                    }
-                } else if (nicknames.size() > 0) {
-                    for (User user : nicknames) {
-                        if (user.getUsername().equals(username)) {
-                            try {
-                                clientPlayer.printaaa("Name already in use");
-                            } catch (RemoteException e) {
-                                e.printStackTrace();
-                            }
-                            return false;
-                        }
-                    }
-                }
-                try {
-                    clientPlayer.onRegister("User logged as: " + username);
-                    clientPlayer.onRegister("welcome");
-                    for (User user : serverLauncher.getNicknames()) {
-                        user.getPlayerInterface().notifyConnection(username);
-                    }
-                    System.out.println("User logged as: " + username);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-                nicknames.add(new User(username, clientPlayer));
-                if (nicknames.size() == MAXPLAYER) {
-                    canJoin = false;
-                    cancelTimer();
-                    startCountDownTimer(START_IMMEDIATELY);
-                } else if (nicknames.size() == MINPLAYERS) {
-                    startCountDownTimer(TIMETOWAITINROOM);
-                }
-                return true;*/
-            //}
-            /*else {
-                try {
-                    clientPlayer.printaaa("game already started");
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-                return false;
-            //}*/
         }
     }
 
@@ -410,6 +313,13 @@ public class ServerLauncher {
         return false;
     }
 
+    public static PlayerInterface getCurrentPlayerInterface() {
+        return currentPlayerInterface;
+    }
+
+    public static void setCurrentPlayerInterface(PlayerInterface currentPlayerInterface) {
+        ServerLauncher.currentPlayerInterface = currentPlayerInterface;
+    }
 
     private void startCountDownTimer(long waitingTime) {
         mainTimer = new Timer();
@@ -460,6 +370,7 @@ public class ServerLauncher {
                                     e.printStackTrace();
                                 }
                                 synchronized (TURN_MUTEX) {
+                                    currentPlayerInterface = user.getPlayerInterface();
                                     startTurn(user.getPlayerInterface(), currentPlayer);
                                     //updateGameSession();
                                 }
@@ -503,6 +414,8 @@ public class ServerLauncher {
             nothingToDo = false;
             toolCardUsed = false;
             dicePlaced = false;
+            //devo mettere l'avvio del turno
+            startTurnCountDownTimer(START_IMMEDIATELY);
             while (!(nothingToDo || (toolCardUsed && dicePlaced))) {
                 try {
                     playerInterface.setMyTurn(true);
@@ -529,6 +442,12 @@ public class ServerLauncher {
             }
             //teo}
 
+        }
+
+        public void startTurnCountDownTimer(long waitingTime){
+            turnHandlerTimer.schedule(new TurnTimerHandler(), waitingTime);
+            //turnHandler = new TurnTimerHandler();
+            //turnHandler.startTimer(TURNTIME, currentPlayerInterface);
         }
 
         public void getMoves(PlayerInterface playerInterface, Player player) {
@@ -747,6 +666,7 @@ public class ServerLauncher {
                 }
                 restoreFavorToken(player, i);
                 game.restoreDice(player, dice);
+                toolCardUsed = false;
                 return;
             }
 
@@ -1065,6 +985,7 @@ public class ServerLauncher {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+            stopTimer();
 
         }
 
@@ -1332,7 +1253,7 @@ public class ServerLauncher {
             }
         }
 
-        void startTimer(long moveWaitingTime, PlayerInterface playerInterface) {
+        /*void startTimer(long moveWaitingTime, PlayerInterface playerInterface) {
             int time = (int) (moveWaitingTime / 1000);
             this.turnLatch = new CountDownLatch(time);
             turnTimer.scheduleAtFixedRate(new TurnCountDownTask(), 1000, 1000);
@@ -1341,12 +1262,12 @@ public class ServerLauncher {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-        }
+        }*/
 
         void stopTimer() {
             resetTimer();
-            while (countDownLatch.getCount() > 0)
-                countDownLatch.countDown();
+            while (getTurnLatch().getCount() > 0)
+                getTurnLatch().countDown();
         }
 
         private void resetTimer() {
@@ -1360,16 +1281,84 @@ public class ServerLauncher {
 
         @Override
         public void run() {
-            synchronized (countDownMutex) {
                 if (turnLatch.getCount() > 0) {
                     if (turnLatch.getCount() == 1) {
-                        turnTimer.cancel();
-                        turnTimer.purge();
+                        try {
+                            getCurrentPlayerInterface().setMyTurn(false);
+                        } catch (RemoteException e) {
+                            try {
+                                getCurrentPlayerInterface().notifyError(e);
+                            } catch (RemoteException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        stopTimer();
+
                     }
                     turnLatch.countDown();
+                    System.out.println(turnLatch.getCount());
+                }
+        }
+        void stopTimer() {
+            resetTimer();
+            while (turnLatch.getCount() > 0)
+                turnLatch.countDown();
+        }
+        private void resetTimer() {
+            turnTimer.cancel();
+            turnTimer.purge();
+        }
+    }
+
+    private class TurnTimerHandler extends  TimerTask{
+        @Override
+        public void run() {
+            startTimer(TURNTIME, getCurrentPlayerInterface());
+            //quello che facevo nel turn timer
+        }
+
+        void startTimer(long moveWaitingTime, PlayerInterface playerInterface) {
+            /*turnLatch = new CountDownLatch(INTTURNTIME);
+            turnTimer.scheduleAtFixedRate(new TurnCountDownTask(), 1000, 1000);
+            try {
+                turnLatch.await();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                e.printStackTrace();
+            }*/
+
+
+
+            int time = (int) (moveWaitingTime / 1000);
+            turnLatch = new CountDownLatch(INTTURNTIME);
+            turnTimer = new Timer();
+            turnTimer.schedule(new TurnCountDownTask(), 1000, 1000);
+            try {
+                turnLatch.await();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            try {
+                getCurrentPlayerInterface().setMyTurn(false);
+            } catch (RemoteException e) {
+                try {
+                    getCurrentPlayerInterface().notifyError(e);
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
                 }
             }
-
+            nothingToDo = true;
+            /*for(User user : getNicknames()) {
+                if(user.getUsername().equals(currentPlayer.getName())) {
+                    serverLauncher.disableUser(user);
+                }*/
+            //}
+            System.out.println("fine timer turno");
+            resetTimer();
+        }
+        private void resetTimer() {
+            turnTimer.cancel();
+            turnTimer.purge();
         }
     }
 }
