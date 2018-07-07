@@ -3,6 +3,7 @@ package it.polimi.ingsw.controllerTest;
 import it.polimi.ingsw.controller.Server.AdapterCLI;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameConfigurator;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.game_elements.VWindowPatterns;
@@ -17,7 +18,9 @@ import static it.polimi.ingsw.inputoutput.IOManager.println;
 public class AdapterPatternTest {
     @Test
     public void testprintPattern() {
-        GameConfigurator gameConf = new GameConfigurator(new Game());
+        Game game = new Game();
+        game.setAddPlayer(new Player("TestPlayer"));
+        GameConfigurator gameConf = new GameConfigurator(game);
         AdapterCLI adapter = new AdapterCLI();
         ArrayList<WindowPattern> patterns = new ArrayList<WindowPattern>();
         patterns.add(gameConf.createWPCVirtus());
@@ -41,7 +44,9 @@ public class AdapterPatternTest {
 
     @Test
     public void testprintPatterns() {
-        GameConfigurator gameConf = new GameConfigurator(new Game());
+        Game game = new Game();
+        game.setAddPlayer(new Player("TestPlayer"));
+        GameConfigurator gameConf = new GameConfigurator(game);
 
         WindowPattern[] patterns = new WindowPattern[4];
         patterns[0] = gameConf.createWPCVirtus();

@@ -186,7 +186,7 @@ public class Frame implements Serializable {
      */
     public boolean checkCornerOrthogonalColorAndValueAdjacency(Dice dice,Coordinates position){
         if(position.getX()==UP_BORDER&&position.getY()==LEFT_BORDER){
-            if (getDice(position.getX(), position.getY()+1).getValue() == dice.getValue() ||
+            if (getDice(position.getY(), position.getX()+1).getValue() == dice.getValue() ||
                     getDice(position.getY()+1, position.getX()).getValue() == dice.getValue()||getDice(position.getY(), position.getX()+1).getColor().equals(dice.getColor()) ||
                     getDice(position.getY()+1, position.getX()).getColor().equals(dice.getColor()))
                 return false;

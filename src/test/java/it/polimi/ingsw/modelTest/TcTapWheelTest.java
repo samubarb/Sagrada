@@ -3,14 +3,15 @@ package it.polimi.ingsw.modelTest;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.toolCards.TcLathekin;
+import it.polimi.ingsw.model.toolCards.TcTapWheel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TcLathekinTest {
+public class TcTapWheelTest {
 
     @Test
-    public void testLathkin(){
+    public void testTcTapWheel(){
         Game gameTest=new Game();
         Frame testFrame=new Frame();
         Dice testDice1=new Dice(Color.RED,6);
@@ -29,7 +30,7 @@ public class TcLathekinTest {
         playerOne.setWindowPattern(testWindow);
         playerOne.setFrame(testFrame);
 
-        TcLathekin tcCard=new TcLathekin(1,"grozingPliers",Color.BLUE);
+        TcTapWheel tcCard=new TcTapWheel(1,"tapWheel",Color.BLUE);
         System.out.println(playerOne.getWindowPattern().getDicePosition(new Coordinates(0,2)).getValue());
 
         gameTest.getCurrentPlayer();
@@ -37,12 +38,13 @@ public class TcLathekinTest {
         assertTrue(gameTest.getTurnOrder().length==1);
         System.out.println(playerOne.getWindowPattern().getDicePosition(new Coordinates(0,2)).getColor());////
         System.out.println(playerOne.getWindowPattern().getDicePosition(new Coordinates(0,2)).getValue());
-        System.out.println(playerOne.getFrame().getDice(1,1).getValue());
-        System.out.println(playerOne.getFrame().getDice(1,1).getColor());
-        System.out.println(playerOne.getFrame().getDice(2,0).getValue());
-        System.out.println(playerOne.getFrame().getDice(2,0).getColor());
+        System.out.println(playerOne.getFrame().getDice(0,0).getValue());
+        System.out.println(playerOne.getFrame().getDice(0,0).getColor());
+        System.out.println(playerOne.getFrame().getDice(0,1).getValue());
+        System.out.println(playerOne.getFrame().getDice(0,1).getColor());
+        gameTest.setRoundTrack(testDice1,1);
         try {
-            tcCard.useTool(playerOne,new Coordinates(1,0),new Coordinates(0,2),new Coordinates(1,1),new Coordinates(1,0));
+            tcCard.useTool(playerOne,new Coordinates(0,0),new Coordinates(2,0),new Coordinates(1,0),new Coordinates(0,2));
         } catch (FrameValueAndColorException e) {
             e.printStackTrace();
         } catch (WindowPatternValueException e) {
@@ -55,11 +57,15 @@ public class TcLathekinTest {
             e.printStackTrace();
         }
         System.out.println("toolcard usata");
+        System.out.println(playerOne.getFrame().getDice(0,0).getValue());
+        System.out.println(playerOne.getFrame().getDice(0,0).getColor());
         System.out.println(playerOne.getFrame().getDice(0,1).getValue());
         System.out.println(playerOne.getFrame().getDice(0,1).getColor());
-        System.out.println(playerOne.getFrame().getDice(1,1).getValue());
-        System.out.println(playerOne.getFrame().getDice(1,1).getColor());
         System.out.println(playerOne.getFrame().getDice(2,0).getValue());
         System.out.println(playerOne.getFrame().getDice(2,0).getColor());
+        System.out.println(playerOne.getFrame().getDice(0,2).getValue());
+        System.out.println(playerOne.getFrame().getDice(0,2).getColor());
+
+
     }
 }

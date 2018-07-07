@@ -14,18 +14,16 @@ import javafx.stage.Stage;
 
 public class GUI extends Application implements View  {
 
-    private VPlayer clientPlayer;
+    private String clientPlayer;
     private VGame game;
     private static VSettings settings;
     private VSettings tempSettings;
-    private Stage window;
 
-    public GUI(String player) {
-    }
-
-    public void show() {
-
-
+    public GUI(String clientPlayer) {
+        this.clientPlayer = clientPlayer;
+        this.settings = new VSettings(); // reset settings to the default
+        this.game = new VGame();
+        this.game.setClientPlayer(clientPlayer);
     }
 
     @Override
@@ -108,6 +106,12 @@ public class GUI extends Application implements View  {
     }
 
     public void updateState(VGame game) {
+        game.setClientPlayer(this.clientPlayer);
+        this.game = game;
+        show();
+    }
+
+    private void show() {
 
     }
 

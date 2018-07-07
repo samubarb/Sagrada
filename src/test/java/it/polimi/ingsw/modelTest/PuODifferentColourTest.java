@@ -6,8 +6,6 @@ import it.polimi.ingsw.model.Frame;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.awt.*;
-
 public class PuODifferentColourTest {
 
     @Test

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.modelTest;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.toolCards.TcLathekin;
 import it.polimi.ingsw.model.toolCards.TcLensCutter;
 import org.junit.jupiter.api.Test;
 

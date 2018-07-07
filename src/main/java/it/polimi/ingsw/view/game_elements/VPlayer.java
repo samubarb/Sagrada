@@ -5,7 +5,6 @@ import it.polimi.ingsw.view.cards.VWindowPattern;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -96,6 +95,8 @@ public class VPlayer implements Comparable {
 
         for (int i = 0; i < frame.length; i++)
             string.append(centerText(frame[i], gridSpace)).append(centerText(wpattern[i + 1], gridSpace)).append(newline);
+
+        string.append(centerText(wpattern[wpattern.length - 1], gridSpace)).append(newline);
 
         return string.toString();
     }

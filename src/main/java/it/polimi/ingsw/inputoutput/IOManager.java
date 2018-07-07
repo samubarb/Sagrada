@@ -40,11 +40,11 @@ public final class IOManager {
     public final static int padding = 10;
     public final static int thinPadding = 2;
 
-    public final static int cellWidth = 64;
-    public final static int cellHeight = 64;
+    public final static int cellWidth = 42;
+    public final static int cellHeight = 42;
     public final static int thirdOfCell = cellWidth / 3;
     public final static int dotRadius = thirdOfCell * 4 / 5 / 2;
-    public final static int cardWidth = 300;
+    public final static int cardWidth = 250;
 
 
 

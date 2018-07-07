@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
+import javafx.scene.layout.HBox;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -33,5 +34,12 @@ public class VWindowPatterns {
         int height = patterns[0].toString().split("\n").length + 1;
 
         return makeHorizontal(string.toString(), height, gridSpace);
+    }
+
+    public HBox toGUI() {
+        HBox tools = new HBox();
+        for (VWindowPattern pattern : this.patterns)
+            tools.getChildren().add(pattern.toGUI());
+        return tools;
     }
 }

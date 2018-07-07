@@ -22,6 +22,8 @@ public class VWindowPattern {
     private int token;
     private VDice[][] pattern;
 
+    private static final String favorToken = "•";
+
     public VWindowPattern() {
         this.pattern = new VDice[5][4];
     }
@@ -60,12 +62,12 @@ public class VWindowPattern {
     public String toString() {
         StringBuilder string = new StringBuilder(this.name + newline);
         string.append("  ");
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < cols; i++)
             string.append(" " + (i + 1) + "   ");
         string.append(newline);
-        for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < rows; j++) {
             string.append((j+1) + " ");
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < cols; i++) {
                 string.append("|");
                 if (this.pattern[i][j] == null) {
                     string.append("   ");
@@ -74,8 +76,12 @@ public class VWindowPattern {
                 }
                 string.append("|");
             }
-            string.append("\n");
+            string.append(newline);
         }
+        string.append("Segnalini favore: ");
+        for (int i = 0; i < this.token; i++)
+            string.append(favorToken);
+        string.append(newline);
         return string.toString();
     }
 

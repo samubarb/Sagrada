@@ -2,7 +2,6 @@ package it.polimi.ingsw.modelTest;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.toolCards.TcEglomiseBrush;
-import it.polimi.ingsw.model.toolCards.TcGrozingPliers;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

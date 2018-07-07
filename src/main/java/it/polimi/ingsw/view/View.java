@@ -18,7 +18,6 @@ public interface View {
     int askToolCard(); // tool cards are taken from Game
     boolean askAction(); // true for increase, false for decrease, use with booleanToAction() adapter
     int askToPickFromRoundTrack(); // effect of a toolcard: you can take a dice
-
     int askDiceNumber(VDice dice); // asks the user with which number wants to re-place a specific dice
 
     // Methods to notify something to the Client
@@ -32,19 +31,4 @@ public interface View {
     void splash(); // show a beautiful splash screen at the begining of the game
     String askNewUsername() throws UsernameTooShortException; // ask the user to choose a nickname for the game
     String chooseAnotherUsername(String user /*username already taken*/) throws UsernameTooShortException; // if the username already exists let the player choose another one
-
-    // DEPRECATED
-    /*
-    String askNewPassword(); // ask the user the password to login validation
-    void setTurn(VPlayer player);
-    VMove askMove(VPlayer player); // use by the server to interrogate the client and let the user input his move
-    VMove reAskMove(VPlayer player); // in case of a bad placement, send an error message and re-ask a new move
-    String askUsername();
-    String askPassword();
-    void loggedIn(String player); // invoked by the server to permit login
-     */
-
-    /* NEED TO IMPLEMENT
-     - show favor tokens of WPcards
-    */
 }
