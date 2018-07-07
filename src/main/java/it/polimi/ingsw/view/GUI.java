@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class GUI extends Application implements View  {
-
     private String clientPlayer;
     private VGame game;
     private Label message;
@@ -32,6 +31,7 @@ public class GUI extends Application implements View  {
         this.game.setClientPlayer(this.clientPlayer);
         this.gameGUI = new Group();
         this.table = new VBox();
+        launch();
     }
 
     @Override

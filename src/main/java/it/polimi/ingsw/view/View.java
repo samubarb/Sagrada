@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.game_elements.VWindowPatterns;
