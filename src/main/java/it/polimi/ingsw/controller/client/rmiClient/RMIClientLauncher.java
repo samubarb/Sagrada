@@ -287,6 +287,21 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         RMIClientLauncher.game = game;
     }
 
+    /**
+     * Getter of the user interface
+     * @return user interface
+     */
+    public static View getView() {
+        return view;
+    }
+
+    /**
+     * Setter of user interface
+     * @param view user interface
+     */
+    public static void setView(View view) {
+        RMIClientLauncher.view = view;
+    }
 
     /**
      * Method used to verify if player is still online

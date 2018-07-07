@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gui_test;
 
-import it.polimi.ingsw.controller.Adapter;
+import it.polimi.ingsw.controller.RMIApi.Adapter;
 import it.polimi.ingsw.controller.Server.AdapterCLI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.game_elements.VPlayer;

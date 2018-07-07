@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gui_test;
 
-import it.polimi.ingsw.controller.Adapter;
 import it.polimi.ingsw.controller.Server.AdapterCLI;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameConfigurator;
@@ -10,12 +9,8 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
-
-import static it.polimi.ingsw.inputoutput.IOManager.getImage;
-import static it.polimi.ingsw.inputoutput.IOManager.tools_path;
 
 public class CardTest extends Application {
     @Test

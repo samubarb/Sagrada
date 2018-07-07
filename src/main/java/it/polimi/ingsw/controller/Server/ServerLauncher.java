@@ -140,7 +140,7 @@ public class ServerLauncher {
      * @param rmiPort    of RMI server.
      * @throws Exception if errors occur during initialization.
      */
-    private void startSocketRMIServer(int socketPort, int rmiPort) throws Exception {
+    public void startSocketRMIServer(int socketPort, int rmiPort) throws Exception {
         //socketServer.startServer(socketPort);
         rmiServer.setServerLauncher(serverLauncher);
         rmiServer.startServer(rmiPort);

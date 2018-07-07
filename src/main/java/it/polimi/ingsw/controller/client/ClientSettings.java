@@ -1,8 +1,7 @@
 package it.polimi.ingsw.controller.client;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.controller.NetworkSettings;
-import it.polimi.ingsw.controller.Server.ServerSettings;
+import it.polimi.ingsw.controller.RMIApi.NetworkSettings;
 
 import static it.polimi.ingsw.inputoutput.IOManager.fileToString;
 import static it.polimi.ingsw.inputoutput.IOManager.newline;

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.Server;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.controller.Adapter;
+import it.polimi.ingsw.controller.RMIApi.Adapter;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.toolCards.ToolCard;
 import it.polimi.ingsw.view.cards.VPrivateObjectiveCard;

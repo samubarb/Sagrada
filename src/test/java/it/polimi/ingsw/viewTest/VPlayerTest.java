@@ -1,17 +1,14 @@
 package it.polimi.ingsw.viewTest;
 
-import it.polimi.ingsw.controller.Adapter;
+import it.polimi.ingsw.controller.RMIApi.Adapter;
 import it.polimi.ingsw.controller.Server.AdapterCLI;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.other_elements.VColor;
 import it.polimi.ingsw.view.game_elements.VPlayer;
 import it.polimi.ingsw.view.cards.VWindowPattern;
-import it.polimi.ingsw.inputoutput.IOManager;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.inputoutput.IOManager.errorExit;
 import static it.polimi.ingsw.inputoutput.IOManager.println;
 
 public class VPlayerTest {

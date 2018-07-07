@@ -1,7 +1,6 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.RMIApi;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.controller.Server.ServerSettings;
 
 import static it.polimi.ingsw.inputoutput.IOManager.fileToString;
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
