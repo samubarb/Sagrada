@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -42,8 +43,8 @@ public class VCurrentDice {
         return string.toString();
     }
 
-    public FlowPane toGUI() {
-        FlowPane currentDice = new FlowPane();
+    public HBox toGUI() {
+        HBox currentDice = new HBox();
         for(VDice vd : this.dice)
             if (vd != null)
                 currentDice.getChildren().add(vd.toGUI());

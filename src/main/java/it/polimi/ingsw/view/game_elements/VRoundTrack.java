@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
 import static it.polimi.ingsw.inputoutput.IOManager.print;
@@ -38,8 +39,8 @@ public class VRoundTrack {
         return string.toString();
     }
 
-    public FlowPane toGUI() {
-        FlowPane roundTrack = new FlowPane();
+    public HBox toGUI() {
+        HBox roundTrack = new HBox();
         for (VDice dice : this.track)
             if (dice != null)
                 roundTrack.getChildren().add(dice.toGUI());
