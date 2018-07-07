@@ -172,6 +172,8 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         return registered;
     }
 
+
+
     /**
      * Getter of server interface
      * @return server interface
@@ -186,6 +188,63 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
      */
     public static void setServer(ServerInterface server) {
         RMIClientLauncher.server = server;
+    }
+
+    /**
+     * Getter of server address
+     * @return server address
+     */
+    public static String getAddress() {
+        return address;
+    }
+
+    /**
+     * Setter of server address
+     * @param address server address
+     */
+    public static void setAddress(String address) {
+        RMIClientLauncher.address = address;
+    }
+
+    /**
+     * Getter of server port
+     * @return server port
+     */
+    public static int getPort() {
+        return port;
+    }
+
+    /**
+     * Setter of server port
+     * @param port server port
+     */
+    public static void setPort(int port) {
+        RMIClientLauncher.port = port;
+    }
+
+    /**
+     * getter of isMyTurn
+     * @return value of isMyTurn
+     */
+    public static boolean isIsMyTurn() {
+        return isMyTurn;
+    }
+
+
+    /**
+     * Getter of game started
+     * @return value of game started
+     */
+    public static boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    /**
+     * Setter of game started
+     * @param gameStarted value of game started
+     */
+    public static void setGameStarted(boolean gameStarted) {
+        RMIClientLauncher.gameStarted = gameStarted;
     }
 
     /**
