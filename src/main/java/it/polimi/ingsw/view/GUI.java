@@ -7,7 +7,7 @@ import it.polimi.ingsw.view.game_elements.VWindowPatterns;
 import it.polimi.ingsw.view.other_elements.VConnectionStatus;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
 import it.polimi.ingsw.view.other_elements.VError;
-import it.polimi.ingsw.view.other_elements.VSettings;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -15,40 +15,29 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import static it.polimi.ingsw.inputoutput.IOManager.println;
+
 public class GUI extends Application implements View  {
 
     private String clientPlayer;
     private VGame game;
-    private static VSettings settings;
-    private VSettings tempSettings;
     private Label message;
     private Group gameGUI;
-
+    private VBox table;
 
     public GUI(String clientPlayer) {
-
-
-
-        launch();
-    }
-
-    public GUI() {
-
+        this.message = new Label();
+        this.clientPlayer = clientPlayer;
+        this.game = new VGame();
+        this.game.setClientPlayer(this.clientPlayer);
+        this.gameGUI = new Group();
+        this.table = new VBox();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.clientPlayer = "Start";
-        this.message = new Label();
-        this.game = new VGame();
-        this.game.setClientPlayer(this.clientPlayer);
-        this.gameGUI = new Group();
-
-        VBox table = new VBox();
-        table.getChildren().addAll(this.gameGUI, this.message);
-
-        Scene scene = new Scene(table);
-        primaryStage.setTitle("Dice");
+        Scene scene = new Scene(this.table);
+        primaryStage.setTitle("Sagrada");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -74,7 +63,10 @@ public class GUI extends Application implements View  {
     }
 
     public int askWindowPattern(VWindowPatterns wpCards) {
-        return 0;
+        this.table.getChildren().add(wpCards.toGUI());
+        println("here i am");
+        launch();
+        return 1;
     }
 
     public int askWindowPattern() {
@@ -108,7 +100,7 @@ public class GUI extends Application implements View  {
 
     @Override
     public void notifyGreetings() {
-
+        this.message = new Label("Benvenuto!");
     }
 
     public void notifyError(VError error) {
@@ -135,6 +127,11 @@ public class GUI extends Application implements View  {
 
     private void show() {
         this.gameGUI = this.game.toGUI();
+        try {
+            launch();
+        } catch (IllegalStateException e) {
+
+        }
     }
 
     public void notifyMessage(String message) {

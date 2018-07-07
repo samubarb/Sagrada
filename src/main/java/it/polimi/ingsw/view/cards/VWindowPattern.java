@@ -5,13 +5,10 @@ import it.polimi.ingsw.view.other_elements.VCoordinates;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -109,17 +106,16 @@ public class VWindowPattern {
         return grid;
     }
 
-    public Group toGUI() {
-        Group root = new Group();
+    public VBox toGUI() {
+        VBox wpattern = new VBox();
         GridPane grid = this.buildGrid();
-        GridPane wpattern = new GridPane();
 
         Label cardName = new Label(this.name);
         Label labelTokens = new Label("Segnalini favore: ");
         GridPane favorTokens = new GridPane();
 
-        cardName.setFont(Font.font(null, FontWeight.BOLD, 20));
-        cardName.setPadding(new Insets(padding));
+        //cardName.setFont(Font.font(null, FontWeight.BOLD, 20));
+        //cardName.setPadding(new Insets(padding));
 
         labelTokens.setFont(Font.font(null, FontWeight.NORMAL, 14));
 
@@ -133,12 +129,8 @@ public class VWindowPattern {
         for (int i = 0; i < this.token; i++)
             favorTokens.add(new Circle(10, Color.WHITE), i + 1, 0);
 
-        wpattern.add(cardName, 0,0);
-        wpattern.add(grid, 0, 1);
-        wpattern.add(favorTokens, 0, 2);
+        wpattern.getChildren().addAll(/*cardName,*/ grid, favorTokens);
 
-        root.getChildren().addAll(wpattern);
-
-        return root;
+        return wpattern;
     }
 }
