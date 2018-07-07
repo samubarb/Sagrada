@@ -2,7 +2,6 @@ package it.polimi.ingsw.modelTest;
 
 import it.polimi.ingsw.controller.Server.AdapterCLI;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.toolCards.TcFluxBrush;
 import org.junit.jupiter.api.Test;
 
 
@@ -122,6 +121,25 @@ public class FrameTest {
         System.out.println(f.getDice(1,1).getValue());
         System.out.println(f.getDice(1,1).getColor());
         assertTrue(f.getDice(1,1).getValue()==3);
+
+    }
+
+    @Test
+    public void testCheckCornerOrthogonalColorAndValueAdjacency(){
+        Frame testFrame=new Frame();
+        Dice testDice1=new Dice(Color.RED,6);
+        Dice testDice2=new Dice(Color.RED,3);
+        Dice testDice3=new Dice(Color.BLUE ,1);
+        Dice testDice4=new Dice(Color.YELLOW,3);
+        Dice testDice5=new   Dice(Color.PURPLE,5);
+        testFrame.setPositionDice(testDice1,0,2);
+        testFrame.setPositionDice(testDice2,0,1);
+        testFrame.setPositionDice(testDice3,1,0);
+        testFrame.setPositionDice(testDice4,1,1);
+        testFrame.setPositionDice(testDice5,new Coordinates(4,1));
+        assertTrue(testFrame.checkCornerOrthogonalColorAndValueAdjacency(testDice5,new Coordinates(0,0)));
+        //System.out.println(testFrame.checkCornerOrthogonalColorAndValueAdjacency(testDice1,new Coordinates(0,0)));
+        assertFalse(testFrame.checkCornerOrthogonalColorAndValueAdjacency(testDice1,new Coordinates(0,0)));
 
     }
 }
