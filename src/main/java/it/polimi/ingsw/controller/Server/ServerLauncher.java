@@ -1510,6 +1510,7 @@ public class ServerLauncher {
                             }
                         }
                         stopTimer();
+                        nothingToDo = true;
 
                     }
                     turnLatch.countDown();
@@ -1571,7 +1572,7 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
             }
-            nothingToDo = true;
+            //nothingToDo = true;
             resetTimer();
         }
 
