@@ -39,10 +39,10 @@ public class rmiStartServer {
                 Registry registry = LocateRegistry.createRegistry(port);
                 registry.bind("ServerInterface", stub);
             } catch (RemoteException ex) {
-                ex.printStackTrace();
+                //ex.printStackTrace();
                 return;
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
             executeCheckConnectionThread();
             System.out.println("Bound!");
