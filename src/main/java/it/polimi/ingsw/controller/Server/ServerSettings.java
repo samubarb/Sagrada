@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller.Server;
 
 import it.polimi.ingsw.controller.RMIApi.NetworkSettings;
 
+import java.io.File;
+
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
 
 /*
@@ -13,7 +15,9 @@ public class ServerSettings extends NetworkSettings {
 
     public ServerSettings() {
         super();
-        this.serverJSONpath = "./JSONconf/ServerSettings.json";
+        File file = new File("./JSONconf/ServerSettings.json");
+        this.serverJSONpath = file.getAbsolutePath();
+
     }
 
     public ServerSettings setFromJSON() {
