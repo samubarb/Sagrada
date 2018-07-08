@@ -259,13 +259,12 @@ public class Frame implements Serializable {
      * @return
      */
     public boolean checkCentralOrthogonalColorAndValueAdjacency(Dice dice,Coordinates position){
-        if(position.getX()==RIGHT_BORDER){
             if (getDice(position.getY(), position.getX()-1).getValue() == dice.getValue() || getDice(position.getY(), position.getX()+1).getValue() == dice.getValue() ||
                     getDice(position.getY()-1, position.getX()).getValue() == dice.getValue() || getDice(position.getY()+1, position.getX()).getValue() == dice.getValue() ||
                     getDice(position.getY(), position.getX()-1).getColor().equals(dice.getColor()) || getDice(position.getY(), position.getX() + 1).getColor().equals(dice.getColor())||
                     getDice(position.getY()-1, position.getX()).getColor().equals(dice.getColor())|| getDice(position.getY()+1, position.getX()).getColor().equals(dice.getColor()))
                 return false;
-        }
+
         return true;
 
     }

@@ -103,6 +103,50 @@
                   </execution>
               </executions>
           </plugin>
+          <plugin>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <version>2.4</version>
+              <executions>
+                  <execution>
+                      <id>Server</id>
+                      <configuration>
+                          <appendAssemblyId>false</appendAssemblyId>
+                          <archive>
+                              <manifest>
+                                  <mainClass>it.polimi.ingsw.controller.Server.ServerLauncher</mainClass>
+                              </manifest>
+                          </archive>
+                          <descriptorRefs>
+                              <descriptorRef>jar-with-dependencies</descriptorRef>
+                          </descriptorRefs>
+                          <finalName>${project.artifactId}-Server</finalName>
+                      </configuration>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>single</goal>
+                      </goals>
+                  </execution>
+                  <execution>
+                      <id>Client</id>
+                      <configuration>
+                          <appendAssemblyId>false</appendAssemblyId>
+                          <archive>
+                              <manifest>
+                                  <mainClass>it.polimi.ingsw.controller.client.ClientLauncher</mainClass>
+                              </manifest>
+                          </archive>
+                          <descriptorRefs>
+                              <descriptorRef>jar-with-dependencies</descriptorRef>
+                          </descriptorRefs>
+                          <finalName>${project.artifactId}-Client</finalName>
+                      </configuration>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>single</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
       </plugins>
   </build>
 </project>
