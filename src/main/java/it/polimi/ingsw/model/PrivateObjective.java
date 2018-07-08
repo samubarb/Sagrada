@@ -42,6 +42,11 @@ public class PrivateObjective implements iObjective,Serializable{
                 '}';
     }
 
+    /**
+     * calculate final player's score
+     * @param player
+     * @return
+     */
     @Override
     public int calculateScore(Player player) {
         Frame fakeFrame;

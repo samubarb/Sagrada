@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
-import java.io.Serializable;
 
 public class PuODifferentColor extends PublicObjective implements iObjective {
 
@@ -28,6 +26,11 @@ public class PuODifferentColor extends PublicObjective implements iObjective {
                 '}';
     }
 
+    /**
+     * calculate Player's score
+     * @param player
+     * @return
+     */
     @Override
     public int calculateScore(Player player) {
         Frame fakeFrame= player.getFrame();

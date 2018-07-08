@@ -33,6 +33,20 @@ public class TcTapWheel extends ToolCard implements iTool {
 
     }
 
+    /**
+     *
+     * move up to two dice of the same color that match the color o a die on the round track
+     * @param player
+     * @param initialPositionFirstNut
+     * @param finalPositionFirstNut
+     * @param initialPositionSecondNut
+     * @param finalPositionSecondNut
+     * @throws FrameValueAndColorException
+     * @throws WindowPatternValueException
+     * @throws WindowPatternColorException
+     * @throws BusyPositionException
+     * @throws AdjacentDiceException
+     */
     @Override
     public void useTool(Player player, Coordinates initialPositionFirstNut, Coordinates finalPositionFirstNut, Coordinates initialPositionSecondNut, Coordinates finalPositionSecondNut) throws FrameValueAndColorException, WindowPatternValueException, WindowPatternColorException, BusyPositionException,AdjacentDiceException{
        if(!player.getFrame().getDice(initialPositionFirstNut).getColor().equals(player.getFrame().getDice(initialPositionSecondNut).getColor())||
