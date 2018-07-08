@@ -110,11 +110,6 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
         gameStarted = true;
     }
 
-   /* public void generateWatcher(){
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(checkClientsConnection, 0, 1, TimeUnit.SECONDS);
-    }*/
-
     /**
      * This method permits the choose of the user interface
      * @return 1 for cli, 2 for gui

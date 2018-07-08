@@ -1,7 +1,5 @@
 package it.polimi.ingsw.controller.RMIApi;
 
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
 
 import java.io.Serializable;
 import java.rmi.Remote;

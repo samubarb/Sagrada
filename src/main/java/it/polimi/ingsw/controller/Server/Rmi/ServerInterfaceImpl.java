@@ -3,11 +3,9 @@ package it.polimi.ingsw.controller.Server.Rmi;
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
 import it.polimi.ingsw.controller.RMIApi.ServerInterface;
 import it.polimi.ingsw.controller.Server.ServerLauncher;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+
 
 public class ServerInterfaceImpl implements ServerInterface {
 
