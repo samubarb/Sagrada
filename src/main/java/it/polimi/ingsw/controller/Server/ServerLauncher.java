@@ -24,35 +24,106 @@ import static sun.audio.AudioPlayer.player;
  * It represent the game server.
  */
 public class ServerLauncher {
+    /**
+     * Define representing the type of move, to place a dice
+     */
     private static final int DICEPLACE = 1;
+    /**
+     * Define representing the type of moves, to use a toolcard
+     */
     private static final int TOOLCARD = 2;
+    /**
+     * Define representing the tipe of moves, finish turn
+     */
     private static final int DONOTHING = 3;
-
-
-    public static final int MAXPLAYER = 4;
-    public static final int MINPLAYERS = 2;
-    public static final long TIMETOWAITINROOM = 5000;
-    public static final long START_IMMEDIATELY = 0;
-    public static final boolean CONNECTED = true;
+    /**
+     * Maximum number of player
+     */
+    private static final int MAXPLAYER = 4;
+    /**
+     * Minimum number of player to start a game
+     */
+    private static final int MINPLAYERS = 2;
+    /**
+     * Time to wait in room waiting other player after reaching MINPLAYERS
+     */
+    private static final long TIMETOWAITINROOM = 5000;
+    /**
+     * Time to wait in room afer reaching MAXPLAYER, it start immediately the game
+     */
+    private static final long START_IMMEDIATELY = 0;
+    /**
+     * Represents the status of a player, in this case connected
+     */
+    private static final boolean CONNECTED = true;
+    /**
+     * Represents the status of a player, in this case disconnected
+     */
     public static final boolean DISCONNECTED = false;
+    /**
+     * It is the timer that start in the waiting room, during registration of players
+     */
     private Timer mainTimer;
+    /**
+     * Represents the round of the game
+     */
     private int round;
-    private static final int MAXNUMBEROFROUND = 5;
+    /**
+     * Represents the number of round of the game
+     */
+    private static final int MAXNUMBEROFROUND = 510;
+    /**
+     * Represents the time that a player has to make his moves
+     */
     private static final long TURNTIME = 10000;
+    /**
+     * it's turn time bit converted as int
+     */
     private static  final int INTTURNTIME = (int)TURNTIME/1000;
+    /**
+     * Represent the value of empty array list
+     */
+    private static final int EMPTYARRAYLIST = 0;
+    /**
+     * It's the current game
+     */
     private Game game;
+    /**
+     * It's the timer that start during every turn
+     */
     private Timer turnTimer;
+    /**
+     * timer thet start for handling the thread thad handle the turn timer
+     */
     private Timer turnHandlerTimer;
+    /**
+     * represent the flag that permits players to login, true before game staer, false after that
+     */
     private boolean canJoin = true;
-    private CountDownLatch startLatch;
+    /**
+     * Latch tht is used to make a countdown for turn concurrency
+     */
     private static CountDownLatch turnLatch;
-    private Object countDownMutex;
+    /**
+     * Represent the player that is actually playing
+     */
     private Player currentPlayer;
+    /**
+     * It's the interface of the current player
+     */
     private static PlayerInterface currentPlayerInterface;
+    /**
+     * Represents if the current player has already placed a dice or not
+     */
     private boolean dicePlaced = false;
+    /**
+     * Represents if the current player has already used a tool card or not
+     */
     private boolean toolCardUsed = false;
+    /**
+     * Represents if the player wants to pass the turn or not
+     */
     private boolean nothingToDo = false;
-    private static TurnTimerHandler turnHandler;
 
     /**
      * SocketClient port.
@@ -68,6 +139,9 @@ public class ServerLauncher {
      * Mutex object to handle concurrency between users during loginPlayer.
      */
     public static final Object LOGIN_MUTEX = new Object();
+    /**
+     * Mutex object to handle concurrency between users during turn
+     */
     private static final Object TURN_MUTEX = new Object();
 
 
@@ -76,34 +150,20 @@ public class ServerLauncher {
      */
     private rmiStartServer rmiServer;
 
-    /**
-     * SocketClient server.
-     */
-    //private SocketServerAbstract socketServer;
 
+    /**
+     * Server launcher
+     */
     private static ServerLauncher serverLauncher;
     /**
      * Map of all logged and active players.
      */
     private ArrayList<User> nicknames;
 
-    private ArrayList<User> offlineNicknames;
 
     /**
      * Class constructor.
      */
-    /*public ServerLauncher() {
-        rmiServer = new rmiStartServer();
-        //socketServer = new SocketServerAbstract(this);
-        nicknames = new ArrayList<User>();
-        offlineNicknames = new ArrayList<User>();
-        //configure();
-        startLatch = new CountDownLatch(1);
-        game = new Game();
-        turnLatch = new CountDownLatch(1);
-        turnTimer = new Timer();
-    }*/
-
     public ServerLauncher() {
         this.mainTimer = new Timer();
         this.round = 0;
@@ -111,9 +171,6 @@ public class ServerLauncher {
         this.turnTimer = new Timer();
         this.turnHandlerTimer = new Timer();
         this.canJoin = true;
-        this.startLatch = new CountDownLatch(1);
-        //this.turnLatch = new CountDownLatch(1);
-        this.countDownMutex = new Object();
         this.dicePlaced = false;
         this.toolCardUsed = false;
         this.nothingToDo = false;
@@ -121,12 +178,14 @@ public class ServerLauncher {
         this.nicknames = new ArrayList<User>();
     }
 
+    /**
+     * Main method that start the rmi server to handle connection and the game
+     * @param args
+     */
     public static void main(String[] args) {
         try {
             serverLauncher = new ServerLauncher();
             serverLauncher.startSocketRMIServer(SOCKET_PORT, RMI_PORT);
-
-            //System.out.println("Socket server ready.");
             System.out.println("RMI server ready.");
         } catch (Exception e) {
             System.out.println("Server.java" + "Error while starting the server." + e);
@@ -141,40 +200,51 @@ public class ServerLauncher {
      * @throws Exception if errors occur during initialization.
      */
     public void startSocketRMIServer(int socketPort, int rmiPort) throws Exception {
-        //socketServer.startServer(socketPort);
         rmiServer.setServerLauncher(serverLauncher);
         rmiServer.startServer(rmiPort);
     }
 
+    /**
+     * Getter of the registered players
+     * @return the arraylist of registered players
+     */
     public ArrayList<User> getNicknames() {
         return nicknames;
     }
 
-    public ArrayList<User> getOfflineNicknames() {
-        return offlineNicknames;
-    }
-
+    /**
+     * Getter of the current player
+     * @return the current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * getter of login mutex
+     * @return the login mutex
+     */
     public Object getLoginMutex() {
         return LOGIN_MUTEX;
     }
 
-    public Timer getTurnTimer() {
-        return turnTimer;
-    }
-
+    /**
+     * Getter of turn latch
+     * @returnthe turn latch
+     */
     public static CountDownLatch getTurnLatch() {
         return turnLatch;
     }
 
+    /**
+     * This method set a player as disconnected and notify other players of the disconnection
+     * @param user player that has gone offline
+     */
     public void disableUser(User user) {
         synchronized (LOGIN_MUTEX) {
             for(User serverUser : nicknames){
                 if(serverUser.getUsername().equals(user.getUsername())){
-                    serverUser.setOnline(false);
+                    serverUser.setOnline(DISCONNECTED);
                     nothingToDo = true;
                 }
             }
@@ -182,6 +252,10 @@ public class ServerLauncher {
         }
     }
 
+    /**
+     * Notify the siconnection of a user
+     * @param user User that has disconnected
+     */
     public void notifyDisconnection(User user) {
         synchronized (LOGIN_MUTEX) {
             for (User username : nicknames) {
@@ -194,23 +268,17 @@ public class ServerLauncher {
         }
     }
 
-    public void notifyReconnection(User user) {
-        synchronized (LOGIN_MUTEX) {
-            for (User username : nicknames) {
-                try {
-                    username.getPlayerInterface().notifyDisconnection(user);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
+    /**
+     * Method that permits user registration
+     * @param clientPlayer client interface that permits comunication with the client
+     * @param username username of the player
+     * @return false if the register fails, true otherwise
+     */
     public boolean registerUser(PlayerInterface clientPlayer, String username) {
 
         synchronized (LOGIN_MUTEX) {
-            //reconnection
-            if(this.nicknames.size()>0){
+            if(this.nicknames.size()>EMPTYARRAYLIST){
                 for(User user : nicknames){//reconnection of a user
                     if(!user.isOnline && user.getUsername().equals(username)){
                         user.setOnline(CONNECTED);
@@ -257,7 +325,7 @@ public class ServerLauncher {
                     return false;
                 }
                 //Name already in use
-                else if (nicknames.size()>0){
+                else if (nicknames.size()>EMPTYARRAYLIST){
                     for(User user : nicknames){
                         if (user.getUsername().equals(username)) {
                             try {
@@ -272,12 +340,9 @@ public class ServerLauncher {
                 }
                 try {
                     clientPlayer.notifyUserLogged(username);
-                    //clientPlayer.onRegister("User logged as: " + username);
-                    //clientPlayer.onRegister("welcome");
                     for (User user : serverLauncher.getNicknames()) {
                         user.getPlayerInterface().notifyConnection(username);
                     }
-                    //System.out.println("User logged as: " + username);
                 } catch (RemoteException e) {
                     return false;
                 }
@@ -302,30 +367,34 @@ public class ServerLauncher {
         }
     }
 
-    public boolean contains(String username, ArrayList<User> userArrayList) {
-        for (User user : userArrayList) {
-            if (user.getUsername().equals(username))
-                return true;
-            else
-                return false;
-        }
-
-        return false;
-    }
-
+    /**
+     * Getter of current player interface
+     * @return current player interface
+     */
     public static PlayerInterface getCurrentPlayerInterface() {
         return currentPlayerInterface;
     }
 
+    /**
+     * Setter of the current
+     * @param currentPlayerInterface
+     */
     public static void setCurrentPlayerInterface(PlayerInterface currentPlayerInterface) {
         ServerLauncher.currentPlayerInterface = currentPlayerInterface;
     }
 
+    /**
+     * Start the timer for waiting room
+     * @param waitingTime time to wait in room
+     */
     private void startCountDownTimer(long waitingTime) {
         mainTimer = new Timer();
         mainTimer.schedule(new GameHandler(), waitingTime);
     }
 
+    /**
+     * Cancel a timer
+     */
     private void cancelTimer() {
         if (mainTimer != null) {
             mainTimer.cancel();
@@ -333,9 +402,10 @@ public class ServerLauncher {
         }
     }
 
+    /**
+     * The class that handle the game workflow
+     */
     private class GameHandler extends TimerTask {
-        private CountDownLatch turnLatch;
-        private CountDownLatch countDownLatch;
 
         /**
          * This method is executed when the time is expired. At first, it closes the room.
@@ -350,12 +420,7 @@ public class ServerLauncher {
             System.out.println("creata la game session");
             dispatchGameSession();
             System.out.println("ldistribuita la game session");
-            //configureGame();
-            //setupPlayerPatternChoice();
-            //synchronized (LOGIN_MUTEX) {
-                chooseWindowPattern();
-            //}
-            //while (game.getRound() <= MAXNUMBEROFROUND) {
+            chooseWindowPattern();
             do {
                 currentPlayer = game.getCurrentPlayer();
                 updateGameSessionHide();
@@ -372,7 +437,6 @@ public class ServerLauncher {
                                 synchronized (TURN_MUTEX) {
                                     currentPlayerInterface = user.getPlayerInterface();
                                     startTurn(user.getPlayerInterface(), currentPlayer);
-                                    //updateGameSession();
                                 }
                             }
                         }
@@ -381,16 +445,12 @@ public class ServerLauncher {
             } while (game.getRound() <= MAXNUMBEROFROUND);
             calculateFinalScore(game);
             notifyWinnerAndLoosers(game);
-            //selectWinner();
-            //notifyWinner();
         }
 
-        /*
-        public void setupPlayerPatternChoice(){
-            for (User user : nicknames){
-                user.getPlayerInterface().choosePattern();
-            }
-        }*/
+
+        /**
+         * This method is used to permits player to choose among window pattern
+         */
         public void chooseWindowPattern() {
             for (User user : getNicknames()) {
                 WindowPattern[] windowPattern = null;
@@ -409,12 +469,15 @@ public class ServerLauncher {
             }
         }
 
+        /**
+         * This method handle a single turn
+         * @param playerInterface player interface of the player that has to play the turn
+         * @param player Player thet has to play
+         */
         public void startTurn(PlayerInterface playerInterface, Player player) {
-            //startTimer(TURNTIME, playerInterface);
             nothingToDo = false;
             toolCardUsed = false;
             dicePlaced = false;
-            //devo mettere l'avvio del turno
             startTurnCountDownTimer(START_IMMEDIATELY);
             while (!(nothingToDo || (toolCardUsed && dicePlaced))) {
                 try {
@@ -422,36 +485,26 @@ public class ServerLauncher {
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-                //startTurnCountDown((int)TURNTIME);
-                //start turn timer;
-                //startTurnCountDownTimer(TURNTIME, playerInterface);
-                //startTimer(TURNTIME, playerInterface);
                 updateGameSession();
                 getMoves(playerInterface, player);
-                //updateGameSessionHide(); //this update update the change of the inner turn current dice
-
-                //getDiceAndPlace(playerInterface, player);
-                //dice vado nel client e faccio partire turn che chiede mossa:o dice o cartautensile o nulla
-        /*
-        if cartautensile usa cartautensile chiede cosa vuole la carta utensile se serve poi richiede
-        if posiziona dado posiziona dado poi richiede IL SOLO DA IMPLEMENTARE dopo non richiede ma termina il turno
-        if nulla end turn
-         */
                 endturn(playerInterface);
-
             }
-            //teo}
-
         }
 
+        /**
+         * Start the countdown timer of the turn
+         * @param waitingTime time of the countdown
+         */
         public void startTurnCountDownTimer(long waitingTime){
             turnHandlerTimer.schedule(new TurnTimerHandler(), waitingTime);
-            //turnHandler = new TurnTimerHandler();
-            //turnHandler.startTimer(TURNTIME, currentPlayerInterface);
         }
 
+        /**
+         * Method that permits the player to choose the moves
+         * @param playerInterface player interface of the player that has to play
+         * @param player player thet has to play
+         */
         public void getMoves(PlayerInterface playerInterface, Player player) {
-            //chiedo la mossa 0, 1 ,2, 3
             int moves = 0;
             try {
                 moves = playerInterface.getMoves();
@@ -478,6 +531,12 @@ public class ServerLauncher {
 
         }
 
+        /**
+         * Method that is used to choose between toolcards
+         * @param i integer that represent the index of the toolcard
+         * @param playerInterface player interface of the playing player
+         * @param player playing player
+         */
         public void useToolcard(int i, PlayerInterface playerInterface, Player player) {
             switch (i) {
                 case 0:
@@ -519,6 +578,12 @@ public class ServerLauncher {
             }
         }
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useGrozingPliers(int i, PlayerInterface playerInterface, Player player) {
 
             try {
@@ -571,16 +636,34 @@ public class ServerLauncher {
             }
         }
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useEnglimiseBrush(int i, PlayerInterface playerInterface, Player player) {
             oneDiceMoveToolUsage(i, playerInterface, player);
         }
 
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useCopperFoilBurnisher(int i, PlayerInterface playerInterface, Player player) {
             oneDiceMoveToolUsage(i, playerInterface, player);
         }
 
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useLathekin(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -619,6 +702,12 @@ public class ServerLauncher {
 
         }
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useLensCutter(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -672,6 +761,12 @@ public class ServerLauncher {
 
         }
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useFluxBrush(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -695,7 +790,7 @@ public class ServerLauncher {
                     e1.printStackTrace();
                 }
                 restoreFavorToken(player, i);
-                //toolCardUsed = false;
+                toolCardUsed = false;
                 return;
             }
             player.setChosenNut(game.getDiceFromCurrentDice(dice));
@@ -704,6 +799,12 @@ public class ServerLauncher {
             toolCardUsed = true;
         }
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useGlazingHammer(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -729,6 +830,12 @@ public class ServerLauncher {
             }
         }
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useRunningPliers(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -744,6 +851,12 @@ public class ServerLauncher {
             toolCardUsed = true;
         }
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useCorkBackedStraightedge(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -787,6 +900,12 @@ public class ServerLauncher {
             }
         }
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useGrindingStone(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -818,6 +937,12 @@ public class ServerLauncher {
             }
         }
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useFluxRemover(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -850,6 +975,12 @@ public class ServerLauncher {
             }
         }
 
+        /**
+         * Method that invoke a toolcard
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void useTapWheel(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -887,20 +1018,12 @@ public class ServerLauncher {
                 return;
             }
         }
-        /*
-        private void startTurnCountDownTimer(long waitingTime, PlayerInterface playerInterface) {
-            turnTimer = new Timer();
-            turnTimer.schedule(new TurnCountDownTask(), waitingTime);
-        }
 
-        private void cancelTurnTimer(PlayerInterface playerInterface) {
-                if (turnTimer != null) {
-                    turnTimer.cancel();
-                    turnTimer.purge();
-                }
-
-        }*/
-
+        /**
+         * Method that permits the player to place a dice
+         * @param playerInterface plyer interface of the player playing
+         * @param player player playing
+         */
         public void getDiceAndPlace(PlayerInterface playerInterface, Player player) {
             int position = 0;
             try {
@@ -978,8 +1101,11 @@ public class ServerLauncher {
             return;
         }
 
+        /**
+         * Method that ends player turn
+         * @param playerInterface player that want or has to end the turn
+         */
         public void endturn(PlayerInterface playerInterface) {
-            //stopTimer();
             try {
                 playerInterface.setMyTurn(false);
             } catch (RemoteException e) {
@@ -989,6 +1115,10 @@ public class ServerLauncher {
 
         }
 
+        /**
+         * Method that calculate the final score for the players
+         * @param game the current game playing
+         */
         public void calculateFinalScore(Game game) {
             for (Player player : game.getPlayers()) {
                 getFinalPointsFromPublicObjectives(game, player);
@@ -999,6 +1129,11 @@ public class ServerLauncher {
             }
         }
 
+        /**
+         * Method that gets the final score from public objectives
+         * @param game current game playing
+         * @param player adding the score to this player
+         */
         public void getFinalPointsFromPublicObjectives(Game game, Player player) {
             for (PublicObjective publicObjective : game.getPublicObjectives()) {
                 int finalScore = publicObjective.calculateScore(player);
@@ -1006,24 +1141,42 @@ public class ServerLauncher {
             }
         }
 
+        /**
+         * Method that gets the final score from private objective
+         * @param game current game playing
+         * @param player adding the score to the player
+         */
         public void getFinalPointsFromPrivateObjective(Game game, Player player) {
             int privatePoint = player.getPrivateObjective().calculateScore(player);
             player.addFinalPoints(privatePoint);
         }
 
+        /**
+         * Method that gets the final score from the empty part from the frame
+         * @param game current game playing
+         * @param player adding the negative score to this player
+         */
         public void getFinalPointsFromFrame(Game game, Player player) {
             int framePoints = player.playerFramePoints();
             player.addFinalPoints(framePoints);
         }
 
+        /**
+         * Method that gets the final score from the remaining favor token
+         * @param game current game playing
+         * @param player adding the score to this player
+         */
         public void getFinalPointsFromFavorToken(Game game, Player player) {
             int favorPoints = player.getFavorTokens();
             player.addFinalPoints(favorPoints);
         }
 
+        /**
+         * This method notify the players if they are a winner or a looser
+         * @param game game currently playing
+         */
         public void notifyWinnerAndLoosers(Game game) {
             String winner = null;
-            //calculate classifica
             for (User user : getNicknames()) {
                 try {
                     user.getPlayerInterface().notifyScoreBoard();
@@ -1061,6 +1214,11 @@ public class ServerLauncher {
 
 
         }
+
+        /**Method that calculate the winner
+         * @param game game currently playing
+         * @return the username of the winner
+         */
         public String calculateWinner(Game game){
             String winner = null;
             int winnerPoints = -100;
@@ -1073,6 +1231,16 @@ public class ServerLauncher {
             return winner;
         }
 
+        /**
+         * Method that is used in some toolcard that moves two dice
+         * @param i the index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         * @param initialCoordinates1 initial coordinates of the first dice
+         * @param finalCoordinates1 final coordinates of the firs dice
+         * @param initialCoordinates2 initial coordinates of the second dice
+         * @param finalCoordinates2 final coordinates of the second dice
+         */
         public void twoDiceToolUsage(int i, PlayerInterface playerInterface, Player player, Coordinates initialCoordinates1, Coordinates finalCoordinates1, Coordinates initialCoordinates2, Coordinates finalCoordinates2) {
             try {
                 game.getToolCards()[i].useTool(player, initialCoordinates1, finalCoordinates1, initialCoordinates2, finalCoordinates2);
@@ -1155,6 +1323,12 @@ public class ServerLauncher {
             }
         }
 
+        /**
+         * Method that is used in some toolcard that move a single dice
+         * @param i index of the toolcard
+         * @param playerInterface player interface of the player playing
+         * @param player player playing
+         */
         public void oneDiceMoveToolUsage(int i, PlayerInterface playerInterface, Player player) {
             try {
                 player.checkFavorTokenPlayer(game.getToolCards()[i]);
@@ -1189,17 +1363,28 @@ public class ServerLauncher {
 
         }
 
+        /**
+         * Method that restore the used favor token
+         * @param player restore the favor token to this player
+         * @param i index of the toolcard
+         */
         public void restoreFavorToken(Player player, int i) {
             player.restoreFavorTokenPlayer(game.getToolCards()[i]);
             toolCardUsed = false;
         }
 
+        /**
+         * Method that close the waiting room safely, without concurrent acces
+         */
         private void closeRoomSafely() {
             synchronized (LOGIN_MUTEX) {
                 canJoin = false;
             }
         }
 
+        /**
+         * Create the game session, it calls the game configurator
+         */
         private void createGameSession() {
             for (User user : nicknames) {
                 game.setAddPlayer(new Player(user.getUsername()));
@@ -1208,22 +1393,26 @@ public class ServerLauncher {
 
         }
 
+        /**
+         * It update clients game session and displays it on screen
+         */
         private void updateGameSession() {
             for (User user : nicknames) {
                 try {
                     user.getPlayerInterface().setClientGame(game);
-                    //user.getPlayerInterface().printPlayersFrame();
                 } catch (RemoteException e) {
 
                 }
             }
         }
 
+        /**
+         * Only update clients game session
+         */
         private void updateGameSessionHide(){
             for (User user : nicknames) {
                 try {
                     user.getPlayerInterface().setClientGameHide(game);
-                    //user.getPlayerInterface().printPlayersFrame();
                 } catch (RemoteException e) {
 
                 }
@@ -1231,45 +1420,32 @@ public class ServerLauncher {
         }
 
 
+        /**
+         * send the game to all players/clients
+         */
         private void dispatchGameSession() {
-            //Server.debug("[ROOM] Game ready, dispatching base game to all players");
             for (User user : getNicknames()) {
                 try {
                     user.getPlayerInterface().setClientGameHide(game);
 
                 } catch (RemoteException e) {
-                    //Server.error("problem with set player game", e);
                 }
             }
         }
 
-        private void notifyAllTurn(String username) {
-            for (User user : nicknames) {
-                try {
-                    user.getPlayerInterface().notifyTurn(username);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
 
-        /*void startTimer(long moveWaitingTime, PlayerInterface playerInterface) {
-            int time = (int) (moveWaitingTime / 1000);
-            this.turnLatch = new CountDownLatch(time);
-            turnTimer.scheduleAtFixedRate(new TurnCountDownTask(), 1000, 1000);
-            try {
-                turnLatch.await();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }*/
-
+        /**
+         * Stop a timer
+         */
         void stopTimer() {
             resetTimer();
             while (getTurnLatch().getCount() > 0)
                 getTurnLatch().countDown();
         }
 
+        /**
+         * RESET A TIMER
+         */
         private void resetTimer() {
             turnTimer.cancel();
             turnTimer.purge();
@@ -1277,8 +1453,14 @@ public class ServerLauncher {
     }
 
 
+    /**
+     * Class that handle the count down
+     */
     private class TurnCountDownTask extends TimerTask {
 
+        /**
+         * Method that handle the count down and set the player as not in his turn
+         */
         @Override
         public void run() {
                 if (turnLatch.getCount() > 0) {
@@ -1296,39 +1478,46 @@ public class ServerLauncher {
 
                     }
                     turnLatch.countDown();
-                    System.out.println(turnLatch.getCount());
                 }
         }
+
+        /**
+         * Stops a timer
+         */
         void stopTimer() {
             resetTimer();
             while (turnLatch.getCount() > 0)
                 turnLatch.countDown();
         }
+
+        /**
+         * Reset a timer
+         */
         private void resetTimer() {
             turnTimer.cancel();
             turnTimer.purge();
         }
     }
 
+    /**
+     * Class that handle the turn timer
+     */
     private class TurnTimerHandler extends  TimerTask{
+        /**
+         * Method thet handle the turn timer, and starts it
+         */
         @Override
         public void run() {
             startTimer(TURNTIME, getCurrentPlayerInterface());
-            //quello che facevo nel turn timer
+
         }
 
+        /**
+         * Method that start the timer of the turn
+         * @param moveWaitingTime time that the player has to play his turn
+         * @param playerInterface player interface of the player playing
+         */
         void startTimer(long moveWaitingTime, PlayerInterface playerInterface) {
-            /*turnLatch = new CountDownLatch(INTTURNTIME);
-            turnTimer.scheduleAtFixedRate(new TurnCountDownTask(), 1000, 1000);
-            try {
-                turnLatch.await();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                e.printStackTrace();
-            }*/
-
-
-
             int time = (int) (moveWaitingTime / 1000);
             turnLatch = new CountDownLatch(INTTURNTIME);
             turnTimer = new Timer();
@@ -1348,14 +1537,13 @@ public class ServerLauncher {
                 }
             }
             nothingToDo = true;
-            /*for(User user : getNicknames()) {
-                if(user.getUsername().equals(currentPlayer.getName())) {
-                    serverLauncher.disableUser(user);
-                }*/
-            //}
             System.out.println("fine timer turno");
             resetTimer();
         }
+
+        /**
+         * Reset a timer
+         */
         private void resetTimer() {
             turnTimer.cancel();
             turnTimer.purge();

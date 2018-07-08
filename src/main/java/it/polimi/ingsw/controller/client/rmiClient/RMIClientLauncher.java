@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.Server.AdapterCLI;
 import it.polimi.ingsw.controller.Server.ServerSettings;
 import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.controller.client.ClientSettings;
+import it.polimi.ingsw.inputoutput.IOManager;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.view.CLI;
@@ -122,7 +123,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
        System.out.println("Seleziona l'interfaccia utente");
        System.out.println("(1) Command line interface");
        System.out.println("(2) Graphical interface");
-       return Integer.parseInt(input.next());
+       return new IOManager().getInt(1,2);
    }
 
     /**
