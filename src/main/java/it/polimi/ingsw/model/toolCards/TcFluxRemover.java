@@ -11,6 +11,10 @@ public class TcFluxRemover extends ToolCard implements iTool{
         this.counter=90;
     }
 
+    /**
+     * after drafting, return the die to the dice bag(rolledDice) and pull 1 die from the bag
+     * @param player
+     */
     @Override
     public void useTool(Player player) {
 

@@ -23,6 +23,10 @@ public class GameConfigurator implements Serializable {
     private int numberColor;
 
 
+    /**
+     * constructor
+     * @param game
+     */
     public GameConfigurator(Game game){
 
         this.game = game;
@@ -47,6 +51,7 @@ public class GameConfigurator implements Serializable {
     }
 
     /**
+     * create windowPatternCards
      * @param game
      */
    private void createWindowPatternCards(Game game){
@@ -58,6 +63,9 @@ public class GameConfigurator implements Serializable {
     }
 
 
+    /**
+     * create public objective
+     */
     private void createPublicObjective(){
         PublicObjective[] allPublicObjective=new PublicObjective[10];
         allPublicObjective[0]=new PuODifferentColor("Different Color-Column",COLUMN,5);
@@ -79,6 +87,10 @@ public class GameConfigurator implements Serializable {
 
     }
 
+    /**
+     * shuffle objective
+     * @param objective
+     */
     public void shuffleObjective(Object[]objective) {
         Random rnd = ThreadLocalRandom.current();
         for (int i = objective.length - 1; i > 0; i--)
@@ -91,6 +103,10 @@ public class GameConfigurator implements Serializable {
         }
     }
 
+    /**
+     * set player's color
+     * @param player
+     */
     public void setPlayerColor(Player player){
        Color[] color=new Color[6];
       // shuffleObjective(color);
@@ -103,6 +119,10 @@ public class GameConfigurator implements Serializable {
         numberColor++;
     }
 
+    /**
+     * create private objective
+     * @return
+     */
     public PrivateObjective[] createPrivateObjective(){
         PrivateObjective[] privateObjective=new PrivateObjective[6];//UNCOLORED
         int i=0;
@@ -114,6 +134,9 @@ public class GameConfigurator implements Serializable {
 
     }
 
+    /**
+     * create toolCards
+     */
     public void createToolCards(){
         ToolCard[] toolCard= new ToolCard[12];
         toolCard[0]=new TcGrozingPliers(1,"Grozing Pliers",Color.PURPLE);
