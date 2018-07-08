@@ -70,8 +70,8 @@ public interface View {
     // Methods to notify something to the Client
 
     /**
-     *
-     * @param userName notify the connection status to the client
+     * notify the connection status to the client
+     * @param userName username whose connection status needs to be notified
      * @param status CONNECTED, DISCONNECTED, RECONNECTED
      */
     void notifyConnectionStatus(String userName, VConnectionStatus status);

@@ -107,10 +107,7 @@ public class GUI extends Application implements View  {
         return 0;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public boolean askAction() {
         println("here i am 11");
         return false;
@@ -129,9 +126,6 @@ public class GUI extends Application implements View  {
     }
 
     @Override
-    /**
-     *
-     */
     public void notifyConnectionStatus(String userName, VConnectionStatus status) {
         Platform.runLater(() -> {
             Label msg = new Label("Il giocatore " + userName + " si è " + status);
