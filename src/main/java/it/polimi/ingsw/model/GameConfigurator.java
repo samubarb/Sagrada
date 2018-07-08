@@ -108,15 +108,16 @@ public class GameConfigurator implements Serializable {
      * @param player
      */
     public void setPlayerColor(Player player){
-       Color[] color=new Color[6];
-      // shuffleObjective(color);
-        int i=0;
-        for(Color c: Color.values()) {
-            color[i] = c;
-            i++;
-        }
+       Color[] color=new Color[5];
+       color[0]=Color.RED;
+       color[1]=Color.YELLOW;
+       color[2]=Color.BLUE;
+       color[3]=Color.GREEN;
+       color[4]=Color.PURPLE;
+       shuffleObjective(color);
+
        player.setColor(color[numberColor]);
-        numberColor++;
+       numberColor++;
     }
 
     /**
@@ -124,12 +125,17 @@ public class GameConfigurator implements Serializable {
      * @return
      */
     public PrivateObjective[] createPrivateObjective(){
-        PrivateObjective[] privateObjective=new PrivateObjective[6];//UNCOLORED
-        int i=0;
-        for(Color c: Color.values()) {
-            privateObjective[i] = new PrivateObjective("Shades", c);
-            i++;
-        }
+        Color[] colored=new Color[5];
+        colored[0]=Color.RED;
+        colored[1]=Color.YELLOW;
+        colored[2]=Color.BLUE;
+        colored[3]=Color.GREEN;
+        colored[4]=Color.PURPLE;
+        PrivateObjective[] privateObjective=new PrivateObjective[5];//UNCOLORED
+        for(int i=0;i<colored.length;i++)
+            privateObjective[i] = new PrivateObjective("Shades", colored[i]);
+
+        shuffleObjective(privateObjective);
         return privateObjective;
 
     }
