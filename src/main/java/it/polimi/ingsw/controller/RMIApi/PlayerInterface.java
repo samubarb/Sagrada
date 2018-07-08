@@ -50,7 +50,7 @@ public interface PlayerInterface extends Remote, Serializable {
      * @param string string to output
      * @throws RemoteException Connection problem
      */
-    public void printaaa (String string) throws RemoteException;
+    public void print(String string) throws RemoteException;
 
     /**
      * This method is a general print used during registration of a player

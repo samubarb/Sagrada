@@ -334,7 +334,7 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
      * @throws RemoteException Connection Problem
      */
     @Override
-    public void printaaa(String string) throws RemoteException {
+    public void print(String string) throws RemoteException {
         System.out.println(string);
     }
 

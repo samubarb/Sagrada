@@ -138,7 +138,7 @@ public class RMIClientLauncherTest {
             VGame vgame = new AdapterCLI().gameToView(game);
             clientLauncher.notifyDisconnection(new User());
             clientLauncher.notifyReconnection("matteo");
-            clientLauncher.printaaa("matteo");
+            clientLauncher.print("matteo");
             clientLauncher.onRegister("Registered");
             clientLauncher.notifyConnection("matteo");
             clientLauncher.notifyTurn("matteo");

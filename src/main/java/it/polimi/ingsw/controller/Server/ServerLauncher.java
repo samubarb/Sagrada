@@ -65,11 +65,11 @@ public class ServerLauncher {
     /**
      * Represents the number of round of the game
      */
-    private static final int MAXNUMBEROFROUND = 510;
+    private static final int MAXNUMBEROFROUND = 10;
     /**
      * Represents the time that a player has to make his moves
      */
-    private static final long TURNTIME = 10000;
+    private static final long TURNTIME = 40000;
     /**
      * it's turn time bit converted as int
      */
@@ -133,22 +133,22 @@ public class ServerLauncher {
      * Mutex object to handle concurrency between users during loginPlayer.
      */
     public static final Object LOGIN_MUTEX = new Object();
+
     /**
      * Mutex object to handle concurrency between users during turn
      */
     private static final Object TURN_MUTEX = new Object();
-
 
     /**
      * RMI server.
      */
     private rmiStartServer rmiServer;
 
-
     /**
      * Server launcher
      */
     private static ServerLauncher serverLauncher;
+
     /**
      * Map of all logged and active players.
      */
