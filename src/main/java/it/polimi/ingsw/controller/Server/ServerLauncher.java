@@ -247,6 +247,24 @@ public class ServerLauncher {
     }
 
     /**
+     * This method checks if a player is in nicknames, used in test
+     * @param username name of the player
+     * @param userArrayList search in this arraylist
+     * @return false if search fails, true otherwise
+     */
+    public boolean contains(String username, ArrayList<User> userArrayList) {
+        for (User user : userArrayList) {
+            if (user.getUsername().equals(username))
+                return true;
+            else
+                return false;
+        }
+
+        return false;
+    }
+
+
+    /**
      * Notify the siconnection of a user
      * @param user User that has disconnected
      */

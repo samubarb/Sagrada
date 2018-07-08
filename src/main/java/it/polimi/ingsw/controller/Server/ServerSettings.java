@@ -15,8 +15,9 @@ public class ServerSettings extends NetworkSettings {
 
     public ServerSettings() {
         super();
-        File file = new File("./JSONconf/ServerSettings.json");
-        this.serverJSONpath = file.getAbsolutePath();
+        File file = new File("JSONconf/ServerSettings.json");
+        String ciao=file.getAbsolutePath();
+        this.serverJSONpath = ciao;//file.getAbsolutePath();
 
     }
 
