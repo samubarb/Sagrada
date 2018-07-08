@@ -10,9 +10,7 @@ import it.polimi.ingsw.view.other_elements.*;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
-/**
- *
- */
+
 public class CLI implements View {
     private String clientPlayer;
     private VGame game;
