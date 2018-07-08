@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -28,9 +29,14 @@ public class GUI extends Application implements View  {
     private Label message;
     private Group gameGUI;
     private VBox table;
+    private HBox buttons;
     private Scene scene;
     private Stage stage;
     private boolean flagFX;
+    private Button buttonDice;
+    private Button buttonTool;
+    private Button buttonPass;
+    private int pressedButton = 0;
 
     public GUI(String clientPlayer) {
         this.clientPlayer = clientPlayer;
@@ -59,7 +65,27 @@ public class GUI extends Application implements View  {
         this.message = new Label();
         this.gameGUI = new Group();
         this.table = new VBox();
+        this.buttons = new HBox();
+        this.buttonDice = new Button("Piazza un dado");
+        this.buttonTool = new Button("Scegli una toolcard");
+        this.buttonPass = new Button("Passa il turno");
 
+        this.buttonDice.setOnAction(e -> {
+            System.out.println("Button pressed " + ((Button) e.getSource()).getText());
+            this.pressedButton = 1;
+        });
+
+        this.buttonTool.setOnAction(e -> {
+            System.out.println("Button pressed " + ((Button) e.getSource()).getText());
+            this.pressedButton = 2;
+        });
+
+        this.buttonPass.setOnAction(e -> {
+            System.out.println("Button pressed " + ((Button) e.getSource()).getText());
+            this.pressedButton = 3;
+        });
+
+        this.buttons.getChildren().addAll(this.buttonDice, this.buttonTool, this. buttonPass);
         this.stage.setTitle("Sagrada - " + this.clientPlayer);
     }
 
@@ -71,7 +97,6 @@ public class GUI extends Application implements View  {
                 setTrue();
             });
         }
-
         synchronized(this) {
             while (!flagFX) {
                 try {
@@ -117,12 +142,28 @@ public class GUI extends Application implements View  {
     }
 
     public VCoordinates askCoordinates(int i) {
-        println("here i am 6");
-        return null;
+        this.flagFX = false;
+        synchronized(this) {
+            Platform.runLater(() -> {
+                this.message.setText("Clicca sul punto in cui vuoi piazzarlo sulla tua vetrata.");
+                setTrue();
+            });
+        }
+
+        synchronized(this) {
+            while (!flagFX) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+
+                }
+            }
+        }
+
+        return coordinatesChooserListener();
     }
 
     public int askMove() {
-        println("here i am 7");
         return 1;
     }
 
@@ -218,7 +259,7 @@ public class GUI extends Application implements View  {
             this.game = game;
             this.table = new VBox();
             this.gameGUI = this.game.toGUI();
-            this.table.getChildren().addAll(this.gameGUI, this.message);
+            this.table.getChildren().addAll(this.gameGUI, this.buttons, this.message);
             this.stage.setScene(new Scene(this.table));
         });
     }
