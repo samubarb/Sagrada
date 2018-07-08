@@ -41,7 +41,7 @@ public class ServerLauncher {
     /**
      * Time to wait in room waiting other player after reaching MINPLAYERS
      */
-    private static final long TIMETOWAITINROOM = 5000;
+    private static final long TIMETOWAITINROOM = 10000;
     /**
      * Time to wait in room afer reaching MAXPLAYER, it start immediately the game
      */
@@ -69,7 +69,7 @@ public class ServerLauncher {
     /**
      * Represents the time that a player has to make his moves
      */
-    private static final long TURNTIME = 40000;
+    private static final long TURNTIME = 60000;
     /**
      * it's turn time bit converted as int
      */
@@ -425,13 +425,9 @@ public class ServerLauncher {
          */
         @Override
         public void run() {
-            System.out.println("avviando il gioco");
             closeRoomSafely();
-            System.out.println("login state closed");
             createGameSession();
-            System.out.println("creata la game session");
             dispatchGameSession();
-            System.out.println("ldistribuita la game session");
             chooseWindowPattern();
             do {
                 currentPlayer = game.getCurrentPlayer();
@@ -624,6 +620,10 @@ public class ServerLauncher {
             try {
 
                 player.setChosenNut(game.getDiceFromCurrentDice(dice));
+                if(player.getChosenNut().getValue()==0){
+                    restoreFavorToken(player, i);
+                    return;
+                }
                 Action action = playerInterface.getTypeOfAction();
                 game.getToolCards()[i].useTool(player, action);
                 game.restoreDice(player, dice);
@@ -748,6 +748,10 @@ public class ServerLauncher {
             try {
 
                 player.setChosenNut((game.getDiceFromCurrentDice(dice)));
+                if(player.getChosenNut().getValue()==0){
+                    restoreFavorToken(player, i);
+                    return;
+                }
                 roundDice = playerInterface.getRoundDiceToBeSwapped();
                 game.getToolCards()[i].useTool(player, roundDice);
                 game.restoreDice(player, dice);
@@ -809,6 +813,10 @@ public class ServerLauncher {
                 return;
             }
             player.setChosenNut(game.getDiceFromCurrentDice(dice));
+            if(player.getChosenNut().getValue()==0){
+                restoreFavorToken(player, i);
+                return;
+            }
             game.getToolCards()[i].useTool(player);
             game.restoreDice(player, dice);
             toolCardUsed = true;
@@ -890,6 +898,10 @@ public class ServerLauncher {
                 dice = playerInterface.getDiceFromReserve();
                 Coordinates finalCoordinates = playerInterface.getDiceDestination();
                 player.setChosenNut(game.getDiceFromCurrentDice(dice));
+                if(player.getChosenNut().getValue()==0){
+                    restoreFavorToken(player, i);
+                    return;
+                }
                 game.getToolCards()[i].useTool(player, finalCoordinates);
                 toolCardUsed = true;
                 dicePlaced = true;
@@ -936,6 +948,10 @@ public class ServerLauncher {
             try {
                 dice = playerInterface.getDiceFromReserve();
                 player.setChosenNut(game.getDiceFromCurrentDice(dice));
+                if(player.getChosenNut().getValue()==0){
+                    restoreFavorToken(player, i);
+                    return;
+                }
                 game.getToolCards()[i].useTool(player);
                 game.restoreDice(player, dice);
                 toolCardUsed = true;
@@ -973,6 +989,10 @@ public class ServerLauncher {
             try {
                 dice = playerInterface.getDiceFromReserve();
                 player.setChosenNut(game.getDiceFromCurrentDice(dice));
+                if(player.getChosenNut().getValue()==0){
+                    restoreFavorToken(player, i);
+                    return;
+                }
                 game.getToolCards()[i].useTool(player);
                 int value = playerInterface.getDiceValue(player.getChosenNut());
                 player.getChosenNut().setValue(value);
