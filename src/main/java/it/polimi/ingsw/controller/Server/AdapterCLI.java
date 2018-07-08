@@ -52,8 +52,8 @@ public final class AdapterCLI implements Adapter {
 
     public VFrame frameToView(Frame frame) { // Frame adapter from Model to View
         VFrame vFrame = new VFrame();
-        for (int j = 0; j < 4; j++)
-            for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < rows; j++)
+            for (int i = 0; i < cols; i++) {
                 Coordinates xy = new Coordinates(i, j);
                 vFrame.setDice(diceToView(frame.getDice(xy)), coordinatesToView(xy));
             }
@@ -62,9 +62,9 @@ public final class AdapterCLI implements Adapter {
 
     public VDice diceToView(Dice dice) { // Dice adapter from Model to View
         if (dice == null)
-            return null;
+            return new VDice();
         if (dice.getValue() == 0 && dice.getColor() == Color.UNCOLORED)
-            return null;
+            return new VDice();
         return new VDice(dice.getValue(), colorToView(dice.getColor()));
     }
 

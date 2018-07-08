@@ -74,7 +74,7 @@ public class CLI implements View {
     }
 
     public VCoordinates askCoordinates() {
-        println("Inserisci le coordinate: ?");
+        println("Inserisci le coordinate: ");
         return askXy();
     }
 

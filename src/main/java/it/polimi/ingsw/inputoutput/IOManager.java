@@ -31,7 +31,6 @@ public final class IOManager {
     private final static String private_obj_description_path = json_path + "PrivateObjectiveDescription.json";
     private final static String public_obj_description_path = json_path + "PublicObjectiveDescription.json";
 
-
     public final static String newline = "\n";
     public static String Sn = "[S/n]";
     public static int gridSpace = 34; // tune it for horizontal spacing of Frames and WindowPatterns
@@ -42,6 +41,7 @@ public final class IOManager {
     public final static int padding = 10;
     public final static int thinPadding = 2;
 
+    public final static int face_details = 3;
     public final static int cellWidth = 42;
     public final static int cellHeight = 42;
     public final static int thirdOfCell = cellWidth / 3;

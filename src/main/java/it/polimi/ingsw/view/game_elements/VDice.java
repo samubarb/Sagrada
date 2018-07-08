@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.other_elements.VColor;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -25,6 +27,15 @@ public class VDice {
     public VDice(int value, VColor color) {
         this.value = value;
         this.color = color;
+        this.action = false;
+    }
+
+    /**
+     * constructor to build a blank dice
+     */
+    public VDice() {
+        this.value = 0;
+        this.color = VColor.RESET;
         this.action = false;
     }
 
@@ -97,6 +108,8 @@ public class VDice {
      */
     @Override
     public String toString() {
+        if (this.value == 0 && this.color.equals(VColor.RESET))
+            return "   ";
         if (this.value == 0)
             return this.color.toString() + "[" + colorConstraint + "]" + this.color.RESET;
         return this.color.toString() + "[" + this.value + "]" + this.color.RESET;
@@ -196,6 +209,14 @@ public class VDice {
         }
 
         face.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
+
+        face.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                action = true;
+            }
+        });
+
         return face;
     }
 
@@ -203,11 +224,11 @@ public class VDice {
      * get the "empty" dice, representing and empty slot for a dice
      * @return GridPane with a slot
      */
-    public static final GridPane slotDice() {
+    public GridPane slotDice() {
         GridPane face = new GridPane();
 
-        for (int j = 0; j < 3; j++)
-            for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < face_details; j++)
+            for (int i = 0; i < face_details; i++) {
                 Rectangle empty = new Rectangle();
                 empty.setFill(Color.TRANSPARENT);
                 empty.setWidth(thirdOfCell);
@@ -215,6 +236,14 @@ public class VDice {
                 face.add(empty, i, j);
             }
         face.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
+
+        face.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                action = true;
+            }
+        });
+
         return face;
     }
 

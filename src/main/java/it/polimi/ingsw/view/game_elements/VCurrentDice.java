@@ -7,7 +7,8 @@ import javafx.scene.layout.HBox;
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VCurrentDice {
-    VDice[] dice;
+    private VDice[] dice;
+    private boolean action;
 
     /**
      * represents the dice slot from which the players take dice
@@ -15,6 +16,7 @@ public class VCurrentDice {
      */
     public VCurrentDice(int length) {
         dice = new VDice[length];
+        this.action = false;
     }
 
     /**
@@ -74,7 +76,7 @@ public class VCurrentDice {
         for(VDice vd : this.dice)
             if (vd != null)
                 currentDice.getChildren().add(vd.toGUI());
-        else currentDice.getChildren().add(VDice.slotDice());
+        else currentDice.getChildren().add(new VDice().slotDice());
 
         return currentDice;
     }

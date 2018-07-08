@@ -125,7 +125,7 @@ public class VWindowPattern {
         for (int j = 0; j < rows; j++) {
             for (int i = 0; i < cols; i++) {
                 if (this.pattern[i][j] == null) {
-                    grid.add(VDice.slotDice(), i, j);
+                    grid.add(new VDice().slotDice(), i, j);
                 }
                 else {
                     grid.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
@@ -171,7 +171,7 @@ public class VWindowPattern {
         for (int i = 0; i < this.token; i++)
             favorTokens.add(new Circle(10, Color.WHITE), i + 1, 0);
 
-        wpattern.getChildren().addAll(/*cardName,*/ grid, favorTokens);
+        wpattern.getChildren().addAll(grid, favorTokens);
 
         wpattern.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override

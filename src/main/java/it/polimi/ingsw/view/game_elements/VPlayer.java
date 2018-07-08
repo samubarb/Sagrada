@@ -24,8 +24,11 @@ public class VPlayer implements Comparable {
 
     public VPlayer(String name) {
         this.name = name;
+        this.frame = new VFrame();
     }
-    public VPlayer(String name, VColor color) { this.name = name; this.color = color; }
+    public VPlayer(String name, VColor color) {
+        this.name = name; this.color = color;
+        this.frame = new VFrame();}
 
     public VPlayer(String name, VColor color, VWindowPattern wpattern) {
         this.name = name;
@@ -55,6 +58,7 @@ public class VPlayer implements Comparable {
      * @return
      */
     public VFrame getFrame() { return this.frame; }
+
     public int getScore() {
         return this.score;
     }

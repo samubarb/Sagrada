@@ -2,21 +2,31 @@
 package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.VWindowPattern;
+import it.polimi.ingsw.view.other_elements.VColor;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VFrame {
-    VDice[][] frame;
+    private VDice[][] frame;
+    private boolean action;
 
     /**
      * represents the game player's frame, where the player puts his dice
      */
     public VFrame() {
         this.frame = new VDice[cols][rows];
+        this.action = false;
+
+        for (VDice[] row : this.frame)
+            for (VDice dice : row)
+                dice = new VDice();
     }
 
     /**
@@ -76,11 +86,12 @@ public class VFrame {
             for (int j = 0; j < rows; j++) {
                 if (this.frame[i][j] != null) {
                     Pane face = this.frame[i][j].toGUI();
-                    face.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
+                    if (this.frame[i][j].getColor().equals(VColor.RESET))
+                        face.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
+                    else face.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
                     wp.add(face, i, j);
                 }
             }
-
         return wp;
     }
 }

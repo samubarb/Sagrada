@@ -8,7 +8,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.newline;
 import static it.polimi.ingsw.inputoutput.IOManager.print;
 
 public class VRoundTrack {
-    VDice[] track;
+    private VDice[] track;
 
     /**
      * represents the round track, the array of dice that keep track of the round
@@ -64,9 +64,11 @@ public class VRoundTrack {
     public HBox toGUI() {
         HBox roundTrack = new HBox();
         for (VDice dice : this.track)
-            if (dice != null)
+            if (dice != null) {
                 roundTrack.getChildren().add(dice.toGUI());
-        else roundTrack.getChildren().add(VDice.slotDice());
+
+            }
+        else roundTrack.getChildren().add(new VDice().slotDice());
 
         return roundTrack;
     }

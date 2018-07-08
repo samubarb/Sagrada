@@ -64,14 +64,56 @@ public class GUI extends Application implements View  {
     }
 
     public int askDice() {
-        println("here i am 3");
-        return 0;
+        this.flagFX = false;
+        synchronized(this) {
+            Platform.runLater(() -> {
+                this.message.setText("Clicca sul dado da piazzare.");
+                setTrue();
+            });
+        }
+
+        synchronized(this) {
+            while (!flagFX) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+
+                }
+            }
+        }
+
+        return diceChooserListener();
+    }
+
+    private int diceChooserListener() {
+        return this.game.diceChooserListener();
     }
 
 
     public VCoordinates askCoordinates() {
-        println("here i am 5");
-        return null;
+        this.flagFX = false;
+        synchronized(this) {
+            Platform.runLater(() -> {
+                this.message.setText("Clicca sul punto in cui vuoi piazzarlo sulla tua vetrata.");
+                setTrue();
+            });
+        }
+
+        synchronized(this) {
+            while (!flagFX) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+
+                }
+            }
+        }
+
+        return coordinatesChooserListener();
+    }
+
+    private VCoordinates coordinatesChooserListener() {
+        return this.game.coordinatesChooserListener(this.clientPlayer);
     }
 
     public VCoordinates askCoordinates(int i) {
@@ -81,7 +123,7 @@ public class GUI extends Application implements View  {
 
     public int askMove() {
         println("here i am 7");
-        return 0;
+        return 1;
     }
 
     public int askWindowPattern(VWindowPatterns wpCards) {
@@ -103,6 +145,7 @@ public class GUI extends Application implements View  {
 
     synchronized private void setTrue() {
         this.flagFX = true;
+        notify();
     }
 
     private int wpChooserListener(VWindowPatterns wpCards) {

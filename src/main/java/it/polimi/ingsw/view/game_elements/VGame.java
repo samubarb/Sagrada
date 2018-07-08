@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.*;
 import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
+import it.polimi.ingsw.view.other_elements.VCoordinates;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -42,6 +43,35 @@ public class VGame {
             value = getInt(1, this.dice.size());
         } while (this.dice.get(value - 1) == null);
         return value - 1; // return the wanted index
+    }
+
+    /**
+     * listener to know which dice on the current duce is clicked
+     * @return clicked dice index
+     */
+    public int diceChooserListener() {
+        while (true)
+            for (int i = 0; i < this.dice.size(); i++)
+                if (this.dice.get(i).gotClicked())
+                    return i;
+    }
+
+    public VCoordinates coordinatesChooserListener(String clientPlayer) {
+        VPlayer cPlayer = null;
+
+        for (VPlayer p : this.players)
+            if (this.clientPlayer.equals(p.getName())) {
+                cPlayer = p;
+                println("beccato!");
+            }
+
+        while (true)
+            for (int i = 1; i <= cols; i++)
+                for (int j = 1; j <= rows; j++) {
+                    VCoordinates coord = new VCoordinates(i, j);
+                    if (cPlayer.getFrame().getDice(coord).gotClicked())
+                        return coord;
+                }
     }
 
     /**
