@@ -76,6 +76,7 @@ public final class IOManager {
         }
         catch (IOException e)
         {
+            e.printStackTrace();
             println("Il file " + filePath + " non esiste. Controlla la correttezza del percorso o del nome.");
             errorExit();
         }
