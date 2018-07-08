@@ -17,3 +17,5 @@ Firstly, the user has to start the Server.jar that can be found in Deliverables 
 
 Issues:
 ANSI dependence:We don't use anymore clearScreen() in the CLI version. The reason is that the game results enjoyable the same way and we preferred to print the output consequently.
+
+The gui implementation is not complete.
