@@ -10,15 +10,17 @@ import it.polimi.ingsw.view.other_elements.VError;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import static it.polimi.ingsw.inputoutput.IOManager.println;
+import static it.polimi.ingsw.inputoutput.IOManager.*;
 
-public final class GUI extends Application implements View  {
+public class GUI extends Application implements View  {
     private String clientPlayer;
     private VGame game;
     private Label message;
@@ -27,26 +29,32 @@ public final class GUI extends Application implements View  {
     private Stage stage;
 
     public GUI(String clientPlayer) {
-        println("here i am 1");
         this.clientPlayer = clientPlayer;
         this.game = new VGame();
         this.game.setClientPlayer(this.clientPlayer);
 
-        //begin();
+        new JFXPanel(); // needed to set the correct environment
+        Platform.runLater(() -> {
+            try {
+                this.start(new Stage());
+            } catch (Exception e) {
+                println("Runtime Error.");
+                errorExit();
+            }
+        });
     }
 
-    private static void begin() {
+    public GUI() {
 
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        println("here i am 2");
         this.stage = primaryStage;
         this.message = new Label();
         this.gameGUI = new Group();
         this.table = new VBox();
-        this.table.getChildren().addAll(this.gameGUI, this.message);
+
         Scene scene = new Scene(this.table);
         this.stage.setTitle("Sagrada");
         this.stage.setScene(scene);
@@ -79,12 +87,16 @@ public final class GUI extends Application implements View  {
     }
 
     public int askWindowPattern(VWindowPatterns wpCards) {
+        Platform.runLater(() -> {
+            this.table.getChildren().add(wpCards.toGUI());
+            this.stage.setScene(new Scene (this.table));
+            this.stage.show();
+        });
 
-        println("here i am 8");
-        launch();
-        this.table.getChildren().add(wpCards.toGUI());
-        this.stage.setScene(new Scene (this.table));
-        this.stage.show();
+        return wpChooserListener();
+    }
+
+    private int wpChooserListener() {
 
 
         return 1;
@@ -114,13 +126,17 @@ public final class GUI extends Application implements View  {
 
     @Override
     public void notifyConnectionStatus(String userName, VConnectionStatus status) {
-        println("here i am 13");
+        Platform.runLater(() -> {
+            Label msg = new Label("Il giocatore " + userName + " si è " + status);
+            this.table.getChildren().add(msg);
+        });
     }
 
     @Override
     public void notifyGreetings() {
-        println("here i am 14");
-        this.message = new Label("Benvenuto!");
+        Platform.runLater(() -> {
+            this.message.setText("Benvenuto!");
+        });
     }
 
     public void notifyError(VError error) {
@@ -143,17 +159,6 @@ public final class GUI extends Application implements View  {
         println("here i am 7");
         game.setClientPlayer(this.clientPlayer);
         this.game = game;
-        show();
-    }
-
-    private void show() {
-        println("here i am 19");
-        this.gameGUI = this.game.toGUI();
-        try {
-            launch();
-        } catch (IllegalStateException e) {
-
-        }
     }
 
     public void notifyMessage(String message) {
@@ -161,9 +166,15 @@ public final class GUI extends Application implements View  {
         this.message.setText(message);
     }
 
+
     public void splash() {
-        println("here i am 21");
+        Platform.runLater(() -> {
+            ImageView splash = getImage(splash_path);
+            splash.setFitWidth(splash_width);
+            this.table.getChildren().addAll(splash, this.message);
+        });
     }
+
 
     public String askNewUsername() throws UsernameTooShortException {
         println("here i am 22");
