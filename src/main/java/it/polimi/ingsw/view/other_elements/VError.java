@@ -22,10 +22,18 @@ public enum VError {
 
     private String errorMessage;
 
+    /**
+     * represents all the game rule or constraint, used to notify a wrong action to the player
+     * @param errorMessage message to be notified
+     */
     VError(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
+    /**
+     * get the message to be notified
+     * @return a message String
+     */
     @Override
     public String toString() {
         return "Errore: " + this.errorMessage + newline;

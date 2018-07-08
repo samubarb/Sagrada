@@ -9,8 +9,24 @@ import it.polimi.ingsw.view.other_elements.VError;
 
 public interface View {
     // Methods to ask something to the Client
-    int askDice(); // ask the user which dice wants to pick up from the CurrentDice[]
+
+    /**
+     * ask the user which dice wants to pick up from the CurrentDice[]
+     * @return int index
+     */
+    int askDice();
+
+    /**
+     * ask the user
+     * @return
+     */
     VCoordinates askCoordinates(); // ask the player where to put the previews selected dice
+
+    /**
+     *
+     * @param i
+     * @return
+     */
     VCoordinates askCoordinates(int i); // as askCoordinates, but personalized in case of multiple dice choose
     int askMove(); // returns 1 for a dice placing, 2 for use a toolcard, 3 to pass the turn
     int askWindowPattern(VWindowPatterns wpCards); // returns the position of the used card

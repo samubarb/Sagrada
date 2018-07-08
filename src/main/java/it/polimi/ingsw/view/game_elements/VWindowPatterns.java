@@ -9,10 +9,20 @@ import static it.polimi.ingsw.inputoutput.IOManager.*;
 public class VWindowPatterns {
     VWindowPattern[] patterns;
 
+    /**
+     * represents a set of window pattern cards
+     * @param size int maximum size
+     */
     public VWindowPatterns(int size) {
         patterns = new VWindowPattern[size];
     }
 
+    /**
+     * add a window patter card to the set in the wanted position
+     * @param pattern
+     * @param position
+     * @throws InvalidPositionException
+     */
     public void add(VWindowPattern pattern, int position) throws InvalidPositionException{
         if (position < 0 || position > this.patterns.length) {
             throw new InvalidPositionException();
@@ -21,10 +31,18 @@ public class VWindowPatterns {
             this.patterns[position] = pattern;
     }
 
+    /**
+     * ger the maximum size of the set
+     * @return
+     */
     public int size() {
         return this.patterns.length;
     }
 
+    /**
+     * get the text version of the set of wp cards, to be shown in the CLI
+     * @return
+     */
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
@@ -36,6 +54,10 @@ public class VWindowPatterns {
         return makeHorizontal(string.toString(), height, gridSpace);
     }
 
+    /**
+     * get the graphic version of the set of wp cards, to be shown in the GUI
+     * @return
+     */
     public HBox toGUI() {
         HBox wpatterns = new HBox();
         for (VWindowPattern pattern : this.patterns)

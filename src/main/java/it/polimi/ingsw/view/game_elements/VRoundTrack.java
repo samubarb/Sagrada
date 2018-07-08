@@ -10,10 +10,20 @@ import static it.polimi.ingsw.inputoutput.IOManager.print;
 public class VRoundTrack {
     VDice[] track;
 
+    /**
+     * represents the round track, the array of dice that keep track of the round
+     * @param size
+     */
     public VRoundTrack(int size) {
         this.track = new VDice[size];
     }
 
+    /**
+     * add a dice to the round track
+     * @param dice dice to be placed
+     * @param position position in which place the dice
+     * @throws InvalidPositionException thrown if trying to place the dice in
+     */
     public void add(VDice dice, int position) throws InvalidPositionException {
         if (position > this.track.length) {
             throw new InvalidPositionException();
@@ -22,10 +32,18 @@ public class VRoundTrack {
             this.track[position] = dice;
     }
 
+    /**
+     * get the size of the round track
+     * @return
+     */
     public int size() {
         return this.track.length;
     }
 
+    /**
+     * get the text version of the round track to be shown in CLI
+     * @return
+     */
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder("Round Track:");
@@ -39,6 +57,10 @@ public class VRoundTrack {
         return string.toString();
     }
 
+    /**
+     * get the graphic version of the round track to be shown in GUI
+     * @return
+     */
     public HBox toGUI() {
         HBox roundTrack = new HBox();
         for (VDice dice : this.track)

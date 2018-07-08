@@ -10,10 +10,18 @@ public enum VColor {
 
     private final String colorCode;
 
+    /**
+     * represents the set of color used in the game
+     * @param colorCode string to paint with that color the CLI output
+     */
     VColor(String colorCode) {
         this.colorCode = colorCode;
     }
 
+    /**
+     * get the color code to paint text in the CLI
+     * @return
+     */
     @Override
     public String toString() {
         return colorCode;
