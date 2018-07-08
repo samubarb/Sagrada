@@ -9,10 +9,20 @@ import static it.polimi.ingsw.inputoutput.IOManager.*;
 public class VCurrentDice {
     VDice[] dice;
 
+    /**
+     * represents the dice slot from which the players take dice
+     * @param length int value with the number of dice, dependant from the players number
+     */
     public VCurrentDice(int length) {
         dice = new VDice[length];
     }
 
+    /**
+     * set a dice in a specific position
+     * @param dice the dice to place
+     * @param position the position in which place it
+     * @throws InvalidPositionException thrown if
+     */
     public void add(VDice dice, int position) throws InvalidPositionException{
         if (position > this.dice.length) {
             throw new InvalidPositionException();

@@ -15,17 +15,17 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
+/*
 public class VFrameTest extends Application {
-
-    @Test
     public void VFrameTest() {
         launch();
     }
 
     @Override
     public void start(Stage primaryStage) {
-
-        GameConfigurator gconf = new GameConfigurator(new Game());
+        Game game = new Game();
+        game.setAddPlayer(new Player("Test Player"));
+        GameConfigurator gconf = new GameConfigurator(game);
         WindowPattern wp = gconf.createWPCsunCatcher();
         Adapter adapt = new AdapterCLI();
         VWindowPattern vWP = adapt.patternToView(wp);
@@ -44,5 +44,5 @@ public class VFrameTest extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 }
+*/

@@ -4,25 +4,25 @@ import it.polimi.ingsw.controller.RMIApi.Adapter;
 import it.polimi.ingsw.controller.Server.AdapterCLI;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameConfigurator;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.view.cards.VWindowPattern;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.junit.jupiter.api.Test;
 
+/*
 public class WPcardTest extends Application {
-
-    @Test
     public void WPcardTest() {
         launch();
     }
 
     @Override
     public void start(Stage primaryStage) {
-
-        GameConfigurator gconf = new GameConfigurator(new Game());
+        Game game = new Game();
+        game.setAddPlayer(new Player("TestPlayer"));
+        GameConfigurator gconf = new GameConfigurator(game);
         WindowPattern wp = gconf.createWPCsunCatcher();
         Adapter adapt = new AdapterCLI();
         VWindowPattern vWP = adapt.patternToView(wp);
@@ -34,5 +34,5 @@ public class WPcardTest extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 }
+*/

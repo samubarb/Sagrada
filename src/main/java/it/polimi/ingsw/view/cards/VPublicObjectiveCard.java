@@ -9,21 +9,38 @@ import static it.polimi.ingsw.inputoutput.IOManager.*;
 public class VPublicObjectiveCard extends VObjectiveCard{
     private int points;
 
+    /**
+     * represents the private extension of the objective card to be shown
+     * @param name set the card name
+     * @param points set the card points
+     */
     public VPublicObjectiveCard(String name, int points) {
         super(name);
         this.points = points;
     }
 
+    /**
+     * get the public card formatted description
+     * @return String with the description
+     */
     @Override
     protected String getDescription() {
         return getPublicObjectiveDescription(this.getName());
     }
 
+    /**
+     * get the whole public card formatted for CLI
+     * @return printalbe String
+     */
     @Override
     public String toString() {
         return newline + super.getName() + " " + "Punti: " + points + newline + this.getDescription() + newline;
     }
 
+    /**
+     * get the gui version of the public card
+     * @return Pane with the card image
+     */
     public Pane toGUI() {
         String number = null;
         try {
