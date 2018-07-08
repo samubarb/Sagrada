@@ -1,11 +1,11 @@
 package it.polimi.ingsw.controller.Server;
 
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
-import it.polimi.ingsw.controller.client.ClientLauncher;
+
 import it.polimi.ingsw.controller.client.rmiClient.RMIClientLauncher;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+
 
 /**
  * Class that represent the clients on server
@@ -20,7 +20,7 @@ public class User implements Serializable {
      */
     PlayerInterface playerInterface;
     /**
-     * Bollean that represent if the player s online or not
+     * Boolean that represent if the player s online or not
      */
     boolean isOnline;
 

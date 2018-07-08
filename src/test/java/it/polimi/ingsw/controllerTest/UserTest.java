@@ -1,36 +1,36 @@
-package it.polimi.ingsw.controller.Server;
+package it.polimi.ingsw.controllerTest;
 
 import it.polimi.ingsw.controller.RMIApi.PlayerInterface;
+import it.polimi.ingsw.controller.Server.User;
 import it.polimi.ingsw.controller.client.rmiClient.RMIClientLauncher;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class UserTest {
-
+public class UserTest {
     @Test
-    void testgetUsername() {
+    public void testGetUsername() {
         User user = new User();
         String username = user.getUsername();
         assertEquals(username, "dacco");
     }
 
     @Test
-    void testsetUsername() {
+    public void testSetUsername() {
         User user = new User();
         user.setUsername("dac");
         assertEquals(user.getUsername(), "dac");
     }
 
     @Test
-    void testgetPlayerInterface() {
+    public void testGetPlayerInterface() {
         PlayerInterface playerInterface = new RMIClientLauncher();
         User user = new User("dacco", playerInterface);
         assertEquals(user.getPlayerInterface(), playerInterface);
     }
 
     @Test
-    void testsetPlayerInterface() {
+    public void testSetPlayerInterface() {
         User user = new User();
         PlayerInterface playerInterface = new RMIClientLauncher();
         user.setPlayerInterface(playerInterface);
@@ -38,15 +38,15 @@ class UserTest {
     }
 
     @Test
-    void testisOnline() {
+    public void testIsOnline() {
         User user = new User();
-        assertEquals(user.isOnline, true);
+        assertEquals(user.isOnline(), true);
     }
 
     @Test
-    void testsetOnline() {
+    public void testSetOnline() {
         User user = new User();
         user.setOnline(false);
-        assertEquals(user.isOnline, false);
+        assertEquals(user.isOnline(), false);
     }
 }
