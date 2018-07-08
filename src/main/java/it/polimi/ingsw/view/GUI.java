@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
@@ -15,6 +16,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -26,12 +28,15 @@ public class GUI extends Application implements View  {
     private Label message;
     private Group gameGUI;
     private VBox table;
+    private Scene scene;
     private Stage stage;
+    private boolean flagFX;
 
     public GUI(String clientPlayer) {
         this.clientPlayer = clientPlayer;
         this.game = new VGame();
         this.game.setClientPlayer(this.clientPlayer);
+        this.flagFX = false;
 
         new JFXPanel(); // needed to set the correct environment
         Platform.runLater(() -> {
@@ -55,10 +60,7 @@ public class GUI extends Application implements View  {
         this.gameGUI = new Group();
         this.table = new VBox();
 
-        Scene scene = new Scene(this.table);
-        this.stage.setTitle("Sagrada");
-        this.stage.setScene(scene);
-        this.stage.show();
+        this.stage.setTitle("Sagrada - " + this.clientPlayer);
     }
 
     public int askDice() {
@@ -66,10 +68,6 @@ public class GUI extends Application implements View  {
         return 0;
     }
 
-    public int askDice(int i) {
-        println("here i am 4");
-        return 0;
-    }
 
     public VCoordinates askCoordinates() {
         println("here i am 5");
@@ -87,19 +85,34 @@ public class GUI extends Application implements View  {
     }
 
     public int askWindowPattern(VWindowPatterns wpCards) {
+        this.flagFX = false;
         Platform.runLater(() -> {
+            this.table = new VBox();
             this.table.getChildren().add(wpCards.toGUI());
             this.stage.setScene(new Scene (this.table));
-            this.stage.show();
+            setTrue();
         });
 
-        return wpChooserListener();
+        while(!this.flagFX) {
+            println(this.flagFX);
+        }
+
+        //this.flagFX = false;
+        return wpChooserListener(wpCards);
     }
 
-    private int wpChooserListener() {
+    synchronized private void setTrue() {
+        this.flagFX = true;
+    }
 
-
-        return 1;
+    private int wpChooserListener(VWindowPatterns wpCards) {
+        while(true) {
+            for (int i = 0; i < wpCards.getPatterns().length; i++) {
+                if (wpCards.getPatterns()[i].gotClicked()) {
+                    return i;
+                }
+            }
+        }
     }
 
     public int askToolCard() {
@@ -157,34 +170,24 @@ public class GUI extends Application implements View  {
     }
 
     public void updateState(VGame game) {
-        println("here i am 7");
-        game.setClientPlayer(this.clientPlayer);
-        this.game = game;
+        Platform.runLater(() -> {
+            game.setClientPlayer(this.clientPlayer);
+            this.game = game;
+            this.table = new VBox();
+            this.gameGUI = this.game.toGUI();
+            this.table.getChildren().addAll(this.gameGUI, this.message);
+            this.stage.setScene(new Scene(this.table));
+        });
     }
-
-    public void notifyMessage(String message) {
-        println("here i am 20");
-        this.message.setText(message);
-    }
-
 
     public void splash() {
         Platform.runLater(() -> {
             ImageView splash = getImage(splash_path);
             splash.setFitWidth(splash_width);
             this.table.getChildren().addAll(splash, this.message);
+            this.stage.setScene(new Scene(this.table));
+            this.stage.show();
         });
-    }
-
-
-    public String askNewUsername() throws UsernameTooShortException {
-        println("here i am 22");
-        return null;
-    }
-
-    public String chooseAnotherUsername(String user) throws UsernameTooShortException {
-        println("here i am 23");
-        return null;
     }
 
 

@@ -2,12 +2,16 @@ package it.polimi.ingsw.view.game_elements;
 
 import it.polimi.ingsw.view.cards.VWindowPattern;
 import it.polimi.ingsw.view.exceptions.InvalidPositionException;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VWindowPatterns {
     VWindowPattern[] patterns;
+    private boolean action;
+
 
     /**
      * represents a set of window pattern cards
@@ -29,6 +33,10 @@ public class VWindowPatterns {
         }
         else
             this.patterns[position] = pattern;
+    }
+
+    public VWindowPattern[] getPatterns() {
+        return patterns;
     }
 
     /**
@@ -62,6 +70,24 @@ public class VWindowPatterns {
         HBox wpatterns = new HBox();
         for (VWindowPattern pattern : this.patterns)
             wpatterns.getChildren().add(pattern.toGUI());
+
+        wpatterns.setSpacing(padding);
+
+        wpatterns.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                action = true;
+            }
+        });
+
         return wpatterns;
+    }
+
+    /**
+     * get listener flag
+     * @return flag value
+     */
+    public boolean gotClicked() {
+        return this.action;
     }
 }

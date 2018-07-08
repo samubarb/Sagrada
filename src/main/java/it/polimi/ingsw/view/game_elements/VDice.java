@@ -15,6 +15,7 @@ public class VDice {
 
     private int value;
     private VColor color;
+    private boolean action;
 
     /**
      * represents the face of a dice
@@ -24,6 +25,7 @@ public class VDice {
     public VDice(int value, VColor color) {
         this.value = value;
         this.color = color;
+        this.action = false;
     }
 
     /**
@@ -214,5 +216,20 @@ public class VDice {
             }
         face.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
         return face;
+    }
+
+    /**
+     * get listener flag
+     * @return flag value
+     */
+    public boolean gotClicked() {
+        return this.action;
+    }
+
+    /**
+     * set listener flag
+     */
+    public void setClicked() {
+        this.action = true;
     }
 }

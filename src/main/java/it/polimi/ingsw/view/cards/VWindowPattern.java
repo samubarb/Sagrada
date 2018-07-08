@@ -4,8 +4,10 @@ import it.polimi.ingsw.view.other_elements.VColor;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.exceptions.ConstraintNotValidException;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -18,6 +20,7 @@ public class VWindowPattern {
     private String name;
     private int token;
     private VDice[][] pattern;
+    private boolean action;
 
     private static final String favorToken = "•";
 
@@ -25,7 +28,8 @@ public class VWindowPattern {
      * represents the window pattern card to show
      */
     public VWindowPattern() {
-        this.pattern = new VDice[5][4];
+        this.pattern = new VDice[cols][rows];
+        this.action = false;
     }
 
     /**
@@ -59,14 +63,19 @@ public class VWindowPattern {
     public void setName(String name) {
         this.name = name;
     }
+
+    /**
+     * getter for the player's name
+     * @return String with name
+     */
     public String getName() { return this.name; }
 
+    /**
+     * setter for favor tokens
+     * @param token number of token
+     */
     public void setToken(int token) {
         this.token = token;
-    }
-
-    public int getToken() {
-        return token;
     }
 
     /**
@@ -125,6 +134,13 @@ public class VWindowPattern {
                 }
             }
         }
+
+        grid.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                setClicked();
+            }
+        });
         return grid;
     }
 
@@ -157,6 +173,27 @@ public class VWindowPattern {
 
         wpattern.getChildren().addAll(/*cardName,*/ grid, favorTokens);
 
+        wpattern.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                action = true;
+            }
+        });
         return wpattern;
+    }
+
+    /**
+     * get listener flag
+     * @return flag value
+     */
+    public boolean gotClicked() {
+        return this.action;
+    }
+
+    /**
+     * set listener flag
+     */
+    public void setClicked() {
+        this.action = true;
     }
 }
