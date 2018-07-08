@@ -10,14 +10,25 @@ import static it.polimi.ingsw.inputoutput.IOManager.newline;
 public class VPrivateObjectives {
     private ArrayList<VPrivateObjectiveCard> privateObjetives;
 
+    /**
+     * represents a set of private objective cards
+     */
     public VPrivateObjectives() {
         this.privateObjetives = new ArrayList<>();
     }
 
+    /**
+     * add a privat objective card to the set
+     * @param vPrivateObjectiveCard
+     */
     public void add(VPrivateObjectiveCard vPrivateObjectiveCard) {
         this.privateObjetives.add(vPrivateObjectiveCard);
     }
 
+    /**
+     * get all the cards in the set, to be shown in CLI
+     * @return
+     */
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
@@ -26,6 +37,10 @@ public class VPrivateObjectives {
         return string.toString();
     }
 
+    /**
+     * get all the cards in the set, to be shown in GUI
+     * @return
+     */
     public HBox toGUI() {
         HBox privateObjs = new HBox();
 

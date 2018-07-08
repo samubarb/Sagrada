@@ -21,10 +21,20 @@ public class VWindowPattern {
 
     private static final String favorToken = "•";
 
+    /**
+     * represents the window pattern card to show
+     */
     public VWindowPattern() {
         this.pattern = new VDice[5][4];
     }
 
+    /**
+     * set a constraint in the wpattern card, color and number
+     * @param dice VDice
+     * @param xy VCoordinates, where to set the constraint in the pattern grid
+     * @throws ConstraintNotValidException thrown if the constraint is both number and color.
+     * It has to be only a color constraint or a number constraint
+     */
     public void setConstraint(VDice dice, VCoordinates xy) throws ConstraintNotValidException {
         if (dice == null) {
             this.pattern[xy.getX() - 1][xy.getY() - 1] = dice;
@@ -42,6 +52,10 @@ public class VWindowPattern {
         this.pattern[xy.getX() - 1][xy.getY() - 1] = dice;
     }
 
+    /**
+     * set the card name
+     * @param name String with the name
+     */
     public void setName(String name) {
         this.name = name;
     }
@@ -55,6 +69,10 @@ public class VWindowPattern {
         return token;
     }
 
+    /**
+     * get a formetted String to be shown in the CLI
+     * @return String
+     */
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder(this.name + newline);
@@ -82,6 +100,10 @@ public class VWindowPattern {
         return string.toString();
     }
 
+    /**
+     * get only a formatted grid with the constraints, to be shown in the GUI
+     * @return GridPane with dice faces or colors inside
+     */
     public GridPane buildGrid() {
         GridPane grid = new GridPane();
 
@@ -106,6 +128,10 @@ public class VWindowPattern {
         return grid;
     }
 
+    /**
+     * get a formatted grid with the constraints, along with card name and favor tokens, to be shown in the GUI
+     * @return
+     */
     public VBox toGUI() {
         VBox wpattern = new VBox();
         GridPane grid = this.buildGrid();

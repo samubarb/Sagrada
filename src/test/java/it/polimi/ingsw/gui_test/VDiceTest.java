@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import static javafx.geometry.Pos.TOP_LEFT;
 
+/*
 public class VDiceTest extends Application {
-    @Test
     public void VDiceTest() {
         launch();
     }
@@ -26,3 +26,4 @@ public class VDiceTest extends Application {
         primaryStage.show();
     }
 }
+*/

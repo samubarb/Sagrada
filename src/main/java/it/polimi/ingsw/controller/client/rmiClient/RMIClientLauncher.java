@@ -710,5 +710,4 @@ public class RMIClientLauncher implements  PlayerInterface, Serializable {
     public void notifyUserDisconnection(String username) throws RemoteException {
         view.notifyConnectionStatus(username, VConnectionStatus.DISCONNECTED);
     }
-
 }

@@ -23,12 +23,14 @@ public final class IOManager {
     public final static String objectives_path = img_path + "objectives/";
     public final static String private_obj_path = objectives_path + "private/";
     public final static String public_obj_path = objectives_path + "public/";
-    public final static String  json_windowPattern_path="./JSONconf/WindowPattern.json";
+    public final static String json_windowPattern_path = "./JSONconf/WindowPattern.json";
+    public final static String splash_path = img_path + "splash.jpg";
 
     private final static String json_path = "./JSONconf/";
     private final static String tool_description_path = json_path + "ToolCardDescription.json";
     private final static String private_obj_description_path = json_path + "PrivateObjectiveDescription.json";
     private final static String public_obj_description_path = json_path + "PublicObjectiveDescription.json";
+
 
     public final static String newline = "\n";
     public static String Sn = "[S/n]";
@@ -45,6 +47,7 @@ public final class IOManager {
     public final static int thirdOfCell = cellWidth / 3;
     public final static int dotRadius = thirdOfCell * 4 / 5 / 2;
     public final static int cardWidth = 250;
+    public final static int splash_width = 800;
 
 
 

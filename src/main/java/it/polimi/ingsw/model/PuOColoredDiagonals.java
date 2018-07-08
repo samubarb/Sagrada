@@ -14,6 +14,9 @@ public class PuOColoredDiagonals extends PublicObjective implements iObjective {
         fillColorFrame();
     }
 
+    /**
+     * fill ColorFrame
+     */
     public void fillColorFrame() {
         for (int i = 0; i < LINE_SIZE; i++) {
             for (int j = 0; j < COLUMN_SIZE; j++) {
@@ -22,6 +25,10 @@ public class PuOColoredDiagonals extends PublicObjective implements iObjective {
         }
     }
 
+    /**
+     * copy frame in ColorFrame
+     * @param player
+     */
     public void copyColorFrame(Player player) {
         for (int i = 0; i < LINE_SIZE; i++) {
             for (int j = 0; j < COLUMN_SIZE; j++) {
@@ -30,6 +37,13 @@ public class PuOColoredDiagonals extends PublicObjective implements iObjective {
         }
     }
 
+    /**
+     *
+     * check diagonals of the same color
+     * @param x
+     * @param y
+     * @return
+     */
     public int checkDiagonal(int x, int y){
         int copyX=x;
         int copyY=y;
@@ -96,6 +110,10 @@ public class PuOColoredDiagonals extends PublicObjective implements iObjective {
         return score;
     }
 
+    /**
+     * check lateral diagonals of the same color
+     * @return
+     */
     public int checkLateralDiagonal(){
         int x=0;
         int y=1;
@@ -156,6 +174,11 @@ public class PuOColoredDiagonals extends PublicObjective implements iObjective {
 
     }
 
+    /**
+     * calculate Player's score
+     * @param player
+     * @return
+     */
     @Override
     public int calculateScore(Player player) {
         int finalScore=0;

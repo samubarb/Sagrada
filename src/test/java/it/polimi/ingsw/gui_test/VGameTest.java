@@ -7,10 +7,9 @@ import it.polimi.ingsw.view.game_elements.VGame;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.junit.jupiter.api.Test;
 
+/*
 public class VGameTest extends Application {
-    @Test
     public void VGameTest() {
         launch();
     }
@@ -43,3 +42,4 @@ public class VGameTest extends Application {
 
     }
 }
+*/

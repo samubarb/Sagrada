@@ -1,8 +1,5 @@
 package it.polimi.ingsw.model;
 
-
-import java.io.Serializable;
-
 public class PuOShades extends PublicObjective implements iObjective {
     public static final String LIGHT_SHADES="lightShades";
     public static final String MEDIUM_SHADES="mediumShades";
@@ -25,14 +22,11 @@ public class PuOShades extends PublicObjective implements iObjective {
         this.typeOfShades = typeOfShades;
     }
 
-    @Override
-    public String toString() {
-        return "PuOShades{" +
-                "points=" + getPoints() +
-                ", typeOfShades=" + typeOfShades +
-                '}';
-    }
-
+    /**
+     * calculate Player's score
+     * @param player
+     * @return
+     */
     @Override
     public int calculateScore(Player player) {
         Frame fakeFrame= player.getFrame();
@@ -60,4 +54,14 @@ public class PuOShades extends PublicObjective implements iObjective {
             return (numberOfDiceSecond*2);
 
     }
+
+    @Override
+    public String toString() {
+        return "PuOShades{" +
+                "points=" + getPoints() +
+                ", typeOfShades=" + typeOfShades +
+                '}';
+    }
+
+
 }
