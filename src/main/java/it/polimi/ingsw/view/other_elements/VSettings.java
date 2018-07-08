@@ -48,7 +48,7 @@ public class VSettings {
     }
 
     /**
-     * get the cli state
+     * get the cli choice status
      * @return true if cli was chosen, false if gui
      */
     public boolean isCLI () {
@@ -56,16 +56,25 @@ public class VSettings {
     }
 
     /**
-     * get the gui state
+     * get the gui choice status
      * @return true if the gui was chosen, false if cli
      */
     public boolean isGUI() {
         return CLIvsGUI;
     }
 
+    /**
+     * get the rmi connection choice status
+     * @return true if rmi was chosen
+     */
     public boolean isRMI () {
         return !RMIvsSocket;
     }
+
+    /**
+     * get the socket choice status
+     * @return true if socket was chosen
+     */
     public boolean isSocket() {
         return RMIvsSocket;
     }
