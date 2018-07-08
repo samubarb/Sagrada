@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.Server.Rmi.ServerInterfaceImpl;
 import it.polimi.ingsw.controller.Server.ServerLauncher;
 import it.polimi.ingsw.controller.Server.ServerSettings;
 import it.polimi.ingsw.controller.Server.User;
-import it.polimi.ingsw.controller.client.ClientLauncher;
 import it.polimi.ingsw.controller.client.rmiClient.RMIClientLauncher;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
@@ -20,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class RMIClientLauncherTest {
