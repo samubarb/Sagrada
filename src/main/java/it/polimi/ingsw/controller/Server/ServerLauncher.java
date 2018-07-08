@@ -455,9 +455,12 @@ public class ServerLauncher {
             for (User user : getNicknames()) {
                 WindowPattern[] windowPattern = null;
                 int index = 0;
+                currentPlayerInterface = user.getPlayerInterface();
                 try {
                     windowPattern = game.getWindowPatternForAPlayer();
+                    startTurnCountDownTimer(START_IMMEDIATELY);
                     index = user.getPlayerInterface().chooseWindowPattern(windowPattern);
+                    stopTimer();
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -1537,7 +1540,6 @@ public class ServerLauncher {
                 }
             }
             nothingToDo = true;
-            System.out.println("fine timer turno");
             resetTimer();
         }
 
