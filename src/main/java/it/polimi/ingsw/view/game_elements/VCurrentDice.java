@@ -31,15 +31,27 @@ public class VCurrentDice {
             this.dice[position] = dice;
     }
 
+    /**
+     * get the current dice length
+     * @return
+     */
     public int size() {
         return this.dice.length;
-
     }
 
+    /**
+     * get the dice of a determined position
+     * @param position VCoordinates
+     * @return VDice
+     */
     public VDice get(int position) {
         return this.dice[position];
     }
 
+    /**
+     * get the formatted text version, to be shown in the CLI
+     * @return String printable
+     */
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
@@ -53,6 +65,10 @@ public class VCurrentDice {
         return string.toString();
     }
 
+    /**
+     * get the formatted current dice to be shown in GUI
+     * @return HBox in which every node is a dice face
+     */
     public HBox toGUI() {
         HBox currentDice = new HBox();
         for(VDice vd : this.dice)

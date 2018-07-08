@@ -34,38 +34,94 @@ public class VPlayer implements Comparable {
         this.wpattern = wpattern;
     }
 
+    /**
+     * getter for the player's name
+     * @return
+     */
     public String getName() {
         return this.name;
     }
+
+    /**
+     * getter for the player's color
+     * @return
+     */
     public VColor getColor() {
         return this.color;
     }
-    public VWindowPattern getWpattern() { return this.wpattern; }
+
+    /**
+     * getter for the player's frame
+     * @return
+     */
     public VFrame getFrame() { return this.frame; }
     public int getScore() {
         return this.score;
     }
+
+    /**
+     * getter for the players's private objective
+     * @return
+     */
     public VPrivateObjectives getvPrivateObjectives() { return this.vPrivateObjectives; }
 
+    /**
+     * setter for the player's color
+     * @param color
+     */
     public void setColor(VColor color) {
         this.color = color;
     }
+
+    /**
+     * setter for the player's frame
+     * @param frame
+     */
     public void setFrame(VFrame frame) {
         this.frame = frame;
     }
+
+    /**
+     * setter for the player's favor tokens
+     * @param tokens
+     */
     public void setFavorTokens(int tokens) { this.favorTokens = tokens; }
+
+    /**
+     * setter for the player's window pattern card
+     * @param wpattern
+     */
     public void setWpattern(VWindowPattern wpattern) {
         this.wpattern = wpattern;
     }
+
+    /**
+     * setter for the player's private objective card
+     * @param vPrivateObjectives
+     */
     public void setvPrivateObjectives(VPrivateObjectives vPrivateObjectives) { this.vPrivateObjectives = vPrivateObjectives; }
+
+    /**
+     * setter for the player's score
+     * @param score
+     */
     public void setScore(int score) {
         this.score = score;
     }
 
+    /**
+     * get the player name and score, coloured with the player's color
+     * @return
+     */
     public String getReadyForPodium() {
         return this.color + this.name + " " + this.score + VColor.RESET + newline;
     } // prepare Player and relative score to be sorted in the final ranking
 
+    /**
+     * compare players between them based on their score, higher is put before
+     * @param o
+     * @return the player with higher score
+     */
     @Override
     public int compareTo(Object o) {
         final int BEFORE = -1;
@@ -82,6 +138,10 @@ public class VPlayer implements Comparable {
         return EQUAL;
     }
 
+    /**
+     * get the text version of the player, with his frame, wpattern and private objective card, to be shown on CLI
+     * @return printable String
+     */
     @Override
     public String toString() {
         String frame[] = this.frame.toString().split(newline);
@@ -101,6 +161,10 @@ public class VPlayer implements Comparable {
         return string.toString();
     }
 
+    /**
+     * get the graphic version of player, to be shown on GUI
+     * @return
+     */
     public Group toGUI() {
         Group root = new Group();
 

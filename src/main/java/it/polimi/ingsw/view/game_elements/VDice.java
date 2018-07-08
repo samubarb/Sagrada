@@ -16,11 +16,20 @@ public class VDice {
     private int value;
     private VColor color;
 
+    /**
+     * represents the face of a dice
+     * @param value int number value, from 1 to 6
+     * @param color VColor the color of the dice
+     */
     public VDice(int value, VColor color) {
         this.value = value;
         this.color = color;
     }
 
+    /**
+     * convert VColor enum objects in JavaFX Color objects
+     * @return JavaFX Color
+     */
     public Color colorToGUI() {
         switch (this.color) {
             case RED:
@@ -38,6 +47,10 @@ public class VDice {
         }
     }
 
+    /**
+     * create and get a dice face for the GUI
+     * @return StackPane, color + number
+     */
     private StackPane full() {
         StackPane stack = new StackPane();
         stack.getChildren().add(empty());
@@ -48,6 +61,10 @@ public class VDice {
         return stack;
     }
 
+    /**
+     * create and get an "empty" dice, to signal the non-presence of a dice
+     * @return Rectangle
+     */
     private Rectangle empty() {
         Rectangle empty = new Rectangle();
         empty.setFill(colorToGUI());
@@ -56,14 +73,26 @@ public class VDice {
         return empty;
     }
 
+    /**
+     * get the dice value
+     * @return int between 1 and 6
+     */
     public int getValue() {
         return this.value;
     }
 
+    /**
+     * get the dice color
+     * @return VColor enum object
+     */
     public VColor getColor() {
         return this.color;
     }
 
+    /**
+     * get the formatted dice face to be shown in the CLI
+     * @return String printable
+     */
     @Override
     public String toString() {
         if (this.value == 0)
@@ -71,6 +100,10 @@ public class VDice {
         return this.color.toString() + "[" + this.value + "]" + this.color.RESET;
     }
 
+    /**
+     * get the dice face to be shown in the GUI
+     * @return GridPane with the dice face
+     */
     public GridPane toGUI() {
         GridPane face = new GridPane();
 
@@ -164,6 +197,10 @@ public class VDice {
         return face;
     }
 
+    /**
+     * get the "empty" dice, representing and empty slot for a dice
+     * @return GridPane with a slot
+     */
     public static final GridPane slotDice() {
         GridPane face = new GridPane();
 
@@ -175,11 +212,7 @@ public class VDice {
                 empty.setHeight(thirdOfCell);
                 face.add(empty, i, j);
             }
-
-
-
         face.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(thinPadding))));
-
         return face;
     }
 }
