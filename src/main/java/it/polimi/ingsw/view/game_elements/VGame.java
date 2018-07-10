@@ -3,10 +3,17 @@ package it.polimi.ingsw.view.game_elements;
 import it.polimi.ingsw.view.cards.*;
 import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -14,6 +21,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VGame {
     private final static int maxPlayer = 4;
+
     private ArrayList<VPlayer> players;
     private ArrayList<VPublicObjectiveCard> publicObjectives;
     private VCurrentDice dice;
@@ -56,7 +64,11 @@ public class VGame {
                     return i;
     }
 
-    public VCoordinates coordinatesChooserListener(String clientPlayer) {
+    /**
+     * listener to know in whic coordinates put a dice
+     * @return the wanted coordinates
+     */
+    public VCoordinates coordinatesChooserListener() {
         VPlayer cPlayer = null;
 
         for (VPlayer p : this.players)
@@ -83,6 +95,26 @@ public class VGame {
         int value = getInt(1, this.tools.size());
 
         return this.tools.getToolCard(value - 1).getNumber() - 1;
+    }
+
+    public int askToolCardGUI(Stage stage) {
+        Platform.runLater(() -> {
+            final Stage dialog = new Stage();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            HBox toolsChooser = this.tools.toGUI();
+            Label message = new Label("Clicca sulla tool card che vuoi usare.");
+            message.setFont(Font.font(null, FontWeight.BOLD, 20));
+            VBox wrap = new VBox(padding);
+            wrap.getChildren().addAll(toolsChooser, message);
+            Scene dialogScene = new Scene(wrap);
+            dialog.setScene(dialogScene);
+            dialog.show();
+        });
+
+        while (true)
+            if (false)
+                return 0;
     }
 
     /**
@@ -234,6 +266,13 @@ public class VGame {
         HBox objCardsChain = new HBox();
         HBox roundTrack = this.roundTrack.toGUI();
         HBox currentDice = this.dice.toGUI();
+        Label turn = new Label();
+
+        if (this.turn.getName().equals(this.clientPlayer))
+            turn.setText("È il tuo turno, " + this.clientPlayer);
+        else turn.setText("È il turno di " + this.turn.getName());
+
+        turn.setFont(Font.font(null, FontWeight.BOLD, 25));
 
         for (VPlayer p : this.players)
             if (this.clientPlayer.equals(p.getName())) {
@@ -250,7 +289,7 @@ public class VGame {
             objCardsChain.getChildren().add(card.toGUI());
 
         // Add all elements
-        organizer.getChildren().addAll(roundTrack , playersChain, objCardsChain, currentDice);
+        organizer.getChildren().addAll(turn, roundTrack , playersChain, objCardsChain, currentDice);
 
         // Alignment
         playersChain.setAlignment(Pos.CENTER);

@@ -22,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
@@ -73,8 +74,6 @@ public class GUI extends Application implements View  {
         this.gameGUI = new Group();
         this.table = new VBox();
         this.stage.setTitle("Sagrada - " + this.clientPlayer);
-
-
 
         this.buttonDice = new Button("Piazza un dado");
         this.buttonTool = new Button("Usa una Carta Utensile");
@@ -148,7 +147,7 @@ public class GUI extends Application implements View  {
     }
 
     private VCoordinates coordinatesChooserListener() {
-        return this.game.coordinatesChooserListener(this.clientPlayer);
+        return this.game.coordinatesChooserListener();
     }
 
     public VCoordinates askCoordinates(int i) {
@@ -217,8 +216,7 @@ public class GUI extends Application implements View  {
     }
 
     public int askToolCard() {
-        println("here i am 9");
-        return 0;
+        return this.game.askToolCardGUI(this.stage);
     }
 
 
@@ -241,16 +239,22 @@ public class GUI extends Application implements View  {
 
     @Override
     public void notifyConnectionStatus(String userName, VConnectionStatus status) {
+        this.flagFX = false;
         setMessage("Il giocatore " + userName + " si è " + status);
+        waitFX();
     }
 
     @Override
     public void notifyGreetings() {
+        this.flagFX = false;
         setMessage("Benvenuto!");
+        waitFX();
     }
 
     public void notifyError(VError error) {
-        println("here i am 15");
+        this.flagFX = false;
+        setMessage(error.toString());
+        waitFX();
     }
 
     public void notifyScore() {

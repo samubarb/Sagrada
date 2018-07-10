@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.exceptions.InvalidPositionException;
 import javafx.scene.layout.HBox;
 
 import static it.polimi.ingsw.inputoutput.IOManager.newline;
+import static it.polimi.ingsw.inputoutput.IOManager.padding;
 
 public class VToolCards {
     private VToolCard[] toolCards;
@@ -71,7 +72,7 @@ public class VToolCards {
      * @return
      */
     public HBox toGUI() {
-        HBox tools = new HBox();
+        HBox tools = new HBox(padding);
         for (VToolCard tool : this.toolCards)
             tools.getChildren().add(tool.toGUI());
         return tools;
