@@ -62,6 +62,7 @@ public class VToolCard {
         return this.action;
     }
 
+    public void setUnclicked() { this.action = false; }
     /**
      * get a formatted version for CLI
      * @return a printable String

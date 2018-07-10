@@ -233,4 +233,6 @@ public class VDice {
     public boolean gotClicked() {
         return this.action;
     }
+
+    public void setUnclicked() { this.action = false; }
 }

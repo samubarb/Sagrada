@@ -10,8 +10,6 @@ import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VWindowPatterns {
     VWindowPattern[] patterns;
-    private boolean action;
-
 
     /**
      * represents a set of window pattern cards
@@ -73,21 +71,6 @@ public class VWindowPatterns {
 
         wpatterns.setSpacing(padding);
 
-        wpatterns.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent t) {
-                action = true;
-            }
-        });
-
         return wpatterns;
-    }
-
-    /**
-     * get listener flag
-     * @return flag value
-     */
-    public boolean gotClicked() {
-        return this.action;
     }
 }

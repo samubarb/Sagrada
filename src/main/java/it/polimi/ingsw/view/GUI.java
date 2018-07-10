@@ -2,7 +2,6 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
-import it.polimi.ingsw.view.game_elements.VPlayer;
 import it.polimi.ingsw.view.game_elements.VWindowPatterns;
 import it.polimi.ingsw.view.other_elements.VConnectionStatus;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
@@ -37,7 +36,6 @@ public class GUI extends Application implements View  {
     private Group gameGUI;
     private VBox table;
     private HBox buttons;
-    private Scene scene;
     private Stage stage, auxStage;
     private boolean flagFX;
     private int lastPressed;
@@ -213,6 +211,7 @@ public class GUI extends Application implements View  {
         while(true) {
             for (int i = 0; i < wpCards.getPatterns().length; i++) {
                 if (wpCards.getPatterns()[i].gotClicked()) {
+                    wpCards.getPatterns()[i].setUnclicked();
                     return i;
                 }
             }
@@ -282,8 +281,10 @@ public class GUI extends Application implements View  {
     private int diceNumberChooserListener() {
         while (true)
             for(int i = 0; i < this.numberChooser.size(); i++)
-                if (this.numberChooser.get(i).gotClicked())
+                if (this.numberChooser.get(i).gotClicked()) {
+                    this.numberChooser.get(i).setUnclicked();
                     return i;
+                }
     }
 
     @Override

@@ -61,8 +61,10 @@ public class VGame {
     public int diceChooserListener() {
         while (true)
             for (int i = 0; i < this.dice.size(); i++)
-                if (this.dice.get(i).gotClicked())
+                if (this.dice.get(i).gotClicked()) {
+                    this.dice.get(i).setUnclicked();
                     return i;
+                }
     }
 
 
@@ -82,8 +84,10 @@ public class VGame {
             for (int i = 1; i <= cols; i++)
                 for (int j = 1; j <= rows; j++) {
                     VCoordinates coord = new VCoordinates(i, j);
-                    if (cPlayer.getFrame().getDice(coord).gotClicked())
+                    if (cPlayer.getFrame().getDice(coord).gotClicked()) {
+                        cPlayer.getFrame().getDice(coord).setUnclicked();
                         return coord;
+                    }
                 }
     }
 
@@ -135,8 +139,10 @@ public class VGame {
     private int toolCardChooserListener() {
         while (true)
             for (int i = 0; i < this.tools.size(); i++)
-                if (this.tools.getToolCard(i).gotClicked())
+                if (this.tools.getToolCard(i).gotClicked()) {
+                    this.tools.getToolCard(i).setUnclicked();
                     return i;
+                }
     }
 
     /**
@@ -153,8 +159,10 @@ public class VGame {
     public int roundTrackChooserListener() {
         while (true)
             for (int i = 0; i < this.roundTrack.size(); i++)
-                if (this.roundTrack.get(i).gotClicked())
+                if (this.roundTrack.get(i).gotClicked()) {
+                    this.roundTrack.get(i).setUnclicked();
                     return i;
+                }
     }
 
     /**

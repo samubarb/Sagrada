@@ -196,4 +196,6 @@ public class VWindowPattern {
     public void setClicked() {
         this.action = true;
     }
+
+    public void setUnclicked() { this.action = false; }
 }
