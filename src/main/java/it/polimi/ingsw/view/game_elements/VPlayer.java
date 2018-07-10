@@ -121,6 +121,14 @@ public class VPlayer implements Comparable {
         return this.color + this.name + " " + this.score + VColor.RESET + newline;
     } // prepare Player and relative score to be sorted in the final ranking
 
+    public Label getReadyForPodiumGUI() {
+        Label label = new Label();
+        label.setText(this.name + " " + this.score);
+        label.setFont(Font.font(null, FontWeight.BOLD, 25));
+        label.setTextFill(colorToGUI(this.color));
+        return label;
+    }
+
     /**
      * compare players between them based on their score, higher is put before
      * @param o

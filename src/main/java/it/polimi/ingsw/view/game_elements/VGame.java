@@ -3,10 +3,17 @@ package it.polimi.ingsw.view.game_elements;
 import it.polimi.ingsw.view.cards.*;
 import it.polimi.ingsw.view.exceptions.TooManyPlayersException;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -14,6 +21,7 @@ import static it.polimi.ingsw.inputoutput.IOManager.*;
 
 public class VGame {
     private final static int maxPlayer = 4;
+
     private ArrayList<VPlayer> players;
     private ArrayList<VPublicObjectiveCard> publicObjectives;
     private VCurrentDice dice;
@@ -23,6 +31,7 @@ public class VGame {
     private int round;
     private VPlayer turn;
     private String clientPlayer;
+    private Stage thisStage;
 
     /**
      * represents the whole game elements and players
@@ -56,13 +65,17 @@ public class VGame {
                     return i;
     }
 
-    public VCoordinates coordinatesChooserListener(String clientPlayer) {
+
+    /**
+     * listener to know in whic coordinates put a dice
+     * @return the wanted coordinates
+     */
+    public VCoordinates coordinatesChooserListener() {
         VPlayer cPlayer = null;
 
         for (VPlayer p : this.players)
             if (this.clientPlayer.equals(p.getName())) {
                 cPlayer = p;
-                println("beccato!");
             }
 
         while (true)
@@ -87,6 +100,46 @@ public class VGame {
     }
 
     /**
+     * used by the GUI to make the user pick up a toolcard to use
+     * @param primaryStage the father windows
+     * @return an index corrensponding to the wanted toolcard
+     */
+    public int askToolCardGUI(Stage primaryStage) {
+        Platform.runLater(() -> {
+            thisStage = new Stage();
+            thisStage.initModality(Modality.APPLICATION_MODAL);
+            thisStage.initOwner(primaryStage);
+            HBox toolsChooser = this.tools.toGUI();
+            Label message = new Label("Clicca sulla tool card che vuoi usare.");
+            message.setFont(Font.font(null, FontWeight.BOLD, 20));
+            VBox wrap = new VBox(padding);
+            wrap.getChildren().addAll(toolsChooser, message);
+            Scene dialogScene = new Scene(wrap);
+            thisStage.setScene(dialogScene);
+            thisStage.show();
+        });
+
+        int ret = toolCardChooserListener();
+
+        Platform.runLater(() -> {
+            thisStage.close();
+        });
+
+        return ret;
+    }
+
+    /**
+     * listener to determine which toolcard has been clicked
+     * @return the chosen toolcard
+     */
+    private int toolCardChooserListener() {
+        while (true)
+            for (int i = 0; i < this.tools.size(); i++)
+                if (this.tools.getToolCard(i).gotClicked())
+                    return i;
+    }
+
+    /**
      * used by the CLI to make the user pick up a dice from the roundTrack
      * @return int corresponding to the round number of that dice, minus one to be an array index
      */
@@ -95,6 +148,13 @@ public class VGame {
         println(this.roundTrack.toString());
         int value = getInt(1, this.roundTrack.size());
         return value - 1; // return the wanted index
+    }
+
+    public int roundTrackChooserListener() {
+        while (true)
+            for (int i = 0; i < this.roundTrack.size(); i++)
+                if (this.roundTrack.get(i).gotClicked())
+                    return i;
     }
 
     /**
@@ -182,8 +242,17 @@ public class VGame {
     public void notifyScore() {
         StringBuilder string = new StringBuilder();
         string.append("Classifica partita: ").append(newline);
-        players.stream().sorted((p1, p2) -> p1.compareTo(p2)).forEach(p -> string.append(p.getReadyForPodium()));
+        this.players.stream().sorted((p1, p2) -> p1.compareTo(p2)).forEach(p -> string.append(p.getReadyForPodium()));
         println(string.toString());
+    }
+
+    /**
+     * show the final ranking in the GUI
+     */
+    public VBox notifyScoreGUI() {
+            VBox ranking = new VBox(padding);
+            this.players.stream().sorted((p1, p2) -> p1.compareTo(p2)).forEach(p -> ranking.getChildren().add(p.getReadyForPodiumGUI()));
+            return ranking;
     }
 
     /**
@@ -235,6 +304,13 @@ public class VGame {
         HBox objCardsChain = new HBox();
         HBox roundTrack = this.roundTrack.toGUI();
         HBox currentDice = this.dice.toGUI();
+        Label turn = new Label();
+
+        if (this.turn.getName().equals(this.clientPlayer))
+            turn.setText("È il tuo turno, " + this.clientPlayer);
+        else turn.setText("È il turno di " + this.turn.getName());
+
+        turn.setFont(Font.font(null, FontWeight.BOLD, 25));
 
         for (VPlayer p : this.players)
             if (this.clientPlayer.equals(p.getName())) {
@@ -251,7 +327,7 @@ public class VGame {
             objCardsChain.getChildren().add(card.toGUI());
 
         // Add all elements
-        organizer.getChildren().addAll(roundTrack , playersChain, objCardsChain, currentDice);
+        organizer.getChildren().addAll(turn, roundTrack , playersChain, objCardsChain, currentDice);
 
         // Alignment
         playersChain.setAlignment(Pos.CENTER);

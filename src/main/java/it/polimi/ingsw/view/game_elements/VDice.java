@@ -40,27 +40,6 @@ public class VDice {
     }
 
     /**
-     * convert VColor enum objects in JavaFX Color objects
-     * @return JavaFX Color
-     */
-    public Color colorToGUI() {
-        switch (this.color) {
-            case RED:
-                return Color.RED;
-            case YELLOW:
-                return Color.YELLOW;
-            case PURPLE:
-                return Color.PURPLE;
-            case BLUE:
-                return Color.BLUE;
-            case GREEN:
-                return Color.GREEN;
-            default:
-                return Color.TRANSPARENT;
-        }
-    }
-
-    /**
      * create and get a dice face for the GUI
      * @return StackPane, color + number
      */
@@ -80,7 +59,7 @@ public class VDice {
      */
     private Rectangle empty() {
         Rectangle empty = new Rectangle();
-        empty.setFill(colorToGUI());
+        empty.setFill(colorToGUI(this.color));
         empty.setWidth(thirdOfCell);
         empty.setHeight(thirdOfCell);
         return empty;
@@ -253,12 +232,5 @@ public class VDice {
      */
     public boolean gotClicked() {
         return this.action;
-    }
-
-    /**
-     * set listener flag
-     */
-    public void setClicked() {
-        this.action = true;
     }
 }

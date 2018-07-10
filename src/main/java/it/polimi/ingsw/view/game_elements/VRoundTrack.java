@@ -41,6 +41,15 @@ public class VRoundTrack {
     }
 
     /**
+     * get the dice given his index
+     * @param i the index
+     * @return the wanted dice
+     */
+    public VDice get(int i) {
+        return this.track[i];
+    }
+
+    /**
      * get the text version of the round track to be shown in CLI
      * @return
      */
