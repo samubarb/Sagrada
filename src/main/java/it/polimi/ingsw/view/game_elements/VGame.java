@@ -62,7 +62,6 @@ public class VGame {
         for (VPlayer p : this.players)
             if (this.clientPlayer.equals(p.getName())) {
                 cPlayer = p;
-                println("beccato!");
             }
 
         while (true)

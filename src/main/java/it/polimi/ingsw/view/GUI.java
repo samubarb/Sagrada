@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.view.cards.VWindowPattern;
-import it.polimi.ingsw.view.exceptions.UsernameTooShortException;
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
 import it.polimi.ingsw.view.game_elements.VWindowPatterns;
@@ -12,12 +10,16 @@ import it.polimi.ingsw.view.other_elements.VError;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
@@ -31,6 +33,9 @@ public class GUI extends Application implements View  {
     private Scene scene;
     private Stage stage;
     private boolean flagFX;
+
+    private HBox buttons;
+    private Button buttonDice, buttonTool, buttonPass;
 
     public GUI(String clientPlayer) {
         this.clientPlayer = clientPlayer;
@@ -54,33 +59,46 @@ public class GUI extends Application implements View  {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         this.stage = primaryStage;
         this.message = new Label();
+        this.message.setFont(Font.font(null, FontWeight.BOLD, 20));
+
         this.gameGUI = new Group();
         this.table = new VBox();
-
         this.stage.setTitle("Sagrada - " + this.clientPlayer);
+
+        this.buttons = new HBox();
+        this.buttons.setSpacing(padding);
+        this.buttons.setAlignment(Pos.CENTER);
+
+        this.buttonDice = new Button("Piazza un dado");
+        this.buttonTool = new Button("Usa una Carta Utensile");
+        this.buttonPass = new Button("Passa il turno");
+
+    }
+
+    synchronized private void setMessage(String message) {
+        Platform.runLater(() -> {
+            this.message.setText(message);
+            setTrue();
+        });
+    }
+
+    synchronized private void waitFX() {
+        while (!flagFX) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+
+            }
+        }
     }
 
     public int askDice() {
         this.flagFX = false;
-        synchronized(this) {
-            Platform.runLater(() -> {
-                this.message.setText("Clicca sul dado da piazzare.");
-                setTrue();
-            });
-        }
-
-        synchronized(this) {
-            while (!flagFX) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-
-                }
-            }
-        }
+        setMessage("Clicca sul dado da piazzare.");
+        waitFX();
 
         return diceChooserListener();
     }
@@ -92,22 +110,9 @@ public class GUI extends Application implements View  {
 
     public VCoordinates askCoordinates() {
         this.flagFX = false;
-        synchronized(this) {
-            Platform.runLater(() -> {
-                this.message.setText("Clicca sul punto in cui vuoi piazzarlo sulla tua vetrata.");
-                setTrue();
-            });
-        }
+        setMessage("Clicca sul punto in cui vuoi piazzarlo sulla tua vetrata.");
 
-        synchronized(this) {
-            while (!flagFX) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-
-                }
-            }
-        }
+        waitFX();
 
         return coordinatesChooserListener();
     }
@@ -117,8 +122,12 @@ public class GUI extends Application implements View  {
     }
 
     public VCoordinates askCoordinates(int i) {
-        println("here i am 6");
-        return null;
+        this.flagFX = false;
+        setMessage("Clicca sul punto in cui vuoi piazzare sulla tua vetrata il dado " + i + ".");
+
+        waitFX();
+
+        return coordinatesChooserListener();
     }
 
     public int askMove() {
@@ -128,16 +137,16 @@ public class GUI extends Application implements View  {
 
     public int askWindowPattern(VWindowPatterns wpCards) {
         this.flagFX = false;
-        Platform.runLater(() -> {
-            this.table = new VBox();
-            this.table.getChildren().add(wpCards.toGUI());
-            this.stage.setScene(new Scene (this.table));
-            setTrue();
-        });
-
-        while(!this.flagFX) {
-            println(this.flagFX);
+        synchronized(this) {
+            Platform.runLater(() -> {
+                this.table = new VBox();
+                this.table.getChildren().add(wpCards.toGUI());
+                this.stage.setScene(new Scene(this.table));
+                setTrue();
+            });
         }
+
+        waitFX();
 
         //this.flagFX = false;
         return wpChooserListener(wpCards);
@@ -183,17 +192,12 @@ public class GUI extends Application implements View  {
 
     @Override
     public void notifyConnectionStatus(String userName, VConnectionStatus status) {
-        Platform.runLater(() -> {
-            Label msg = new Label("Il giocatore " + userName + " si è " + status);
-            this.table.getChildren().add(msg);
-        });
+        setMessage("Il giocatore " + userName + " si è " + status);
     }
 
     @Override
     public void notifyGreetings() {
-        Platform.runLater(() -> {
-            this.message.setText("Benvenuto!");
-        });
+        setMessage("Benvenuto!");
     }
 
     public void notifyError(VError error) {
