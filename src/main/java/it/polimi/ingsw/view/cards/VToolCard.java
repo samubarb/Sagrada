@@ -1,7 +1,9 @@
 package it.polimi.ingsw.view.cards;
 
 import it.polimi.ingsw.view.other_elements.VColor;
+import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -9,6 +11,7 @@ public class VToolCard {
     private String name;
     private VColor color;
     private int number;
+    private boolean action;
 
     /**
      * represents the tool card to be shown
@@ -20,6 +23,7 @@ public class VToolCard {
         this.name = name;
         this.color = color;
         this.number = number;
+        this.action = false;
     }
 
     /**
@@ -54,6 +58,10 @@ public class VToolCard {
         return color;
     }
 
+    public boolean gotClicked() {
+        return this.action;
+    }
+
     /**
      * get a formatted version for CLI
      * @return a printable String
@@ -71,7 +79,15 @@ public class VToolCard {
      * @return an ImageView with the card image
      */
     public ImageView toGUI() {
-        String number = "" + this.number;
-        return getImage(tools_path + "tool" + number + ".jpg");
+        ImageView toolCard = getImage(tools_path + "tool" + this.number + ".jpg");
+
+        toolCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                action = true;
+            }
+        });
+
+        return toolCard;
     }
 }

@@ -31,6 +31,7 @@ public class VGame {
     private int round;
     private VPlayer turn;
     private String clientPlayer;
+    private Stage thisStage;
 
     /**
      * represents the whole game elements and players
@@ -63,6 +64,7 @@ public class VGame {
                 if (this.dice.get(i).gotClicked())
                     return i;
     }
+
 
     /**
      * listener to know in whic coordinates put a dice
@@ -97,24 +99,40 @@ public class VGame {
         return this.tools.getToolCard(value - 1).getNumber() - 1;
     }
 
-    public int askToolCardGUI(Stage stage) {
+    /**
+     * used by the GUI to make the user pick up a toolcard to use
+     * @param primaryStage the father windows
+     * @return an index corrensponding to the wanted toolcard
+     */
+    public int askToolCardGUI(Stage primaryStage) {
         Platform.runLater(() -> {
-            final Stage dialog = new Stage();
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
+            thisStage = new Stage();
+            thisStage.initModality(Modality.APPLICATION_MODAL);
+            thisStage.initOwner(primaryStage);
             HBox toolsChooser = this.tools.toGUI();
             Label message = new Label("Clicca sulla tool card che vuoi usare.");
             message.setFont(Font.font(null, FontWeight.BOLD, 20));
             VBox wrap = new VBox(padding);
             wrap.getChildren().addAll(toolsChooser, message);
             Scene dialogScene = new Scene(wrap);
-            dialog.setScene(dialogScene);
-            dialog.show();
+            thisStage.setScene(dialogScene);
+            thisStage.show();
         });
 
+        int ret = toolCardChooserListener();
+
+        Platform.runLater(() -> {
+            thisStage.close();
+        });
+
+        return ret;
+    }
+
+    private int toolCardChooserListener() {
         while (true)
-            if (false)
-                return 0;
+            for (int i = 0; i < this.tools.size(); i++)
+                if (this.tools.getToolCard(i).gotClicked())
+                    return i;
     }
 
     /**
