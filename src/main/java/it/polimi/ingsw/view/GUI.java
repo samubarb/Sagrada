@@ -10,6 +10,8 @@ import it.polimi.ingsw.view.other_elements.VError;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -33,15 +35,23 @@ public class GUI extends Application implements View  {
     private Scene scene;
     private Stage stage;
     private boolean flagFX;
+    private int lastPressed;
+
+    private final static int NONE = -1, DICE = 1, TOOL = 2, PASS = 3;
 
     private HBox buttons;
     private Button buttonDice, buttonTool, buttonPass;
+
+    public GUI() {
+
+    }
 
     public GUI(String clientPlayer) {
         this.clientPlayer = clientPlayer;
         this.game = new VGame();
         this.game.setClientPlayer(this.clientPlayer);
         this.flagFX = false;
+        this.lastPressed = NONE;
 
         new JFXPanel(); // needed to set the correct environment
         Platform.runLater(() -> {
@@ -54,10 +64,6 @@ public class GUI extends Application implements View  {
         });
     }
 
-    public GUI() {
-
-    }
-
     @Override
     public void start(Stage primaryStage) {
         this.stage = primaryStage;
@@ -68,14 +74,39 @@ public class GUI extends Application implements View  {
         this.table = new VBox();
         this.stage.setTitle("Sagrada - " + this.clientPlayer);
 
-        this.buttons = new HBox();
-        this.buttons.setSpacing(padding);
-        this.buttons.setAlignment(Pos.CENTER);
+
 
         this.buttonDice = new Button("Piazza un dado");
         this.buttonTool = new Button("Usa una Carta Utensile");
         this.buttonPass = new Button("Passa il turno");
 
+        setButtonListeners();
+
+        this.buttons = new HBox();
+        this.buttons.setSpacing(padding);
+        this.buttons.setAlignment(Pos.CENTER);
+        this.buttons.getChildren().addAll(this.buttonDice, this.buttonTool, this.buttonPass);
+
+    }
+
+    private void setButtonListeners() {
+        this.buttonDice.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                setButton(DICE);
+            }
+        });
+
+        this.buttonTool.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                setButton(TOOL);
+            }
+        });
+
+        this.buttonPass.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                setButton(PASS);
+            }
+        });
     }
 
     synchronized private void setMessage(String message) {
@@ -111,7 +142,6 @@ public class GUI extends Application implements View  {
     public VCoordinates askCoordinates() {
         this.flagFX = false;
         setMessage("Clicca sul punto in cui vuoi piazzarlo sulla tua vetrata.");
-
         waitFX();
 
         return coordinatesChooserListener();
@@ -130,9 +160,24 @@ public class GUI extends Application implements View  {
         return coordinatesChooserListener();
     }
 
+
     public int askMove() {
-        println("here i am 7");
-        return 1;
+        this.lastPressed = NONE;
+        this.flagFX = false;
+        setMessage("Clicca sul bottone corrispondente alla mossa che vuoi fare.");
+        waitFX();
+        waitButton();
+        return this.lastPressed;
+    }
+
+    synchronized private void waitButton() {
+        while (this.lastPressed == NONE) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+
+            }
+        }
     }
 
     public int askWindowPattern(VWindowPatterns wpCards) {
@@ -148,12 +193,16 @@ public class GUI extends Application implements View  {
 
         waitFX();
 
-        //this.flagFX = false;
         return wpChooserListener(wpCards);
     }
 
     synchronized private void setTrue() {
         this.flagFX = true;
+        notify();
+    }
+
+    synchronized private void setButton(int button) {
+        this.lastPressed = button;
         notify();
     }
 
@@ -222,7 +271,7 @@ public class GUI extends Application implements View  {
             this.game = game;
             this.table = new VBox();
             this.gameGUI = this.game.toGUI();
-            this.table.getChildren().addAll(this.gameGUI, this.message);
+            this.table.getChildren().addAll(this.gameGUI, this.buttons, this.message);
             this.stage.setScene(new Scene(this.table));
         });
     }
