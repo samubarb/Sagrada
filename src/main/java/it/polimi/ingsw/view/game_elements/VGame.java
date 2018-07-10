@@ -128,6 +128,10 @@ public class VGame {
         return ret;
     }
 
+    /**
+     * listener to determine which toolcard has been clicked
+     * @return the chosen toolcard
+     */
     private int toolCardChooserListener() {
         while (true)
             for (int i = 0; i < this.tools.size(); i++)
@@ -144,6 +148,13 @@ public class VGame {
         println(this.roundTrack.toString());
         int value = getInt(1, this.roundTrack.size());
         return value - 1; // return the wanted index
+    }
+
+    public int roundTrackChooserListener() {
+        while (true)
+            for (int i = 0; i < this.roundTrack.size(); i++)
+                if (this.roundTrack.get(i).gotClicked())
+                    return i;
     }
 
     /**
@@ -231,8 +242,17 @@ public class VGame {
     public void notifyScore() {
         StringBuilder string = new StringBuilder();
         string.append("Classifica partita: ").append(newline);
-        players.stream().sorted((p1, p2) -> p1.compareTo(p2)).forEach(p -> string.append(p.getReadyForPodium()));
+        this.players.stream().sorted((p1, p2) -> p1.compareTo(p2)).forEach(p -> string.append(p.getReadyForPodium()));
         println(string.toString());
+    }
+
+    /**
+     * show the final ranking in the GUI
+     */
+    public VBox notifyScoreGUI() {
+            VBox ranking = new VBox(padding);
+            this.players.stream().sorted((p1, p2) -> p1.compareTo(p2)).forEach(p -> ranking.getChildren().add(p.getReadyForPodiumGUI()));
+            return ranking;
     }
 
     /**

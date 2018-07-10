@@ -6,6 +6,7 @@ import it.polimi.ingsw.view.exceptions.NameIncompatibleException;
 import it.polimi.ingsw.view.other_elements.VColor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,7 +50,22 @@ public final class IOManager {
     public final static int cardWidth = 250;
     public final static int splash_width = 800;
 
-
+    public static Color colorToGUI(VColor color) {
+        switch (color) {
+            case RED:
+                return Color.RED;
+            case YELLOW:
+                return Color.YELLOW;
+            case PURPLE:
+                return Color.PURPLE;
+            case BLUE:
+                return Color.BLUE;
+            case GREEN:
+                return Color.GREEN;
+            default:
+                return Color.TRANSPARENT;
+        }
+    }
 
     public static ImageView getImage(String filePath) {
         ImageView imageView = new ImageView();

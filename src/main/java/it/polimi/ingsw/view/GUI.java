@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.view.game_elements.VDice;
 import it.polimi.ingsw.view.game_elements.VGame;
+import it.polimi.ingsw.view.game_elements.VPlayer;
 import it.polimi.ingsw.view.game_elements.VWindowPatterns;
 import it.polimi.ingsw.view.other_elements.VConnectionStatus;
 import it.polimi.ingsw.view.other_elements.VCoordinates;
@@ -22,7 +23,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 import static it.polimi.ingsw.inputoutput.IOManager.*;
 
@@ -33,9 +37,10 @@ public class GUI extends Application implements View  {
     private Group gameGUI;
     private VBox table;
     private Scene scene;
-    private Stage stage;
+    private Stage stage, auxStage;
     private boolean flagFX;
     private int lastPressed;
+    private ArrayList<VDice> numberChooser;
 
     private final static int NONE = -1, DICE = 1, TOOL = 2, PASS = 3;
 
@@ -58,7 +63,7 @@ public class GUI extends Application implements View  {
             try {
                 this.start(new Stage());
             } catch (Exception e) {
-                println("Runtime Error.");
+                println("JavaFX Runtime Environment Error.");
                 errorExit();
             }
         });
@@ -225,15 +230,60 @@ public class GUI extends Application implements View  {
     }
 
     public int askToPickFromRoundTrack() {
-        println("here i am 10");
-        return 0;
+        this.flagFX = false;
+        setMessage("Clicca un dado sul Round Track.");
+        waitFX();
+        return roundTrackChooserListener();
     }
 
-
+    private int roundTrackChooserListener() {
+        return this.game.roundTrackChooserListener();
+    }
 
     public int askDiceNumber(VDice dice) {
-        println("here i am 12");
-        return 0;
+        this.flagFX = false;
+        this.numberChooser = new ArrayList<>();
+
+        for (int i = 1; i <= 6; i++)
+            numberChooser.add(new VDice(i, dice.getColor()));
+
+        Platform.runLater(() -> {
+            this.auxStage = new Stage();
+            this.auxStage.initModality(Modality.APPLICATION_MODAL);
+            this.auxStage.initOwner(this.stage);
+
+
+            HBox organizer = new HBox(thinPadding);
+            Label message = new Label("Clicca sul numero che preferisci.");
+            message.setFont(Font.font(null, FontWeight.BOLD, 20));
+            VBox toShow = new VBox(padding);
+
+            for (VDice d : numberChooser)
+                organizer.getChildren().add(d.toGUI());
+
+            toShow.getChildren().addAll(organizer, message);
+
+            this.auxStage.setScene(new Scene(toShow));
+            this.auxStage.show();
+
+        });
+
+        waitFX();
+
+        int ret = diceNumberChooserListener();
+
+        Platform.runLater(() -> {
+            this.auxStage.close();
+        });
+
+        return ret;
+    }
+
+    private int diceNumberChooserListener() {
+        while (true)
+            for(int i = 0; i < this.numberChooser.size(); i++)
+                if (this.numberChooser.get(i).gotClicked())
+                    return i;
     }
 
     @Override
@@ -257,15 +307,21 @@ public class GUI extends Application implements View  {
     }
 
     public void notifyScore() {
-        println("here i am 16");
+        Platform.runLater(() -> {
+            VBox ranking = this.game.notifyScoreGUI();
+            this.message.setText("");
+            ranking.getChildren().add(this.message);
+            this.stage.setScene(new Scene(ranking));
+            this.stage.show();
+        });
     }
 
     public void notifyWin() {
-        println("here i am 17");
+        setMessage("Hai vinto!");
     }
 
     public void notifyLose() {
-        println("here i am 18");
+        setMessage("Hai perso.");
     }
 
     public void updateState(VGame game) {
