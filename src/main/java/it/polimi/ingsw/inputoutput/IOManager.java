@@ -43,11 +43,11 @@ public final class IOManager {
     public final static int thinPadding = 2;
 
     public final static int face_details = 3;
-    public final static int cellWidth = 42;
-    public final static int cellHeight = 42;
+    public final static int cellWidth = 36;
+    public final static int cellHeight = 36;
     public final static int thirdOfCell = cellWidth / 3;
     public final static int dotRadius = thirdOfCell * 4 / 5 / 2;
-    public final static int cardWidth = 250;
+    public final static int cardWidth = 200;
     public final static int splash_width = 800;
 
     public static Color colorToGUI(VColor color) {
